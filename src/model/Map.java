@@ -2,14 +2,24 @@ package model;
 
 /*manages the map portion of this adventure*/
 public class Map {
+
+    private static final char wall = '@';
+    private static final char floor = ' ';
+    private static final char c = '#';
+
 //    stores the 2D matrix of the map
 //    private ArrayList<ArrayList<Character>> map;
     private char[][] map;
 
 // create different maps for different rooms
-//    EFFECT: constructs map with height of size m, width of size n
+//    EFFECT: constructs map with height of size m, width of size n, filling it with default flooring
     public Map(int m, int n){
         map = new char[m][n];
+        for (char[] tileset: map) {
+            for(char tile: tileset){
+                tile = floor;
+            }
+        }
     }
 
 //portions are revealed as things are explored???
@@ -26,4 +36,7 @@ public class Map {
 //    EFFECT: prints current map
     public void print(){}
 
+//    EFFECT: prints description of character's current location tile
+    public void printTileDescription() {
+    }
 }

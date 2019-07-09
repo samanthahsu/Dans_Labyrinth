@@ -2,14 +2,82 @@ harebrained ideas:
 
 //pan's labyrinth
         ▁▁▁▁▁
-        ▏    ⋄   ▏
-        ▏▁▁▁▁▁▏
+        ▏     ⋄ ║
+        ▍▏▂▂▍
         ┣⎯⎯┾―――
 
   ▲       N
-◀   ▶  W ✚ E compass
+◀   ▶  W ✚ E compass ❖
   ▼       S
 
 ⋄ = you
 
 //timed instances would be cool >>
+
+◛◛◛◛◛◛
+
+◚◚◚◚◚◚
+▁▁
+▏   ▏
+▏ ⋄ ▏
+▔▔
+
+---
+|⋄ |
+|  |
+---
+
+▧▧██□□
+▧▧██□□▒▓◫
+
+□□▣□
+□□□□ << this one is more legible???
+
+// escape maze while avoiding getting caught by something
+// "moaning echo", "rumbling" >> cues to get outta there
+// collect clues through throughout the maze
+// solve a "what is my name" mystery
+
+// doing actions uses steps
+// health: get hit twice and you die
+// weapons: bow and 3 arrows >> shoot in specified direction, keeps going until it hits wall/obj
+
+
+shovel(3):make your own way
+elevator: takes you to new floors
+▧▧▧▧▧▧▧▧□▧▧▧▧▧▧▧▧
+▧□□□□□▧□▧□▧□□□□▧□▧
+▧□▧□▧□▧□▧□▧□□□□▧□▧
+▧▧▧□▧
+▧□□□▧
+▧□▧▧▧
+▧
+▧
+▧
+▧
+// this map sucks
+Ⅱ
+▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+▏    Ⅱ
+▏⋄Ⅱ ▏ ▏▊ ▋
+▔▔
+▋▋▋▋   ▋
+ ▋▋ ▋ ▋▋
+
+▉▉▉▉▉▉▉▉▉▉▉▉
+
+@@@@@@@@@ @@@@@@@@@@@
+@     @ @ @       @ @
+@ @ @ @ @   @@@ @ @ @
+@@@ @ @ @@@@@ @ @ @ @
+@   @   @   @   @ @ @
+@ @@@@@@@ @ @@@@@   @
+@ @ @     @   @     @
+@ @   @  @@ @ @ @@@@@
+@ @@@@@@  @ @ @ @   @
+@         @@@       @
+@@@@@@@@@@@@@@@@@@@@@
+
+OK, maybe room-based?
+□-□-▣-□
+|

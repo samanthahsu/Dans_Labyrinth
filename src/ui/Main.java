@@ -29,6 +29,8 @@ public class Main {
             case "go s":
             case "go e":
             case "go w":
+                default:
+                    System.out.println("I don't understand.");
         }
     }
 

@@ -52,10 +52,14 @@ public class Map {
         }
     }
 
+//    **GETTER**
+    public char[][] getMapDisplay() {
+        return mapDisplay;
+    }
 
-//    REQUIRES: x and y are the coordinates to be moved to
+    //    REQUIRES: x and y are the coordinates to be moved to
 //    EFFECTS: returns true if tile of requested index is floor, otherwise false
-    public boolean isTileFloor(int m, int n){return false;}
+    public boolean isTileFloor(int x, int y){return false;}
     //portions are revealed as things are explored???
 
 //    REQUIRES: x, y are within bounds of the matrix
@@ -70,24 +74,24 @@ public class Map {
 //    public void printTileDescription() {
 //    }
 
-//    EFFECT: update map that user sees (called when they explore a new area)
+//    EFFECTS: update map that user sees (called when they explore a new area)
 //    public void updateDisplayMap(){}
 
 //    REQUIRES: given x, y are currently being moved to
 //    MODIFIES: this
-//    EFFECT: reveal any fog tiles immediately around given x,y on mapDisplay
+//    EFFECTS: reveal any fog tiles immediately around given x,y on mapDisplay
     public void revealTiles(int x, int y) {
     }
 
-//    EFFECT: returns true if char is on winning tile
+//    EFFECTS: returns true if char is on winning tile
     public void isWin(int x, int y){}
 
 //    PRINTING*************
-//    EFFECT: prints mapDisplay to screen
+//    EFFECTS: prints mapDisplay to screen
     public boolean printDisplayMap(){return false;}
 
     //todo delete this
-//    EFFECT: prints silly statements when you try to move to a wall tile
+//    EFFECTS: prints silly statements when you try to move to a wall tile
     public void printMovePlaceholder(String dir, Random ran) {
         switch(ran.nextInt(5)){
             case 0:

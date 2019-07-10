@@ -5,7 +5,7 @@ public class Avatar {
     private int x; //tracks position of avatar
     private int y;
     private char ava_char = '*';
-//    private ArrayList<Item> items = new ArrayList<>();
+//    private ArrayList<Item> items = new ArrayList<>(); // for when player has weapons
 
     public int getStatus() {
         return status;
@@ -15,7 +15,6 @@ public class Avatar {
         this.status = status;
     }
 
-//    REQUIRES: dir is N, S, W, or E
 //    MODIFIES: map
 //    EFFECT: checks if move direction is valid, move character to designated position and reveal tiles in scope
     public void moveCharN(Map map){

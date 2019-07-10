@@ -23,11 +23,13 @@ public class Main {
         Avatar avatar = new Avatar();
         Scanner scanner = new Scanner(System.in);
 
-/* // todo: have op to read in different maps
+/*
+// todo: have option to read in different maps
         while(!hasMap){
             System.out.println("Available maps: ");
         }
 */
+
         Map map = new Map();
 
         String input;
@@ -40,24 +42,7 @@ public class Main {
 //            victory = check if victory;
         }
         printEndText(gameOver);
-
-    }
-
-//    REQUIRES: gameOver is in the interval [1, 3]
-//    EFFECT: prints end text based on int gameOver
-    private static void printEndText(int gameOver) {
-        switch (gameOver) {
-            case quitGame:
-                System.out.println("You quit.");
-                break;
-            case failGame:
-                System.out.println("Death: Game Over");
-                break;
-            case winGame:
-                System.out.println("You escaped successfully");
-                break;
-        }
-    }
+    } // END OF MAIN
 
     //EFFECT: chooses which map function to call. returns true when input = 'q'
     private static int execute(String input, Map map, Random ran, Avatar avatar) {
@@ -94,6 +79,8 @@ public class Main {
         return gameState;
     }
 
+//    **PRINTING**
+
 //    EFFECT: prints welcome dialogue (or nothing) >>launch straight in?
     private static void printWelcomeText() {
         System.out.println("**WELCOME TO THE NEXT INSTALLMENT OF...**"+'\n'+
@@ -108,4 +95,20 @@ public class Main {
                 "'h' to get help dialogue"+'\n'+
                 "'q' to quit");
     }
+    //    REQUIRES: gameOver is in the interval [1, 3]
+//    EFFECT: prints end text based on int gameOver
+    private static void printEndText(int gameOver) {
+        switch (gameOver) {
+            case quitGame:
+                System.out.println("You quit.");
+                break;
+            case failGame:
+                System.out.println("Death: Game Over");
+                break;
+            case winGame:
+                System.out.println("You escaped successfully");
+                break;
+        }
+    }
+
 }

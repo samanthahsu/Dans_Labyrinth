@@ -7,17 +7,44 @@ public class Map {
 
     private static final char wall = '@';
     private static final char floor = ' ';
-    private static final char c = '#';
+    private static final char c = '*';
+    private static final char fog = '#';
 
-//    stores the 2D matrix of the map
-//    private ArrayList<ArrayList<Character>> map;
-    private char[][] map;
+    private static final String default_map =
+            "@@@@@@@@@ @@@@@@@@@@@"+
+            "@     @ @ @       @ @"+
+            "@ @ @ @ @   @@@ @ @ @"+
+            "@@@ @ @ @@@@@ @ @ @ @"+
+            "@   @   @   @   @ @ @"+
+            "@ @@@@@@@ @ @@@@@   @"+
+            "@ @ @     @   @     @"+
+            "@ @   @  @@ @ @ @@@@@"+
+            "@ @@@@@@  @ @ @ @   @"+
+            "@         @@@       @"+
+            "@@@@@@@@@@@@@@@@@@@@@";
+    private static final int default_width = 21; // hardcoded for now just to see it working
+    private static final int default_height = 10;
+    private static final int default_startX = 3;
+    private static final int default_startY = 7;
 
-//    todo read from given file
+    private char[][] map; //    stores the 2D matrix of the full map (not modified after)
+    private char[][] mapDisplay; // stores what the user can see of the map (character, fog, walls)
+
 // create different maps for different rooms
 //    EFFECT: constructs map with height of size m, width of size n, filling it with default flooring
-    public Map(int m, int n){
-        map = new char[m][n];
+//      todo initialize avatar to starting position on mapDisplay
+    public Map(){
+
+        map = new char[default_height][default_width];
+        int i = 0;
+        for (char[] tileset: map) {
+            for(char tile: tileset){
+                tile = default_map.charAt(i);
+                        i++;
+            }
+        }
+
+        mapDisplay = new char[default_height][default_width];
         for (char[] tileset: map) {
             for(char tile: tileset){
                 tile = floor;
@@ -25,27 +52,42 @@ public class Map {
         }
     }
 
-//EFFECT returns true if tile of requested index is floor, otherwise false
-    public boolean isTileFloor(int m, int n){return false;}
-//portions are revealed as things are explored???
 
-//    called each time a change is made to the room
+//    REQUIRES: x and y are the coordinates to be moved to
+//    EFFECTS: returns true if tile of requested index is floor, otherwise false
+    public boolean isTileFloor(int m, int n){return false;}
+    //portions are revealed as things are explored???
 
 //    REQUIRES: x, y are within bounds of the matrix
 //    MODIFIES: this
-//    EFFECT: replaces character at index x,y with c
-    public void updateTile(int x, int y, char c){
+//    EFFECTS: replaces character at index x,y with c
+    public void updateDisplayTile(int x, int y, char c){
 
     }
 
-//    EFFECT: prints current map
-    public void print(){}
-
+//    this is for when tiles are implemented as objects not chars
 //    EFFECT: prints description of character's current location tile
-    public void printTileDescription() {
+//    public void printTileDescription() {
+//    }
+
+//    EFFECT: update map that user sees (called when they explore a new area)
+//    public void updateDisplayMap(){}
+
+//    REQUIRES: given x, y are currently being moved to
+//    MODIFIES: this
+//    EFFECT: reveal any fog tiles immediately around given x,y on mapDisplay
+    public void revealTiles(int x, int y) {
     }
 
-//todo delete this pls
+//    EFFECT: returns true if char is on winning tile
+    public void isWin(int x, int y){}
+
+//    PRINTING*************
+//    EFFECT: prints mapDisplay to screen
+    public boolean printDisplayMap(){return false;}
+
+    //todo delete this
+//    EFFECT: prints silly statements when you try to move to a wall tile
     public void printMovePlaceholder(String dir, Random ran) {
         switch(ran.nextInt(5)){
             case 0:
@@ -65,4 +107,5 @@ public class Map {
                 break;
         }
     }
+
 }

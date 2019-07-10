@@ -1,0 +1,8 @@
+number of rows (int)
+number of columns (int)
+<map>
+full map drawn out
+</map>
+<monsters>
+contains behaviour, placement, attacks, and other stuff
+</monsters>

@@ -44,7 +44,7 @@ harebrained ideas:
 
 
 shovel(3):make your own way
-elevator: takes you to new floors
+elevator: takes you to new floors ohnooo
 ▧▧▧▧▧▧▧▧□▧▧▧▧▧▧▧▧
 ▧□□□□□▧□▧□▧□□□□▧□▧
 ▧□▧□▧□▧□▧□▧□□□□▧□▧
@@ -54,8 +54,9 @@ elevator: takes you to new floors
 ▧
 ▧
 ▧
-▧
+▧ << not same size as empty space
 // this map sucks
+// wait so if one tile is one instance
 Ⅱ
 ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
 ▏    Ⅱ
@@ -77,7 +78,18 @@ elevator: takes you to new floors
 @ @@@@@@  @ @ @ @   @
 @         @@@       @
 @@@@@@@@@@@@@@@@@@@@@
+'*' = char
+'@' = wall
+' ' = floor
+'#' = mystery area?
 
 OK, maybe room-based?
 □-□-▣-□
 |
+// so they can move around???
+// its a maze, observe surroundings >> awareness
+// enter into instances(?) VS just bumping into stuff in the hall>> but bumping into stuff gives
+// you are equipped with your handy third eye reveal stuff on map or just normal vision
+// , figure out pattern of movement of things
+     // how to move things?
+// read from given file for diff maps >> future definitely

@@ -47,9 +47,9 @@ class MapTest {
 
         assertEqualsMapDisp(
         "######" +
-                "######" +
-                "######" +
-                "######",
+                "#@####" +
+                "@* ###" +
+                "#@####",
                 test_height1, test_width1);
         String expMapStr =
                 "@@@ @@"+
@@ -66,9 +66,9 @@ class MapTest {
         assertEquals(test_width2, map.getWidth());
 
         assertEqualsMapDisp(
-            "###" +
-                     "###" +
-                     "###",
+            "#@#" +
+                     "@*@" +
+                     "# #",
                     test_height2, test_width2);
         String expMapStr =
                 "@@@"+
@@ -90,7 +90,6 @@ class MapTest {
         assertTrue(map.isIndexValid(2, 3));
     }
 
-
     @Test
     void isTileFloorTest(){
         assertFalse(map.isTileFloor(0, 1));
@@ -103,9 +102,9 @@ class MapTest {
         map.updateTileDisp(0, 0, 'G');
         assertEqualsMapDisp(
         "G#####" +
-                "######" +
-                "######" +
-                "######", test_height1, test_width1);
+                "#@####" +
+                "@* ###" +
+                "#@####", test_height1, test_width1);
     }
     @Test
     void updateTileDispTwoSameTest(){
@@ -113,9 +112,9 @@ class MapTest {
         map.updateTileDisp(0, 0, ' ');
         assertEqualsMapDisp(
                 " #####" +
-                        "######" +
-                        "######" +
-                        "######", test_height1, test_width1);
+                        "#@####" +
+                        "@* ###" +
+                        "#@####", test_height1, test_width1);
     }
     @Test
     void updateTileDispTwoDiffTest(){
@@ -123,9 +122,9 @@ class MapTest {
         map.updateTileDisp(2, 3, 'X');
         assertEqualsMapDisp(
                 "######" +
-                        "G#####" +
-                        "###X##" +
-                        "######", test_height1, test_width1);
+                        "G@####" +
+                        "@* X##" +
+                        "#@####", test_height1, test_width1);
     }
 
 
@@ -135,18 +134,18 @@ class MapTest {
         map.revealSurroundings(2, 2);
         assertEqualsMapDisp(
         "######"+
-                "## ###"+
-                "# # ##"+
-                "##@###", test_height1, test_width1);
+                "#@ ###"+
+                "@   ##"+
+                "#@@###", test_height1, test_width1);
     }
     @Test
     void revealSurroundingsNWTest() {
         map.revealSurroundings(0, 0);
         assertEqualsMapDisp(
             "#@####" +
-                    "@#####" +
-                    "######" +
-                    "######", test_height1, test_width1);
+                    "@@####" +
+                    "@* ###" +
+                    "#@####", test_height1, test_width1);
 
     }
     @Test
@@ -154,17 +153,17 @@ class MapTest {
         map.revealSurroundings(0, test_width1 -1);
         assertEqualsMapDisp(
             "####@#" +
-                    "#####@" +
-                    "######" +
-                    "######", test_height1, test_width1);
+                    "#@###@" +
+                    "@* ###" +
+                    "#@####", test_height1, test_width1);
     }
     @Test
     void revealSurroundingsSWTest(){
         map.revealSurroundings(test_height1 -1, 0);
         assertEqualsMapDisp(
                 "######" +
-                        "######" +
-                        "@#####" +
+                        "#@####" +
+                        "@* ###" +
                         "#@####", test_height1, test_width1);
     }
     @Test
@@ -172,9 +171,9 @@ class MapTest {
         map.revealSurroundings(test_height1 -1, test_width1 -1);
         assertEqualsMapDisp(
             "######" +
-                    "######" +
-                    "#####@" +
-                    "####@#", test_height1, test_width1);
+                    "#@####" +
+                    "@* ##@" +
+                    "#@##@#", test_height1, test_width1);
     }
 
 
@@ -188,9 +187,9 @@ class MapTest {
 
         map.printDisplayMap();
         assertEquals("######\r\n" +
-                    "######\r\n" +
-                    "######\r\n" +
-                    "######\r\n", output.toString());
+                    "#@####\r\n" +
+                    "@* ###\r\n" +
+                    "#@####\r\n", output.toString());
     }
     @Test
     void printDisplayMapUpdateTest(){
@@ -202,9 +201,9 @@ class MapTest {
         map.revealSurroundings(2, 3);
         map.printDisplayMap();
         assertEquals("######\r\n" +
-                    "###@##\r\n" +
-                    "## #@#\r\n" +
-                    "###@##\r\n", output.toString());
+                            "#@#@##\r\n" +
+                            "@* #@#\r\n" +
+                            "#@#@##\r\n", output.toString());
     }
 /*
     @Test

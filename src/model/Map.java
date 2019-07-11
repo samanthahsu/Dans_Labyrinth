@@ -25,7 +25,7 @@ public class Map {
         width = w;
         initMap(mapString);
         initMapDisplay();
-    //        initAvatar(startX, startY);
+        initAvatar(startY, startX);
     }
 
     //    MODIFIES: this
@@ -45,19 +45,19 @@ public class Map {
     private void initMapDisplay(){
         mapDisplay = new char[height][width];
         for (int i = 0; i < height; i++) {
-            for(int j = 0; j< width; j++){
+            for(int j = 0; j < width; j++){
                 mapDisplay[i][j] = fog;
             }
         }
     }
 
     //    MODIFIES: mapDisplay
-    //    EFFECTS:places avatar at startY, startX revealing adjacent tiles
-/*
+    //    EFFECTS: places avatar at startY, startX revealing adjacent tiles
     private void initAvatar(int startY, int startX) {
-//      todo stub
+        Avatar ava = new Avatar(startY, startX);
+        updateTileDisp(startY, startX, c);
+        revealSurroundings(startY, startX);
     }
-*/
 
     //    **GETTERS**
     public char[][] getMap() {

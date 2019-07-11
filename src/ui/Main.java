@@ -38,7 +38,7 @@ public class Main {
         int gameOver = 0; // 0=keep going, 1=quit, 2=death, 3=victory
 
         Random ran = new Random();
-        Avatar avatar = new Avatar();
+        Avatar avatar = new Avatar(default_startY, default_startX);
         Scanner scanner = new Scanner(System.in);
 
         Map map = new Map(default_height, default_width, default_map, default_startY, default_startX);

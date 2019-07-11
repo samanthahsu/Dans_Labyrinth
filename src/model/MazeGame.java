@@ -13,19 +13,19 @@ public class MazeGame {
         switch (input) {
             case "n":
                 map.printMovePlaceholder("northern", ran);
-//                avatar.moveCharN(map);
+//                avatar.moveAvaN(map);
                 break;
             case "s":
                 map.printMovePlaceholder("southern", ran);
-                //                avatar.moveCharS(map);
+                //                avatar.moveAvaS(map);
                 break;
             case "e":
                 map.printMovePlaceholder("eastern", ran);
-                //                avatar.moveCharE(map);
+                //                avatar.moveAvaE(map);
                 break;
             case "w":
                 map.printMovePlaceholder("western", ran);
-                //                avatar.moveCharW(map);
+                //                avatar.moveAvaW(map);
                 break;
             case "look":
                 System.out.println("hello darkness.");

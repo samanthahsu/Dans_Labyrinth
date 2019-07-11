@@ -40,11 +40,17 @@ public class MapTest {
                 "@@@@@@";
         char[][] expMap = strToTestCharMtrx(expMapStr);
         assertEqualsCharMatrix(expMap, map.getMap());
+//        todo make tests for height and weight field instant
     }
 
     @Test
     void isIndexValidTest(){
+        assertFalse(map.isIndexValid(-1, 0));
+        assertFalse(map.isIndexValid(test_height, 0));
+        assertFalse(map.isIndexValid(0, -1));
+        assertFalse(map.isIndexValid(0, test_width));
 
+        assertTrue(map.isIndexValid(2, 3));
     }
 
     @Test
@@ -63,49 +69,49 @@ public class MapTest {
     }
     @Test
     void revealTilesMidTest(){
-        map.revealTiles(2,2);
+        map.revealSurroundings(2,2);
         assertEqualsMapDisplay(
         "######"+
                 "## ###"+
-                "#   ##"+
+                "# # ##"+
                 "##@###");
     }
     @Test
     void revealTilesNWTest() {
-        map.revealTiles(0,0);
+        map.revealSurroundings(0,0);
         assertEqualsMapDisplay(
             "#@####" +
-                    "@@####" +
-                    "@* ###" +
-                    "#@####");
+                    "@#####" +
+                    "######" +
+                    "######");
 
     }
     @Test
     void revealTilesNETest(){
-        map.revealTiles(test_width-1,0);
+        map.revealSurroundings(test_width-1,0);
         assertEqualsMapDisplay(
                 "####@#" +
-                        "#@###@" +
-                        "@* ###" +
-                        "#@####");
+                        "#####@" +
+                        "######" +
+                        "######");
     }
     @Test
     void revealTilesSWTest(){
-        map.revealTiles(0,test_height-1);
+        map.revealSurroundings(0,test_height-1);
         assertEqualsMapDisplay(
                 "######" +
-                        "#@####" +
-                        "@* ###" +
+                        "######" +
+                        "@#####" +
                         "#@####");
     }
     @Test
     void revealTilesSETest(){
-        map.revealTiles(test_width-1,test_height-1);
+        map.revealSurroundings(test_width-1,test_height-1);
         assertEqualsMapDisplay(
                 "######" +
-                        "#@####" +
-                        "@* ##@" +
-                        "#@##@#");
+                        "######" +
+                        "#####@" +
+                        "####@#");
     }
 
     @Test

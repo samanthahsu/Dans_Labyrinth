@@ -23,7 +23,7 @@ public class Avatar {
         if(map.isTileFloor(new_x, new_y)) {
             map.updateDisplayTile(new_x, new_y, ava_char);
             map.updateDisplayTile(x, y, ' ');
-            map.revealTiles(new_x, new_y);
+            map.revealSurroundings(new_x, new_y);
         }
     }
 

@@ -12,11 +12,16 @@ public class Map {
 
     private char[][] map; //    stores the 2D matrix of the full map (not modified after)
     private char[][] mapDisplay; // stores what the user can see of the map (character, fog, walls)
+    private int height;
+    private int width;
 
 //    EFFECT: constructs map with height of size m, width of size n, filling it with default flooring
     public Map(int h, int w, String mapString, int startX, int startY){
-        initMap(h, w, mapString);
-        initMapDisplay(h, w);
+        height = h;
+        width = w;
+
+        initMap(mapString);
+        initMapDisplay();
 /*
         initAvatar(startX, startY);
 */
@@ -32,10 +37,10 @@ public class Map {
 
 //    MODIFIES: this
 //    EFFECT: fills mapDisplay with fog tiles
-    private void initMapDisplay(int h, int w){
-        mapDisplay = new char[h][w];
-        for (int i = 0; i < h; i++) {
-            for(int j = 0; j< w; j++){
+    private void initMapDisplay(){
+        mapDisplay = new char[height][width];
+        for (int i = 0; i < height; i++) {
+            for(int j = 0; j< width; j++){
                 mapDisplay[i][j] = fog;
             }
         }
@@ -43,11 +48,11 @@ public class Map {
 
 //    MODIFIES this
 //    EFFECT store mapString into map
-    private void initMap(int h, int w, String mapString){
-        map = new char[h][w];
+    private void initMap(String mapString){
+        map = new char[height][width];
         int is = 0;
-        for (int i = 0; i < h; i++)  {
-            for (int j = 0; j < w; j++) {
+        for (int i = 0; i < height; i++)  {
+            for (int j = 0; j < width; j++) {
                 map[i][j] = mapString.charAt(is);
                 is++;
             }
@@ -63,27 +68,33 @@ public class Map {
     }
 
 //    EFFECT return true if index within bounds of map
-    public boolean isIndexValid(int x, int y){
-
+    public boolean isIndexValid(int y, int x){
+        return y >= 0 && x >= 0 && y < height && x < width;
     }
 //    REQUIRES: x and y are the coordinates to be moved to
 //    EFFECTS: returns true if tile of requested index is floor in map, otherwise false
-    public boolean isTileFloor(int x, int y){
+    public boolean isTileFloor(int y, int x){
         return map[y][x] == ' ';
     }
 
-//    REQUIRES: x, y are within bounds of the matrix
 //    MODIFIES: this
 //    EFFECTS: replaces character at index x,y with c in mapDisplay
     public void updateDisplayTile(int x, int y, char c) {
         mapDisplay[y][x] = c;
     }
 
-//    REQUIRES: given x, y are currently being moved to
 //    MODIFIES: this
 //    EFFECTS: replace any fog tiles with those on map immediately around given x,y on mapDisplay (no diagonals)
-    public void revealTiles(int x, int y) {
-        if()
+    public void revealSurroundings(int x, int y) {
+        revealTile(x-1,y);
+        revealTile(x+1,y);
+        revealTile(x,y-1);
+        revealTile(x,y+1);
+    }
+    private void revealTile(int x, int y){
+        if (isIndexValid(y, x)) {
+            updateDisplayTile(x, y, map[y][x]);
+        }
     }
 
 //    PRINTING*************

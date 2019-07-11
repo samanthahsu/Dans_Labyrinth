@@ -32,7 +32,6 @@ public class Map {
 
 // create different maps for different rooms
 //    EFFECT: constructs map with height of size m, width of size n, filling it with default flooring
-//      todo initialize avatar to starting position on mapDisplay
     public Map(){
 
         map = new char[default_height][default_width];
@@ -50,6 +49,7 @@ public class Map {
                 tile = floor;
             }
         }
+//      todo initialize avatar to starting position on mapDisplay
     }
 
 //    **GETTER**
@@ -59,14 +59,16 @@ public class Map {
 
     //    REQUIRES: x and y are the coordinates to be moved to
 //    EFFECTS: returns true if tile of requested index is floor, otherwise false
-    public boolean isTileFloor(int x, int y){return false;}
+    public boolean isTileFloor(int x, int y){
+//        todo stub
+        return false;}
     //portions are revealed as things are explored???
 
 //    REQUIRES: x, y are within bounds of the matrix
 //    MODIFIES: this
 //    EFFECTS: replaces character at index x,y with c
-    public void updateDisplayTile(int x, int y, char c){
-
+    public void updateDisplayTile(int x, int y, char c) {
+//        todo stub
     }
 
 //    this is for when tiles are implemented as objects not chars
@@ -81,14 +83,19 @@ public class Map {
 //    MODIFIES: this
 //    EFFECTS: reveal any fog tiles immediately around given x,y on mapDisplay
     public void revealTiles(int x, int y) {
+//        todo stub
     }
 
 //    EFFECTS: returns true if char is on winning tile
-    public void isWin(int x, int y){}
+    public void isWin(int x, int y){
+//        todo stub
+    }
 
 //    PRINTING*************
 //    EFFECTS: prints mapDisplay to screen
-    public boolean printDisplayMap(){return false;}
+    public boolean printDisplayMap(){
+//        todo stub
+        return false;}
 
     //todo delete this
 //    EFFECTS: prints silly statements when you try to move to a wall tile

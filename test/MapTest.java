@@ -8,24 +8,24 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MapTest {
-    Map map;
+    private Map map;
 
     @BeforeEach
-    public void newMap(){
+    void beforeEachTest(){
         map = new Map();
     }
 
     @Test
-    public void ConstructorTest(){}
+    void ConstructorTest(){}
 
     @Test
-    public void isTileFloorTest(){
+    void isTileFloorTest(){
         assertEquals(false,map.isTileFloor(6, 1));
         assertEquals(true,map.isTileFloor(7, 1));
     }
 
     @Test
-    public void updateDisplayTileTest(){
+    void updateDisplayTileTest(){
         map.updateDisplayTile(0, 0, 'G');
         char[][] expected =
 
@@ -33,6 +33,6 @@ public class MapTest {
     }
 
     @Test
-    public void revealTilesTest(){}
+    void revealTilesTest(){}
 
 }

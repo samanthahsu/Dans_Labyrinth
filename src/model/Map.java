@@ -98,10 +98,16 @@ public class Map {
     }
 
 //    PRINTING*************
+//    REQUIRES: mapDisplay is not null
 //    EFFECTS: prints mapDisplay to screen
-    public boolean printDisplayMap(){
-//        todo stub
-        return false;}
+    public void printDisplayMap(){
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                System.out.print(mapDisplay[i][j]);
+            }
+            System.out.println();
+        }
+    }
 
 //  todo delete this
 //    EFFECTS: prints silly statements when you try to move to a wall tile

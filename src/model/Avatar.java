@@ -18,13 +18,33 @@ public class Avatar {
 //    MODIFIES: map
 //    EFFECT: checks if move direction is valid, move character to designated position and reveal tiles in scope
     public void moveCharN(Map map){
-        int new_x = x;
-        int new_y = y-1;
-        if(map.isTileFloor(new_y, new_x)) {
-            map.updateTileDisp(new_y, new_x, ava_char);
+        moveAva(y-1, x, map);
+    }
+//    MODIFIES: map
+//    EFFECT: checks if move direction is valid, move character to designated position and reveal tiles in scope
+    public void moveCharW(Map map){
+        moveAva(y+1, x, map);
+    }
+//    MODIFIES: map
+//    EFFECT: checks if move direction is valid, move character to designated position and reveal tiles in scope
+    public void moveCharE(Map map){
+        moveAva(y, x+1, map);
+    }
+//    MODIFIES: map
+//    EFFECT: checks if move direction is valid, move character to designated position and reveal tiles in scope
+    public void moveCharS(Map map){
+        moveAva(y, x-1, map);
+    }
+
+//    MODIFIES: map
+//    EFFECTS: if y,x can be moved to, move ava, if not, print text response
+    private void moveAva(int y, int x, Map map){
+        if(map.isTileFloor(y, x)) {
+            map.updateTileDisp(y, x, ava_char);
             map.updateTileDisp(y, x, ' ');
-            map.revealSurroundings(new_y, new_x);
+            map.revealSurroundings(y, x);
         }
+
     }
 
     //    EFFECTS: returns true if char is on the winning tile

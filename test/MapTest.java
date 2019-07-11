@@ -66,10 +66,10 @@ class MapTest {
         assertEquals(test_width2, map.getWidth());
 
         assertEqualsMapDisp(
-                "###" +
-                        "###" +
-                        "###",
-                test_height2, test_width2);
+            "###" +
+                     "###" +
+                     "###",
+                    test_height2, test_width2);
         String expMapStr =
                 "@@@"+
                 "@ @"+
@@ -206,7 +206,6 @@ class MapTest {
                     "## #@#\r\n" +
                     "###@##\r\n", output.toString());
     }
-
 /*
     @Test
     void printMovePlaceholderTest(){

@@ -7,22 +7,25 @@ public class MazeGame {
     private static final int failGame = 2;
     private static final int winGame = 3;
 
-    //EFFECT: chooses which map function to call. returns true when input = 'q'
+    //EFFECT: chooses which map function to call. returns gamestate
     public int execute(String input, Map map, Random ran, Avatar avatar) {
         int gameState = 0;
         switch (input) {
             case "n":
                 map.printMovePlaceholder("northern", ran);
-                avatar.moveCharN(map);
+//                avatar.moveCharN(map);
                 break;
             case "s":
                 map.printMovePlaceholder("southern", ran);
+                //                avatar.moveCharS(map);
                 break;
             case "e":
                 map.printMovePlaceholder("eastern", ran);
+                //                avatar.moveCharE(map);
                 break;
             case "w":
                 map.printMovePlaceholder("western", ran);
+                //                avatar.moveCharW(map);
                 break;
             case "look":
                 System.out.println("hello darkness.");
@@ -39,6 +42,7 @@ public class MazeGame {
             default:
                 System.out.println("Confusion ensues.");
         }
+//        if(map.isWin){
         return gameState;
     }
 
@@ -60,8 +64,8 @@ public class MazeGame {
                 "'h' to get help dialogue"+'\n'+
                 "'q' to quit");
     }
-    //    REQUIRES: gameOver is in the interval [1, 3]
-//    EFFECT: prints end text based on int gameOver
+    // REQUIRES: gameOver is in the interval [1, 3]
+    // EFFECT: prints end text based on int gameOver
     public void printEndText(int gameOver) {
 //        todo: not final text
         switch (gameOver) {

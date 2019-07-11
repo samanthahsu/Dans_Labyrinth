@@ -1,5 +1,3 @@
-// todo write tests for every goddamn function that may or may not exist
-
 import model.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +17,10 @@ class MapTest {
             "@@@@@@";
     private static final int test_height1 = 4;
     private static final int test_width1 = 6;
-    private static final int test_startX1 = 1;
     private static final int test_startY1 = 2;
-    private static final int winX1 = 3;
+    private static final int test_startX1 = 1;
     private static final int winY1 = 0;
+    private static final int winX1 = 3;
 
     private static final String test_map2 =
             "@@@"+
@@ -30,15 +28,17 @@ class MapTest {
             "@ @";
     private static final int test_height2 = 3;
     private static final int test_width2 = 3;
-    private static final int test_startX2 = 1;
     private static final int test_startY2 = 1;
-    private static final int winX2 = 1;
+    private static final int test_startX2 = 1;
     private static final int winY2 = 2;
+    private static final int winX2 = 1;
 
     @BeforeEach
     void beforeEachTest(){
-        map = new Map(test_height1, test_width1, test_map1, test_startX1, test_startY1);
+        map = new Map(test_height1, test_width1, test_map1, test_startY1, test_startX1);
     }
+
+
 
     @Test
     void ConstructorTestMap1(){
@@ -59,10 +59,9 @@ class MapTest {
         char[][] expMap = strToTestCharMtrx(expMapStr, test_height1, test_width1);
         assertEqualsCharMtrx(expMap, map.getMap(), test_height1, test_width1);
     }
-
     @Test
     void ConstructorTestMap2(){
-        map = new Map(test_height2, test_width2, test_map2, test_startX2, test_startY2);
+        map = new Map(test_height2, test_width2, test_map2, test_startY2, test_startX2);
         assertEquals(test_height2, map.getHeight());
         assertEquals(test_width2, map.getWidth());
 
@@ -79,6 +78,8 @@ class MapTest {
         assertEqualsCharMtrx(expMap, map.getMap(), test_height2, test_width2);
     }
 
+
+
     @Test
     void isIndexValidTest(){
         assertFalse(map.isIndexValid(-1, 0));
@@ -89,13 +90,16 @@ class MapTest {
         assertTrue(map.isIndexValid(2, 3));
     }
 
+
     @Test
     void isTileFloorTest(){
         assertFalse(map.isTileFloor(0, 1));
         assertTrue(map.isTileFloor(2, 2));
     }
+
+
     @Test
-    void updateDisplayTileOneTest(){
+    void updateTileDispOneTest(){
         map.updateTileDisp(0, 0, 'G');
         assertEqualsMapDisp(
         "G#####" +
@@ -104,7 +108,7 @@ class MapTest {
                 "######", test_height1, test_width1);
     }
     @Test
-    void updateDisplayTileTwoSameTest(){
+    void updateTileDispTwoSameTest(){
         map.updateTileDisp(0, 0, 'G');
         map.updateTileDisp(0, 0, ' ');
         assertEqualsMapDisp(
@@ -114,9 +118,9 @@ class MapTest {
                         "######", test_height1, test_width1);
     }
     @Test
-    void updateDisplayTileTwoDiffTest(){
-        map.updateTileDisp(0, 1, 'G');
-        map.updateTileDisp(3, 2, 'X');
+    void updateTileDispTwoDiffTest(){
+        map.updateTileDisp(1, 0, 'G');
+        map.updateTileDisp(2, 3, 'X');
         assertEqualsMapDisp(
                 "######" +
                         "G#####" +
@@ -124,9 +128,11 @@ class MapTest {
                         "######", test_height1, test_width1);
     }
 
+
+
     @Test
-    void revealTilesMidTest(){
-        map.revealSurroundings(2,2);
+    void revealSurroundingsMidTest(){
+        map.revealSurroundings(2, 2);
         assertEqualsMapDisp(
         "######"+
                 "## ###"+
@@ -134,8 +140,8 @@ class MapTest {
                 "##@###", test_height1, test_width1);
     }
     @Test
-    void revealTilesNWTest() {
-        map.revealSurroundings(0,0);
+    void revealSurroundingsNWTest() {
+        map.revealSurroundings(0, 0);
         assertEqualsMapDisp(
             "#@####" +
                     "@#####" +
@@ -144,8 +150,8 @@ class MapTest {
 
     }
     @Test
-    void revealTilesNETest(){
-        map.revealSurroundings(test_width1 -1,0);
+    void revealSurroundingsNETest(){
+        map.revealSurroundings(0, test_width1 -1);
         assertEqualsMapDisp(
             "####@#" +
                     "#####@" +
@@ -153,8 +159,8 @@ class MapTest {
                     "######", test_height1, test_width1);
     }
     @Test
-    void revealTilesSWTest(){
-        map.revealSurroundings(0, test_height1 -1);
+    void revealSurroundingsSWTest(){
+        map.revealSurroundings(test_height1 -1, 0);
         assertEqualsMapDisp(
                 "######" +
                         "######" +
@@ -162,14 +168,16 @@ class MapTest {
                         "#@####", test_height1, test_width1);
     }
     @Test
-    void revealTilesSETest(){
-        map.revealSurroundings(test_width1 -1, test_height1 -1);
+    void revealSurroundingsSETest(){
+        map.revealSurroundings(test_height1 -1, test_width1 -1);
         assertEqualsMapDisp(
             "######" +
                     "######" +
                     "#####@" +
                     "####@#", test_height1, test_width1);
     }
+
+
 
     @Test
     void printDisplayMapTest(){
@@ -191,7 +199,7 @@ class MapTest {
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(err));
 
-        map.revealSurroundings(3, 2);
+        map.revealSurroundings(2, 3);
         map.printDisplayMap();
         assertEquals("######\r\n" +
                     "###@##\r\n" +
@@ -208,7 +216,8 @@ class MapTest {
 
 //    TEST HELPER METHODS*****************************
 
-//    EFFECT converts expectedMap string to char matrix of test height and width
+    //    REQUIRES: expMapStr is same size as h x w
+    //    EFFECT converts expectedMap string to char matrix of test height and width
     private char[][] strToTestCharMtrx(String expMapStr, int height, int width){
         char[][] expMatrix = new char[height][width];
         int i = 0;
@@ -220,16 +229,15 @@ class MapTest {
         }
         return expMatrix;
     }
-
-//    REQUIRE expMapStr is same size as test_height1 x test_width1
+//    REQUIRES: expMapStr is same size as h x w
 //    EFFECT: tests pass if expMapStr is equal to mapDisplay when mapDisplay is converted into String
     private void assertEqualsMapDisp(String expMapStr, int h, int w) {
         char[][] expMap = strToTestCharMtrx(expMapStr, h, w);
         char[][] actualMap = map.getMapDisplay();
         assertEqualsCharMtrx(expMap, actualMap, h, w);
     }
-
-// EFFECT: passes if two char matrices are identical
+//    REQUIRES: a, b are matrices of size hxw
+    // EFFECT: test passes if two char matrices are identical
     private void assertEqualsCharMtrx(char[][] a, char[][] b, int h, int w) {
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
@@ -237,5 +245,4 @@ class MapTest {
             }
         }
     }
-
 }

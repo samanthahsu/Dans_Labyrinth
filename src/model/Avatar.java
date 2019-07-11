@@ -21,9 +21,9 @@ public class Avatar {
         int new_x = x;
         int new_y = y-1;
         if(map.isTileFloor(new_y, new_x)) {
-            map.updateTileDisp(new_x, new_y, ava_char);
-            map.updateTileDisp(x, y, ' ');
-            map.revealSurroundings(new_x, new_y);
+            map.updateTileDisp(new_y, new_x, ava_char);
+            map.updateTileDisp(y, x, ' ');
+            map.revealSurroundings(new_y, new_x);
         }
     }
 

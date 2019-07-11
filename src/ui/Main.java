@@ -41,7 +41,7 @@ public class Main {
         Avatar avatar = new Avatar();
         Scanner scanner = new Scanner(System.in);
 
-        Map map = new Map(default_height, default_width, default_map, default_startX, default_startY);
+        Map map = new Map(default_height, default_width, default_map, default_startY, default_startX);
 
         String input;
         game.printWelcomeText();

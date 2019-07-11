@@ -39,6 +39,11 @@ public class MapTest {
         return expected;
     }
 
+    private void assertEqualsMap(String expMapStr) {
+        char[][] expMap = makeExpectedMap(expMapStr);
+        assertEquals(expMap, map.getMapDisplay());
+    }
+
     @Test
     void ConstructorTest(){}
 
@@ -59,43 +64,64 @@ public class MapTest {
     @Test
     void updateDisplayTileTest(){
         map.updateDisplayTile(0, 0, 'G');
-        String expMapStr =
-                "G@@ @@"+
-                "@@ @ @"+
-                "@   @@"+
-                "@@@@@@";
-        char[][] expMap = makeExpectedMap(expMapStr);
-        assertEquals(expMap,map.getMapDisplay());
+        assertEqualsMap(
+        "G#####" +
+                "#@####" +
+                "@* ###" +
+                "#@####");
     }
 
     @Test
-    void revealTilesMiddleTest(){
+    void revealTilesMidTest(){
         map.revealTiles(2,2);
-        assertEquals(,map.getMapDisplay());
+        assertEqualsMap(
+        "######"+
+                "#@ ###"+
+                "@   ##"+
+                "#@@###");
     }
 
     @Test
     void revealTilesNWTest() {
         map.revealTiles(0,0);
-    }
-    @Test
-    void revealTilesNETest(){
-        map.revealTiles(20,0);
+        assertEqualsMap(
+            "#@####" +
+                    "@@####" +
+                    "@* ###" +
+                    "#@####");
 
     }
     @Test
+    void revealTilesNETest(){
+        map.revealTiles(test_width-1,0);
+        assertEqualsMap(
+                "####@#" +
+                        "#@###@" +
+                        "@* ###" +
+                        "#@####");
+    }
+    @Test
     void revealTilesSWTest(){
-        map.revealTiles(0,9);
+        map.revealTiles(0,test_height-1);
+        assertEqualsMap(
+                "######" +
+                        "#@####" +
+                        "@* ###" +
+                        "#@####");
 
     }
     @Test
     void revealTilesSETest(){
-        map.revealTiles(20,9);
-
+        map.revealTiles(test_width-1,test_height-1);
+        assertEqualsMap(
+                "######" +
+                        "#@####" +
+                        "@* ##@" +
+                        "#@##@#");
     }
 
 
-        @Test
+    @Test
     void printDisplayMapTest(){}
 
     @Test

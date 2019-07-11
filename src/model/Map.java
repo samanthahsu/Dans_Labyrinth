@@ -70,7 +70,7 @@ public class Map {
 
 //    REQUIRES: given x, y are currently being moved to
 //    MODIFIES: this
-//    EFFECTS: reveal any fog tiles immediately around given x,y on mapDisplay
+//    EFFECTS: replace any fog tiles with those on map immediately around given x,y on mapDisplay (no diagonals)
     public void revealTiles(int x, int y) {
 //        todo stub
     }

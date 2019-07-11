@@ -4,9 +4,7 @@ import model.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MapTest {
     private Map map;
@@ -27,29 +25,28 @@ public class MapTest {
         map = new Map(test_height, test_width, test_map, test_startX, test_startY);
     }
 
-    private char[][] makeExpectedMap(String expectedMap){
-        char[][] expected = new char[test_height][test_width];
-        int i = 0;
-        for (char[] tileset: expected) {
-            for(char tile: tileset){
-                tile = expectedMap.charAt(i);
-                i++;
-            }
-        }
-        return expected;
-    }
-
-    private void assertEqualsMap(String expMapStr) {
-        char[][] expMap = makeExpectedMap(expMapStr);
-        assertEquals(expMap, map.getMapDisplay());
-    }
 
     @Test
-    void ConstructorTest(){}
-
+    void ConstructorTest(){
+        assertEqualsMapDisplay(
+        "######" +
+                "#@####" +
+                "@* ###" +
+                "#@####");
+        String expMapStr =
+                "@@@ @@"+
+                "@@ @ @"+
+                "@   @@"+
+                "@@@@@@";
+//        char[][] expMap = makeExpectedMap(expMapStr);
+//        for (:
+//             ) {
+//
+//        }
+//        assertArrayEquals(expMap, map.getMap());
+    }
     @Test
     void initAvatarTest(){}
-
     @Test
     void initMapDisplayTest(){}
     @Test
@@ -60,31 +57,28 @@ public class MapTest {
         assertFalse(map.isTileFloor(0, 1));
         assertTrue(map.isTileFloor(2, 2));
     }
-
     @Test
     void updateDisplayTileTest(){
         map.updateDisplayTile(0, 0, 'G');
-        assertEqualsMap(
+        assertEqualsMapDisplay(
         "G#####" +
                 "#@####" +
                 "@* ###" +
                 "#@####");
     }
-
     @Test
     void revealTilesMidTest(){
         map.revealTiles(2,2);
-        assertEqualsMap(
+        assertEqualsMapDisplay(
         "######"+
                 "#@ ###"+
                 "@   ##"+
                 "#@@###");
     }
-
     @Test
     void revealTilesNWTest() {
         map.revealTiles(0,0);
-        assertEqualsMap(
+        assertEqualsMapDisplay(
             "#@####" +
                     "@@####" +
                     "@* ###" +
@@ -94,7 +88,7 @@ public class MapTest {
     @Test
     void revealTilesNETest(){
         map.revealTiles(test_width-1,0);
-        assertEqualsMap(
+        assertEqualsMapDisplay(
                 "####@#" +
                         "#@###@" +
                         "@* ###" +
@@ -103,7 +97,7 @@ public class MapTest {
     @Test
     void revealTilesSWTest(){
         map.revealTiles(0,test_height-1);
-        assertEqualsMap(
+        assertEqualsMapDisplay(
                 "######" +
                         "#@####" +
                         "@* ###" +
@@ -113,13 +107,12 @@ public class MapTest {
     @Test
     void revealTilesSETest(){
         map.revealTiles(test_width-1,test_height-1);
-        assertEqualsMap(
+        assertEqualsMapDisplay(
                 "######" +
                         "#@####" +
                         "@* ##@" +
                         "#@##@#");
     }
-
 
     @Test
     void printDisplayMapTest(){}
@@ -127,5 +120,31 @@ public class MapTest {
     @Test
     void printMovePlaceholderTest(){}
 
+//    helper methods
 
+//    EFFECT converts expectedMap string to char matrix of test height and width
+    private char[][] makeExpectedMap(String expMapStr){
+        char[][] expMatrix = new char[test_height][test_width];
+        int i = 0;
+        for (char[] tileset: expMatrix) {
+            for(char tile: tileset){
+                tile = expMapStr.charAt(i);
+                i++;
+            }
+        }
+        return expMatrix;
+    }
+
+    private void assertEqualsMapDisplay(String expMapStr) {
+        char[][] expMap = makeExpectedMap(expMapStr);
+        assertEqualsCharMatrix(expMap, map.getMapDisplay());
+    }
+
+    private void assertEqualsCharMatrix(char[][] a, char[][] b) {
+        for (char[] aChars: a) {
+            for (char[] bChars: b) {
+                assertArrayEquals(aChars, bChars);
+            }
+        }
+    }
 }

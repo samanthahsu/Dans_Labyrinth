@@ -49,8 +49,10 @@ public class Map {
         }
     }
 
-//    **GETTER**
-
+//    **GETTERS**
+    public char[][] getMap() {
+        return map;
+    }
     public char[][] getMapDisplay() {
         return mapDisplay;
     }

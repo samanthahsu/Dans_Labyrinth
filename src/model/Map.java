@@ -15,39 +15,21 @@ public class Map {
     private int height;
     private int width;
 
-//    EFFECT: constructs map with height of size m, width of size n, filling it with default flooring
+    //    REQUIRES: map String is of length h multiplied by w,
+    //      startX and startY are indexes within the matrix of size h,w
+    //    EFFECTS: sets height and width
+    //      fills map with mapString
+    //      fills mapDisplay with fog
     public Map(int h, int w, String mapString, int startX, int startY){
         height = h;
         width = w;
-
         initMap(mapString);
         initMapDisplay();
-/*
-        initAvatar(startX, startY);
-*/
-    }
-/*
-//    MODIFIES: mapDisplay
-//    EFFECTS:places avatar at startX, startY, revealing adjacent tiles
-    private void initAvatar(int startX, int startY) {
-//      todo stub
-
-    }
-*/
-
-//    MODIFIES: this
-//    EFFECT: fills mapDisplay with fog tiles
-    private void initMapDisplay(){
-        mapDisplay = new char[height][width];
-        for (int i = 0; i < height; i++) {
-            for(int j = 0; j< width; j++){
-                mapDisplay[i][j] = fog;
-            }
-        }
+    //        initAvatar(startX, startY);
     }
 
-//    MODIFIES this
-//    EFFECT store mapString into map
+    //    MODIFIES this
+    //    EFFECT store mapString into map
     private void initMap(String mapString){
         map = new char[height][width];
         int is = 0;
@@ -59,47 +41,77 @@ public class Map {
         }
     }
 
-//    **GETTERS**
+    //    MODIFIES: this
+    //    EFFECTS: fills mapDisplay with fog tiles
+    private void initMapDisplay(){
+        mapDisplay = new char[height][width];
+        for (int i = 0; i < height; i++) {
+            for(int j = 0; j< width; j++){
+                mapDisplay[i][j] = fog;
+            }
+        }
+    }
+
+    //    MODIFIES: mapDisplay
+    //    EFFECTS:places avatar at startX, startY, revealing adjacent tiles
+/*
+    private void initAvatar(int startX, int startY) {
+//      todo stub
+    }
+*/
+
+    //    **GETTERS**
     public char[][] getMap() {
         return map;
     }
     public char[][] getMapDisplay() {
         return mapDisplay;
     }
+    public int getHeight() {
+        return height;
+    }
+    public int getWidth() {
+        return width;
+    }
 
-//    EFFECT return true if index within bounds of map
+
+    //    EFFECTS: return true if index within bounds of map
     public boolean isIndexValid(int y, int x){
         return y >= 0 && x >= 0 && y < height && x < width;
     }
-//    REQUIRES: x and y are the coordinates to be moved to
-//    EFFECTS: returns true if tile of requested index is floor in map, otherwise false
+    //    REQUIRES: x and y are valid indexes in map
+    //    EFFECTS: returns true if tile of requested index is floor in map, otherwise false
     public boolean isTileFloor(int y, int x){
         return map[y][x] == ' ';
     }
 
-//    MODIFIES: this
-//    EFFECTS: replaces character at index x,y with c in mapDisplay
-    public void updateDisplayTile(int x, int y, char c) {
+    //    REQUIRES: x and y are valid indexes in map
+    //    MODIFIES: this
+    //    EFFECTS: replaces character at index x,y with c in mapDisplay
+    public void updateTileDisp(int x, int y, char c) {
         mapDisplay[y][x] = c;
     }
 
-//    MODIFIES: this
-//    EFFECTS: replace any fog tiles with those on map immediately around given x,y on mapDisplay (no diagonals)
-    public void revealSurroundings(int x, int y) {
-        revealTile(x-1,y);
-        revealTile(x+1,y);
-        revealTile(x,y-1);
-        revealTile(x,y+1);
-    }
-    private void revealTile(int x, int y){
+    //    EFFECTS: if given index is valid, replaces character at index x,y with c in mapDisplay
+    private void checkAndUpdateTileDisp(int x, int y){
         if (isIndexValid(y, x)) {
-            updateDisplayTile(x, y, map[y][x]);
+            updateTileDisp(x, y, map[y][x]);
         }
     }
 
-//    PRINTING*************
-//    REQUIRES: mapDisplay is not null
-//    EFFECTS: prints mapDisplay to screen
+    //    MODIFIES: this
+    //    EFFECTS: replace any fog tiles with corresponding tiles on map orthogonally about index x,y
+    //      on mapDisplay (no diagonals), if tile index not valid, do nothing
+    public void revealSurroundings(int x, int y) {
+        checkAndUpdateTileDisp(x-1,y);
+        checkAndUpdateTileDisp(x+1,y);
+        checkAndUpdateTileDisp(x,y-1);
+        checkAndUpdateTileDisp(x,y+1);
+    }
+
+    //    PRINTING*************
+    //    REQUIRES: mapDisplay is not null
+    //    EFFECTS: prints mapDisplay to screen
     public void printDisplayMap(){
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -109,8 +121,8 @@ public class Map {
         }
     }
 
-//  todo delete this
-//    EFFECTS: prints silly statements when you try to move to a wall tile
+    //  todo delete this
+    //    EFFECTS: prints silly statements when you try to move to a wall tile
     public void printMovePlaceholder(String dir, Random ran) {
         switch(ran.nextInt(5)){
             case 0:

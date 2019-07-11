@@ -37,20 +37,9 @@ public class Main {
         MazeGame game = new MazeGame();
         int gameOver = 0; // 0=keep going, 1=quit, 2=death, 3=victory
 
-//        boolean hasMap = false; // boolean for when multiple maps can be loaded
         Random ran = new Random();
         Avatar avatar = new Avatar();
         Scanner scanner = new Scanner(System.in);
-
-        char[][] test = new char[2][3];
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 3; j++) {
-                test[i][j] = 1;
-            }
-        }
-        String s = "h ope";
-        char chhh = s.charAt(1);
-
 
         Map map = new Map(default_height, default_width, default_map, default_startX, default_startY);
 

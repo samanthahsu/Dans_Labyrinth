@@ -32,6 +32,10 @@ class MapTest {
 
     @Test
     void ConstructorTest(){
+
+        assertEquals(test_height, map.getHeight());
+        assertEquals(test_width, map.getWidth());
+
         assertEqualsMapDisplay(
         "######" +
                 "######" +
@@ -44,7 +48,6 @@ class MapTest {
                 "@@@@@@";
         char[][] expMap = strToTestCharMtrx(expMapStr);
         assertEqualsCharMatrix(expMap, map.getMap());
-//        todo make tests for height and weight field instant
     }
 
     @Test
@@ -64,7 +67,7 @@ class MapTest {
     }
     @Test
     void updateDisplayTileOneTest(){
-        map.updateDisplayTile(0, 0, 'G');
+        map.updateTileDisp(0, 0, 'G');
         assertEqualsMapDisplay(
         "G#####" +
                 "######" +
@@ -73,8 +76,8 @@ class MapTest {
     }
     @Test
     void updateDisplayTileTwoSameTest(){
-        map.updateDisplayTile(0, 0, 'G');
-        map.updateDisplayTile(0, 0, ' ');
+        map.updateTileDisp(0, 0, 'G');
+        map.updateTileDisp(0, 0, ' ');
         assertEqualsMapDisplay(
                 " #####" +
                         "######" +
@@ -83,8 +86,8 @@ class MapTest {
     }
     @Test
     void updateDisplayTileTwoDiffTest(){
-        map.updateDisplayTile(0, 1, 'G');
-        map.updateDisplayTile(3, 2, 'X');
+        map.updateTileDisp(0, 1, 'G');
+        map.updateTileDisp(3, 2, 'X');
         assertEqualsMapDisplay(
                 "######" +
                         "G#####" +
@@ -153,7 +156,7 @@ class MapTest {
                     "######\r\n", output.toString());
     }
     @Test
-    void printDisplayMapUpdatedTest(){
+    void printDisplayMapUpdateTest(){
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         ByteArrayOutputStream err = new ByteArrayOutputStream();
         System.setOut(new PrintStream(output));

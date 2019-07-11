@@ -20,9 +20,9 @@ public class Avatar {
     public void moveCharN(Map map){
         int new_x = x;
         int new_y = y-1;
-        if(map.isTileFloor(new_x, new_y)) {
-            map.updateDisplayTile(new_x, new_y, ava_char);
-            map.updateDisplayTile(x, y, ' ');
+        if(map.isTileFloor(new_y, new_x)) {
+            map.updateTileDisp(new_x, new_y, ava_char);
+            map.updateTileDisp(x, y, ' ');
             map.revealSurroundings(new_x, new_y);
         }
     }

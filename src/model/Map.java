@@ -17,21 +17,26 @@ public class Map {
     public Map(int h, int w, String mapString, int startX, int startY){
         initMap(h, w, mapString);
         initMapDisplay(h, w);
+/*
         initAvatar(startX, startY);
+*/
     }
+/*
 //    MODIFIES: mapDisplay
 //    EFFECTS:places avatar at startX, startY, revealing adjacent tiles
     private void initAvatar(int startX, int startY) {
 //      todo stub
+
     }
+*/
 
 //    MODIFIES: this
 //    EFFECT: fills mapDisplay with fog tiles
     private void initMapDisplay(int h, int w){
         mapDisplay = new char[h][w];
-        for (char[] tileset: map) {
-            for(char tile: tileset){
-                tile = fog;
+        for (int i = 0; i < h; i++) {
+            for(int j = 0; j< w; j++){
+                mapDisplay[i][j] = fog;
             }
         }
     }
@@ -40,11 +45,11 @@ public class Map {
 //    EFFECT store mapString into map
     private void initMap(int h, int w, String mapString){
         map = new char[h][w];
-        int i = 0;
-        for (char[] tileset: map) {
-            for(char tile: tileset){
-                tile = mapString.charAt(i);
-                i++;
+        int is = 0;
+        for (int i = 0; i < h; i++)  {
+            for (int j = 0; j < w; j++) {
+                map[i][j] = mapString.charAt(is);
+                is++;
             }
         }
     }
@@ -57,24 +62,28 @@ public class Map {
         return mapDisplay;
     }
 
+//    EFFECT return true if index within bounds of map
+    public boolean isIndexValid(int x, int y){
+
+    }
 //    REQUIRES: x and y are the coordinates to be moved to
 //    EFFECTS: returns true if tile of requested index is floor in map, otherwise false
     public boolean isTileFloor(int x, int y){
-//        todo stub
-        return false;}
+        return map[y][x] == ' ';
+    }
 
 //    REQUIRES: x, y are within bounds of the matrix
 //    MODIFIES: this
 //    EFFECTS: replaces character at index x,y with c in mapDisplay
     public void updateDisplayTile(int x, int y, char c) {
-//        todo stub
+        mapDisplay[y][x] = c;
     }
 
 //    REQUIRES: given x, y are currently being moved to
 //    MODIFIES: this
 //    EFFECTS: replace any fog tiles with those on map immediately around given x,y on mapDisplay (no diagonals)
     public void revealTiles(int x, int y) {
-//        todo stub
+        if()
     }
 
 //    PRINTING*************

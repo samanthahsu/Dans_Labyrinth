@@ -30,27 +30,22 @@ public class MapTest {
     void ConstructorTest(){
         assertEqualsMapDisplay(
         "######" +
-                "#@####" +
-                "@* ###" +
-                "#@####");
+                "######" +
+                "######" +
+                "######");
         String expMapStr =
                 "@@@ @@"+
                 "@@ @ @"+
                 "@   @@"+
                 "@@@@@@";
-//        char[][] expMap = makeExpectedMap(expMapStr);
-//        for (:
-//             ) {
-//
-//        }
-//        assertArrayEquals(expMap, map.getMap());
+        char[][] expMap = strToTestCharMtrx(expMapStr);
+        assertEqualsCharMatrix(expMap, map.getMap());
     }
+
     @Test
-    void initAvatarTest(){}
-    @Test
-    void initMapDisplayTest(){}
-    @Test
-    void initMapTest(){}
+    void isIndexValidTest(){
+
+    }
 
     @Test
     void isTileFloorTest(){
@@ -62,18 +57,18 @@ public class MapTest {
         map.updateDisplayTile(0, 0, 'G');
         assertEqualsMapDisplay(
         "G#####" +
-                "#@####" +
-                "@* ###" +
-                "#@####");
+                "######" +
+                "######" +
+                "######");
     }
     @Test
     void revealTilesMidTest(){
         map.revealTiles(2,2);
         assertEqualsMapDisplay(
         "######"+
-                "#@ ###"+
-                "@   ##"+
-                "#@@###");
+                "## ###"+
+                "#   ##"+
+                "##@###");
     }
     @Test
     void revealTilesNWTest() {
@@ -102,7 +97,6 @@ public class MapTest {
                         "#@####" +
                         "@* ###" +
                         "#@####");
-
     }
     @Test
     void revealTilesSETest(){
@@ -120,15 +114,15 @@ public class MapTest {
     @Test
     void printMovePlaceholderTest(){}
 
-//    helper methods
+//    helper methods*****************************
 
 //    EFFECT converts expectedMap string to char matrix of test height and width
-    private char[][] makeExpectedMap(String expMapStr){
+    private char[][] strToTestCharMtrx(String expMapStr){
         char[][] expMatrix = new char[test_height][test_width];
         int i = 0;
-        for (char[] tileset: expMatrix) {
-            for(char tile: tileset){
-                tile = expMapStr.charAt(i);
+        for (int j = 0; j < test_height; j++) {
+            for(int k = 0; k<test_width; k++){
+                expMatrix[j][k] = expMapStr.charAt(i);
                 i++;
             }
         }
@@ -136,15 +130,17 @@ public class MapTest {
     }
 
     private void assertEqualsMapDisplay(String expMapStr) {
-        char[][] expMap = makeExpectedMap(expMapStr);
-        assertEqualsCharMatrix(expMap, map.getMapDisplay());
+        char[][] expMap = strToTestCharMtrx(expMapStr);
+        char[][] actualMap = map.getMapDisplay();
+        assertEqualsCharMatrix(expMap, actualMap);
     }
 
     private void assertEqualsCharMatrix(char[][] a, char[][] b) {
-        for (char[] aChars: a) {
-            for (char[] bChars: b) {
-                assertArrayEquals(aChars, bChars);
+        for (int i = 0; i < test_height; i++) {
+            for (int j = 0; j < test_width; j++) {
+                assertEquals(a[i][j], b[i][j]);
             }
         }
     }
+
 }

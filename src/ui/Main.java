@@ -14,7 +14,7 @@ public class Main {
     private static final int continueGame = 0;
 
     private static final String default_map =
-            "@@@@@@@@@ @@@@@@@@@@@"+
+                    "@@@@@@@@@ @@@@@@@@@@@"+
                     "@     @ @ @       @ @"+
                     "@ @ @ @ @   @@@ @ @ @"+
                     "@@@ @ @ @@@@@ @ @ @ @"+
@@ -41,6 +41,16 @@ public class Main {
         Random ran = new Random();
         Avatar avatar = new Avatar();
         Scanner scanner = new Scanner(System.in);
+
+        char[][] test = new char[2][3];
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                test[i][j] = 1;
+            }
+        }
+        String s = "h ope";
+        char chhh = s.charAt(1);
+
 
         Map map = new Map(default_height, default_width, default_map, default_startX, default_startY);
 

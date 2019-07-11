@@ -26,4 +26,10 @@ public class Avatar {
             map.revealTiles(new_x, new_y);
         }
     }
+
+    //    EFFECTS: returns true if char is on the winning tile
+    public void isWin(int x, int y){
+//        todo stub
+    }
+
 }

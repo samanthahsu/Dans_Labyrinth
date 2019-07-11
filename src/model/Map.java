@@ -26,6 +26,8 @@ public class Map {
     private static final int default_height = 10;
     private static final int default_startX = 3;
     private static final int default_startY = 7;
+    private static final int winX = 9;
+    private static final int winY = 0;
 
     private char[][] map; //    stores the 2D matrix of the full map (not modified after)
     private char[][] mapDisplay; // stores what the user can see of the map (character, fog, walls)
@@ -85,23 +87,10 @@ public class Map {
 //        todo stub
     }
 
-//    this is for when tiles are implemented as objects not chars
-//    EFFECT: prints description of character's current location tile
-//    public void printTileDescription() {
-//    }
-
-//    EFFECTS: update map that user sees (called when they explore a new area)
-//    public void updateDisplayMap(){}
-
 //    REQUIRES: given x, y are currently being moved to
 //    MODIFIES: this
 //    EFFECTS: reveal any fog tiles immediately around given x,y on mapDisplay
     public void revealTiles(int x, int y) {
-//        todo stub
-    }
-
-//    EFFECTS: returns true if char is on the winning tile
-    public void isWin(int x, int y){
 //        todo stub
     }
 

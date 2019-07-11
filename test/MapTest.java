@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MapTest {
     private Map map;
@@ -27,8 +29,8 @@ public class MapTest {
 
     @Test
     void isTileFloorTest(){
-        assertEquals(false,map.isTileFloor(6, 1));
-        assertEquals(true,map.isTileFloor(7, 1));
+        assertFalse(map.isTileFloor(6, 1));
+        assertTrue(map.isTileFloor(7, 1));
     }
 
     @Test
@@ -40,11 +42,33 @@ public class MapTest {
     }
 
     @Test
-    void revealTilesTest(){}
+    void revealTilesMiddleTest(){
+        map.revealTiles(5,4);
+        assertEquals(,map.getMapDisplay());
+    }
 
     @Test
-    void isWinTest(){}
+    void revealTilesNWTest() {
+        map.revealTiles(0,0);
+    }
     @Test
+    void revealTilesNETest(){
+        map.revealTiles(20,0);
+
+    }
+    @Test
+    void revealTilesSWTest(){
+        map.revealTiles(0,9);
+
+    }
+    @Test
+    void revealTilesSETest(){
+        map.revealTiles(20,9);
+
+    }
+
+
+        @Test
     void printDisplayMapTest(){}
 
     @Test

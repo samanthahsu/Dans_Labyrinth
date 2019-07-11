@@ -13,6 +13,26 @@ public class Main {
 
     private static final int continueGame = 0;
 
+    private static final String default_map =
+            "@@@@@@@@@ @@@@@@@@@@@"+
+                    "@     @ @ @       @ @"+
+                    "@ @ @ @ @   @@@ @ @ @"+
+                    "@@@ @ @ @@@@@ @ @ @ @"+
+                    "@   @   @   @   @ @ @"+
+                    "@ @@@@@@@ @ @@@@@   @"+
+                    "@ @ @     @   @     @"+
+                    "@ @   @  @@ @ @ @@@@@"+
+                    "@ @@@@@@  @ @ @ @   @"+
+                    "@         @@@       @"+
+                    "@@@@@@@@@@@@@@@@@@@@@";
+    private static final int default_width = 21; // hardcoded for now just to see it working
+    private static final int default_height = 10;
+    private static final int default_startX = 3;
+    private static final int default_startY = 7;
+    private static final int winX = 9;
+    private static final int winY = 0;
+
+
     public static void main(String[] args) {
         MazeGame game = new MazeGame();
         int gameOver = 0; // 0=keep going, 1=quit, 2=death, 3=victory
@@ -22,7 +42,7 @@ public class Main {
         Avatar avatar = new Avatar();
         Scanner scanner = new Scanner(System.in);
 
-        Map map = new Map();
+        Map map = new Map(default_height, default_width, default_map, default_startX, default_startY);
 
         String input;
         game.printWelcomeText();

@@ -10,10 +10,33 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MapTest {
     private Map map;
+    private static final String test_map =
+            "@@@ @@"+
+            "@@ @ @"+
+            "@   @@"+
+            "@@@@@@";
+    private static final int test_height = 4;
+    private static final int test_width = 6;
+    private static final int test_startX = 1;
+    private static final int test_startY = 2;
+    private static final int winX = 3;
+    private static final int winY = 0;
 
     @BeforeEach
     void beforeEachTest(){
-        map = new Map();
+        map = new Map(test_height, test_width, test_map, test_startX, test_startY);
+    }
+
+    private char[][] makeExpectedMap(String expectedMap){
+        char[][] expected = new char[test_height][test_width];
+        int i = 0;
+        for (char[] tileset: expected) {
+            for(char tile: tileset){
+                tile = expectedMap.charAt(i);
+                i++;
+            }
+        }
+        return expected;
     }
 
     @Test
@@ -29,21 +52,25 @@ public class MapTest {
 
     @Test
     void isTileFloorTest(){
-        assertFalse(map.isTileFloor(6, 1));
-        assertTrue(map.isTileFloor(7, 1));
+        assertFalse(map.isTileFloor(0, 1));
+        assertTrue(map.isTileFloor(2, 2));
     }
 
     @Test
     void updateDisplayTileTest(){
         map.updateDisplayTile(0, 0, 'G');
-        char[][] expected =
-
-        map.getMapDisplay();
+        String expMapStr =
+                "G@@ @@"+
+                "@@ @ @"+
+                "@   @@"+
+                "@@@@@@";
+        char[][] expMap = makeExpectedMap(expMapStr);
+        assertEquals(expMap,map.getMapDisplay());
     }
 
     @Test
     void revealTilesMiddleTest(){
-        map.revealTiles(5,4);
+        map.revealTiles(2,2);
         assertEquals(,map.getMapDisplay());
     }
 

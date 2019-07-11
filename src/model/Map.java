@@ -10,44 +10,25 @@ public class Map {
     private static final char c = '*';
     private static final char fog = '#';
 
-    private static final String default_map =
-            "@@@@@@@@@ @@@@@@@@@@@"+
-            "@     @ @ @       @ @"+
-            "@ @ @ @ @   @@@ @ @ @"+
-            "@@@ @ @ @@@@@ @ @ @ @"+
-            "@   @   @   @   @ @ @"+
-            "@ @@@@@@@ @ @@@@@   @"+
-            "@ @ @     @   @     @"+
-            "@ @   @  @@ @ @ @@@@@"+
-            "@ @@@@@@  @ @ @ @   @"+
-            "@         @@@       @"+
-            "@@@@@@@@@@@@@@@@@@@@@";
-    private static final int default_width = 21; // hardcoded for now just to see it working
-    private static final int default_height = 10;
-    private static final int default_startX = 3;
-    private static final int default_startY = 7;
-    private static final int winX = 9;
-    private static final int winY = 0;
-
     private char[][] map; //    stores the 2D matrix of the full map (not modified after)
     private char[][] mapDisplay; // stores what the user can see of the map (character, fog, walls)
 
 //    EFFECT: constructs map with height of size m, width of size n, filling it with default flooring
-    public Map(){
-        initMap();
-        initMapDisplay();
-        initAvatar();
+    public Map(int h, int w, String mapString, int startX, int startY){
+        initMap(h, w, mapString);
+        initMapDisplay(h, w);
+        initAvatar(startX, startY);
     }
 //    MODIFIES: mapDisplay
-//    EFFECTS:places avatar icon on map, revealing adjacent tiles
-    private void initAvatar() {
+//    EFFECTS:places avatar at startX, startY, revealing adjacent tiles
+    private void initAvatar(int startX, int startY) {
 //      todo stub
     }
 
 //    MODIFIES: this
 //    EFFECT: fills mapDisplay with fog tiles
-    private void initMapDisplay(){
-        mapDisplay = new char[default_height][default_width];
+    private void initMapDisplay(int h, int w){
+        mapDisplay = new char[h][w];
         for (char[] tileset: map) {
             for(char tile: tileset){
                 tile = fog;
@@ -56,13 +37,13 @@ public class Map {
     }
 
 //    MODIFIES this
-//    EFFECT store default_map into map
-    private void initMap(){
-        map = new char[default_height][default_width];
+//    EFFECT store mapString into map
+    private void initMap(int h, int w, String mapString){
+        map = new char[h][w];
         int i = 0;
         for (char[] tileset: map) {
             for(char tile: tileset){
-                tile = default_map.charAt(i);
+                tile = mapString.charAt(i);
                 i++;
             }
         }

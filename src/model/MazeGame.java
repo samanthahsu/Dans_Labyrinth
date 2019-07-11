@@ -28,7 +28,7 @@ public class MazeGame {
                 System.out.println("hello darkness.");
                 break;
             case "m":
-                System.out.println("the map");
+                map.printDisplayMap();
                 break;
             case "h":
                 printHelp();

@@ -1,4 +1,3 @@
-
 // todo write tests for every goddamn function that may or may not exist
 
 import model.Map;
@@ -19,6 +18,14 @@ public class MapTest {
     void ConstructorTest(){}
 
     @Test
+    void initAvatarTest(){}
+
+    @Test
+    void initMapDisplayTest(){}
+    @Test
+    void initMapTest(){}
+
+    @Test
     void isTileFloorTest(){
         assertEquals(false,map.isTileFloor(6, 1));
         assertEquals(true,map.isTileFloor(7, 1));
@@ -34,5 +41,14 @@ public class MapTest {
 
     @Test
     void revealTilesTest(){}
+
+    @Test
+    void isWinTest(){}
+    @Test
+    void printDisplayMapTest(){}
+
+    @Test
+    void printMovePlaceholderTest(){}
+
 
 }

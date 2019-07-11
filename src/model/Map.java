@@ -30,43 +30,57 @@ public class Map {
     private char[][] map; //    stores the 2D matrix of the full map (not modified after)
     private char[][] mapDisplay; // stores what the user can see of the map (character, fog, walls)
 
-// create different maps for different rooms
 //    EFFECT: constructs map with height of size m, width of size n, filling it with default flooring
     public Map(){
+        initMap();
+        initMapDisplay();
+        initAvatar();
+    }
+//    MODIFIES: mapDisplay
+//    EFFECTS:places avatar icon on map, revealing adjacent tiles
+    private void initAvatar() {
+//      todo stub
+    }
 
+//    MODIFIES: this
+//    EFFECT: fills mapDisplay with fog tiles
+    private void initMapDisplay(){
+        mapDisplay = new char[default_height][default_width];
+        for (char[] tileset: map) {
+            for(char tile: tileset){
+                tile = fog;
+            }
+        }
+    }
+
+//    MODIFIES this
+//    EFFECT store default_map into map
+    private void initMap(){
         map = new char[default_height][default_width];
         int i = 0;
         for (char[] tileset: map) {
             for(char tile: tileset){
                 tile = default_map.charAt(i);
-                        i++;
+                i++;
             }
         }
-
-        mapDisplay = new char[default_height][default_width];
-        for (char[] tileset: map) {
-            for(char tile: tileset){
-                tile = floor;
-            }
-        }
-//      todo initialize avatar to starting position on mapDisplay
     }
 
 //    **GETTER**
+
     public char[][] getMapDisplay() {
         return mapDisplay;
     }
 
-    //    REQUIRES: x and y are the coordinates to be moved to
-//    EFFECTS: returns true if tile of requested index is floor, otherwise false
+//    REQUIRES: x and y are the coordinates to be moved to
+//    EFFECTS: returns true if tile of requested index is floor in map, otherwise false
     public boolean isTileFloor(int x, int y){
 //        todo stub
         return false;}
-    //portions are revealed as things are explored???
 
 //    REQUIRES: x, y are within bounds of the matrix
 //    MODIFIES: this
-//    EFFECTS: replaces character at index x,y with c
+//    EFFECTS: replaces character at index x,y with c in mapDisplay
     public void updateDisplayTile(int x, int y, char c) {
 //        todo stub
     }
@@ -86,7 +100,7 @@ public class Map {
 //        todo stub
     }
 
-//    EFFECTS: returns true if char is on winning tile
+//    EFFECTS: returns true if char is on the winning tile
     public void isWin(int x, int y){
 //        todo stub
     }
@@ -97,7 +111,7 @@ public class Map {
 //        todo stub
         return false;}
 
-    //todo delete this
+//  todo delete this
 //    EFFECTS: prints silly statements when you try to move to a wall tile
     public void printMovePlaceholder(String dir, Random ran) {
         switch(ran.nextInt(5)){

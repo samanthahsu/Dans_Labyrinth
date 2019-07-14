@@ -1,10 +1,12 @@
 package ui;
 
 //scanner code from B4 little calculator
+// this class handles the overview
 
 import model.Avatar;
 import model.Map;
 import model.MazeGame;
+import model.SaveAndLoad;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -36,29 +38,30 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Random ran = new Random();
+
+        SaveAndLoad svl = new SaveAndLoad();
         MazeGame game = new MazeGame();
 
-        int gameOver = 0; // 0=keep going, 1=quit, 2=death, 3=victory
-        gameOver = game.runHomeScreen(scanner);
+        int gameState = 0; // 0=keep going, 1=quit, 2=death, 3=victory, 5=new game, 6=loadgame
+        gameState = game.runHomeScreen(scanner, svl);
+
 
         Avatar ava = new Avatar(default_startY, default_startX);
         Map map = new Map(default_height, default_width, default_map, default_startY, default_startX, winY,winX);
 
         String input;
 
-
-
-        while (gameOver==continueGame) {
+//        while loop for when the game is being played
+        while (gameState==continueGame) {
 //            map.printTileDescription(); // each tile is a room???? doesn't make too much sense
             input = scanner.nextLine();
-            gameOver = game.execute(input, map, ran, ava, scanner); // each move is one tick
+            gameState = game.execute(input, map, ran, ava, scanner, svl); // each move is one tick
 
             if(map.isWin(ava)){
                 System.out.println("CONGRATS YOU WON!");
             }
 //            victory = check if victory;
         }
-        game.printEndText(gameOver);
-
+        game.printEndText(gameState);
     } // END OF MAIN
 }

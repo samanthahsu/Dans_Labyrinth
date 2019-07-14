@@ -35,8 +35,8 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        MazeGame game = new MazeGame();
         Random ran = new Random();
+        MazeGame game = new MazeGame();
 
         int gameOver = 0; // 0=keep going, 1=quit, 2=death, 3=victory
         gameOver = game.runHomeScreen(scanner);

@@ -8,13 +8,19 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class MazeGame {
+
     private static final int continueGame = 0;
     private static final int quitGame = 1;
     private static final int failGame = 2;
     private static final int winGame = 3;
     private static final int loopHome = 4;
-    private static final String FILE_PATH = "C:\\Users\\shsu8\\IdeaProjects\\cpsc210\\project_sam7891\\saves\\";
 
+    private static final String FILE_PATH = "C:\\Users\\shsu8\\IdeaProjects\\cpsc210\\project_sam7891\\saves\\";
+    private static final String FILE_DIMENSION_MARKER = "<dimensions>";
+    private static final String FILE_MAP_MARKER = "<map>";
+    private static final String FILE_MAPDISPLAY_MARKER = "<mapDisplay>";
+    private static final String FILE_WINCOORD_MARKER = "<winCoord>";
+    private static final String FILE_AVACOORD_MARKER = "<avaCoord>";
 
     //EFFECT: chooses which map function to call. returns gameState
     public int execute(String input, Map map, Random ran, Avatar avatar, Scanner scnr) {
@@ -36,7 +42,7 @@ public class MazeGame {
                 printHelp();
                 break;
             case "q":
-                gameState = handleQuit(scnr, map);
+                gameState = handleQuit(scnr, map, avatar);
                 break;
             default:
                 System.out.println("Confusion ensues.");
@@ -136,13 +142,13 @@ public class MazeGame {
 //      save: saves map and status as single file, named by user
 //      cancel: continues the game
 //      quit: quit the game without saving
-    private int handleQuit(Scanner scnr, Map map) {
+    private int handleQuit(Scanner scnr, Map map, Avatar ava) {
         System.out.println
                 ("Enter 's' to save, 'c' to cancel or 'q' again to quit without saving.");
         switch (scnr.nextLine()) {
             case "s":
                 System.out.println("What would you like to name your file?");
-                saveGame(scnr.nextLine(Map map));
+                saveGame(scnr.nextLine(), map, ava);
                 break;
             case "c":
                 System.out.println("You continue...");
@@ -156,12 +162,12 @@ public class MazeGame {
 
 //    EFFECTS: saves current game state into a file (either new or overwritten)
 //      called: "nm.text"
-    private void saveGame(String nm, Map map) {
+    private void saveGame(String nm, Map map, Avatar ava) {
 
         try (FileWriter fileWriter = new FileWriter
                 (FILE_PATH +nm)){
-            fileWriter.write(makeFile(map));
-            System.out.println("Saved to file: "+nm);
+            fileWriter.write(makeFile(map, ava));
+            System.out.println("Saved to file: " + nm);
         } catch(Exception e){
             e.printStackTrace();
             System.out.println("Unable to save!");
@@ -169,14 +175,36 @@ public class MazeGame {
     }
 
 //    EFFECTS: compiles all information to be saved into a string
-    private String makeFile(Map map) {
-        return Integer.toString(map.getHeight()) + '\n' +
-                Integer.toString(map.getWidth() + '\n' +
-                        charMatrixtoString(map.getMap()));
+    private String makeFile(Map map, Avatar ava) {
+        System.out.println("making file to be saved...");
+        return FILE_DIMENSION_MARKER + '\n' +
+                Integer.toString(map.getHeight()) + '\n' +
+                Integer.toString(map.getWidth()) + '\n' +
+                FILE_DIMENSION_MARKER + '\n' +
+                FILE_MAP_MARKER + '\n' +
+                charMatrixtoString(map.getMap()) + '\n' +
+                FILE_MAP_MARKER +
+                FILE_MAPDISPLAY_MARKER + '\n' +
+                charMatrixtoString(map.getMapDisplay()) + '\n' +
+                FILE_MAPDISPLAY_MARKER +
+                FILE_WINCOORD_MARKER + '\n' +
+                Integer.toString(map.getWinY()) + '\n' +
+                Integer.toString(map.getWinX()) + '\n' +
+                FILE_WINCOORD_MARKER + '\n' +
+                FILE_AVACOORD_MARKER + '\n' +
+                Integer.toString(ava.getY()) + '\n' +
+                Integer.toString(ava.getX()) + '\n' +
+                FILE_AVACOORD_MARKER;
     }
 
-    private String charMatrixtoString(char[][] c) {
-
+//    EFFECTS: converts cha[][] to string
+    private String charMatrixtoString(char[][] chars) {
+        String temp = "";
+        for (char[] charArray : chars) {
+            temp.concat(new String(charArray) + "\n");
+        }
+        System.out.println("converting map to string...");
+        return temp;
     }
 
 

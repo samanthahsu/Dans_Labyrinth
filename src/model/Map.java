@@ -100,6 +100,14 @@ public class Map {
         return width;
     }
 
+    public int getWinY() {
+        return winY;
+    }
+
+    public int getWinX() {
+        return winX;
+    }
+
     //    EFFECTS: return true if index within bounds of map
     public boolean isIndexValid(int y, int x){
         return y >= 0 && x >= 0 && y < height && x < width;

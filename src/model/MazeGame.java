@@ -1,6 +1,9 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,6 +12,8 @@ public class MazeGame {
     private static final int quitGame = 1;
     private static final int failGame = 2;
     private static final int winGame = 3;
+    private static final int loopHome = 4;
+    private static final String FILE_PATH = "C:\\Users\\shsu8\\IdeaProjects\\cpsc210\\project_sam7891\\saves\\";
 
 
     //EFFECT: chooses which map function to call. returns gameState
@@ -31,7 +36,7 @@ public class MazeGame {
                 printHelp();
                 break;
             case "q":
-                gameState = handleQuit(scnr);
+                gameState = handleQuit(scnr, map);
                 break;
             default:
                 System.out.println("Confusion ensues.");
@@ -42,12 +47,64 @@ public class MazeGame {
 
 //    **PRINTING**
 
-    //    EFFECT: prints welcome dialogue (or nothing) >>launch straight in?
-    public void printWelcomeText() {
-//        todo: not final text
+    //    EFFECT: prints welcome dialogue, and handles options to start new game,
+    //      load saved game, and help
+    public int runHomeScreen(Scanner scnr) {
+        int gameState = loopHome;
         System.out.println("**WELCOME TO THE NEXT INSTALLMENT OF...**"+'\n'+
-                "Some kind of game maybe?" +'\n'+
-                "Enter 'h' for help");
+                "Some kind of game maybe?"+"\n"+
+                "====================================");
+
+        while (gameState == loopHome) {
+            System.out.println( "Enter 'n' for new game, 'l' to load a saved " +
+                    "game, 'h' for more controls, 'q' to end program");
+            gameState = homeExecute(scnr.nextLine(), scnr);
+        }
+
+        return gameState;
+    }
+
+//    EFFECTS: handles available commands from the home screen
+    private int homeExecute(String input, Scanner scnr) {
+        switch (input) {
+            case "n":
+                System.out.println("Starting new game...");
+                break;
+            case "l":
+                System.out.println("Enter name of saved file: ");
+                loadFile(scnr);
+                break;
+            case "h":
+                printHelp();
+                return loopHome;
+            case "q":
+                return quitGame;
+                default:
+                    System.out.println("Command not available on home screen.");
+                    return loopHome;
+        }
+        return continueGame;
+    }
+
+//    EFFECTS: loads the file if given named file exists,
+//      otherwise does nothing and sets loops around
+//    https://www.journaldev.com/709/java-read-file-line-by-line
+    private void loadFile(Scanner scnr) {
+        BufferedReader reader;
+        String nm = scnr.nextLine();
+        try {
+            reader = new BufferedReader((new FileReader(FILE_PATH+nm)));
+            String line = reader.readLine();
+            while (line != null) {
+                System.out.println(line);
+//                todo do stuff here
+                line = reader.readLine(); // read next line
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("File loading failed.");
+        }
     }
 
     // EFFECT: print most controls
@@ -79,13 +136,13 @@ public class MazeGame {
 //      save: saves map and status as single file, named by user
 //      cancel: continues the game
 //      quit: quit the game without saving
-    private int handleQuit(Scanner scnr) {
+    private int handleQuit(Scanner scnr, Map map) {
         System.out.println
                 ("Enter 's' to save, 'c' to cancel or 'q' again to quit without saving.");
         switch (scnr.nextLine()) {
             case "s":
                 System.out.println("What would you like to name your file?");
-                saveGame(scnr.nextLine());
+                saveGame(scnr.nextLine(Map map));
                 break;
             case "c":
                 System.out.println("You continue...");
@@ -99,16 +156,27 @@ public class MazeGame {
 
 //    EFFECTS: saves current game state into a file (either new or overwritten)
 //      called: "nm.text"
-    private void saveGame(String nm) {
+    private void saveGame(String nm, Map map) {
 
         try (FileWriter fileWriter = new FileWriter
-                ("C:\\Users\\shsu8\\IdeaProjects\\cpsc210\\project_sam7891\\saves\\"+nm)){
-            fileWriter.write("replace string");
+                (FILE_PATH +nm)){
+            fileWriter.write(makeFile(map));
             System.out.println("Saved to file: "+nm);
         } catch(Exception e){
             e.printStackTrace();
             System.out.println("Unable to save!");
         }
+    }
+
+//    EFFECTS: compiles all information to be saved into a string
+    private String makeFile(Map map) {
+        return Integer.toString(map.getHeight()) + '\n' +
+                Integer.toString(map.getWidth() + '\n' +
+                        charMatrixtoString(map.getMap()));
+    }
+
+    private String charMatrixtoString(char[][] c) {
+
     }
 
 

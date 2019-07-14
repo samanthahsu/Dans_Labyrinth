@@ -17,20 +17,35 @@ public class Map {
     private int winY;
     private int winX;
 
-    //    REQUIRES: mapString is of length h multiplied by w,
+    //    REQUIRES: cleanMap is of length h multiplied by w,
     //      startX and startY are indexes within the matrix of size h,w
     //    EFFECTS: sets height, width, winY, and winX
-    //      fills map with mapString
+    //      fills map with cleanMap
     //      fills mapDisplay with fog
-    public Map(int h, int w, String mapString, int startY, int startX, int winY,
+    public Map(int h, int w, String cleanMap, int startY, int startX, int winY,
                int winX){
         height = h;
         width = w;
         this.winY = winY;
         this.winX = winX;
-        initMap(mapString);
+        initMap(cleanMap);
         initMapDisplay();
         initAvatar(startY, startX);
+    }
+
+//    EFFECTS: sets height, width, winY, and winX
+//          fills map with mapString
+//          fills mapDisplay with savedMap
+//          places ava at saveY saveX
+    public Map(int h, int w, String cleanMap, String savedMap, int saveY, int saveX, int winY,
+               int winX){
+        height = h;
+        width = w;
+        this.winY = winY;
+        this.winX = winX;
+        initMap(cleanMap);
+        initMapDisplay(savedMap);
+        initAvatar(saveY, saveX);
     }
 
     //    MODIFIES: this
@@ -54,6 +69,13 @@ public class Map {
                 mapDisplay[i][j] = fog;
             }
         }
+    }
+
+//    MODIFIES: this
+//    REQUIRES: given string is fitting of given height and width
+//    EFFECTS: fills mapDisplay according to state
+    private void initMapDisplay(String state){
+
     }
 
     //    MODIFIES: mapDisplay

@@ -34,16 +34,19 @@ public class Main {
 
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         MazeGame game = new MazeGame();
         Random ran = new Random();
+
+        int gameOver = 0; // 0=keep going, 1=quit, 2=death, 3=victory
+        gameOver = game.runHomeScreen(scanner);
+
         Avatar ava = new Avatar(default_startY, default_startX);
-        Scanner scanner = new Scanner(System.in);
         Map map = new Map(default_height, default_width, default_map, default_startY, default_startX, winY,winX);
 
         String input;
-        int gameOver = 0; // 0=keep going, 1=quit, 2=death, 3=victory
 
-        game.printWelcomeText();
+
 
         while (gameOver==continueGame) {
 //            map.printTileDescription(); // each tile is a room???? doesn't make too much sense

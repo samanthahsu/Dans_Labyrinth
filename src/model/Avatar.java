@@ -16,45 +16,51 @@ public class Avatar {
     public int getStatus() {
         return status;
     }
+
     public void setStatus(int status) {
         this.status = status;
     }
 
-//    MODIFIES: map
-//    EFFECT: checks if move direction is valid, move character to designated position and reveal tiles in scope
-    public void moveAvaN(Map map){
-        moveAva(y-1, x, map);
-    }
-//    MODIFIES: map
-//    EFFECT: checks if move direction is valid, move character to designated position and reveal tiles in scope
-    public void moveAvaW(Map map){
-        moveAva(y+1, x, map);
-    }
-//    MODIFIES: map
-//    EFFECT: checks if move direction is valid, move character to designated position and reveal tiles in scope
-    public void moveAvaE(Map map){
-        moveAva(y, x+1, map);
-    }
-//    MODIFIES: map
-//    EFFECT: checks if move direction is valid, move character to designated position and reveal tiles in scope
-    public void moveAvaS(Map map){
-        moveAva(y, x-1, map);
+    public int getY() {
+        return y;
     }
 
-//    MODIFIES: map
+    public int getX() {
+        return x;
+    }
+
+    //    MODIFIES: map
 //    EFFECTS: if y,x can be moved to, move ava, if not, print text response
-    private void moveAva(int y, int x, Map map){
-        if(map.isTileFloor(y, x)) {
+    public void moveAva(String command, Map map){
+        switch (command){
+            case "n":
+                moveAvaHelper(y-1, x, map);
+                break;
+            case "s":
+                moveAvaHelper(y+1, x, map);
+                break;
+            case "e":
+                moveAvaHelper(y, x+1, map);
+                break;
+            case "w":
+                moveAvaHelper(y, x-1, map);
+                break;
+        }
+    }
+//    MODIFIES: this
+//    EFFECTS: if y,x is can be moved, move ava and update ava coordinates, else print feedback text
+    private void moveAvaHelper(int y, int x, Map map) {
+        if (map.isTileFloor(y, x)) {
             map.updateTileDisp(y, x, ava_char);
             map.updateTileDisp(y, x, ' ');
             map.revealSurroundings(y, x);
+            this.y = y;
+            this.x = x;
+        } else {
+//            todo placeholder text
+            System.out.println("ouch");
+//            map.printMovePlaceholder();
         }
-
-    }
-
-    //    EFFECTS: returns true if char is on the winning tile
-    public void isWin(int x, int y){
-//        todo stub
     }
 
 }

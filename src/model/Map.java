@@ -14,15 +14,20 @@ public class Map {
     private char[][] mapDisplay; // stores what the user can see of the map (character, fog, walls)
     private int height;
     private int width;
+    private int winY;
+    private int winX;
 
     //    REQUIRES: mapString is of length h multiplied by w,
     //      startX and startY are indexes within the matrix of size h,w
-    //    EFFECTS: sets height and width
+    //    EFFECTS: sets height, width, winY, and winX
     //      fills map with mapString
     //      fills mapDisplay with fog
-    public Map(int h, int w, String mapString, int startY, int startX){
+    public Map(int h, int w, String mapString, int startY, int startX, int winY,
+               int winX){
         height = h;
         width = w;
+        this.winY = winY;
+        this.winX = winX;
         initMap(mapString);
         initMapDisplay();
         initAvatar(startY, startX);
@@ -106,6 +111,11 @@ public class Map {
         checkAndUpdateTileDisp(y, x+1);
         checkAndUpdateTileDisp(y-1, x);
         checkAndUpdateTileDisp(y+1, x);
+    }
+
+    //    EFFECTS: returns true if ava is on the winning tile
+    public boolean isWin(Avatar ava){
+        return ava.getY() == winY && ava.getX() == winX;
     }
 
     //    *************PRINTING*************

@@ -3,6 +3,7 @@ package model;
 import java.util.Random;
 import java.util.Scanner;
 
+// Main hub, manages all game processes
 public class MazeGame {
 
     private static final int continueGame = 0;
@@ -11,9 +12,37 @@ public class MazeGame {
     private static final int winGame = 3;
     private static final int loopHome = 4;
 
+    int gameState = 0; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
+    Avatar ava;
+    Map map;
+    Scanner scnr = new Scanner(System.in);
+    Random ran = new Random();
+    SaveAndLoad svl = new SaveAndLoad();
 
-    //EFFECT: chooses which map function to call. returns gameState
-    public int execute(String input, Map map, Random ran, Avatar avatar, Scanner scnr, SaveAndLoad svl) {
+
+    //  EFFECTS: runs the main body of the game
+    public void runGame(){
+        ava = new Avatar(default_startY, default_startX);
+        map = new Map(default_height, default_width, default_map, default_startY, default_startX, winY,winX);
+
+        String input;
+
+//        while loop for when the game is being played
+        while (gameState==continueGame) {
+//            map.printTileDescription(); // each tile is a room???? doesn't make too much sense
+            input = scanner.nextLine();
+            gameState = game.execute(input, map, ran, ava, scanner, svl); // each move is one tick
+
+            if(map.isWin(ava)){
+                System.out.println("CONGRATS, YOU WON!");
+            }
+//            victory = check if victory;
+        }
+
+    }
+
+    // EFFECTS: chooses which Map functions to call. returns gameState.
+    public int execute(String input) {
         int gameState = 0;
         switch (input) {
             case "n":
@@ -41,11 +70,8 @@ public class MazeGame {
         return gameState;
     }
 
-//    **PRINTING**
-
-    //    EFFECT: prints welcome dialogue, and handles options to start new game,
-    //      load saved game, and help
-    public int runHomeScreen(Scanner scnr, SaveAndLoad svl) {
+    //    EFFECTS: prints welcome dialogue, and handles homeScreen commands
+    public int runHomeScreen() {
         int gameState = loopHome;
         System.out.println("**WELCOME TO THE NEXT INSTALLMENT OF...**"+'\n'+
                 "Some kind of game maybe?"+"\n"+
@@ -60,8 +86,12 @@ public class MazeGame {
         return gameState;
     }
 
-//    EFFECTS: handles available commands from the home screen
-    private int homeExecute(String input, Scanner scnr, SaveAndLoad svl) {
+//    MODIFIES: this
+//    EFFECTS: handles available commands from the home screen, which are:
+//      start new game: default map is loaded, and calls runGame
+//      load saved game: selected mazeGame file is loaded, calls runGame
+//      help: prints help dialogue
+    private int homeExecute(String input) {
         switch (input) {
             case "n":
                 System.out.println("Starting new game...");
@@ -82,8 +112,7 @@ public class MazeGame {
         return continueGame;
     }
 
-
-    // EFFECT: print most controls
+    // EFFECT: print user controls and other info
     private void printHelp(){
 //        todo: not final text
         System.out.println("Enter n, s, e, or w to move North, South, East, or West respectively."+'\n'+
@@ -91,9 +120,10 @@ public class MazeGame {
                 "'h' to get help dialogue"+'\n'+
                 "'q' to quit");
     }
+
     // REQUIRES: gameOver is in the interval [1, 3]
     // EFFECT: prints end text based on int gameOver
-    public void printEndText(int gameOver) {
+    public void printEndText(int gameState) {
 //        todo: not final text
         switch (gameOver) {
             case quitGame:
@@ -112,7 +142,7 @@ public class MazeGame {
 //      save: saves map and status as single file, named by user
 //      cancel: continues the game
 //      quit: quit the game without saving
-    private int handleQuit(Scanner scnr, Map map, Avatar ava, SaveAndLoad svl) {
+    private int handleQuit() {
         System.out.println
                 ("Enter 's' to save, 'c' to cancel or 'q' again to quit without saving.");
         switch (scnr.nextLine()) {
@@ -129,49 +159,5 @@ public class MazeGame {
             }
         return continueGame;
     }
-
-
-/*
-        String currentPath = null;
-        try {
-            currentPath = new File(".").getCanonicalPath();
-            System.out.println("Current directory path using canonical path method :- " + currentPath);
-
-            String usingSystemProperty = System.getProperty("user.dir");
-            System.out.println("Current directory path using system property:- " + usingSystemProperty);
-
-        } catch (IOException e) {
-            System.out.println("IOException Occured" + e.getMessage());
-        }
-
-        File file = new File(currentPath);
-        if (file.createNewFile()) {
-            System.out.println("File is created.");
-        } else {
-            System.out.println("File already exists");
-        }
-
-
-        BufferedWriter out = null;
-        String fileName =
-        String str = "test";
-        try {
-            out = new BufferedWriter(new FileWriter(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert out != null;
-        try {
-            out.write(str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-*/
 
 }

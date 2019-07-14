@@ -22,6 +22,7 @@ class AvatarTest {
 
     Avatar a;
 
+//    todo GET THIS SHIT WORKING SO WE CAN TEST THINGS MORE EASILY
 
     @BeforeEach
     void BeforeEach(){

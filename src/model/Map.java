@@ -16,6 +16,7 @@ public class Map {
     private int width;
     private int winY;
     private int winX;
+    private Avatar ava;
 
     //    REQUIRES: cleanMap is of length h multiplied by w,
     //      startX and startY are indexes within the matrix of size h,w
@@ -81,7 +82,7 @@ public class Map {
     //    MODIFIES: mapDisplay
     //    EFFECTS: places avatar at startY, startX revealing adjacent tiles
     private void initAvatar(int startY, int startX) {
-        Avatar ava = new Avatar(startY, startX);
+        ava = new Avatar(startY, startX);
         updateTileDisp(startY, startX, c);
         revealSurroundings(startY, startX);
     }
@@ -106,6 +107,10 @@ public class Map {
 
     public int getWinX() {
         return winX;
+    }
+
+    public Avatar getAva() {
+        return ava;
     }
 
     //    EFFECTS: return true if index within bounds of map

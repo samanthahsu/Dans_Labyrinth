@@ -5,9 +5,9 @@ public class Avatar {
     private int status = 0; //health bar of sorts: 0=healthy, 1=dying, 2=dead
     private int y;
     private int x; //tracks position of avatar
-//    private ArrayList<Item> items = new ArrayList<>(); // for when player has weapons
+//    todo: private ArrayList<Item> items = new ArrayList<>(); // for when player has weapons
 
-//    EFFECTS: constructs obj setting it's coordinates
+//    EFFECTS: constructs avatar setting it's coordinates
     public Avatar(int setY, int setX){
         y=setY;
         x=setX;
@@ -15,10 +15,6 @@ public class Avatar {
 
     public int getStatus() {
         return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public int getY() {
@@ -29,7 +25,11 @@ public class Avatar {
         return x;
     }
 
-    //    MODIFIES: map
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+//    MODIFIES: map
 //    EFFECTS: if y,x can be moved to, move ava, if not, print text response
     public void moveAva(String command, Map map){
         switch (command){
@@ -47,6 +47,7 @@ public class Avatar {
                 break;
         }
     }
+
 //    MODIFIES: this
 //    EFFECTS: if y,x is can be moved, move ava and update ava coordinates, else print feedback text
     private void moveAvaHelper(int y, int x, Map map) {

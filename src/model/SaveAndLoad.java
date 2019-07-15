@@ -107,9 +107,9 @@ public class SaveAndLoad {
                 Integer.toString(map.getHeight()) + '\n' +
                 Integer.toString(map.getWidth()) + '\n' +
                 FILE_MAP_MARKER + '\n' +
-                charMatrixToString(map.getMap()) + '\n' +
+                charMatrixToString(map.getMap()) +
                 FILE_MAP_DISPLAY_MARKER + '\n' +
-                charMatrixToString(map.getMapDisplay()) + '\n' +
+                charMatrixToString(map.getMapDisplay()) +
                 FILE_WIN_COORD_MARKER + '\n' +
                 Integer.toString(map.getWinY()) + '\n' +
                 Integer.toString(map.getWinX()) + '\n' +
@@ -122,7 +122,7 @@ public class SaveAndLoad {
     private String charMatrixToString(char[][] chars) {
         String temp = "";
         for (char[] charArray : chars) {
-            temp.concat(new String(charArray) + "\n");
+            temp = temp.concat(new String(charArray) + "\n");
         }
         System.out.println("converting map to string...");
         return temp;

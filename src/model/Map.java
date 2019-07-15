@@ -37,16 +37,16 @@ public class Map {
 //    EFFECTS: sets height, width, winY, and winX
 //          fills map with mapString
 //          fills mapDisplay with savedMap
-//          places ava at saveY saveX
-    public Map(int h, int w, String cleanMap, String savedMap, int saveY, int saveX, int winY,
-               int winX){
+//          places ava at startY startX
+    Map(int h, int w, String cleanMap, String savedMap, int startY, int startX, int winY,
+    int winX){
         height = h;
         width = w;
         this.winY = winY;
         this.winX = winX;
         initMap(cleanMap);
         initMapDisplay(savedMap);
-        initAvatar(saveY, saveX);
+        initAvatar(startY, startX);
     }
 
     //    MODIFIES: this
@@ -61,7 +61,7 @@ public class Map {
             }
         }
     }
-    //    MODIFIES: this
+    //    MODIFIES: this todo combine this and initMap for efficiency
     //    EFFECTS: fills mapDisplay with fog tiles
     private void initMapDisplay(){
         mapDisplay = new char[height][width];
@@ -76,6 +76,14 @@ public class Map {
 //    REQUIRES: given string is fitting of given height and width
 //    EFFECTS: fills mapDisplay according to state
     private void initMapDisplay(String state){
+        mapDisplay = new char[height][width];
+        int strIndex = 0;
+        for (int i = 0; i < height; i++)  {
+            for (int j = 0; j < width; j++) {
+                mapDisplay[i][j] = state.charAt(strIndex);
+                strIndex++;
+            }
+        }
 
     }
 

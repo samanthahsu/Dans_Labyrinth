@@ -6,50 +6,88 @@ import java.util.Scanner;
 // Main hub, manages all game processes
 public class MazeGame {
 
+
     private static final int continueGame = 0;
     private static final int quitGame = 1;
     private static final int failGame = 2;
     private static final int winGame = 3;
     private static final int loopHome = 4;
 
-    int gameState = 0; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
-    Avatar ava;
+    Integer gameState = loopHome; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
     Map map;
     Scanner scnr = new Scanner(System.in);
     Random ran = new Random();
     SaveAndLoad svl = new SaveAndLoad();
 
+    //    EFFECTS: prints welcome dialogue, and handles homeScreen commands
+    public void runHomeScreen() {
+        System.out.println("**WELCOME TO THE NEXT INSTALLMENT OF...**"+'\n'+
+                "Some kind of game maybe?"+"\n"+
+                "====================================");
+
+        while (gameState == loopHome) {
+            System.out.println( "Enter 'n' for new game, 'l' to load a saved " +
+                    "game, 'h' for more controls, 'q' to end program");
+            homeExecute(scnr.nextLine());
+        }
+    }
+
+//    MODIFIES: this
+//    EFFECTS: handles available commands from the home screen, which are:
+//      start new game: default map is loaded, and calls runGame
+//      load saved game: selected mazeGame file is loaded, calls runGame
+//      help: prints help dialogue
+//    then sets gameState to appropriate value
+    private void homeExecute(String input) {
+        switch (input) {
+            case "n":
+                System.out.println("Starting new game...");
+                gameState = svl.loadFile(map, "default_map");
+                break;
+            case "l":
+                System.out.println("Enter name of saved file: ");
+                input = scnr.nextLine();
+                gameState = svl.loadFile(map, input);
+                break;
+            case "h":
+                printHelp();
+                break;
+            case "q":
+                gameState = quitGame;
+                System.out.println("Goodbye");
+                break;
+            default:
+                System.out.println("Command not available on home screen.");
+                break;
+        }
+    }
 
     //  EFFECTS: runs the main body of the game
     public void runGame(){
-        ava = new Avatar(default_startY, default_startX);
-        map = new Map(default_height, default_width, default_map, default_startY, default_startX, winY,winX);
-
-        String input;
+        String ui;
 
 //        while loop for when the game is being played
         while (gameState==continueGame) {
 //            map.printTileDescription(); // each tile is a room???? doesn't make too much sense
-            input = scanner.nextLine();
-            gameState = game.execute(input, map, ran, ava, scanner, svl); // each move is one tick
+            ui = scnr.nextLine();
+            gameState = execute(ui); // each move is one tick
 
-            if(map.isWin(ava)){
+            if(map.isWin(map.getAva())){
                 System.out.println("CONGRATS, YOU WON!");
             }
 //            victory = check if victory;
         }
-
     }
 
-    // EFFECTS: chooses which Map functions to call. returns gameState.
-    public int execute(String input) {
+    // EFFECTS: handles which Map functions to call. returns gameState.
+    private int execute(String input) {
         int gameState = 0;
         switch (input) {
             case "n":
             case "s":
             case "e":
             case "w":
-                avatar.moveAva(input, map);
+                map.getAva().moveAva(input, map);
                 break;
             case "look":
                 System.out.println("hello darkness.");
@@ -61,55 +99,13 @@ public class MazeGame {
                 printHelp();
                 break;
             case "q":
-                gameState = handleQuit(scnr, map, avatar, svl);
+                gameState = handleQuit();
                 break;
             default:
                 System.out.println("Confusion ensues.");
         }
 //        if(map.isWin){
         return gameState;
-    }
-
-    //    EFFECTS: prints welcome dialogue, and handles homeScreen commands
-    public int runHomeScreen() {
-        int gameState = loopHome;
-        System.out.println("**WELCOME TO THE NEXT INSTALLMENT OF...**"+'\n'+
-                "Some kind of game maybe?"+"\n"+
-                "====================================");
-
-        while (gameState == loopHome) {
-            System.out.println( "Enter 'n' for new game, 'l' to load a saved " +
-                    "game, 'h' for more controls, 'q' to end program");
-            gameState = homeExecute(scnr.nextLine(), scnr, svl);
-        }
-
-        return gameState;
-    }
-
-//    MODIFIES: this
-//    EFFECTS: handles available commands from the home screen, which are:
-//      start new game: default map is loaded, and calls runGame
-//      load saved game: selected mazeGame file is loaded, calls runGame
-//      help: prints help dialogue
-    private int homeExecute(String input) {
-        switch (input) {
-            case "n":
-                System.out.println("Starting new game...");
-                break;
-            case "l":
-                System.out.println("Enter name of saved file: ");
-                svl.loadFile(scnr);
-                break;
-            case "h":
-                printHelp();
-                return loopHome;
-            case "q":
-                return quitGame;
-                default:
-                    System.out.println("Command not available on home screen.");
-                    return loopHome;
-        }
-        return continueGame;
     }
 
     // EFFECT: print user controls and other info
@@ -125,7 +121,7 @@ public class MazeGame {
     // EFFECT: prints end text based on int gameOver
     public void printEndText(int gameState) {
 //        todo: not final text
-        switch (gameOver) {
+        switch (gameState) {
             case quitGame:
                 System.out.println("You quit.");
                 break;
@@ -148,7 +144,7 @@ public class MazeGame {
         switch (scnr.nextLine()) {
             case "s":
                 System.out.println("What would you like to name your file?");
-                svl.saveGame(scnr.nextLine(), map, ava);
+                svl.saveGame(scnr.nextLine(), map, map.getAva());
                 break;
             case "c":
                 System.out.println("You continue...");

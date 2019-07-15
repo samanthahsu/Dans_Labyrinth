@@ -22,8 +22,6 @@ class AvatarTest {
 
     Avatar a;
 
-//    todo GET THIS SHIT WORKING SO WE CAN TEST THINGS MORE EASILY
-
     @BeforeEach
     void BeforeEach(){
         map1 = new Map(test_height1, test_width1, test_map1, test_startY1,
@@ -47,6 +45,14 @@ class AvatarTest {
         a.moveAva("e", map1);
         assertEquals(test_startY1, a.getY());
         assertEquals(test_startX1+1, a.getX());
+
+        a.moveAva("s", map1);
+        assertEquals(test_startY1, a.getY());
+        assertEquals(test_startX1+1, a.getX());
+
+        a.moveAva("w", map1);
+        assertEquals(test_startY1, a.getY());
+        assertEquals(test_startX1, a.getX());
 
     }
 

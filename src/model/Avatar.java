@@ -30,7 +30,7 @@ public class Avatar {
     }
 
 //    MODIFIES: map
-//    EFFECTS: if y,x can be moved to, move ava, if not, print text response
+//    EFFECTS: handles move commands in 4 directions
     public void moveAva(String command, Map map){
         switch (command){
             case "n":

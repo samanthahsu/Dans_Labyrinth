@@ -4,11 +4,17 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class SaveAndLoad {
 
-//    todo: add option to get current filepath instead of having this static one
+//    todo fix it so it doesnt repeat
+    private static final int continueGame = 0;
+    private static final int quitGame = 1;
+    private static final int failGame = 2;
+    private static final int winGame = 3;
+    private static final int loopHome = 4;
+
+    //    todo: add option to get current filepath instead of having this static one
     private static final String FILE_PATH = "C:\\Users\\shsu8\\IdeaProjects\\cpsc210\\project_sam7891\\saves\\";
 //    markers in mazeGame files
     private static final String FILE_DIMENSION_MARKER = "<dimensions>";
@@ -17,46 +23,68 @@ public class SaveAndLoad {
     private static final String FILE_WIN_COORD_MARKER = "<winCoord>";
     private static final String FILE_AVA_COORD_MARKER = "<avaCoord>";
 
+
 //    EFFECTS: creates and returns a Map according to the file if named file exists,
-//      otherwise does nothing
+//      otherwise prints failed message.
 //    https://www.journaldev.com/709/java-read-file-line-by-line
-    public Map loadFile(Scanner scnr) {
+    public int loadFile(Map map, String nm) {
         BufferedReader reader;
-        String nm = scnr.nextLine();
         try {
             reader = new BufferedReader((new FileReader(FILE_PATH + nm)));
             String line = reader.readLine();
 
-            int height;
-            int width;
-            String map;
-            String displayMap;
-            int winY;
-            int winX;
-            int startY;
-            int startX;
+            int height=0;
+            int width=0;
+            String map_String = "";
+            String dispMap_String = "";
+            int winY=0;
+            int winX=0;
+            int startY=0;
+            int startX=0;
 
             while (line != null) {
-                System.out.println(line);
 
-                if (line.equals(FILE_DIMENSION_MARKER)) {
-                    line = reader.readLine();
-                    height = Integer.parseInt(line);
-                    width = Integer.parseInt(line);
+                switch (line) {
+                    case FILE_DIMENSION_MARKER:
+                        height = Integer.parseInt(reader.readLine());
+                        width = Integer.parseInt(reader.readLine());
+                        break;
+                    case FILE_MAP_MARKER:
+                        for (int i = 0; i < height; i++) {
+                            map_String = map_String.concat(reader.readLine());
+                        }
+                        break;
+                    case FILE_MAP_DISPLAY_MARKER:
+                        for (int i = 0; i < height; i++) {
+                            dispMap_String = dispMap_String.concat(reader.readLine());
+                        }
+                        break;
+                    case FILE_WIN_COORD_MARKER:
+                        winY = Integer.parseInt(reader.readLine());
+                        winX = Integer.parseInt(reader.readLine());
+                        break;
+                    case FILE_AVA_COORD_MARKER:
+                        startY = Integer.parseInt(reader.readLine());
+                        startX = Integer.parseInt(reader.readLine());
+                        break;
                 }
-
-
                 line = reader.readLine(); // read next line
             }
             reader.close();
-            return new Map(height, width, map, displayMap, startY, startX,
+
+            map = new Map(height, width, map_String, dispMap_String, startY, startX,
                     winY, winX);
+            System.out.println("Game Loaded");
+            return continueGame;
+
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("File loading failed.");
+            System.out.println("Loading failed.");
         }
-        return null;
+
+        return loopHome;
     }
+
 
 //    EFFECTS: saves current game state into a text file (either new or overwritten)
 //      called: "nm.text"
@@ -78,25 +106,20 @@ public class SaveAndLoad {
         return FILE_DIMENSION_MARKER + '\n' +
                 Integer.toString(map.getHeight()) + '\n' +
                 Integer.toString(map.getWidth()) + '\n' +
-                FILE_DIMENSION_MARKER + '\n' +
                 FILE_MAP_MARKER + '\n' +
-                charMatrixtoString(map.getMap()) + '\n' +
-                FILE_MAP_MARKER +
+                charMatrixToString(map.getMap()) + '\n' +
                 FILE_MAP_DISPLAY_MARKER + '\n' +
-                charMatrixtoString(map.getMapDisplay()) + '\n' +
-                FILE_MAP_DISPLAY_MARKER +
+                charMatrixToString(map.getMapDisplay()) + '\n' +
                 FILE_WIN_COORD_MARKER + '\n' +
                 Integer.toString(map.getWinY()) + '\n' +
                 Integer.toString(map.getWinX()) + '\n' +
-                FILE_WIN_COORD_MARKER + '\n' +
                 FILE_AVA_COORD_MARKER + '\n' +
                 Integer.toString(ava.getY()) + '\n' +
-                Integer.toString(ava.getX()) + '\n' +
-                FILE_AVA_COORD_MARKER;
+                Integer.toString(ava.getX());
     }
 
-    //    EFFECTS: converts cha[][] to string
-    private String charMatrixtoString(char[][] chars) {
+    //    EFFECTS: converts char[][] to string todo fix
+    private String charMatrixToString(char[][] chars) {
         String temp = "";
         for (char[] charArray : chars) {
             temp.concat(new String(charArray) + "\n");
@@ -104,6 +127,5 @@ public class SaveAndLoad {
         System.out.println("converting map to string...");
         return temp;
     }
-
 
 }

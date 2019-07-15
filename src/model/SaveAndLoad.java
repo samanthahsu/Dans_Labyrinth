@@ -7,43 +7,36 @@ import java.io.IOException;
 
 public class SaveAndLoad {
 
-//    todo fix it so it doesnt repeat
-    private static final int continueGame = 0;
-    private static final int quitGame = 1;
-    private static final int failGame = 2;
-    private static final int winGame = 3;
-    private static final int loopHome = 4;
-
     //    todo: add option to get current filepath instead of having this static one
-    private static final String FILE_PATH = "C:\\Users\\shsu8\\IdeaProjects\\cpsc210\\project_sam7891\\saves\\";
+    private static final String PROJECT_PATH = System.getProperty("user.dir");
 //    markers in mazeGame files
     private static final String FILE_DIMENSION_MARKER = "<dimensions>";
     private static final String FILE_MAP_MARKER = "<map>";
     private static final String FILE_MAP_DISPLAY_MARKER = "<mapDisplay>";
-    private static final String FILE_WIN_COORD_MARKER = "<winCoord>";
-    private static final String FILE_AVA_COORD_MARKER = "<avaCoord>";
+    private static final String FILE_WIN_YX_MARKER = "<winCoord>";
+    private static final String FILE_AVA_YX_MARKER = "<avaCoord>";
 
 
-//    EFFECTS: creates and returns a Map according to the file if named file exists,
-//      otherwise prints failed message.
+//    EFFECTS: if file "nm" exists in the saves folder of project directory,
+//      creates and returns the map saved in the file
+//      otherwise prints failed message and return null
 //    https://www.journaldev.com/709/java-read-file-line-by-line
     public Map loadFile(String nm) {
-        BufferedReader reader;
         try {
-            reader = new BufferedReader((new FileReader(FILE_PATH + nm)));
+            BufferedReader reader = new BufferedReader((new FileReader
+                    (PROJECT_PATH + "\\saves\\" + nm)));
             String line = reader.readLine();
 
             int height=0;
             int width=0;
-            String map_String = "";
-            String dispMap_String = "";
+            String mapString = "";
+            String displayMapString = "";
             int winY=0;
             int winX=0;
             int startY=0;
             int startX=0;
 
             while (line != null) {
-
                 switch (line) {
                     case FILE_DIMENSION_MARKER:
                         height = Integer.parseInt(reader.readLine());
@@ -51,19 +44,19 @@ public class SaveAndLoad {
                         break;
                     case FILE_MAP_MARKER:
                         for (int i = 0; i < height; i++) {
-                            map_String = map_String.concat(reader.readLine());
+                            mapString = mapString.concat(reader.readLine());
                         }
                         break;
                     case FILE_MAP_DISPLAY_MARKER:
                         for (int i = 0; i < height; i++) {
-                            dispMap_String = dispMap_String.concat(reader.readLine());
+                            displayMapString = displayMapString.concat(reader.readLine());
                         }
                         break;
-                    case FILE_WIN_COORD_MARKER:
+                    case FILE_WIN_YX_MARKER:
                         winY = Integer.parseInt(reader.readLine());
                         winX = Integer.parseInt(reader.readLine());
                         break;
-                    case FILE_AVA_COORD_MARKER:
+                    case FILE_AVA_YX_MARKER:
                         startY = Integer.parseInt(reader.readLine());
                         startX = Integer.parseInt(reader.readLine());
                         break;
@@ -74,24 +67,22 @@ public class SaveAndLoad {
 
             System.out.println("Game Loaded");
 
-            return new Map(height, width, map_String, dispMap_String, startY, startX,
+            return new Map(height, width, mapString, displayMapString, startY, startX,
                     winY, winX);
 
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Loading failed.");
         }
-
         return null;
     }
-
 
 //    EFFECTS: saves current game state into a text file (either new or overwritten)
 //      called: "nm.text"
     public void saveGame(String nm, Map map, Avatar ava) {
 
         try (FileWriter fileWriter = new FileWriter
-                (FILE_PATH +nm)){
+                (PROJECT_PATH +nm)){
             fileWriter.write(makeFile(map, ava));
             System.out.println("Saved to file: " + nm);
         } catch(Exception e){
@@ -110,10 +101,10 @@ public class SaveAndLoad {
                 charMatrixToString(map.getMap()) +
                 FILE_MAP_DISPLAY_MARKER + '\n' +
                 charMatrixToString(map.getMapDisplay()) +
-                FILE_WIN_COORD_MARKER + '\n' +
+                FILE_WIN_YX_MARKER + '\n' +
                 Integer.toString(map.getWinY()) + '\n' +
                 Integer.toString(map.getWinX()) + '\n' +
-                FILE_AVA_COORD_MARKER + '\n' +
+                FILE_AVA_YX_MARKER + '\n' +
                 Integer.toString(ava.getY()) + '\n' +
                 Integer.toString(ava.getX());
     }

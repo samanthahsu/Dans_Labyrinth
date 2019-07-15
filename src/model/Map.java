@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /*manages the map portion of this adventure*/
@@ -17,29 +18,14 @@ public class Map {
     private int winY;
     private int winX;
     private Avatar ava;
-
-    //    REQUIRES: cleanMap is of length h multiplied by w,
-    //      startX and startY are indexes within the matrix of size h,w
-    //    EFFECTS: sets height, width, winY, and winX
-    //      fills map with cleanMap
-    //      fills mapDisplay with fog
-    public Map(int h, int w, String cleanMap, int startY, int startX, int winY,
-               int winX){
-        height = h;
-        width = w;
-        this.winY = winY;
-        this.winX = winX;
-        initMap(cleanMap);
-        initMapDisplay();
-        initAvatar(startY, startX);
-    }
+    private ArrayList<Creature> creatures = new ArrayList<>();
 
 //    EFFECTS: sets height, width, winY, and winX
 //          fills map with mapString
 //          fills mapDisplay with savedMap
 //          places ava at startY startX
     Map(int h, int w, String cleanMap, String savedMap, int startY, int startX, int winY,
-    int winX){
+        int winX, ArrayList<Creature> cs){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
         height = h;
         width = w;
         this.winY = winY;
@@ -176,7 +162,8 @@ public class Map {
 
     //  todo delete this
     //    EFFECTS: prints silly statements when you try to move to a wall tile
-    public void printMovePlaceholder(String dir, Random ran) {
+    public void printMovePlaceholder(String dir) {
+        Random ran = new Random();
         switch(ran.nextInt(5)){
             case 0:
                 System.out.println("You smack hilariously against the "+dir+" wall.");

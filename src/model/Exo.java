@@ -3,10 +3,11 @@ package model;
 public class Exo extends Interactable implements Item, Creature {
 
 //    EFFECTS:
-    Exo(){
+    Exo(int y, int x){
+        super(y, x);
         description = "a fuzzy black orange sized creature stares back at " +
-                "you with a deplorable gaze";
-        name = "Exo";
+                "you with a deploring gaze";
+        name = "Bob";
         status = 0;
 
     }

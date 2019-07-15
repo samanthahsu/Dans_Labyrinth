@@ -1,8 +1,18 @@
-number of rows (int)
-number of columns (int)
+<dimensions>
+int height
+int width
 <map>
-full map drawn out
-</map>
-<monsters>
-contains behaviour, placement, attacks, and other stuff
-</monsters>
+map a string
+<mapDisplay>
+map display as string
+<winCoord>
+y
+x
+<avaCoord>
+y
+x
+<creatures>
+<exo>
+y
+x
+</creatures>

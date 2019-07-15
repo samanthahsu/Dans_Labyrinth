@@ -1,6 +1,7 @@
 package model;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class SaveAndLoad {
 
@@ -12,6 +13,9 @@ public class SaveAndLoad {
     private static final String FILE_MAP_DISPLAY_MARKER = "<mapDisplay>";
     private static final String FILE_WIN_YX_MARKER = "<winCoord>";
     private static final String FILE_AVA_YX_MARKER = "<avaCoord>";
+    private static final String FILE_CREATURE_START_MARKER = "<creatures>";
+    private static final String FILE_CREATURE_STOP_MARKER = "</creatures>";
+    private static final String FILE_CREATURE_EXO_MARKER = "<exo>";
 
 //    REQUIRES: nm, map and ava are not null
     //    EFFECTS: saves current game state into a text file (either new or overwritten)
@@ -47,9 +51,9 @@ public class SaveAndLoad {
 //    https://www.journaldev.com/709/java-read-file-line-by-line
     public Map loadFile(String nm) {
         try {
-            BufferedReader reader = new BufferedReader((new FileReader
+            BufferedReader bReader = new BufferedReader((new FileReader
                     (PROJECT_PATH + "\\saves\\" + nm)));
-            String line = reader.readLine();
+            String line = bReader.readLine();
 
             int height=0;
             int width=0;
@@ -59,44 +63,66 @@ public class SaveAndLoad {
             int winX=0;
             int startY=0;
             int startX=0;
+            ArrayList<Creature> creatures = new ArrayList<>();
 
             while (line != null) {
                 switch (line) {
                     case FILE_DIMENSION_MARKER:
-                        height = Integer.parseInt(reader.readLine());
-                        width = Integer.parseInt(reader.readLine());
+                        height = Integer.parseInt(bReader.readLine());
+                        width = Integer.parseInt(bReader.readLine());
                         break;
                     case FILE_MAP_MARKER:
                         for (int i = 0; i < height; i++) {
-                            mapString = mapString.concat(reader.readLine());
+                            mapString = mapString.concat(bReader.readLine());
                         }
                         break;
                     case FILE_MAP_DISPLAY_MARKER:
                         for (int i = 0; i < height; i++) {
-                            displayMapString = displayMapString.concat(reader.readLine());
+                            displayMapString = displayMapString.concat(bReader.readLine());
                         }
                         break;
                     case FILE_WIN_YX_MARKER:
-                        winY = Integer.parseInt(reader.readLine());
-                        winX = Integer.parseInt(reader.readLine());
+                        winY = Integer.parseInt(bReader.readLine());
+                        winX = Integer.parseInt(bReader.readLine());
                         break;
                     case FILE_AVA_YX_MARKER:
-                        startY = Integer.parseInt(reader.readLine());
-                        startX = Integer.parseInt(reader.readLine());
+                        startY = Integer.parseInt(bReader.readLine());
+                        startX = Integer.parseInt(bReader.readLine());
                         break;
+                    case FILE_CREATURE_START_MARKER:
+                        creatures = loadCreatures(line, bReader);
                 }
-                line = reader.readLine(); // read next line
+                line = bReader.readLine(); // read next line
             }
-            reader.close();
+            bReader.close();
 
             System.out.println("Game Loaded");
 
             return new Map(height, width, mapString, displayMapString, startY, startX,
-                    winY, winX);
+                    winY, winX, creatures);
 
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Loading failed.");
+        }
+        return null;
+    }
+
+// REQUIRES: line, bReader are not null
+//    EFFECTS: adds each creature onto tempCreatureList until creature stop marker is reach
+    private ArrayList<Creature> loadCreatures(String line, BufferedReader bReader) throws IOException {
+        ArrayList<Creature> tempCreatureList = new ArrayList<>();
+        int y, x;
+
+        Creature creature;
+        switch (line) {
+            case FILE_CREATURE_EXO_MARKER:
+                y = Integer.parseInt(bReader.readLine());
+                x = Integer.parseInt(bReader.readLine());
+                tempCreatureList.add(new Exo(y, x));
+                break;
+            case FILE_CREATURE_STOP_MARKER:
+                return tempCreatureList;
         }
         return null;
     }

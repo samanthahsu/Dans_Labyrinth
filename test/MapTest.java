@@ -35,7 +35,7 @@ class MapTest extends TestHelpers{
 
     @BeforeEach
     void beforeEachTest(){
-        map = new Map(test_height1, test_width1, test_map1, test_startY1, test_startX1, winY1, winX1);
+        map = new Map(test_height1, test_width1, test_map1, test_startY1, test_startX1, winY1, winX1, cs);
     }
 
 
@@ -61,7 +61,7 @@ class MapTest extends TestHelpers{
     }
     @Test
     void ConstructorTestMap2(){
-        map = new Map(test_height2, test_width2, test_map2, test_startY2, test_startX2, winY2, winX2);
+        map = new Map(test_height2, test_width2, test_map2, test_startY2, test_startX2, winY2, winX2, cs);
         assertEquals(test_height2, map.getHeight());
         assertEquals(test_width2, map.getWidth());
 

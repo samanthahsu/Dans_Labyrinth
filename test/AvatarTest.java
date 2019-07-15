@@ -25,7 +25,7 @@ class AvatarTest {
     @BeforeEach
     void BeforeEach(){
         map1 = new Map(test_height1, test_width1, test_map1, test_startY1,
-                test_startX1, winY1, winX1);
+                test_startX1, winY1, winX1, cs);
         a = new Avatar(test_startY1, test_startX1);
     }
 

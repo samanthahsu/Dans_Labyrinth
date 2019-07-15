@@ -27,7 +27,7 @@ public class SaveAndLoad {
 //    EFFECTS: creates and returns a Map according to the file if named file exists,
 //      otherwise prints failed message.
 //    https://www.journaldev.com/709/java-read-file-line-by-line
-    public int loadFile(Map map, String nm) {
+    public Map loadFile(String nm) {
         BufferedReader reader;
         try {
             reader = new BufferedReader((new FileReader(FILE_PATH + nm)));
@@ -72,17 +72,17 @@ public class SaveAndLoad {
             }
             reader.close();
 
-            map = new Map(height, width, map_String, dispMap_String, startY, startX,
-                    winY, winX);
             System.out.println("Game Loaded");
-            return continueGame;
+
+            return new Map(height, width, map_String, dispMap_String, startY, startX,
+                    winY, winX);
 
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Loading failed.");
         }
 
-        return loopHome;
+        return null;
     }
 
 

@@ -7,14 +7,13 @@ import java.util.Scanner;
 public class MazeGame {
 
 
-    private static final int continueGame = 0;
-    private static final int quitGame = 1;
-    private static final int failGame = 2;
-    private static final int winGame = 3;
-    private static final int loopHome = 4;
+    private static final int CONTINUE_GAME = 0;
+    private static final int QUIT_GAME = 1;
+    private static final int FAIL_GAME = 2;
+    private static final int WIN_GAME = 3;
 
-    Integer gameState = loopHome; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
-    Map map;
+    Integer gameState = CONTINUE_GAME; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
+    Map map = null;
     Scanner scnr = new Scanner(System.in);
     Random ran = new Random();
     SaveAndLoad svl = new SaveAndLoad();
@@ -25,11 +24,13 @@ public class MazeGame {
                 "Some kind of game maybe?"+"\n"+
                 "====================================");
 
-        while (gameState == loopHome) {
+        while (map == null) {
             System.out.println( "Enter 'n' for new game, 'l' to load a saved " +
                     "game, 'h' for more controls, 'q' to end program");
             homeExecute(scnr.nextLine());
         }
+
+        runGame();
     }
 
 //    MODIFIES: this
@@ -42,18 +43,18 @@ public class MazeGame {
         switch (input) {
             case "n":
                 System.out.println("Starting new game...");
-                gameState = svl.loadFile(map, "default_map");
+                map = svl.loadFile("default_map");
                 break;
             case "l":
                 System.out.println("Enter name of saved file: ");
                 input = scnr.nextLine();
-                gameState = svl.loadFile(map, input);
+                map = svl.loadFile(input);
                 break;
             case "h":
                 printHelp();
                 break;
             case "q":
-                gameState = quitGame;
+                gameState = QUIT_GAME;
                 System.out.println("Goodbye");
                 break;
             default:
@@ -63,12 +64,12 @@ public class MazeGame {
     }
 
     //  EFFECTS: runs the main body of the game
-    public void runGame(){
+    private void runGame(){
         String ui;
 
 //        while loop for when the game is being played
-        while (gameState==continueGame) {
-//            map.printTileDescription(); // each tile is a room???? doesn't make too much sense
+        while (gameState== CONTINUE_GAME) {
+
             ui = scnr.nextLine();
             gameState = execute(ui); // each move is one tick
 
@@ -122,13 +123,13 @@ public class MazeGame {
     public void printEndText(int gameState) {
 //        todo: not final text
         switch (gameState) {
-            case quitGame:
+            case QUIT_GAME:
                 System.out.println("You quit.");
                 break;
-            case failGame:
+            case FAIL_GAME:
                 System.out.println("Death: Game Over");
                 break;
-            case winGame:
+            case WIN_GAME:
                 System.out.println("You escaped successfully");
                 break;
         }
@@ -151,9 +152,9 @@ public class MazeGame {
                 break;
             case "q":
                 System.out.println("Quitting...");
-                return quitGame;
+                return QUIT_GAME;
             }
-        return continueGame;
+        return CONTINUE_GAME;
     }
 
 }

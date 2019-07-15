@@ -53,7 +53,6 @@ public class Avatar {
     private void moveAvaHelper(int y, int x, Map map) {
         if (map.isTileFloor(y, x)) {
             map.updateTileDisp(y, x, ava_char);
-            map.updateTileDisp(y, x, ' ');
             map.revealSurroundings(y, x);
             this.y = y;
             this.x = x;

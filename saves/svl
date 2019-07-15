@@ -1,0 +1,19 @@
+<dimensions>
+4
+6
+<map>
+  +  g
+  +  h
+  +  i
+  +  k
+<mapDisplay>
+######
+# ####
+ *+###
+# ####
+<winCoord>
+0
+3
+<avaCoord>
+2
+1

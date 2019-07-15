@@ -1,9 +1,6 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class SaveAndLoad {
 
@@ -16,8 +13,35 @@ public class SaveAndLoad {
     private static final String FILE_WIN_YX_MARKER = "<winCoord>";
     private static final String FILE_AVA_YX_MARKER = "<avaCoord>";
 
+//    REQUIRES: nm, map and ava are not null
+    //    EFFECTS: saves current game state into a text file (either new or overwritten)
+//      called: "nm.text"
+    public void saveGame(String nm, Map map, Avatar ava) {
+        String savePath = PROJECT_PATH+"\\saves\\"+nm;
+        File file = new File(savePath);
+        try {
+            if (file.createNewFile()) {
+                System.out.println("New save file created");
+            } else {
+                System.out.println("Save file already present");
+            }
 
-//    EFFECTS: if file "nm" exists in the saves folder of project directory,
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("file creation throws exception");
+        }
+
+        try (FileWriter fileWriter = new FileWriter
+                (savePath)){
+            fileWriter.write(makeFile(map, ava));
+            System.out.println("Saved to file: " + nm);
+        } catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Unable to save!");
+        }
+    }
+
+    //    EFFECTS: if file "nm" exists in the saves folder of project directory,
 //      creates and returns the map saved in the file
 //      otherwise prints failed message and return null
 //    https://www.journaldev.com/709/java-read-file-line-by-line
@@ -75,20 +99,6 @@ public class SaveAndLoad {
             System.out.println("Loading failed.");
         }
         return null;
-    }
-
-//    EFFECTS: saves current game state into a text file (either new or overwritten)
-//      called: "nm.text"
-    public void saveGame(String nm, Map map, Avatar ava) {
-
-        try (FileWriter fileWriter = new FileWriter
-                (PROJECT_PATH +nm)){
-            fileWriter.write(makeFile(map, ava));
-            System.out.println("Saved to file: " + nm);
-        } catch(Exception e){
-            e.printStackTrace();
-            System.out.println("Unable to save!");
-        }
     }
 
     //    EFFECTS: compiles all game information to be saved into a string

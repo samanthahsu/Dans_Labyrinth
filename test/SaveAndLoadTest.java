@@ -3,13 +3,9 @@ import model.SaveAndLoad;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class SaveAndLoadTest {
+class SaveAndLoadTest extends TestHelpers {
 
     private static final String PROJECT_PATH = System.getProperty("user.dir");
 
@@ -61,36 +57,14 @@ class SaveAndLoadTest {
 
     }
 
-//    EFFECTS: passes if the files at the two given filepaths have matching contents
-    private void assertEqualsFile(String fpE, String fp) {
-        String file = fileToString(fp);
-        String fileExpected = fileToString(fpE);
-        assertEquals(fileExpected, file);
-    }
-
-//    EFFECTS: returns files at filePath as string
-    private String fileToString(String filePath) {
-        String fileContents = "";
-        try {
-            BufferedReader reader = new BufferedReader((new FileReader(filePath)));
-            String line = reader.readLine();
-            fileContents = fileContents.concat(line);
-            while (line != null) {
-                fileContents = fileContents.concat(line);
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("fileToString failed");
-        }
-        return fileContents;
-    }
-
     @Test
     void loadFileTest() {
-        assertEquals(null, svl.loadFile("hell"));
+        assertEquals(null, svl.loadFile("thisOneDoesn'tExist"));
 
+        svl.saveGame("svl", map2, map2.getAva());
+        Map newMap = svl.loadFile("svl");
+        assertEqualsMapObj(map2, newMap);
     }
+
 
 }

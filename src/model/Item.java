@@ -2,8 +2,10 @@ package model;
 
 public interface Item {
 
-
-    void useItem();
     String getName();
+
+    String getDescription();
+
+    void useItem(Map map);
 
 }

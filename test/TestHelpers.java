@@ -31,7 +31,7 @@ abstract class TestHelpers {
         char[][] actualMap = map.getMapDisplay();
         assertEqualsCharMtrx(expMap, actualMap, h, w);
     }
-    //    REQUIRES: a, b are matrices of size hxw
+    //    REQUIRES: ava, b are matrices of size hxw
     // EFFECT: test passes if two char matrices are identical
     protected void assertEqualsCharMtrx(char[][] a, char[][] b, int h, int w) {
         for (int i = 0; i < h; i++) {
@@ -99,8 +99,8 @@ abstract class TestHelpers {
 //    EFFECTS: passes if interactables are the same
     private void assertEqualsInteractable(Interactable a, Interactable b) {
         assertEquals(a.getName(), b.getName());
-        assertEquals(a.getStartY(), b.getStartY());
-        assertEquals(a.getStartX(), b.getStartX());
+        assertEquals(a.getY(), b.getY());
+        assertEquals(a.getX(), b.getX());
     }
 
     //    EFFECTS: returns interactable matrix built from
@@ -117,7 +117,7 @@ abstract class TestHelpers {
         if (inter != null) {
             for (Interactable c : inter) {
                 if (c.getName() != null) {
-                    interactables.get(c.getStartY()).set(c.getStartX(), c);
+                    interactables.get(c.getY()).set(c.getX(), c);
                 }
 
             }

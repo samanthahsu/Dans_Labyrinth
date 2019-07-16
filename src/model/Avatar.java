@@ -7,12 +7,13 @@ public class Avatar {
     private int status = 0; //health bar of sorts: 0=healthy, 1=dying, 2=dead
     private int y;
     private int x; //tracks position of avatar
-    private ArrayList<Item> items = new ArrayList<>();
+    private ArrayList<Item> items;
 
 //    EFFECTS: constructs avatar setting it's coordinates
-    public Avatar(int setY, int setX){
+    public Avatar(int setY, int setX, ArrayList<Item> items){
         y=setY;
         x=setX;
+        this.items = items;
     }
 
     public int getStatus() {
@@ -89,5 +90,18 @@ public class Avatar {
         for (Item i: items) {
             System.out.println(i.getName());
         }
+    }
+//EFFECTS: uses current item todo only one allowed
+    public void useItem(String itemNm, Map map){
+        switch (itemNm) {
+            case "Exo":
+                for (Item i:items) {
+                    if (i.getName()!=null && i.getName().equals("Exo")) {
+                        i.useItem(map);
+                    }
+                }
+        }
+
+
     }
 }

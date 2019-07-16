@@ -17,11 +17,11 @@ public abstract class Interactable {
         return description;
     }
 
-    public int getStartY() {
+    public int getY() {
         return startY;
     }
 
-    public int getStartX() {
+    public int getX() {
         return startX;
     }
 }

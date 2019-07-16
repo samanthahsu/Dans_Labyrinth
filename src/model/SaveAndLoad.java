@@ -49,7 +49,7 @@ public class SaveAndLoad {
 //      creates and returns the map saved in the file
 //      otherwise prints failed message and return null
 //    https://www.journaldev.com/709/java-read-file-line-by-line
-    public Map loadFile(String nm) {
+    public Map loadFile(String nm) { // todo add items section
         try {
             BufferedReader bReader = new BufferedReader((new FileReader
                     (PROJECT_PATH + "\\saves\\" + nm)));
@@ -99,7 +99,7 @@ public class SaveAndLoad {
             System.out.println("Game Loaded");
 
             return new Map(height, width, mapString, displayMapString, startY, startX,
-                    winY, winX, interactables);
+                    winY, winX, interactables, new ArrayList<Item>());
 
         } catch (IOException e) {
 //            e.printStackTrace();
@@ -128,7 +128,7 @@ public class SaveAndLoad {
     }
 
     //    EFFECTS: compiles all game information to be saved into a string
-    private String makeFile(Map map, Avatar ava) {
+    private String makeFile(Map map, Avatar ava) { //todo add items section
         System.out.println("making file to be saved...");
         return FILE_DIMENSION_MARKER + '\n' +
                 Integer.toString(map.getHeight()) + '\n' +
@@ -174,7 +174,6 @@ public class SaveAndLoad {
         for (char[] charArray : chars) {
             temp = temp.concat(new String(charArray) + "\n");
         }
-        System.out.println("converting map to string...");
         return temp;
     }
 

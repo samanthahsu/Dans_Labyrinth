@@ -34,8 +34,8 @@ class AvatarTest {
         exo = new Exo(ItemY1, ItemX1);
         inter.add(exo);
         map1 = new Map(test_height1, test_width1, test_map1, test_startY1,
-                test_startX1, winY1, winX1, inter);
-        a = new Avatar(test_startY1, test_startX1);
+                test_startX1, winY1, winX1, inter, new ArrayList<Item>());
+        a = new Avatar(test_startY1, test_startX1, new ArrayList<Item>());
     }
 
     @Test
@@ -76,5 +76,7 @@ class AvatarTest {
         arrayExpected.add(exo);
         assertTrue(a.getItems().equals(arrayExpected));
     }
+
+
 
 }

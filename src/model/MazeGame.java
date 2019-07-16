@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Random;
 import java.util.Scanner;
 
 // Main hub, manages all game processes
@@ -15,7 +14,6 @@ public class MazeGame {
     Integer gameState = CONTINUE_GAME; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
     Map map = null;
     Scanner scnr = new Scanner(System.in);
-    Random ran = new Random();
     SaveAndLoad svl = new SaveAndLoad();
 
     //    EFFECTS: prints welcome dialogue, if map is uninitialized,
@@ -81,11 +79,10 @@ public class MazeGame {
         }
         printEndText();
         map = null;
-        runHomeScreen();
     }
 
     // EFFECTS: handles which Map functions to call. returns gameState.
-    private int execute(String input) {
+    private int execute(String input) { // todo add use item
         int gameState = 0;
         switch (input) {
             case "n":
@@ -120,7 +117,7 @@ public class MazeGame {
 
     // EFFECT: print user controls and other info
     private void printHelp(){
-//        todo: not final text
+//        todo add use items commands
         System.out.println("Enter n, s, e, or w to move North, South, East, or West respectively."+'\n'+
                 "'m' to view the map"+'\n'+
                 "'pick up': pick up item"+'\n'+
@@ -132,10 +129,8 @@ public class MazeGame {
     // REQUIRES: gameOver is in the interval [1, 3]
     // EFFECT: prints end text based on int gameOver
     private void printEndText() {
-//        todo: not final text
         switch (gameState) {
             case QUIT_GAME:
-                System.out.println("You quit.");
                 break;
             case FAIL_GAME:
                 System.out.println("Death: Game Over");

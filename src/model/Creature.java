@@ -8,15 +8,15 @@ public interface Creature {
 
     int getStatus();
 
-    int getStartY();
+    int getY();
 
-    int getStartX();
+    int getX();
 
 //    EFFECTS: moves creature to valid tile in creature specific pattern
     void move();
 
 //    EFFECTS: creature takes special action
-    void attack();
+    void attack(Map map);
 
 //    EFFECTS: prints creature speech
     void speak();

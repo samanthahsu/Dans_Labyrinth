@@ -24,16 +24,16 @@ public class Map {
 //    EFFECTS: sets height, width, winY, and winX
 //          fills map with mapString
 //          fills mapDisplay with savedMap
-//          places ava at startY startX
+//          places ava at y x
     public Map(int h, int w, String cleanMap, int startY, int startX, int winY,
-               int winX, ArrayList<Interactable> inter){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
+               int winX, ArrayList<Interactable> inter, ArrayList<Item> items){
         height = h;
         width = w;
         this.winY = winY;
         this.winX = winX;
         initMap(cleanMap);
         initMapDisplay();
-        initAvatar(startY, startX);
+        initAvatar(startY, startX, items);
         initInteractables(inter);
     }
 
@@ -41,16 +41,16 @@ public class Map {
 //    EFFECTS: sets height, width, winY, and winX
 //          fills map with mapString
 //          fills mapDisplay with savedMap
-//          places ava at startY startX
+//          places ava at y x
     public Map(int h, int w, String cleanMap, String savedMap, int startY, int startX, int winY,
-           int winX, ArrayList<Interactable> inter){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
+               int winX, ArrayList<Interactable> inter, ArrayList<Item> items){
         height = h;
         width = w;
         this.winY = winY;
         this.winX = winX;
         initMap(cleanMap);
         initMapDisplay(savedMap);
-        initAvatar(startY, startX);
+        initAvatar(startY, startX, items);
         initInteractables(inter);
         }
 
@@ -68,7 +68,7 @@ public class Map {
         if (inter!=null) {
             for (Interactable c : inter) {
                 if (c.getName() != null) {
-                    interactables.get(c.getStartY()).set(c.getStartX(), c);
+                    interactables.get(c.getY()).set(c.getX(), c);
                 }
             }
         }
@@ -112,9 +112,9 @@ public class Map {
     }
 
     //    MODIFIES: mapDisplay
-    //    EFFECTS: places avatar at startY, startX revealing adjacent tiles
-    private void initAvatar(int startY, int startX) {
-        ava = new Avatar(startY, startX);
+    //    EFFECTS: places avatar at y, x revealing adjacent tiles
+    private void initAvatar(int startY, int startX, ArrayList<Item> items) {
+        ava = new Avatar(startY, startX, items);
         updateTileDisp(startY, startX, c);
         revealSurroundings(startY, startX);
     }

@@ -19,12 +19,12 @@ public class NullCreature extends Interactable implements Creature {
     }
 
     @Override
-    public int getStartY() {
+    public int getY() {
         return 0;
     }
 
     @Override
-    public int getStartX() {
+    public int getX() {
         return 0;
     }
 
@@ -34,7 +34,7 @@ public class NullCreature extends Interactable implements Creature {
     }
 
     @Override
-    public void attack() {
+    public void attack(Map map) {
 
     }
 

@@ -1,5 +1,6 @@
 import model.Exo;
 import model.Interactable;
+import model.Item;
 import model.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,10 +47,8 @@ class MapTest extends TestHelpers{
     @BeforeEach
     void beforeEachTest(){
         cs.add(new Exo(cY1, cX1));
-        map = new Map(test_height1, test_width1, test_map1, test_startY1, test_startX1, winY1, winX1, cs);
+        map = new Map(test_height1, test_width1, test_map1, test_startY1, test_startX1, winY1, winX1, cs, new ArrayList<Item>());
     }
-
-
 
     @Test
     void ConstructorTestMap1(){
@@ -79,7 +78,7 @@ class MapTest extends TestHelpers{
     void ConstructorTestMap2(){
         cs.remove(0);
         cs.add(new Exo(cY2, cX2));
-        map = new Map(test_height2, test_width2, test_map2, test_startY2, test_startX2, winY2, winX2, cs);
+        map = new Map(test_height2, test_width2, test_map2, test_startY2, test_startX2, winY2, winX2, cs, new ArrayList<Item>());
         assertEquals(test_height2, map.getHeight());
         assertEquals(test_width2, map.getWidth());
 
@@ -95,8 +94,6 @@ class MapTest extends TestHelpers{
         char[][] expMap = strToTestCharMtrx(expMapStr, test_height2, test_width2);
         assertEqualsCharMtrx(expMap, map.getMap(), test_height2, test_width2);
     }
-
-
 
     @Test
     void isIndexValidTest(){
@@ -114,7 +111,6 @@ class MapTest extends TestHelpers{
         assertTrue(map.isTileFloor(2, 2));
     }
 
-
     @Test
     void updateTileDispOneTest(){
         map.updateTileDisp(0, 0, 'G');
@@ -124,6 +120,7 @@ class MapTest extends TestHelpers{
                 "@* ###" +
                 "#@####", map, test_height1, test_width1);
     }
+
     @Test
     void updateTileDispTwoSameTest(){
         map.updateTileDisp(0, 0, 'G');
@@ -134,6 +131,7 @@ class MapTest extends TestHelpers{
                         "@* ###" +
                         "#@####", map, test_height1, test_width1);
     }
+
     @Test
     void updateTileDispTwoDiffTest(){
         map.updateTileDisp(1, 0, 'G');
@@ -197,7 +195,7 @@ class MapTest extends TestHelpers{
     @Test
     void isWinTest() {
         assertFalse(map.isWin());
-        map = new Map(test_height1, test_width1, test_map1, winY1, winX1, winY1, winX1, cs);
+        map = new Map(test_height1, test_width1, test_map1, winY1, winX1, winY1, winX1, cs, new ArrayList<Item>());
         assertTrue(map.isWin());
     }
 
@@ -214,6 +212,7 @@ class MapTest extends TestHelpers{
                     "@* ###\r\n" +
                     "#@####\r\n", output.toString());
     }
+
     @Test
     void printDisplayMapUpdateTest(){
         ByteArrayOutputStream output = new ByteArrayOutputStream();

@@ -142,7 +142,30 @@ public class SaveAndLoad {
                 Integer.toString(map.getWinX()) + '\n' +
                 FILE_AVA_YX_MARKER + '\n' +
                 Integer.toString(ava.getY()) + '\n' +
-                Integer.toString(ava.getX());
+                Integer.toString(ava.getX()) + '\n' +
+                FILE_CREATURE_START_MARKER + '\n' +
+                saveInteractables(map) + '\n' +
+                FILE_CREATURE_STOP_MARKER
+                ;
+    }
+
+//    REQUIRES: map is not null
+//    EFFECTS: returns interactables as strings in saving form
+    private String saveInteractables(Map map) {
+        String returnString = "";
+        for (ArrayList<Interactable> is: map.getInteractables()) {
+            for (Interactable i : is) {
+                if(i.getName()!=null){
+                    switch (i.getName()) {
+                        case "Exo":
+                           returnString = returnString.concat(FILE_CREATURE_EXO_MARKER+'\n'+
+                           i.startY+'\n'+
+                           i.startX+'\n');
+                    }
+                }
+            }
+        }
+        return returnString;
     }
 
     //    EFFECTS: converts char[][] to string

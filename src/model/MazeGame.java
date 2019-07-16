@@ -18,17 +18,18 @@ public class MazeGame {
     Random ran = new Random();
     SaveAndLoad svl = new SaveAndLoad();
 
-    //    EFFECTS: prints welcome dialogue, and handles homeScreen commands
+    //    EFFECTS: prints welcome dialogue, if map is uninitialized,
+    // handles homeScreen commands
     public void runHomeScreen() {
-        System.out.println("**WELCOME TO THE NEXT INSTALLMENT OF...**"+'\n'+
-                "Some kind of game maybe?"+"\n"+
-                "====================================");
 
-        while (map == null) {
+        while (map == null && gameState!=QUIT_GAME) {
             System.out.println( "Enter 'n' for new game, 'l' to load a saved " +
                     "game, 'h' for more controls, 'q' to end program");
             homeExecute(scnr.nextLine());
         }
+
+        if(gameState==QUIT_GAME){return;}
+
         map.printDisplayMap();
         runGame();
     }
@@ -55,7 +56,7 @@ public class MazeGame {
                 break;
             case "q":
                 gameState = QUIT_GAME;
-                System.out.println("Goodbye");
+                System.out.println("Thanks for playing!");
                 break;
             default:
                 System.out.println("Command not available on home screen.");
@@ -79,6 +80,7 @@ public class MazeGame {
             }
         }
         printEndText();
+        map = null;
         runHomeScreen();
     }
 

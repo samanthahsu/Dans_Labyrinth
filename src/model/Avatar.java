@@ -58,10 +58,9 @@ public class Avatar {
             map.revealSurroundings(y, x);
             this.y = y;
             this.x = x;
+            map.checkCreature(y, x);
         } else {
               map.printMovePlaceholder(dir);
-            System.out.println("ouch");
-//            map.printMovePlaceholder();
         }
     }
 

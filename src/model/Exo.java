@@ -1,17 +1,45 @@
 package model;
 
-public class Exo extends Interactable implements Item, Creature {
+public class Exo  implements Item, Creature {
 
-//    EFFECTS:
-    Exo(int y, int x){
-        super(y, x);
+    String name;
+    String description;
+    int status;
+    int startY;
+    int startX;
+
+    //    EFFECTS:
+    public Exo(int y, int x){
+        startY = y;
+        startX = x;
         description = "a fuzzy black orange sized creature stares back at " +
                 "you with a deploring gaze";
         name = "Bob";
         status = 0;
 
     }
-//    EFFECTS: moves one tile
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    //    EFFECTS: moves one tile
     @Override
     public void move() {
 

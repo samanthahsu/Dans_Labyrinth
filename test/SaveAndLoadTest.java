@@ -1,7 +1,10 @@
+import model.Creature;
 import model.Map;
 import model.SaveAndLoad;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,6 +38,7 @@ class SaveAndLoadTest extends TestHelpers {
     private static final int test_startX2 = 1;
     private static final int winY2 = 0;
     private static final int winX2 = 3;
+    private static final ArrayList<Creature> cs = new ArrayList<>();
 
 
     @BeforeEach

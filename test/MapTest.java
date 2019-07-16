@@ -1,9 +1,12 @@
+import model.Creature;
+import model.Exo;
 import model.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +24,8 @@ class MapTest extends TestHelpers{
     private static final int test_startX1 = 1;
     private static final int winY1 = 0;
     private static final int winX1 = 3;
+    private static final int cY = 1;
+    private static final int cX = 3;
 
     private static final String test_map2 =
             "@@@"+
@@ -32,9 +37,12 @@ class MapTest extends TestHelpers{
     private static final int test_startX2 = 1;
     private static final int winY2 = 2;
     private static final int winX2 = 1;
+    private static final ArrayList<Creature> cs = new ArrayList<>();
+
 
     @BeforeEach
     void beforeEachTest(){
+        cs.add(new Exo(cY, cX));
         map = new Map(test_height1, test_width1, test_map1, test_startY1, test_startX1, winY1, winX1, cs);
     }
 
@@ -208,6 +216,4 @@ class MapTest extends TestHelpers{
                             "@* #@#\r\n" +
                             "#@#@##\r\n", output.toString());
     }
-
-//    TEST HELPER METHODS*****************************
 }

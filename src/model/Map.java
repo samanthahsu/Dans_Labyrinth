@@ -18,14 +18,32 @@ public class Map {
     private int winY;
     private int winX;
     private Avatar ava;
-    private ArrayList<Creature> creatures = new ArrayList<>();
+    private ArrayList<ArrayList<Creature>> creatures = new ArrayList<>();
+
 
 //    EFFECTS: sets height, width, winY, and winX
 //          fills map with mapString
 //          fills mapDisplay with savedMap
 //          places ava at startY startX
-    Map(int h, int w, String cleanMap, String savedMap, int startY, int startX, int winY,
-        int winX, ArrayList<Creature> cs){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
+    public Map(int h, int w, String cleanMap, int startY, int startX, int winY,
+               int winX, ArrayList<Creature> cs){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
+        height = h;
+        width = w;
+        this.winY = winY;
+        this.winX = winX;
+        initMap(cleanMap);
+        initMapDisplay();
+        initAvatar(startY, startX);
+
+    }
+
+
+//    EFFECTS: sets height, width, winY, and winX
+//          fills map with mapString
+//          fills mapDisplay with savedMap
+//          places ava at startY startX
+    public Map(int h, int w, String cleanMap, String savedMap, int startY, int startX, int winY,
+           int winX, ArrayList<Creature> cs){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
         height = h;
         width = w;
         this.winY = winY;
@@ -33,6 +51,27 @@ public class Map {
         initMap(cleanMap);
         initMapDisplay(savedMap);
         initAvatar(startY, startX);
+        initCreatures(cs);
+        }
+
+// EFFECTS: fills Array list full of null to correct size
+// if cs is not empty, places creatures in creatures list matrix at specified indexes.
+    private void initCreatures(ArrayList<Creature> cs) {
+        Creature nullC = new NullCreature();
+        ArrayList<Creature> widthList = new ArrayList<>();
+        for (int i = 0; i < width; i++) {
+            widthList.add(nullC);
+        }
+        for (int i = 0; i < height; i++) {
+            creatures.add(widthList);
+        }
+        if (cs!=null) {
+            for (Creature c : cs) {
+                if (c.getName() != null) {
+                    creatures.get(c.getStartY()).set(c.getStartX(), c);
+                }
+            }
+        }
     }
 
     //    MODIFIES: this
@@ -47,7 +86,7 @@ public class Map {
             }
         }
     }
-    //    MODIFIES: this todo combine this and initMap for efficiency
+    //    MODIFIES: this todo combine this and initMap for efficiency (eventually)
     //    EFFECTS: fills mapDisplay with fog tiles
     private void initMapDisplay(){
         mapDisplay = new char[height][width];
@@ -70,7 +109,6 @@ public class Map {
                 strIndex++;
             }
         }
-
     }
 
     //    MODIFIES: mapDisplay
@@ -85,12 +123,15 @@ public class Map {
     public char[][] getMap() {
         return map;
     }
+
     public char[][] getMapDisplay() {
         return mapDisplay;
     }
+
     public int getHeight() {
         return height;
     }
+
     public int getWidth() {
         return width;
     }
@@ -105,6 +146,10 @@ public class Map {
 
     public Avatar getAva() {
         return ava;
+    }
+
+    public ArrayList<ArrayList<Creature>> getCreatures() {
+        return creatures;
     }
 
     //    EFFECTS: return true if index within bounds of map
@@ -160,7 +205,6 @@ public class Map {
         }
     }
 
-    //  todo delete this
     //    EFFECTS: prints silly statements when you try to move to a wall tile
     public void printMovePlaceholder(String dir) {
         Random ran = new Random();
@@ -183,4 +227,12 @@ public class Map {
         }
     }
 
+//    REQUIRES: creatures is not null
+//    EFFECTS: if creature exists at given index, return creature and print description
+    public void checkCreature(int y, int x) {
+        Creature c = creatures.get(y).get(x);
+        if (c.getName()!=null){
+            System.out.println(c.getDescription());
+        }
+    }
 }

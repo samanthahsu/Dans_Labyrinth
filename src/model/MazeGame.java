@@ -68,16 +68,18 @@ public class MazeGame {
         String ui;
 
 //        while loop for when the game is being played
-        while (gameState== CONTINUE_GAME) {
+        while (gameState == CONTINUE_GAME) {
 
             ui = scnr.nextLine();
             gameState = execute(ui); // each move is one tick
 
             if(map.isWin(map.getAva())){
                 System.out.println("CONGRATS, YOU WON!");
+                gameState = WIN_GAME;
             }
-//            victory = check if victory;
         }
+        printEndText();
+        runHomeScreen();
     }
 
     // EFFECTS: handles which Map functions to call. returns gameState.
@@ -120,7 +122,7 @@ public class MazeGame {
 
     // REQUIRES: gameOver is in the interval [1, 3]
     // EFFECT: prints end text based on int gameOver
-    public void printEndText(int gameState) {
+    private void printEndText() {
 //        todo: not final text
         switch (gameState) {
             case QUIT_GAME:
@@ -130,7 +132,8 @@ public class MazeGame {
                 System.out.println("Death: Game Over");
                 break;
             case WIN_GAME:
-                System.out.println("You escaped successfully");
+                System.out.println("You escaped successfully...");
+                printWinGraphic();
                 break;
         }
     }
@@ -155,6 +158,27 @@ public class MazeGame {
                 return QUIT_GAME;
             }
         return CONTINUE_GAME;
+    }
+
+    private void printWinGraphic() {
+        System.out.println("                                  .''.\n" +
+                "        .''.             *''*    :_\\/_:     .\n" +
+                "       :_\\/_:   .    .:.*_\\/_*   : /\\ :  .'.:.'.\n" +
+                "   .''.: /\\ : _\\(/_  ':'* /\\ *  : '..'.  -=:o:=-\n" +
+                "  :_\\/_:'.:::. /)\\*''*  .|.* '.\\'/.'_\\(/_'.':'.'\n" +
+                "  : /\\ : :::::  '*_\\/_* | |  -= o =- /)\\    '  *\n" +
+                "   '..'  ':::'   * /\\ * |'|  .'/.\\'.  '._____\n" +
+                "       *        __*..* |  |     :      |.   |' .---\"|\n" +
+                "        _*   .-'   '-. |  |     .--'|  ||   | _|    |\n" +
+                "     .-'|  _.|  |    ||   '-__  |   |  |    ||      |\n" +
+                "     |' | |.    |    ||       | |   |  |    ||      |\n" +
+                "  ___|  '-'     '    \"\"       '-'   '-.'    '`      |____\n" +
+                "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+                "                       ~-~-~-~-~-~-~-~-~-~   /|\n" +
+                "          )      ~-~-~-~-~-~-~-~  /|~       /_|\\\n" +
+                "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n" +
+                "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n" +
+                "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~");
     }
 
 }

@@ -1,7 +1,10 @@
 import model.Avatar;
+import model.Creature;
 import model.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,6 +22,7 @@ class AvatarTest {
     private static final int test_startX1 = 1;
     private static final int winY1 = 0;
     private static final int winX1 = 3;
+    private static final ArrayList<Creature> cs = new ArrayList<>();
 
     Avatar a;
 

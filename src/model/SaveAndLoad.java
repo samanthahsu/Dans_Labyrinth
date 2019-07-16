@@ -108,23 +108,23 @@ public class SaveAndLoad {
         return null;
     }
 
-// REQUIRES: line, bReader are not null
+// REQUIRES: line and bReader are not null
 //    EFFECTS: adds each creature onto tempCreatureList until creature stop marker is reach
+//    then returns tempCreatureList
     private ArrayList<Creature> loadCreatures(String line, BufferedReader bReader) throws IOException {
         ArrayList<Creature> tempCreatureList = new ArrayList<>();
         int y, x;
-
-        Creature creature;
-        switch (line) {
-            case FILE_CREATURE_EXO_MARKER:
-                y = Integer.parseInt(bReader.readLine());
-                x = Integer.parseInt(bReader.readLine());
-                tempCreatureList.add(new Exo(y, x));
-                break;
-            case FILE_CREATURE_STOP_MARKER:
-                return tempCreatureList;
+        while (!line.equals(FILE_CREATURE_STOP_MARKER)) {
+            switch (line) {
+                case FILE_CREATURE_EXO_MARKER:
+                    y = Integer.parseInt(bReader.readLine());
+                    x = Integer.parseInt(bReader.readLine());
+                    tempCreatureList.add(new Exo(y, x));
+                    break;
+            }
+            line = bReader.readLine();
         }
-        return null;
+        return tempCreatureList;
     }
 
     //    EFFECTS: compiles all game information to be saved into a string
@@ -145,7 +145,7 @@ public class SaveAndLoad {
                 Integer.toString(ava.getX());
     }
 
-    //    EFFECTS: converts char[][] to string todo fix
+    //    EFFECTS: converts char[][] to string
     private String charMatrixToString(char[][] chars) {
         String temp = "";
         for (char[] charArray : chars) {

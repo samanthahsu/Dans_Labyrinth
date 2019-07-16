@@ -1,5 +1,5 @@
-import model.Creature;
 import model.Exo;
+import model.Interactable;
 import model.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class MapTest extends TestHelpers{
     private static final int test_startX2 = 1;
     private static final int winY2 = 2;
     private static final int winX2 = 1;
-    private static final ArrayList<Creature> cs = new ArrayList<>();
+    private static final ArrayList<Interactable> cs = new ArrayList<>();
 
 
     @BeforeEach
@@ -186,7 +186,9 @@ class MapTest extends TestHelpers{
 
     @Test
     void isWinTest() {
-//        todo
+        assertFalse(map.isWin());
+        map = new Map(test_height1, test_width1, test_map1, winY1, winX1, winY1, winX1, cs);
+        assertTrue(map.isWin());
     }
 
     @Test

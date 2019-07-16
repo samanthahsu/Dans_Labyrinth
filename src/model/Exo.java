@@ -1,6 +1,6 @@
 package model;
 
-public class Exo  implements Item, Creature {
+public class Exo extends Interactable implements Item, Creature {
 
     String name;
     String description;
@@ -16,6 +16,8 @@ public class Exo  implements Item, Creature {
                 "you with a deploring gaze";
         name = "Bob";
         status = 0;
+        isCreature = true;
+        isItem = true;
 
     }
 
@@ -39,7 +41,7 @@ public class Exo  implements Item, Creature {
         return startX;
     }
 
-    //    EFFECTS: moves one tile
+    //    EFFECTS: doesn't move at all
     @Override
     public void move() {
 
@@ -54,7 +56,7 @@ public class Exo  implements Item, Creature {
 //    EFFECTS: prints
     @Override
     public void speak() {
-        System.out.println("tick tick tock?");
+        System.out.println("a sad ticking noise fills the hall");
     }
 
 // EFFECTS: gets used as a ranged weapon (like grenade) against walls and creatures

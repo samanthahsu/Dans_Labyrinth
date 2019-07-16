@@ -18,7 +18,7 @@ public class Map {
     private int winY;
     private int winX;
     private Avatar ava;
-    private ArrayList<ArrayList<Creature>> creatures = new ArrayList<>();
+    private ArrayList<ArrayList<Interactable>> interactables = new ArrayList<>();
 
 
 //    EFFECTS: sets height, width, winY, and winX
@@ -26,7 +26,7 @@ public class Map {
 //          fills mapDisplay with savedMap
 //          places ava at startY startX
     public Map(int h, int w, String cleanMap, int startY, int startX, int winY,
-               int winX, ArrayList<Creature> cs){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
+               int winX, ArrayList<Interactable> interb){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
         height = h;
         width = w;
         this.winY = winY;
@@ -34,7 +34,7 @@ public class Map {
         initMap(cleanMap);
         initMapDisplay();
         initAvatar(startY, startX);
-
+        initInteractables(interb);
     }
 
 
@@ -43,7 +43,7 @@ public class Map {
 //          fills mapDisplay with savedMap
 //          places ava at startY startX
     public Map(int h, int w, String cleanMap, String savedMap, int startY, int startX, int winY,
-           int winX, ArrayList<Creature> cs){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
+           int winX, ArrayList<Interactable> interb){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
         height = h;
         width = w;
         this.winY = winY;
@@ -51,24 +51,24 @@ public class Map {
         initMap(cleanMap);
         initMapDisplay(savedMap);
         initAvatar(startY, startX);
-        initCreatures(cs);
+        initInteractables(interb);
         }
 
 // EFFECTS: fills Array list full of null to correct size
-// if cs is not empty, places creatures in creatures list matrix at specified indexes.
-    private void initCreatures(ArrayList<Creature> cs) {
-        Creature nullC = new NullCreature();
-        ArrayList<Creature> widthList = new ArrayList<>();
+// if cs is not empty, places interactables in interactables list matrix at specified indexes.
+    private void initInteractables(ArrayList<Interactable> cs) {
+        Interactable nullC = new NullCreature();
+        ArrayList<Interactable> widthList = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             widthList.add(nullC);
         }
         for (int i = 0; i < height; i++) {
-            creatures.add(widthList);
+            interactables.add(widthList);
         }
         if (cs!=null) {
-            for (Creature c : cs) {
+            for (Interactable c : cs) {
                 if (c.getName() != null) {
-                    creatures.get(c.getStartY()).set(c.getStartX(), c);
+                    interactables.get(c.getStartY()).set(c.getStartX(), c);
                 }
             }
         }
@@ -148,8 +148,18 @@ public class Map {
         return ava;
     }
 
-    public ArrayList<ArrayList<Creature>> getCreatures() {
-        return creatures;
+    //    REQUIRES: interactables is not null
+//    EFFECTS: if creature exists at given index, returns Interactable
+    public Interactable getInteractable(int y, int x) {
+        return interactables.get(y).get(x);
+    }
+
+    public void removeInteractable(int y, int x) {
+        interactables.get(y).set(x, new NullCreature());
+    }
+
+    public ArrayList<ArrayList<Interactable>> getInteractables() {
+        return interactables;
     }
 
     //    EFFECTS: return true if index within bounds of map
@@ -188,7 +198,7 @@ public class Map {
     }
 
     //    EFFECTS: returns true if ava is on the winning tile
-    public boolean isWin(Avatar ava){
+    public boolean isWin(){
         return ava.getY() == winY && ava.getX() == winX;
     }
 
@@ -227,12 +237,5 @@ public class Map {
         }
     }
 
-//    REQUIRES: creatures is not null
-//    EFFECTS: if creature exists at given index, return creature and print description
-    public void checkCreature(int y, int x) {
-        Creature c = creatures.get(y).get(x);
-        if (c.getName()!=null){
-            System.out.println(c.getDescription());
-        }
-    }
+
 }

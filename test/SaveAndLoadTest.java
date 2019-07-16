@@ -1,4 +1,4 @@
-import model.Creature;
+import model.Interactable;
 import model.Map;
 import model.SaveAndLoad;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +38,7 @@ class SaveAndLoadTest extends TestHelpers {
     private static final int test_startX2 = 1;
     private static final int winY2 = 0;
     private static final int winX2 = 3;
-    private static final ArrayList<Creature> cs = new ArrayList<>();
+    private static final ArrayList<Interactable> cs = new ArrayList<>();
 
 
     @BeforeEach
@@ -68,6 +68,7 @@ class SaveAndLoadTest extends TestHelpers {
         svl.saveGame("svl", map2, map2.getAva());
         Map newMap = svl.loadFile("svl");
         assertEqualsMapObj(map2, newMap);
+
     }
 
 

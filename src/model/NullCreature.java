@@ -1,6 +1,6 @@
 package model;
 
-public class NullCreature implements Creature {
+public class NullCreature extends Interactable implements Creature {
 
     @Override
     public String getName() {

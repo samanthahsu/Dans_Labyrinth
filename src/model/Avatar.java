@@ -31,7 +31,11 @@ public class Avatar {
         this.status = status;
     }
 
-//    MODIFIES: map
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    //    MODIFIES: map
 //    EFFECTS: handles move commands in 4 directions
     public void moveAva(String command, Map map){
         switch (command){
@@ -58,10 +62,25 @@ public class Avatar {
             map.revealSurroundings(y, x);
             this.y = y;
             this.x = x;
-            map.checkCreature(y, x);
+            Interactable i = map.getInteractable(y, x);
+            if (i != null) {
+                System.out.println(i.getDescription());
+            }
         } else {
               map.printMovePlaceholder(dir);
         }
     }
 
+//    REQUIRES: map is not null
+//    MODIFIES: this
+//    EFFECTS: if item is present in current tile, pick up item,
+//      otherwise print message
+    public void pickUpItem(Map map) {
+        Interactable inter = map.getInteractable(y, x);
+        if(inter != null && inter.isItem) {
+            items.add((Item) inter);
+            map.removeInteractable(y, x);
+            System.out.println("Picked up an item!");
+        }
+    }
 }

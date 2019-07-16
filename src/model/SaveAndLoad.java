@@ -63,7 +63,7 @@ public class SaveAndLoad {
             int winX=0;
             int startY=0;
             int startX=0;
-            ArrayList<Creature> creatures = new ArrayList<>();
+            ArrayList<Interactable> interactables = new ArrayList<>();
 
             while (line != null) {
                 switch (line) {
@@ -90,7 +90,7 @@ public class SaveAndLoad {
                         startX = Integer.parseInt(bReader.readLine());
                         break;
                     case FILE_CREATURE_START_MARKER:
-                        creatures = loadCreatures(line, bReader);
+                        interactables = loadInteractables(line, bReader);
                 }
                 line = bReader.readLine(); // read next line
             }
@@ -99,7 +99,7 @@ public class SaveAndLoad {
             System.out.println("Game Loaded");
 
             return new Map(height, width, mapString, displayMapString, startY, startX,
-                    winY, winX, creatures);
+                    winY, winX, interactables);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,20 +111,20 @@ public class SaveAndLoad {
 // REQUIRES: line and bReader are not null
 //    EFFECTS: adds each creature onto tempCreatureList until creature stop marker is reach
 //    then returns tempCreatureList
-    private ArrayList<Creature> loadCreatures(String line, BufferedReader bReader) throws IOException {
-        ArrayList<Creature> tempCreatureList = new ArrayList<>();
+    private ArrayList<Interactable> loadInteractables(String line, BufferedReader bReader) throws IOException {
+        ArrayList<Interactable> iArrayList = new ArrayList<>();
         int y, x;
         while (!line.equals(FILE_CREATURE_STOP_MARKER)) {
             switch (line) {
                 case FILE_CREATURE_EXO_MARKER:
                     y = Integer.parseInt(bReader.readLine());
                     x = Integer.parseInt(bReader.readLine());
-                    tempCreatureList.add(new Exo(y, x));
+                    iArrayList.add(new Exo(y, x));
                     break;
             }
             line = bReader.readLine();
         }
-        return tempCreatureList;
+        return iArrayList;
     }
 
     //    EFFECTS: compiles all game information to be saved into a string

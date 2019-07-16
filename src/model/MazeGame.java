@@ -73,7 +73,7 @@ public class MazeGame {
             ui = scnr.nextLine();
             gameState = execute(ui); // each move is one tick
 
-            if(map.isWin(map.getAva())){
+            if(map.isWin()){
                 System.out.println("CONGRATS, YOU WON!");
                 gameState = WIN_GAME;
             }
@@ -104,6 +104,8 @@ public class MazeGame {
             case "q":
                 gameState = handleQuit();
                 break;
+            case "pick up":
+                map.getAva().pickUpItem(map);
             default:
                 System.out.println("Confusion ensues.");
         }

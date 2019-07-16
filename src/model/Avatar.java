@@ -63,7 +63,7 @@ public class Avatar {
             this.y = y;
             this.x = x;
             Interactable i = map.getInteractable(y, x);
-            if (i != null) {
+            if (i.getName()!= null) {
                 System.out.println(i.getDescription());
             }
         } else {
@@ -81,6 +81,13 @@ public class Avatar {
             items.add((Item) inter);
             map.removeInteractable(y, x);
             System.out.println("Picked up an item!");
+        }
+    }
+// EFFECTS: prints current items
+    public void printItems() {
+        System.out.println("You are carrying:");
+        for (Item i: items) {
+            System.out.println(i.getName());
         }
     }
 }

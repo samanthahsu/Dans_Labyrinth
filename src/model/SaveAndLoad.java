@@ -102,7 +102,7 @@ public class SaveAndLoad {
                     winY, winX, interactables);
 
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println("Loading failed.");
         }
         return null;

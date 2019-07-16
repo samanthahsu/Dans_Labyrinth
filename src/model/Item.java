@@ -4,5 +4,6 @@ public interface Item {
 
 
     void useItem();
+    String getName();
 
 }

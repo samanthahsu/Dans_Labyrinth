@@ -29,7 +29,7 @@ public class MazeGame {
                     "game, 'h' for more controls, 'q' to end program");
             homeExecute(scnr.nextLine());
         }
-
+        map.printDisplayMap();
         runGame();
     }
 
@@ -106,10 +106,13 @@ public class MazeGame {
                 break;
             case "pick up":
                 map.getAva().pickUpItem(map);
+                break;
+            case "items":
+                map.getAva().printItems();
+                break;
             default:
                 System.out.println("Confusion ensues.");
         }
-//        if(map.isWin){
         return gameState;
     }
 
@@ -118,6 +121,8 @@ public class MazeGame {
 //        todo: not final text
         System.out.println("Enter n, s, e, or w to move North, South, East, or West respectively."+'\n'+
                 "'m' to view the map"+'\n'+
+                "'pick up': pick up item"+'\n'+
+                "'items': view items"+'\n'+
                 "'h' to get help dialogue"+'\n'+
                 "'q' to quit");
     }

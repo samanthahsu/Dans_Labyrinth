@@ -26,7 +26,7 @@ public class Map {
 //          fills mapDisplay with savedMap
 //          places ava at startY startX
     public Map(int h, int w, String cleanMap, int startY, int startX, int winY,
-               int winX, ArrayList<Interactable> interb){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
+               int winX, ArrayList<Interactable> inter){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
         height = h;
         width = w;
         this.winY = winY;
@@ -34,7 +34,7 @@ public class Map {
         initMap(cleanMap);
         initMapDisplay();
         initAvatar(startY, startX);
-        initInteractables(interb);
+        initInteractables(inter);
     }
 
 
@@ -43,7 +43,7 @@ public class Map {
 //          fills mapDisplay with savedMap
 //          places ava at startY startX
     public Map(int h, int w, String cleanMap, String savedMap, int startY, int startX, int winY,
-           int winX, ArrayList<Interactable> interb){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
+           int winX, ArrayList<Interactable> inter){ // TODO JUST ADDED CS, NEED TO FIX ALL THE STUFF IT JUST BROKE
         height = h;
         width = w;
         this.winY = winY;
@@ -51,7 +51,7 @@ public class Map {
         initMap(cleanMap);
         initMapDisplay(savedMap);
         initAvatar(startY, startX);
-        initInteractables(interb);
+        initInteractables(inter);
         }
 
 // EFFECTS: fills Array list full of null to correct size

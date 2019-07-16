@@ -1,5 +1,6 @@
 package model;
 
+// placeholder creature to initialize interactables in map object
 public class NullCreature extends Interactable implements Creature {
 
     @Override

@@ -1,4 +1,5 @@
 import model.*;
+import model.Interactable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

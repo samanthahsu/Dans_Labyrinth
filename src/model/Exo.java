@@ -8,13 +8,13 @@ public class Exo extends Interactable implements Item, Creature {
     int startY;
     int startX;
 
-    //    EFFECTS:
+    //    EFFECTS: set starting coordinates
     public Exo(int y, int x){
         startY = y;
         startX = x;
         description = "a fuzzy black orange sized creature stares back at " +
                 "you with a deploring gaze";
-        name = "Bob";
+        name = "Exo";
         status = 0;
         isCreature = true;
         isItem = true;

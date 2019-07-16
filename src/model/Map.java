@@ -55,8 +55,8 @@ public class Map {
         }
 
 // EFFECTS: fills Array list full of null to correct size
-// if cs is not empty, places interactables in interactables list matrix at specified indexes.
-    private void initInteractables(ArrayList<Interactable> cs) {
+// if inter is not empty, places interactables in interactables list matrix at specified indexes.
+    private void initInteractables(ArrayList<Interactable> inter) {
         Interactable nullC = new NullCreature();
         ArrayList<Interactable> widthList = new ArrayList<>();
         for (int i = 0; i < width; i++) {
@@ -65,8 +65,8 @@ public class Map {
         for (int i = 0; i < height; i++) {
             interactables.add(widthList);
         }
-        if (cs!=null) {
-            for (Interactable c : cs) {
+        if (inter!=null) {
+            for (Interactable c : inter) {
                 if (c.getName() != null) {
                     interactables.get(c.getStartY()).set(c.getStartX(), c);
                 }

@@ -24,8 +24,8 @@ class MapTest extends TestHelpers{
     private static final int test_startX1 = 1;
     private static final int winY1 = 0;
     private static final int winX1 = 3;
-    private static final int cY = 1;
-    private static final int cX = 3;
+    private static final int cY1 = 1;
+    private static final int cX1 = 3;
 
     private static final String test_map2 =
             "@@@"+
@@ -37,12 +37,15 @@ class MapTest extends TestHelpers{
     private static final int test_startX2 = 1;
     private static final int winY2 = 2;
     private static final int winX2 = 1;
+    private static final int cY2 = 1;
+    private static final int cX2 = 1;
+
     private static final ArrayList<Interactable> cs = new ArrayList<>();
 
 
     @BeforeEach
     void beforeEachTest(){
-        cs.add(new Exo(cY, cX));
+        cs.add(new Exo(cY1, cX1));
         map = new Map(test_height1, test_width1, test_map1, test_startY1, test_startX1, winY1, winX1, cs);
     }
 
@@ -66,9 +69,16 @@ class MapTest extends TestHelpers{
                 "@@@@@@";
         char[][] expMap = strToTestCharMtrx(expMapStr, test_height1, test_width1);
         assertEqualsCharMtrx(expMap, map.getMap(), test_height1, test_width1);
+
+        ArrayList<Interactable> expected = new ArrayList<>();
+        expected.add(new Exo(cY1, cX1));
+        assertEqualsInteractableMtrx(InteractableMatrix(expected, map.getHeight(), map.getWidth()), map.getInteractables(),
+                map.getHeight(), map.getWidth());
     }
     @Test
     void ConstructorTestMap2(){
+        cs.remove(0);
+        cs.add(new Exo(cY2, cX2));
         map = new Map(test_height2, test_width2, test_map2, test_startY2, test_startX2, winY2, winX2, cs);
         assertEquals(test_height2, map.getHeight());
         assertEquals(test_width2, map.getWidth());

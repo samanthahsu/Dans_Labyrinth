@@ -1,8 +1,11 @@
+import model.Interactable;
 import model.Map;
+import model.NullCreature;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -81,5 +84,44 @@ abstract class TestHelpers {
         return fileContents;
     }
 
+//    EFFECTS: passes if two array lists are equal
+    protected void assertEqualsInteractableMtrx(ArrayList<ArrayList<Interactable>> expected,
+                                                ArrayList<ArrayList<Interactable>> actual,
+                                                int h, int w) {
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                assertEqualsInteractable(expected.get(i).get(j), actual.get(i).get(j));
+            }
+        }
 
+    }
+
+//    EFFECTS: passes if interactables are the same
+    private void assertEqualsInteractable(Interactable a, Interactable b) {
+        assertEquals(a.getName(), b.getName());
+        assertEquals(a.getStartY(), b.getStartY());
+        assertEquals(a.getStartX(), b.getStartX());
+    }
+
+    //    EFFECTS: returns interactable matrix built from
+    protected ArrayList<ArrayList<Interactable>> InteractableMatrix(ArrayList<Interactable> inter, int h, int w) {
+        ArrayList<ArrayList<Interactable>> interactables = new ArrayList<>();
+        Interactable nullC = new NullCreature();
+        ArrayList<Interactable> widthList = new ArrayList<>();
+        for (int i = 0; i < w; i++) {
+            widthList.add(nullC);
+        }
+        for (int i = 0; i < h; i++) {
+            interactables.add(widthList);
+        }
+        if (inter != null) {
+            for (Interactable c : inter) {
+                if (c.getName() != null) {
+                    interactables.get(c.getStartY()).set(c.getStartX(), c);
+                }
+
+            }
+        }
+        return interactables;
+    }
 }

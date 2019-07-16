@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-public class CreatureTest {
+public class InteractableTest {
 
     Creature exo;
     Avatar a;
@@ -30,12 +30,12 @@ public class CreatureTest {
 
 
     @BeforeEach
-    public void BeforeEach(){
+    void BeforeEach(){
         exo = new Exo(ItemY1, ItemX1);
     }
 
     @Test
-    public void ConstructorTest(){
+    void ConstructorTest(){
 
     }
 }

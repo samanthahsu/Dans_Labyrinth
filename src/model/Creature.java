@@ -12,10 +12,13 @@ public interface Creature {
 
     int getStartX();
 
+//    EFFECTS: moves creature to valid tile in creature specific pattern
     void move();
 
+//    EFFECTS: creature takes special action
     void attack();
 
+//    EFFECTS: prints creature speech
     void speak();
 
 }

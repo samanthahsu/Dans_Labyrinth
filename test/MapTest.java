@@ -11,192 +11,170 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MapTest extends TestHelpers{
+class MapTest extends TestHelper {
 
-    private Map map;
-    private static final String test_map1 =
-            "@@@ @@"+
-            "@@ @ @"+
-            "@   @@"+
-            "@@@@@@";
-    private static final int test_height1 = 4;
-    private static final int test_width1 = 6;
-    private static final int test_startY1 = 2;
-    private static final int test_startX1 = 1;
-    private static final int winY1 = 0;
-    private static final int winX1 = 3;
-    private static final int cY1 = 1;
-    private static final int cX1 = 3;
+    private static final int C_Y_1 = 1;
+    private static final int C_X_1 = 3;
 
-    private static final String test_map2 =
-            "@@@"+
-            "@ @"+
-            "@ @";
-    private static final int test_height2 = 3;
-    private static final int test_width2 = 3;
-    private static final int test_startY2 = 1;
-    private static final int test_startX2 = 1;
-    private static final int winY2 = 2;
-    private static final int winX2 = 1;
-    private static final int cY2 = 1;
-    private static final int cX2 = 1;
-
-    private static final ArrayList<Interactable> cs = new ArrayList<>();
+    private static final int C_Y_2 = 1;
+    private static final int C_X_2 = 1;
 
 
     @BeforeEach
     void beforeEachTest(){
-        cs.add(new Exo(cY1, cX1));
-        map = new Map(test_height1, test_width1, test_map1, test_startY1, test_startX1, winY1, winX1, cs, new ArrayList<Item>());
+        interactableArrayList = new ArrayList<>();
+        interactableArrayList.add(new Exo(C_Y_1, C_X_1));
+        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1, TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Item>());
     }
 
     @Test
     void ConstructorTestMap1(){
-        assertEquals(test_height1, map.getHeight());
-        assertEquals(test_width1, map.getWidth());
+        assertEquals(TEST_HEIGHT_1, map1.getHeight());
+        assertEquals(TEST_WIDTH_1, map1.getWidth());
 
-        assertEqualsMapDisp(
+        assertEqualsStrCharMtrx(
         "######" +
                 "#@####" +
                 "@* ###" +
-                "#@####", map,
-                test_height1, test_width1);
+                "#@####", map1,
+                TEST_HEIGHT_1, TEST_WIDTH_1);
         String expMapStr =
                 "@@@ @@"+
                 "@@ @ @"+
                 "@   @@"+
                 "@@@@@@";
-        char[][] expMap = strToTestCharMtrx(expMapStr, test_height1, test_width1);
-        assertEqualsCharMtrx(expMap, map.getMap(), test_height1, test_width1);
+        char[][] expMap = strToTestCharMtrx(expMapStr, TEST_HEIGHT_1, TEST_WIDTH_1);
+        assertEqualsCharMtrx(expMap, map1.getMap(), TEST_HEIGHT_1, TEST_WIDTH_1);
 
         ArrayList<Interactable> expected = new ArrayList<>();
-        expected.add(new Exo(cY1, cX1));
-        assertEqualsInteractableMtrx(InteractableMatrix(expected, map.getHeight(), map.getWidth()), map.getInteractables(),
-                map.getHeight(), map.getWidth());
+        expected.add(new Exo(C_Y_1, C_X_1));
+        assertEqualsInteractableMtrx(
+                makeInteractableMatrix(expected, map1.getHeight(), map1.getWidth()), map1.getInteractables(),
+                map1.getHeight(), map1.getWidth());
     }
     @Test
     void ConstructorTestMap2(){
-        cs.remove(0);
-        cs.add(new Exo(cY2, cX2));
-        map = new Map(test_height2, test_width2, test_map2, test_startY2, test_startX2, winY2, winX2, cs, new ArrayList<Item>());
-        assertEquals(test_height2, map.getHeight());
-        assertEquals(test_width2, map.getWidth());
+        interactableArrayList.remove(0);
+        interactableArrayList.add(new Exo(C_Y_2, C_X_2));
+        map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, TEST_MAP_2, TEST_START_Y_2, TEST_START_X_2, WIN_Y_2, WIN_X_2, interactableArrayList, new ArrayList<Item>());
+        assertEquals(TEST_HEIGHT_2, map1.getHeight());
+        assertEquals(TEST_WIDTH_2, map1.getWidth());
 
-        assertEqualsMapDisp(
+        assertEqualsStrCharMtrx(
             "#@#" +
                      "@*@" +
-                     "# #", map,
-                test_height2, test_width2);
+                     "# #", map1,
+                TEST_HEIGHT_2, TEST_WIDTH_2);
         String expMapStr =
                 "@@@"+
                 "@ @"+
                 "@ @";
-        char[][] expMap = strToTestCharMtrx(expMapStr, test_height2, test_width2);
-        assertEqualsCharMtrx(expMap, map.getMap(), test_height2, test_width2);
+        char[][] expMap = strToTestCharMtrx(expMapStr, TEST_HEIGHT_2, TEST_WIDTH_2);
+        assertEqualsCharMtrx(expMap, map1.getMap(), TEST_HEIGHT_2, TEST_WIDTH_2);
     }
 
     @Test
     void isIndexValidTest(){
-        assertFalse(map.isIndexValid(-1, 0));
-        assertFalse(map.isIndexValid(test_height1, 0));
-        assertFalse(map.isIndexValid(0, -1));
-        assertFalse(map.isIndexValid(0, test_width1));
+        assertFalse(map1.isIndexValid(-1, 0));
+        assertFalse(map1.isIndexValid(TEST_HEIGHT_1, 0));
+        assertFalse(map1.isIndexValid(0, -1));
+        assertFalse(map1.isIndexValid(0, TEST_WIDTH_1));
 
-        assertTrue(map.isIndexValid(2, 3));
+        assertTrue(map1.isIndexValid(2, 3));
     }
 
     @Test
     void isTileFloorTest(){
-        assertFalse(map.isTileFloor(0, 1));
-        assertTrue(map.isTileFloor(2, 2));
+        assertFalse(map1.isTileFloor(0, 1));
+        assertTrue(map1.isTileFloor(2, 2));
     }
 
     @Test
     void updateTileDispOneTest(){
-        map.updateTileDisp(0, 0, 'G');
-        assertEqualsMapDisp(
+        map1.updateTileDisp(0, 0, 'G');
+        assertEqualsStrCharMtrx(
         "G#####" +
                 "#@####" +
                 "@* ###" +
-                "#@####", map, test_height1, test_width1);
+                "#@####", map1, TEST_HEIGHT_1, TEST_WIDTH_1);
     }
 
     @Test
     void updateTileDispTwoSameTest(){
-        map.updateTileDisp(0, 0, 'G');
-        map.updateTileDisp(0, 0, ' ');
-        assertEqualsMapDisp(
+        map1.updateTileDisp(0, 0, 'G');
+        map1.updateTileDisp(0, 0, ' ');
+        assertEqualsStrCharMtrx(
                 " #####" +
                         "#@####" +
                         "@* ###" +
-                        "#@####", map, test_height1, test_width1);
+                        "#@####", map1, TEST_HEIGHT_1, TEST_WIDTH_1);
     }
 
     @Test
     void updateTileDispTwoDiffTest(){
-        map.updateTileDisp(1, 0, 'G');
-        map.updateTileDisp(2, 3, 'X');
-        assertEqualsMapDisp(
+        map1.updateTileDisp(1, 0, 'G');
+        map1.updateTileDisp(2, 3, 'X');
+        assertEqualsStrCharMtrx(
                 "######" +
                         "G@####" +
                         "@* X##" +
-                        "#@####", map, test_height1, test_width1);
+                        "#@####", map1, TEST_HEIGHT_1, TEST_WIDTH_1);
     }
 
 
 
     @Test
     void revealSurroundingsMidTest(){
-        map.revealSurroundings(2, 2);
-        assertEqualsMapDisp(
+        map1.revealSurroundings(2, 2);
+        assertEqualsStrCharMtrx(
         "######"+
                 "#@ ###"+
                 "@   ##"+
-                "#@@###", map, test_height1, test_width1);
+                "#@@###", map1, TEST_HEIGHT_1, TEST_WIDTH_1);
     }
     @Test
     void revealSurroundingsNWTest() {
-        map.revealSurroundings(0, 0);
-        assertEqualsMapDisp(
+        map1.revealSurroundings(0, 0);
+        assertEqualsStrCharMtrx(
             "#@####" +
                     "@@####" +
                     "@* ###" +
-                    "#@####", map, test_height1, test_width1);
+                    "#@####", map1, TEST_HEIGHT_1, TEST_WIDTH_1);
 
     }
     @Test
     void revealSurroundingsNETest(){
-        map.revealSurroundings(0, test_width1 -1);
-        assertEqualsMapDisp(
+        map1.revealSurroundings(0, TEST_WIDTH_1 -1);
+        assertEqualsStrCharMtrx(
             "####@#" +
                     "#@###@" +
                     "@* ###" +
-                    "#@####", map, test_height1, test_width1);
+                    "#@####", map1, TEST_HEIGHT_1, TEST_WIDTH_1);
     }
     @Test
     void revealSurroundingsSWTest(){
-        map.revealSurroundings(test_height1 -1, 0);
-        assertEqualsMapDisp(
+        map1.revealSurroundings(TEST_HEIGHT_1 -1, 0);
+        assertEqualsStrCharMtrx(
                 "######" +
                         "#@####" +
                         "@* ###" +
-                        "#@####", map, test_height1, test_width1);
+                        "#@####", map1, TEST_HEIGHT_1, TEST_WIDTH_1);
     }
     @Test
     void revealSurroundingsSETest(){
-        map.revealSurroundings(test_height1 -1, test_width1 -1);
-        assertEqualsMapDisp(
+        map1.revealSurroundings(TEST_HEIGHT_1 -1, TEST_WIDTH_1 -1);
+        assertEqualsStrCharMtrx(
             "######" +
                     "#@####" +
                     "@* ##@" +
-                    "#@##@#", map, test_height1, test_width1);
+                    "#@##@#", map1, TEST_HEIGHT_1, TEST_WIDTH_1);
     }
 
     @Test
     void isWinTest() {
-        assertFalse(map.isWin());
-        map = new Map(test_height1, test_width1, test_map1, winY1, winX1, winY1, winX1, cs, new ArrayList<Item>());
-        assertTrue(map.isWin());
+        assertFalse(map1.isWin());
+        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, WIN_Y_1, WIN_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Item>());
+        assertTrue(map1.isWin());
     }
 
     @Test
@@ -206,7 +184,7 @@ class MapTest extends TestHelpers{
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(err));
 
-        map.printDisplayMap();
+        map1.printDisplayMap();
         assertEquals("######\r\n" +
                     "#@####\r\n" +
                     "@* ###\r\n" +
@@ -220,8 +198,8 @@ class MapTest extends TestHelpers{
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(err));
 
-        map.revealSurroundings(2, 3);
-        map.printDisplayMap();
+        map1.revealSurroundings(2, 3);
+        map1.printDisplayMap();
         assertEquals("######\r\n" +
                             "#@#@##\r\n" +
                             "@* #@#\r\n" +

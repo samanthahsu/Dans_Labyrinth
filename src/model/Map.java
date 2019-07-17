@@ -67,7 +67,7 @@ public class Map {
         }
         if (inter != null) {
             for (Interactable c : inter) {
-                if (c.getName() != null) {
+                if (c != null) {
                     interactables.get(c.getYpos()).set(c.getXpos(), c);
                 }
             }

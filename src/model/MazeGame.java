@@ -2,7 +2,7 @@ package model;
 
 import java.util.Scanner;
 
-// Main hub, manages all game processes
+/**Main hub which manages all game processes**/
 public class MazeGame {
 
 //    todo add exceptions
@@ -20,11 +20,16 @@ public class MazeGame {
     //    EFFECTS: prints welcome dialogue, if map is uninitialized,
     // handles homeScreen commands
     public void runHomeScreen() {
+        System.out.println("MAÏSGAME"
+                + "==========");
         while (map == null && gameState != QUIT_GAME) {
-            System.out.println("Enter 'n' for new game, 'l' to load a saved "
-                    + "game, 'h' for more controls, 'q' to end program");
+            System.out.println("n : new game\n"
+                    + "l : load a saved game\n"
+                    + "h : more controls\n"
+                    + "q : exit");
             homeExecute(scnr.nextLine());
         }
+
         if (gameState == QUIT_GAME) {
             return;
         }
@@ -166,6 +171,7 @@ public class MazeGame {
         return CONTINUE_GAME;
     }
 
+//    EFFECTS: prints celebratory graphic
     private void printWinGraphic() {
         System.out.println("                                  .''.\n"
                 + "        .''.             *''*    :_\\/_:     .\n"
@@ -186,5 +192,4 @@ public class MazeGame {
                 + "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n"
                 + "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~");
     }
-
 }

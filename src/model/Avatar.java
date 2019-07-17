@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Avatar {
-    private int status = 0; //health bar of sorts: 0=healthy, 1=dying, 2=dead
+    private int status = 0; //health bar of sorts: 0=healthy, 1=dying, 2=dead todo reverse the numbers
     private int ypos;
     private int xpos; //tracks position of avatar
     private ArrayList<Item> items;
@@ -73,10 +73,11 @@ public class Avatar {
         }
     }
 
-//    REQUIRES: map is not null
-//    MODIFIES: this
-//    EFFECTS: if item is present in current tile, pick up item,
-//      otherwise print message
+/*    REQUIRES: map is not null
+*   MODIFIES: this
+*    EFFECTS: if item is present in current tile, pick up item,
+*      otherwise print message
+*/
     public void pickUpItem(Map map) {
         Interactable inter = map.getInteractable(ypos, xpos);
         if (inter != null && inter.isItem) {

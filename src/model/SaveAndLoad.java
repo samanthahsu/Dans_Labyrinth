@@ -161,8 +161,8 @@ public class SaveAndLoad {
                     switch (i.getName()) {
                         case "Exo":
                             returnString = returnString.concat(FILE_CREATURE_EXO_MARKER + '\n'
-                               + i.startY + '\n'
-                               + i.startX + '\n');
+                                    + i.startY + '\n'
+                                    + i.startX + '\n');
                             break;
                         default:
                     }

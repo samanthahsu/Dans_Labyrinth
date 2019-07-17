@@ -1,5 +1,6 @@
 package model;
 
+/**An interactable creature that you can fight or talk to**/
 public interface Creature {
 
     String getName();
@@ -20,5 +21,4 @@ public interface Creature {
 
 //    EFFECTS: prints creature speech
     void speak();
-
 }

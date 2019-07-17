@@ -1,6 +1,4 @@
-import model.Interactable;
-import model.Map;
-import model.NullCreature;
+import model.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,7 +7,54 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-abstract class TestHelpers {
+abstract class TestHelper {
+
+//    CONSTANT FIELDS
+    protected Map map1;
+    protected static final String TEST_MAP_1 =
+            "@@@ @@"
+            + "@@ @ @"
+            + "@   @@"
+            + "@@@@@@";
+    protected static final int TEST_HEIGHT_1 = 4;
+    protected static final int TEST_WIDTH_1 = 6;
+    protected static final int TEST_START_Y_1 = 2;
+    protected static final int TEST_START_X_1 = 1;
+    protected static final int WIN_Y_1 = 0;
+    protected static final int WIN_X_1 = 3;
+
+    protected static final String TEST_MAP_2 =
+            "@@@"+
+                    "@ @"+
+                    "@ @";
+    protected static final int TEST_HEIGHT_2 = 3;
+    protected static final int TEST_WIDTH_2 = 3;
+    protected static final int TEST_START_Y_2 = 1;
+    protected static final int TEST_START_X_2 = 1;
+    protected static final int WIN_Y_2 = 2;
+    protected static final int WIN_X_2 = 1;
+
+
+    protected Map map3;
+    protected static final String TEST_MAP_3 =
+            "  +  g"
+            + "  +  h"
+            + "  +  i"
+            + "  +  k";
+    protected static final int TEST_HEIGHT_3 = 4;
+    protected static final int TEST_WIDTH_3 = 6;
+    protected static final int TEST_START_Y_3 = 2;
+    protected static final int TEST_START_X_3 = 1;
+    protected static final int WIN_Y_3 = 0;
+    protected static final int WIN_X_3 = 3;
+
+    // FIELDS THAT CHANGE
+    protected static ArrayList<Interactable> interactableArrayList = new ArrayList<>();
+    protected static int interY1 = 0;
+    protected static int interX1 = 0;
+
+    Avatar ava1;
+    Exo exo1;
 
     //    REQUIRES: expMapStr is same size as h x w
     //    EFFECT converts expectedMap string to char matrix of test height and width
@@ -25,36 +70,36 @@ abstract class TestHelpers {
         return expMatrix;
     }
     //    REQUIRES: expMapStr is same size as h x w
-//    EFFECT: tests pass if expMapStr is equal to mapDisplay when mapDisplay is converted into String
-    protected void assertEqualsMapDisp(String expMapStr, Map map, int h, int w) {
+    //    EFFECT: passes if expMapStr is equal to mapDisplay when mapDisplay is converted into String
+    protected void assertEqualsStrCharMtrx(String expMapStr, Map mapActual, int h, int w) {
         char[][] expMap = strToTestCharMtrx(expMapStr, h, w);
-        char[][] actualMap = map.getMapDisplay();
+        char[][] actualMap = mapActual.getMapDisplay();
         assertEqualsCharMtrx(expMap, actualMap, h, w);
     }
-    //    REQUIRES: ava, b are matrices of size hxw
-    // EFFECT: test passes if two char matrices are identical
-    protected void assertEqualsCharMtrx(char[][] a, char[][] b, int h, int w) {
+
+    //    REQUIRES: charMtrxExp and charMtrxActual are matrices of size hxw
+    // EFFECT: passes if two char matrices are identical
+    protected void assertEqualsCharMtrx(char[][] charMtrxExp, char[][] charMtrxActual, int h, int w) {
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
-                assertEquals(a[i][j], b[i][j]);
+                assertEquals(charMtrxExp[i][j], charMtrxActual[i][j]);
             }
         }
     }
 
-    protected void assertEqualsMapObj(Map map2, Map newMap) {
-        assertEquals(map2.getHeight(), newMap.getHeight());
-        assertEquals(map2.getWidth(), newMap.getWidth());
+//    EFFECTS: passes if the mapexp == mapactual
+    protected void assertEqualsMap(Map mapexp, Map mapactual) {
+        assertEquals(mapexp.getHeight(), mapactual.getHeight());
+        assertEquals(mapexp.getWidth(), mapactual.getWidth());
 
-        assertEqualsCharMtrx(map2.getMap(), newMap.getMap(), newMap.getHeight(), newMap.getWidth());
-        assertEqualsCharMtrx(map2.getMapDisplay(), newMap.getMapDisplay() , newMap.getHeight(), newMap.getWidth());
+        assertEqualsCharMtrx(mapexp.getMap(), mapactual.getMap(), mapactual.getHeight(), mapactual.getWidth());
+        assertEqualsCharMtrx(mapexp.getMapDisplay(), mapactual.getMapDisplay() , mapactual.getHeight(), mapactual.getWidth());
 
-        assertEquals(map2.getWinY(), newMap.getWinY());
-        assertEquals(map2.getWinX(), newMap.getWinX());
+        assertEquals(mapexp.getWinY(), mapactual.getWinY());
+        assertEquals(mapexp.getWinX(), mapactual.getWinX());
 
-        assertEquals(map2.getAva().getYpos(), newMap.getAva().getYpos());
-        assertEquals(map2.getAva().getXpos(), newMap.getAva().getXpos());
-
-
+        assertEquals(mapexp.getAva().getYpos(), mapactual.getAva().getYpos());
+        assertEquals(mapexp.getAva().getXpos(), mapactual.getAva().getXpos());
     }
 
 
@@ -104,7 +149,7 @@ abstract class TestHelpers {
     }
 
     //    EFFECTS: returns interactable matrix built from
-    protected ArrayList<ArrayList<Interactable>> InteractableMatrix(ArrayList<Interactable> inter, int h, int w) {
+    protected ArrayList<ArrayList<Interactable>> makeInteractableMatrix(ArrayList<Interactable> inter, int h, int w) {
         ArrayList<ArrayList<Interactable>> interactables = new ArrayList<>();
         Interactable nullC = new NullCreature();
         ArrayList<Interactable> widthList = new ArrayList<>();
@@ -116,10 +161,7 @@ abstract class TestHelpers {
         }
         if (inter != null) {
             for (Interactable c : inter) {
-                if (c.getName() != null) {
                     interactables.get(c.getYpos()).set(c.getXpos(), c);
-                }
-
             }
         }
         return interactables;

@@ -2,6 +2,7 @@ package model;
 
 public abstract class Interactable {
 //todo change this to interface, and change item and creature to abstract classes
+//interactable would be one per tile, could be an instance event, creature, or item
     String name;
     String description;
     int startY;
@@ -24,9 +25,7 @@ public abstract class Interactable {
     public int getXpos() {
         return startX;
     }
+
+    public void interact() {}
 }
-// abstract classes because
-// - implements can be done multiple times, while extends can only be done once
-// - you lose the ability to not have to implement all the methods in the class,
-// - you might accidentally instantiate it, but compared to the loss of the other
-//   two, it's alright
+

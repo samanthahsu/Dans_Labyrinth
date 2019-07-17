@@ -1,4 +1,3 @@
-import model.Interactable;
 import model.Item;
 import model.Map;
 import model.SaveAndLoad;
@@ -9,68 +8,39 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class SaveAndLoadTest extends TestHelpers {
+class SaveAndLoadTest extends TestHelper {
 
     private static final String PROJECT_PATH = System.getProperty("user.dir");
+    private static final String TEST_FILE_NAME = "SaveAndLoadTest";
 
-    private Map map1;
     private SaveAndLoad svl;
-    private static final String test_map1 =
-            "@@@ @@"+
-            "@@ @ @"+
-            "@   @@"+
-            "@@@@@@";
-    private static final int test_height1 = 4;
-    private static final int test_width1 = 6;
-    private static final int test_startY1 = 2;
-    private static final int test_startX1 = 1;
-    private static final int winY1 = 0;
-    private static final int winX1 = 3;
-
-    private Map map2;
-    private static final String test_map2 =
-            "  +  g"+
-            "  +  h"+
-            "  +  i"+
-            "  +  k";
-    private static final int test_height2 = 4;
-    private static final int test_width2 = 6;
-    private static final int test_startY2 = 2;
-    private static final int test_startX2 = 1;
-    private static final int winY2 = 0;
-    private static final int winX2 = 3;
-    private static final ArrayList<Interactable> cs = new ArrayList<>();
-
 
     @BeforeEach
     void BeforeEach() {
         svl = new SaveAndLoad();
-        map1 = new Map(test_height1, test_width1, test_map1, test_startY1,
-                test_startX1, winY1, winX1, cs, new ArrayList<Item>());
-        map2 = new Map(test_height2, test_width2, test_map2, test_startY2, test_startX2, winY2, winX2, cs, new ArrayList<Item>());
+        interactableArrayList = new ArrayList<>();
+        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1,
+                TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Item>());
+        map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, TEST_START_Y_3, TEST_START_X_3, WIN_Y_3, WIN_X_3, interactableArrayList, new ArrayList<Item>());
     }
 
     @Test
     void saveGameTest() {
-        svl.saveGame("svl", map1, map1.getAva());
-        assertEqualsFile(PROJECT_PATH+"\\test\\svlExpected1",
-                PROJECT_PATH+"\\saves\\svl");
+        svl.saveGame(TEST_FILE_NAME, map1, map1.getAva());
+        assertEqualsFile(PROJECT_PATH + "\\test\\expectedSVL\\svlExpected1",
+                PROJECT_PATH + "\\saves\\" + TEST_FILE_NAME);
 
-        svl.saveGame("svl", map2, map2.getAva());
-        assertEqualsFile(PROJECT_PATH+"\\test\\svlExpected2",
-                PROJECT_PATH+"\\saves\\svl");
-
+        svl.saveGame(TEST_FILE_NAME, map3, map3.getAva());
+        assertEqualsFile(PROJECT_PATH + "\\test\\expectedSVL\\svlExpected2",
+                PROJECT_PATH + "\\saves\\" + TEST_FILE_NAME);
     }
 
     @Test
     void loadFileTest() {
         assertEquals(null, svl.loadFile("thisOneDoesn'tExist"));
 
-        svl.saveGame("svl", map2, map2.getAva());
-        Map newMap = svl.loadFile("svl");
-        assertEqualsMapObj(map2, newMap);
-
+        svl.saveGame("SaveAndLoadTest", map3, map3.getAva());
+        Map newMap = svl.loadFile("SaveAndLoadTest");
+        assertEqualsMap(map3, newMap);
     }
-
-
 }

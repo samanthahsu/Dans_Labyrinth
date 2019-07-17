@@ -6,37 +6,20 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CreatureTest {
+class CreatureTest extends TestHelper {
 
-    Exo exo1;
-    Avatar a;
-
-//    todo organize all these static final stuff into another class
-    private Map map1;
-    private static final String test_map1 =
-            "@@@ @@"+
-                    "@@ @ @"+
-                    "@   @@"+
-                    "@@@@@@";
-    private static final int test_height1 = 4;
-    private static final int test_width1 = 6;
-    private static final int test_startY1 = 2;
-    private static final int test_startX1 = 1;
-    private static final int winY1 = 0;
-    private static final int winX1 = 3;
-    private static final ArrayList<Interactable> inter = new ArrayList<>();
     private static final ArrayList<Item> items = new ArrayList<>();
-    private static final int ItemY1 = 2;
-    private static final int ItemX1 = 1;
-
 
     @BeforeEach
     void BeforeEach(){
-        exo1 = new Exo(ItemY1, ItemX1);
-        inter.add(exo1);
-        map1 = new Map(test_height1, test_width1, test_map1, test_startY1,
-                test_startX1, winY1, winX1, inter, new ArrayList<Item>());
-        a = map1.getAva();
+        interY1 = 2;
+        interX1 = 1;
+
+        exo1 = new Exo(interY1, interX1);
+        interactableArrayList.add(exo1);
+        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1,
+                TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Item>());
+        ava1 = map1.getAva();
 
     }
 
@@ -47,10 +30,10 @@ public class CreatureTest {
     @Test // todo temp, rework interactable system
     void attackTest() {
         exo1.attack(map1);
-        assertEquals(1 ,a.getStatus());
+        assertEquals(1 , ava1.getStatus());
         exo1.attack(map1);
-        assertEquals(2 ,a.getStatus());
+        assertEquals(2 , ava1.getStatus());
         exo1.attack(map1);
-        assertEquals(2,a.getStatus());
+        assertEquals(2, ava1.getStatus());
     }
 }

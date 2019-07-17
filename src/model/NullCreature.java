@@ -19,12 +19,12 @@ public class NullCreature extends Interactable implements Creature {
     }
 
     @Override
-    public int getY() {
+    public int getYpos() {
         return 0;
     }
 
     @Override
-    public int getX() {
+    public int getXpos() {
         return 0;
     }
 

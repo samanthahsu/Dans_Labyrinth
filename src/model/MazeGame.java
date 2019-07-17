@@ -19,15 +19,14 @@ public class MazeGame {
     //    EFFECTS: prints welcome dialogue, if map is uninitialized,
     // handles homeScreen commands
     public void runHomeScreen() {
-
-        while (map == null && gameState!=QUIT_GAME) {
-            System.out.println( "Enter 'n' for new game, 'l' to load a saved " +
-                    "game, 'h' for more controls, 'q' to end program");
+        while (map == null && gameState != QUIT_GAME) {
+            System.out.println("Enter 'n' for new game, 'l' to load a saved "
+                    + "game, 'h' for more controls, 'q' to end program");
             homeExecute(scnr.nextLine());
         }
-
-        if(gameState==QUIT_GAME){return;}
-
+        if (gameState == QUIT_GAME) {
+            return;
+        }
         map.printDisplayMap();
         runGame();
     }
@@ -63,7 +62,7 @@ public class MazeGame {
     }
 
     //  EFFECTS: runs the main body of the game
-    private void runGame(){
+    private void runGame() {
         String ui;
 
 //        while loop for when the game is being played
@@ -72,7 +71,7 @@ public class MazeGame {
             ui = scnr.nextLine();
             gameState = execute(ui); // each move is one tick
 
-            if(map.isWin()){
+            if (map.isWin()) {
                 System.out.println("CONGRATS, YOU WON!");
                 gameState = WIN_GAME;
             }
@@ -116,14 +115,15 @@ public class MazeGame {
     }
 
     // EFFECT: print user controls and other info
-    private void printHelp(){
+    private void printHelp() {
 //        todo add use items commands
-        System.out.println("Enter n, s, e, or w to move North, South, East, or West respectively."+'\n'+
-                "'m' to view the map"+'\n'+
-                "'pick up': pick up item"+'\n'+
-                "'items': view items"+'\n'+
-                "'h' to get help dialogue"+'\n'+
-                "'q' to quit");
+        System.out.println("Enter n, s, e, or w to move North, South, East, or "
+                + "West respectively." + '\n'
+                + "'m' to view the map" + '\n'
+                + "'pick up': pick up item" + '\n'
+                + "'items': view items" + '\n'
+                + "'h' to get help dialogue" + '\n'
+                + "'q' to quit");
     }
 
     // REQUIRES: gameOver is in the interval [1, 3]
@@ -160,29 +160,30 @@ public class MazeGame {
             case "q":
                 System.out.println("Quitting...");
                 return QUIT_GAME;
-            }
+            default:
+        }
         return CONTINUE_GAME;
     }
 
     private void printWinGraphic() {
-        System.out.println("                                  .''.\n" +
-                "        .''.             *''*    :_\\/_:     .\n" +
-                "       :_\\/_:   .    .:.*_\\/_*   : /\\ :  .'.:.'.\n" +
-                "   .''.: /\\ : _\\(/_  ':'* /\\ *  : '..'.  -=:o:=-\n" +
-                "  :_\\/_:'.:::. /)\\*''*  .|.* '.\\'/.'_\\(/_'.':'.'\n" +
-                "  : /\\ : :::::  '*_\\/_* | |  -= o =- /)\\    '  *\n" +
-                "   '..'  ':::'   * /\\ * |'|  .'/.\\'.  '._____\n" +
-                "       *        __*..* |  |     :      |.   |' .---\"|\n" +
-                "        _*   .-'   '-. |  |     .--'|  ||   | _|    |\n" +
-                "     .-'|  _.|  |    ||   '-__  |   |  |    ||      |\n" +
-                "     |' | |.    |    ||       | |   |  |    ||      |\n" +
-                "  ___|  '-'     '    \"\"       '-'   '-.'    '`      |____\n" +
-                "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
-                "                       ~-~-~-~-~-~-~-~-~-~   /|\n" +
-                "          )      ~-~-~-~-~-~-~-~  /|~       /_|\\\n" +
-                "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n" +
-                "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n" +
-                "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~");
+        System.out.println("                                  .''.\n"
+                + "        .''.             *''*    :_\\/_:     .\n"
+                + "       :_\\/_:   .    .:.*_\\/_*   : /\\ :  .'.:.'.\n"
+                + "   .''.: /\\ : _\\(/_  ':'* /\\ *  : '..'.  -=:o:=-\n"
+                + "  :_\\/_:'.:::. /)\\*''*  .|.* '.\\'/.'_\\(/_'.':'.'\n"
+                + "  : /\\ : :::::  '*_\\/_* | |  -= o =- /)\\    '  *\n"
+                + "   '..'  ':::'   * /\\ * |'|  .'/.\\'.  '._____\n"
+                + "       *        __*..* |  |     :      |.   |' .---\"|\n"
+                + "        _*   .-'   '-. |  |     .--'|  ||   | _|    |\n"
+                + "     .-'|  _.|  |    ||   '-__  |   |  |    ||      |\n"
+                + "     |' | |.    |    ||       | |   |  |    ||      |\n"
+                + "  ___|  '-'     '    \"\"       '-'   '-.'    '`      |____\n"
+                + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                + "                       ~-~-~-~-~-~-~-~-~-~   /|\n"
+                + "          )      ~-~-~-~-~-~-~-~  /|~       /_|\\\n"
+                + "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n"
+                + "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n"
+                + "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~");
     }
 
 }

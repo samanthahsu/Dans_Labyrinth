@@ -5,15 +5,15 @@ public class Exo extends Interactable implements Item, Creature {
     String name;
     String description;
     int status;
-    int y;
-    int x;
+    int ypos;
+    int xpos;
 
     //    EFFECTS: set starting coordinates
-    public Exo(int y, int x){
-        this.y = y;
-        this.x = x;
-        description = "a fuzzy black orange sized creature stares back at " +
-                "you with a deploring gaze";
+    public Exo(int y, int x) {
+        this.ypos = y;
+        this.xpos = x;
+        description = "a fuzzy black orange sized creature stares back at "
+                + "you with a deploring gaze";
         name = "Exo";
         status = 0;
         isCreature = true;
@@ -33,12 +33,12 @@ public class Exo extends Interactable implements Item, Creature {
         return status;
     }
 
-    public int getY() {
-        return y;
+    public int getYpos() {
+        return ypos;
     }
 
-    public int getX() {
-        return x;
+    public int getXpos() {
+        return xpos;
     }
 
     //    EFFECTS: doesn't move at all

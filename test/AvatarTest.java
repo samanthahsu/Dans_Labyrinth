@@ -40,28 +40,28 @@ class AvatarTest {
 
     @Test
     void ConstructorTest(){
-        assertEquals(test_startY1, a.getY());
-        assertEquals(test_startX1, a.getX());
+        assertEquals(test_startY1, a.getYpos());
+        assertEquals(test_startX1, a.getXpos());
 
     }
 
     @Test
     void moveAvaTest(){
         a.moveAva("n", map1);
-        assertEquals(test_startY1, a.getY());
-        assertEquals(test_startX1, a.getX());
+        assertEquals(test_startY1, a.getYpos());
+        assertEquals(test_startX1, a.getXpos());
 
         a.moveAva("e", map1);
-        assertEquals(test_startY1, a.getY());
-        assertEquals(test_startX1+1, a.getX());
+        assertEquals(test_startY1, a.getYpos());
+        assertEquals(test_startX1+1, a.getXpos());
 
         a.moveAva("s", map1);
-        assertEquals(test_startY1, a.getY());
-        assertEquals(test_startX1+1, a.getX());
+        assertEquals(test_startY1, a.getYpos());
+        assertEquals(test_startX1+1, a.getXpos());
 
         a.moveAva("w", map1);
-        assertEquals(test_startY1, a.getY());
-        assertEquals(test_startX1, a.getX());
+        assertEquals(test_startY1, a.getYpos());
+        assertEquals(test_startX1, a.getXpos());
 
     }
 

@@ -141,8 +141,8 @@ public class SaveAndLoad {
                 Integer.toString(map.getWinY()) + '\n' +
                 Integer.toString(map.getWinX()) + '\n' +
                 FILE_AVA_YX_MARKER + '\n' +
-                Integer.toString(ava.getY()) + '\n' +
-                Integer.toString(ava.getX()) + '\n' +
+                Integer.toString(ava.getYpos()) + '\n' +
+                Integer.toString(ava.getXpos()) + '\n' +
                 FILE_CREATURE_START_MARKER + '\n' +
                 saveInteractables(map) + '\n' +
                 FILE_CREATURE_STOP_MARKER

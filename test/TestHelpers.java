@@ -51,8 +51,8 @@ abstract class TestHelpers {
         assertEquals(map2.getWinY(), newMap.getWinY());
         assertEquals(map2.getWinX(), newMap.getWinX());
 
-        assertEquals(map2.getAva().getY(), newMap.getAva().getY());
-        assertEquals(map2.getAva().getX(), newMap.getAva().getX());
+        assertEquals(map2.getAva().getYpos(), newMap.getAva().getYpos());
+        assertEquals(map2.getAva().getXpos(), newMap.getAva().getXpos());
 
 
     }
@@ -99,8 +99,8 @@ abstract class TestHelpers {
 //    EFFECTS: passes if interactables are the same
     private void assertEqualsInteractable(Interactable a, Interactable b) {
         assertEquals(a.getName(), b.getName());
-        assertEquals(a.getY(), b.getY());
-        assertEquals(a.getX(), b.getX());
+        assertEquals(a.getYpos(), b.getYpos());
+        assertEquals(a.getXpos(), b.getXpos());
     }
 
     //    EFFECTS: returns interactable matrix built from
@@ -117,7 +117,7 @@ abstract class TestHelpers {
         if (inter != null) {
             for (Interactable c : inter) {
                 if (c.getName() != null) {
-                    interactables.get(c.getY()).set(c.getX(), c);
+                    interactables.get(c.getYpos()).set(c.getXpos(), c);
                 }
 
             }

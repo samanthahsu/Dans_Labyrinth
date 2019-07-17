@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CreatureTest {
 
-    Interactable exo1;
+    Exo exo1;
     Avatar a;
 
 //    todo organize all these static final stuff into another class
@@ -46,11 +46,11 @@ public class CreatureTest {
 
     @Test // todo temp, rework interactable system
     void attackTest() {
-        ((Creature) exo1).attack(map1);
+        exo1.attack(map1);
         assertEquals(1 ,a.getStatus());
-        ((Creature) exo1).attack(map1);
+        exo1.attack(map1);
         assertEquals(2 ,a.getStatus());
-        ((Creature) exo1).attack(map1);
+        exo1.attack(map1);
         assertEquals(2,a.getStatus());
     }
 }

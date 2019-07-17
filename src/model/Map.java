@@ -5,7 +5,7 @@ import java.util.Random;
 
 /*manages the map portion of this adventure*/
 public class Map {
-
+//todo override equals() for this one*******
     private static final char wall = '@';
     private static final char floor = ' ';
     private static final char c = '*';
@@ -24,9 +24,9 @@ public class Map {
 //    EFFECTS: sets height, width, winY, and winX
 //          fills map with mapString
 //          fills mapDisplay with savedMap
-//          places ava at y x
+//          places ava at ypos xpos
     public Map(int h, int w, String cleanMap, int startY, int startX, int winY,
-               int winX, ArrayList<Interactable> inter, ArrayList<Item> items){
+               int winX, ArrayList<Interactable> inter, ArrayList<Item> items) {
         height = h;
         width = w;
         this.winY = winY;
@@ -41,9 +41,9 @@ public class Map {
 //    EFFECTS: sets height, width, winY, and winX
 //          fills map with mapString
 //          fills mapDisplay with savedMap
-//          places ava at y x
+//          places ava at ypos xpos
     public Map(int h, int w, String cleanMap, String savedMap, int startY, int startX, int winY,
-               int winX, ArrayList<Interactable> inter, ArrayList<Item> items){
+               int winX, ArrayList<Interactable> inter, ArrayList<Item> items) {
         height = h;
         width = w;
         this.winY = winY;
@@ -52,7 +52,7 @@ public class Map {
         initMapDisplay(savedMap);
         initAvatar(startY, startX, items);
         initInteractables(inter);
-        }
+    }
 
 // EFFECTS: fills Array list full of null to correct size
 // if inter is not empty, places interactables in interactables list matrix at specified indexes.
@@ -65,10 +65,10 @@ public class Map {
         for (int i = 0; i < height; i++) {
             interactables.add(widthList);
         }
-        if (inter!=null) {
+        if (inter != null) {
             for (Interactable c : inter) {
                 if (c.getName() != null) {
-                    interactables.get(c.getY()).set(c.getX(), c);
+                    interactables.get(c.getYpos()).set(c.getXpos(), c);
                 }
             }
         }
@@ -76,7 +76,7 @@ public class Map {
 
     //    MODIFIES: this
     //    EFFECTS: store mapString into map
-    private void initMap(String mapString){
+    private void initMap(String mapString) {
         map = new char[height][width];
         int strIndex = 0;
         for (int i = 0; i < height; i++)  {
@@ -86,12 +86,13 @@ public class Map {
             }
         }
     }
+
     //    MODIFIES: this todo combine this and initMap for efficiency (eventually)
     //    EFFECTS: fills mapDisplay with fog tiles
-    private void initMapDisplay(){
+    private void initMapDisplay() {
         mapDisplay = new char[height][width];
         for (int i = 0; i < height; i++) {
-            for(int j = 0; j < width; j++){
+            for (int j = 0; j < width; j++) {
                 mapDisplay[i][j] = fog;
             }
         }
@@ -100,7 +101,7 @@ public class Map {
 //    MODIFIES: this
 //    REQUIRES: given string is fitting of given height and width
 //    EFFECTS: fills mapDisplay according to state
-    private void initMapDisplay(String state){
+    private void initMapDisplay(String state) {
         mapDisplay = new char[height][width];
         int strIndex = 0;
         for (int i = 0; i < height; i++)  {
@@ -112,7 +113,7 @@ public class Map {
     }
 
     //    MODIFIES: mapDisplay
-    //    EFFECTS: places avatar at y, x revealing adjacent tiles
+    //    EFFECTS: places avatar at ypos, xpos revealing adjacent tiles
     private void initAvatar(int startY, int startX, ArrayList<Item> items) {
         ava = new Avatar(startY, startX, items);
         updateTileDisp(startY, startX, c);
@@ -163,50 +164,52 @@ public class Map {
     }
 
     //    EFFECTS: return true if index within bounds of map
-    public boolean isIndexValid(int y, int x){
+    public boolean isIndexValid(int y, int x) {
         return y >= 0 && x >= 0 && y < height && x < width;
     }
-    //    REQUIRES: y and x are valid indexes in map
+
+    //    REQUIRES: ypos and xpos are valid indexes in map
     //    EFFECTS: returns true if tile of requested index is floor in map, else false
-    public boolean isTileFloor(int y, int x){
+    public boolean isTileFloor(int y, int x) {
         return map[y][x] == ' ';
     }
 
-    //    REQUIRES: y and x are valid indexes in map
+    //    REQUIRES: ypos and xpos are valid indexes in map
     //    MODIFIES: this
-    //    EFFECTS: replaces character at index y,x with c in mapDisplay
+    //    EFFECTS: replaces character at index ypos,xpos with c in mapDisplay
     public void updateTileDisp(int y, int x, char c) {
         mapDisplay[y][x] = c;
     }
+
     //    MODIFIES: this
-    //    EFFECTS: if given index is valid, replaces character at index y,x with c in mapDisplay
+    //    EFFECTS: if given index is valid, replaces character at index ypos,xpos with c in mapDisplay
     //        otherwise does nothing
-    private void checkAndUpdateTileDisp(int y, int x){
+    private void checkAndUpdateTileDisp(int y, int x) {
         if (isIndexValid(y, x)) {
             updateTileDisp(y, x, map[y][x]);
         }
     }
 
     //    MODIFIES: this
-    //    EFFECTS: replace any fog tiles with corresponding tiles on map orthogonally about index y,x
+    //    EFFECTS: replace any fog tiles with corresponding tiles on map orthogonally about index ypos,xpos
     //      on mapDisplay (no diagonals), if tile index not valid, do nothing
     public void revealSurroundings(int y, int x) {
-        checkAndUpdateTileDisp(y, x-1);
-        checkAndUpdateTileDisp(y, x+1);
-        checkAndUpdateTileDisp(y-1, x);
-        checkAndUpdateTileDisp(y+1, x);
+        checkAndUpdateTileDisp(y, x - 1);
+        checkAndUpdateTileDisp(y, x + 1);
+        checkAndUpdateTileDisp(y - 1, x);
+        checkAndUpdateTileDisp(y + 1, x);
     }
 
     //    EFFECTS: returns true if ava is on the winning tile
-    public boolean isWin(){
-        return ava.getY() == winY && ava.getX() == winX;
+    public boolean isWin() {
+        return ava.getYpos() == winY && ava.getXpos() == winX;
     }
 
     //    *************PRINTING*************
 
     //    REQUIRES: mapDisplay is not null
     //    EFFECTS: prints mapDisplay to screen
-    public void printDisplayMap(){
+    public void printDisplayMap() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 System.out.print(mapDisplay[i][j]);
@@ -218,22 +221,23 @@ public class Map {
     //    EFFECTS: prints silly statements when you try to move to a wall tile
     public void printMovePlaceholder(String dir) {
         Random ran = new Random();
-        switch(ran.nextInt(5)){
+        switch (ran.nextInt(5)) {
             case 0:
-                System.out.println("You smack hilariously against the "+dir+" wall.");
+                System.out.println("You smack hilariously against the " + dir + " wall.");
                 break;
             case 1:
-                System.out.println("Your toe is painfully stubbed on the "+dir+" wall.");
+                System.out.println("Your toe is painfully stubbed on the " + dir + " wall.");
                 break;
             case 2:
-                System.out.println("You flop desperately against the "+dir+" wall.");
+                System.out.println("You flop desperately against the " + dir + " wall.");
                 break;
             case 3:
                 System.out.println("You sit and ponder how your life has culminated in this moment.");
                 break;
             case 4:
-                System.out.println("You flop against the "+dir+" wall for fun.");
+                System.out.println("You flop against the " + dir + " wall for fun.");
                 break;
+            default:
         }
     }
 

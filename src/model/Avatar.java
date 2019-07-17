@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Avatar {
     private static char ava_char = '*';
     private int status = 0; //health bar of sorts: 0=healthy, 1=dying, 2=dead
-    private int y;
-    private int x; //tracks position of avatar
+    private int ypos;
+    private int xpos; //tracks position of avatar
     private ArrayList<Item> items;
 
 //    EFFECTS: constructs avatar setting it's coordinates
-    public Avatar(int setY, int setX, ArrayList<Item> items){
-        y=setY;
-        x=setX;
+    public Avatar(int setY, int setX, ArrayList<Item> items) {
+        ypos = setY;
+        xpos = setX;
         this.items = items;
     }
 
@@ -20,12 +20,12 @@ public class Avatar {
         return status;
     }
 
-    public int getY() {
-        return y;
+    public int getYpos() {
+        return ypos;
     }
 
-    public int getX() {
-        return x;
+    public int getXpos() {
+        return xpos;
     }
 
     public void setStatus(int status) {
@@ -38,37 +38,38 @@ public class Avatar {
 
     //    MODIFIES: map
 //    EFFECTS: handles move commands in 4 directions
-    public void moveAva(String command, Map map){
-        switch (command){
+    public void moveAva(String command, Map map) {
+        switch (command) {
             case "n":
-                moveAvaHelper(y-1, x, map, "northern");
+                moveAvaHelper(ypos - 1, xpos, map, "northern");
                 break;
             case "s":
-                moveAvaHelper(y+1, x, map, "southern");
+                moveAvaHelper(ypos + 1, xpos, map, "southern");
                 break;
             case "e":
-                moveAvaHelper(y, x+1, map, "eastern");
+                moveAvaHelper(ypos, xpos + 1, map, "eastern");
                 break;
             case "w":
-                moveAvaHelper(y, x-1, map, "western");
+                moveAvaHelper(ypos, xpos - 1, map, "western");
                 break;
+            default:
         }
     }
 
 //    MODIFIES: this
-//    EFFECTS: if y,x is can be moved, move ava and update ava coordinates, else print feedback text
+//    EFFECTS: if ypos,xpos is can be moved, move ava and update ava coordinates, else print feedback text
     private void moveAvaHelper(int y, int x, Map map, String dir) {
         if (map.isTileFloor(y, x)) {
             map.updateTileDisp(y, x, ava_char);
             map.revealSurroundings(y, x);
-            this.y = y;
-            this.x = x;
+            this.ypos = y;
+            this.xpos = x;
             Interactable i = map.getInteractable(y, x);
-            if (i.getName()!= null) {
+            if (i.getName() != null) {
                 System.out.println(i.getDescription());
             }
         } else {
-              map.printMovePlaceholder(dir);
+            map.printMovePlaceholder(dir);
         }
     }
 
@@ -77,13 +78,14 @@ public class Avatar {
 //    EFFECTS: if item is present in current tile, pick up item,
 //      otherwise print message
     public void pickUpItem(Map map) {
-        Interactable inter = map.getInteractable(y, x);
-        if(inter != null && inter.isItem) {
+        Interactable inter = map.getInteractable(ypos, xpos);
+        if (inter != null && inter.isItem) {
             items.add((Item) inter);
-            map.removeInteractable(y, x);
+            map.removeInteractable(ypos, xpos);
             System.out.println("Picked up an item!");
         }
     }
+
 // EFFECTS: prints current items
     public void printItems() {
         System.out.println("You are carrying:");
@@ -91,17 +93,18 @@ public class Avatar {
             System.out.println(i.getName());
         }
     }
+
 //EFFECTS: uses current item todo only one allowed
-    public void useItem(String itemNm, Map map){
+    public void useItem(String itemNm, Map map) {
         switch (itemNm) {
             case "Exo":
                 for (Item i:items) {
-                    if (i.getName()!=null && i.getName().equals("Exo")) {
+                    if (i.getName() != null && i.getName().equals("Exo")) {
                         i.useItem(map);
                     }
                 }
+                break;
+            default:
         }
-
-
     }
 }

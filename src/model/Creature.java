@@ -8,9 +8,9 @@ public interface Creature {
 
     int getStatus();
 
-    int getY();
+    int getYpos();
 
-    int getX();
+    int getXpos();
 
 //    EFFECTS: moves creature to valid tile in creature specific pattern
     void move();

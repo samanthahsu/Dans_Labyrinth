@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ItemTest {
 
 
-    Item exo1;
+    Exo exo1;
     Avatar ava;
 
     private Map map1;

@@ -5,6 +5,7 @@ import java.util.Scanner;
 // Main hub, manages all game processes
 public class MazeGame {
 
+//    todo add exceptions
 
     private static final int CONTINUE_GAME = 0;
     private static final int QUIT_GAME = 1;
@@ -147,8 +148,8 @@ public class MazeGame {
 //      cancel: continues the game
 //      quit: quit the game without saving
     private int handleQuit() {
-        System.out.println
-                ("Enter 's' to save, 'c' to cancel or 'q' again to quit without saving.");
+        System.out.println("Enter 's' to save, 'c' to cancel or 'q' again to "
+                + "quit without saving.");
         switch (scnr.nextLine()) {
             case "s":
                 System.out.println("What would you like to name your file?");

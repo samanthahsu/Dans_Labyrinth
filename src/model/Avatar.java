@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 
 public class Avatar {
-    private static char ava_char = '*';
     private int status = 0; //health bar of sorts: 0=healthy, 1=dying, 2=dead
     private int ypos;
     private int xpos; //tracks position of avatar
@@ -60,7 +59,8 @@ public class Avatar {
 //    EFFECTS: if ypos,xpos is can be moved, move ava and update ava coordinates, else print feedback text
     private void moveAvaHelper(int y, int x, Map map, String dir) {
         if (map.isTileFloor(y, x)) {
-            map.updateTileDisp(y, x, ava_char);
+            char avaChar = '*';
+            map.updateTileDisp(y, x, avaChar);
             map.revealSurroundings(y, x);
             this.ypos = y;
             this.xpos = x;

@@ -20,7 +20,7 @@ public class MazeGame {
     //    EFFECTS: prints welcome dialogue, if map is uninitialized,
     // handles homeScreen commands
     public void runHomeScreen() {
-        System.out.println("MAÏSGAME"
+        System.out.println("BlackBox"
                 + "==========");
         while (map == null && gameState != QUIT_GAME) {
             System.out.println("n : new game\n"
@@ -71,8 +71,9 @@ public class MazeGame {
         while (gameState == CONTINUE_GAME) {
 
             ui = scnr.nextLine();
-            gameState = execute(ui); // each move is one tick
-            map.nextState();
+            if (execute(ui)) { // each move is one tick
+                map.nextState();
+            }
 
             if (map.isWin()) {
                 System.out.println("CONGRATS, YOU WON!");
@@ -85,8 +86,7 @@ public class MazeGame {
 
 
     // EFFECTS: handles which Map functions to call. returns gameState.
-    private int execute(String input) { // todo add use item
-        int gameState = 0;
+    private boolean execute(String input) { // todo add use item
         switch (input) {
             case "n":
             case "s":
@@ -120,8 +120,9 @@ public class MazeGame {
                 map.getAva().useItem(input, map);
             default:
                 System.out.println("...");
+                return false;
         }
-        return gameState;
+        return true;
     }
 
     // EFFECT: print user controls and other info

@@ -194,7 +194,7 @@ public class SaveAndLoad {
 //    EFFECTS: returns string of items held by ava
     private String saveItems(Avatar ava) {
         String returnStr = "";
-        for (Interactable i : ava.getItems()) {
+        for (Interactable i : ava.getItemList()) {
             returnStr = returnStr.concat(i.getName()+'\n');
         }
         return returnStr;

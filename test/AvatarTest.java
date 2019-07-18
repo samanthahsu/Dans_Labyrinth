@@ -57,12 +57,12 @@ class AvatarTest extends TestHelper {
     void pickUpItemTest(){
         ava1.pickUpItem(map1);
         ArrayList<Interactable> arrayExpected = new ArrayList<>();
-        assertTrue(ava1.getItems().equals(arrayExpected));
+        assertTrue(ava1.getItemList().equals(arrayExpected));
 
         ava1.moveAva("e", map1);
         ava1.pickUpItem(map1);
         arrayExpected.add(apple);
-        assertTrue(arrayExpected.equals(ava1.getItems()));
+        assertTrue(arrayExpected.equals(ava1.getItemList()));
     }
 
 

@@ -56,7 +56,7 @@ public class Map {
         initInteractables(inter);
     }
 
-    // EFFECTS: fills Array list full of null to correct size
+// EFFECTS: fills Array list full of null to correct size
 // if inter is not empty, places interactables in interactables list matrix at specified indexes.
     private void initInteractables(ArrayList<Interactable> inter) {
         Interactable nothing = new AbsolutelyNothing();

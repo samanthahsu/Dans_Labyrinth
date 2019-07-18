@@ -2,7 +2,6 @@ package model;
 
 /*An object on the overlay map of interactables*/
 public abstract class Interactable {
-//todo change this to interface, and change item and creature to abstract classes
 //interactable would be one per tile, could be an instance event, creature, or item
     protected String name;
     protected String description;

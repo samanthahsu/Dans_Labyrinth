@@ -6,13 +6,13 @@ public class Avatar {
     private int status = 3; //health bar 0 = dead
     private int ypos;
     private int xpos; //tracks position of avatar
-    private ArrayList<Interactable> items; // todo has a limit of three items to prevent hoarding
+    private ArrayList<Interactable> itemList; // todo has a limit of three itemList to prevent hoarding
 
 //    EFFECTS: constructs avatar setting it's coordinates
 Avatar(int setY, int setX, ArrayList<Interactable> items) {
         ypos = setY;
         xpos = setX;
-        this.items = items;
+        this.itemList = items;
     }
 
     public int getStatus() {
@@ -31,23 +31,24 @@ Avatar(int setY, int setX, ArrayList<Interactable> items) {
         this.status = status;
     }
 
-    public ArrayList<Interactable> getItems() {
-        return items;
+    public ArrayList<Interactable> getItemList() {
+        return itemList;
     }
 
 /*
-//    EFFECT: remove item with given name from items if it exists
+//    EFFECT: remove item with given name from itemList if it exists
 //    else do nothing
     public void removeItem(String name) {
-        for (Interactable i: items) {
+        for (Interactable i: itemList) {
             if (i.getName().equals(name)) {
-                items.remove(i);
+                itemList.remove(i);
                 return;
             }
         }
     }
 */
 
+//    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
 //    MODIFIES: map
 //    EFFECTS: handles move commands in 4 directions
     public void moveAva(String command, Map map) {
@@ -86,15 +87,14 @@ Avatar(int setY, int setX, ArrayList<Interactable> items) {
         }
     }
 
-/*    REQUIRES: map is not null
-*   MODIFIES: this
-*    EFFECTS: if item is present in current tile, pick up item,
-*      otherwise print message
-*/
+//  REQUIRES: map is not null
+//  MODIFIES: this
+//  EFFECTS: if item is present in current tile, pick up item,
+//      otherwise print message
     public void pickUpItem(Map map) {
         Interactable interactable = map.getInteractable(ypos, xpos);
         if (interactable != null && interactable.isItem) {
-            items.add(interactable);
+            itemList.add(interactable);
             map.removeInteractable(ypos, xpos);
             System.out.println("Picked up an item!");
         } else {
@@ -102,21 +102,22 @@ Avatar(int setY, int setX, ArrayList<Interactable> items) {
         }
     }
 
-// EFFECTS: prints out current items
+// EFFECTS: prints out current itemList
     public void printItems() {
         System.out.println("You are carrying:");
-        for (Interactable i: items) {
+        for (Interactable i: itemList) {
             System.out.println(i.getName());
         }
     }
 
-//EFFECTS: todo uses current item
+//EFFECTS: uses itemNm if corresponding item exists in itemList
+//    otherwise do nothing
     public void useItem(String itemNm, Map map) {
         boolean shouldRemove = false;
         Interactable iUsed = null;
         switch (itemNm) {
             case "apple":
-                for (Interactable i:items) {
+                for (Interactable i: itemList) {
                     if (i.getName() != null && i.getName().equals("apple")) {
                         shouldRemove = i.interact(map);
                         iUsed = i;
@@ -126,7 +127,7 @@ Avatar(int setY, int setX, ArrayList<Interactable> items) {
             default:
         }
         if (shouldRemove) {
-            items.remove(iUsed);
+            itemList.remove(iUsed);
         }
     }
 

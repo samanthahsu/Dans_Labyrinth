@@ -22,6 +22,6 @@ public class Apple extends Item {
 // EFFECTS: User health is recovered by one point and apple is removed from items
     @Override
     public void interact(Map map) {
-//    todo stub
+        System.out.println("nom nom nom");
     }
 }

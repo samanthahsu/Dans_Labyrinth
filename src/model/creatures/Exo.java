@@ -1,5 +1,6 @@
 package model.creatures;
 
+import model.Avatar;
 import model.Map;
 import model.features.AbsolutelyNothing;
 
@@ -24,8 +25,11 @@ public class Exo extends Creature {
 //    EFFECTS:
     @Override
     public void interact(Map map) {
+        Avatar ava = map.getAva();
 //        todo stub
-        attack(map);
+        if(ava.getYpos() == startY && ava.getXpos() == startX) {
+            attack(map);
+        }
     }
 
 //    REQUIRES: only called when ava is on same tile

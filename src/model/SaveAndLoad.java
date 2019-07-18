@@ -125,7 +125,7 @@ public class SaveAndLoad {
         line = reader.readLine();
         while (!line.equals(FILE_ITEMS_STOP_MARKER)) {
             if (line != null) {
-                iarraylist.add(loadOneItem(reader.readLine()));
+                iarraylist.add(loadOneItem(line));
             }
             line = reader.readLine();
         }

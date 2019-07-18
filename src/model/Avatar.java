@@ -84,6 +84,8 @@ Avatar(int setY, int setX, ArrayList<Interactable> items) {
             items.add(interactable);
             map.removeInteractable(ypos, xpos);
             System.out.println("Picked up an item!");
+        } else {
+            System.out.println("Nothing to pick up!");
         }
     }
 
@@ -98,9 +100,9 @@ Avatar(int setY, int setX, ArrayList<Interactable> items) {
 //EFFECTS: todo uses current item
     public void useItem(String itemNm, Map map) {
         switch (itemNm) {
-            case "Exo":
+            case "apple":
                 for (Interactable i:items) {
-                    if (i.getName() != null && i.getName().equals("Exo")) {
+                    if (i.getName() != null && i.getName().equals("apple")) {
                         i.interact(map);
                     }
                 }

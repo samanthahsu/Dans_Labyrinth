@@ -76,6 +76,7 @@ public class MazeGame {
 
             ui = scnr.nextLine();
             gameState = execute(ui); // each move is one tick
+            map.nextState();
 
             if (map.isWin()) {
                 System.out.println("CONGRATS, YOU WON!");
@@ -85,6 +86,7 @@ public class MazeGame {
         printEndText();
         map = null;
     }
+
 
     // EFFECTS: handles which Map functions to call. returns gameState.
     private int execute(String input) { // todo add use item
@@ -99,8 +101,13 @@ public class MazeGame {
             case "look":
                 System.out.println("hello darkness.");
                 break;
-            case "m":
+            case "map":
                 map.printDisplayMap();
+                break;
+            case "me":
+                System.out.println("Health: " + map.getAva().getStatus()
+                + "/3");
+                map.getAva().printItems();
                 break;
             case "h":
                 printHelp();
@@ -111,11 +118,12 @@ public class MazeGame {
             case "pick up":
                 map.getAva().pickUpItem(map);
                 break;
-            case "items":
-                map.getAva().printItems();
-                break;
+            case "use":
+                System.out.println("Choose an item:");
+                input = scnr.nextLine();
+                map.getAva().useItem(input, map);
             default:
-                System.out.println("Confusion ensues.");
+                System.out.println("...");
         }
         return gameState;
     }
@@ -127,7 +135,8 @@ public class MazeGame {
                 + "West respectively." + '\n'
                 + "'m' to view the map" + '\n'
                 + "'pick up': pick up item" + '\n'
-                + "'items': view items" + '\n'
+                + "'me': view items and status" + '\n'
+                + "use : use and item" + '\n'
                 + "'h' to get help dialogue" + '\n'
                 + "'q' to quit");
     }

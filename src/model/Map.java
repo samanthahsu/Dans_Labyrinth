@@ -7,7 +7,7 @@ import java.util.Random;
 
 /*manages the map portion of this adventure*/
 public class Map {
-//todo override equals() for this one*******
+    //todo override equals() for this one*******
     private static final char wall = '@';
     private static final char floor = ' ';
     private static final char c = '*';
@@ -23,7 +23,7 @@ public class Map {
     private ArrayList<ArrayList<Interactable>> interactables = new ArrayList<>();
 
 
-//    EFFECTS: sets height, width, winY, and winX
+    //    EFFECTS: sets height, width, winY, and winX
 //          fills map with mapString
 //          fills mapDisplay with savedMap
 //          places ava at ypos xpos
@@ -40,7 +40,7 @@ public class Map {
     }
 
 
-//    EFFECTS: sets height, width, winY, and winX
+    //    EFFECTS: sets height, width, winY, and winX
 //          fills map with mapString
 //          fills mapDisplay with savedMap
 //          places ava at ypos xpos
@@ -56,7 +56,7 @@ public class Map {
         initInteractables(inter);
     }
 
-// EFFECTS: fills Array list full of null to correct size
+    // EFFECTS: fills Array list full of null to correct size
 // if inter is not empty, places interactables in interactables list matrix at specified indexes.
     private void initInteractables(ArrayList<Interactable> inter) {
         Interactable nothing = new AbsolutelyNothing();
@@ -82,7 +82,7 @@ public class Map {
     private void initMap(String mapString) {
         map = new char[height][width];
         int strIndex = 0;
-        for (int i = 0; i < height; i++)  {
+        for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 map[i][j] = mapString.charAt(strIndex);
                 strIndex++;
@@ -101,13 +101,13 @@ public class Map {
         }
     }
 
-//    MODIFIES: this
+    //    MODIFIES: this
 //    REQUIRES: given string is fitting of given height and width
 //    EFFECTS: fills mapDisplay according to state
     private void initMapDisplay(String state) {
         mapDisplay = new char[height][width];
         int strIndex = 0;
-        for (int i = 0; i < height; i++)  {
+        for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 mapDisplay[i][j] = state.charAt(strIndex);
                 strIndex++;
@@ -208,6 +208,16 @@ public class Map {
         return ava.getYpos() == winY && ava.getXpos() == winX;
     }
 
+    //    EFFECTS: executes interactables actions
+    public void nextState() {
+        System.out.println("rumbles in the distance");
+        for (ArrayList<Interactable> is: interactables) {
+            for (Interactable i: is) {
+                i.interact(this); // todo add bg checking for each creature and use diff method here
+            }
+        }
+    }
+
     //    *************PRINTING*************
 
     //    REQUIRES: mapDisplay is not null
@@ -243,6 +253,4 @@ public class Map {
             default:
         }
     }
-
-
 }

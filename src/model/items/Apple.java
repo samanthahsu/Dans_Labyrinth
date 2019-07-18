@@ -1,5 +1,6 @@
 package model.items;
 
+import model.Avatar;
 import model.Map;
 
 public class Apple extends Item {
@@ -21,7 +22,14 @@ public class Apple extends Item {
 // MODIFIES: map(avatar)
 // EFFECTS: User health is recovered by one point and apple is removed from items
     @Override
-    public void interact(Map map) {
+    public boolean interact(Map map) {
         System.out.println("nom nom nom");
+        Avatar ava = map.getAva();
+        int newStat = ava.getStatus() + 1;
+        if (newStat <= 3) {
+            ava.setStatus(newStat);
+            System.out.println("tastes wormy");
+        }
+        return true;
     }
 }

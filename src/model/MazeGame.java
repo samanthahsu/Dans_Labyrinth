@@ -25,7 +25,6 @@ public class MazeGame {
         while (map == null && gameState != QUIT_GAME) {
             System.out.println("n : new game\n"
                     + "l : load a saved game\n"
-                    + "h : more controls\n"
                     + "q : exit");
             homeExecute(scnr.nextLine());
         }
@@ -53,9 +52,6 @@ public class MazeGame {
                 System.out.println("Enter name of saved file: ");
                 input = scnr.nextLine();
                 map = svl.loadFile(input);
-                break;
-            case "h":
-                printHelp();
                 break;
             case "q":
                 gameState = QUIT_GAME;

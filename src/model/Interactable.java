@@ -32,6 +32,6 @@ public abstract class Interactable {
         return startX;
     }
 
-    public abstract void interact(Map map);
+    public abstract boolean interact(Map map);
 }
 

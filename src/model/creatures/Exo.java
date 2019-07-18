@@ -24,12 +24,13 @@ public class Exo extends Creature {
 
 //    EFFECTS:
     @Override
-    public void interact(Map map) {
+    public boolean interact(Map map) {
         Avatar ava = map.getAva();
 //        todo stub
         if(ava.getYpos() == startY && ava.getXpos() == startX) {
             attack(map);
         }
+        return false;
     }
 
 //    REQUIRES: only called when ava is on same tile

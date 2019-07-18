@@ -35,6 +35,19 @@ Avatar(int setY, int setX, ArrayList<Interactable> items) {
         return items;
     }
 
+/*
+//    EFFECT: remove item with given name from items if it exists
+//    else do nothing
+    public void removeItem(String name) {
+        for (Interactable i: items) {
+            if (i.getName().equals(name)) {
+                items.remove(i);
+                return;
+            }
+        }
+    }
+*/
+
 //    MODIFIES: map
 //    EFFECTS: handles move commands in 4 directions
     public void moveAva(String command, Map map) {
@@ -99,15 +112,21 @@ Avatar(int setY, int setX, ArrayList<Interactable> items) {
 
 //EFFECTS: todo uses current item
     public void useItem(String itemNm, Map map) {
+        boolean shouldRemove = false;
+        Interactable iUsed = null;
         switch (itemNm) {
             case "apple":
                 for (Interactable i:items) {
                     if (i.getName() != null && i.getName().equals("apple")) {
-                        i.interact(map);
+                        shouldRemove = i.interact(map);
+                        iUsed = i;
                     }
                 }
                 break;
             default:
+        }
+        if (shouldRemove) {
+            items.remove(iUsed);
         }
     }
 

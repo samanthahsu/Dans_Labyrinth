@@ -210,7 +210,7 @@ public class Map {
 
     //    EFFECTS: executes interactables actions
     public void nextState() {
-        System.out.println("rumbles in the distance");
+//        System.out.println("rumbles in the distance");
         for (ArrayList<Interactable> is: interactables) {
             for (Interactable i: is) {
                 i.interact(this); // todo add bg checking for each creature and use diff method here

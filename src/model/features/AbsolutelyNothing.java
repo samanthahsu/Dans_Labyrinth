@@ -12,7 +12,8 @@ public class AbsolutelyNothing extends Feature {
 
 //    EFFECTS: prints "There is nothing here..."
     @Override
-    public void interact(Map map) {
+    public boolean interact(Map map) {
 //        System.out.println("There is nothing here...");
+        return false;
     }
 }

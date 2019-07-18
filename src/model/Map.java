@@ -1,5 +1,7 @@
 package model;
 
+import model.features.AbsolutelyNothing;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -26,7 +28,7 @@ public class Map {
 //          fills mapDisplay with savedMap
 //          places ava at ypos xpos
     public Map(int h, int w, String cleanMap, int startY, int startX, int winY,
-               int winX, ArrayList<Interactable> inter, ArrayList<Item> items) {
+               int winX, ArrayList<Interactable> inter, ArrayList<Interactable> items) {
         height = h;
         width = w;
         this.winY = winY;
@@ -43,7 +45,7 @@ public class Map {
 //          fills mapDisplay with savedMap
 //          places ava at ypos xpos
     public Map(int h, int w, String cleanMap, String savedMap, int startY, int startX, int winY,
-               int winX, ArrayList<Interactable> inter, ArrayList<Item> items) {
+               int winX, ArrayList<Interactable> inter, ArrayList<Interactable> items) {
         height = h;
         width = w;
         this.winY = winY;
@@ -57,10 +59,10 @@ public class Map {
 // EFFECTS: fills Array list full of null to correct size
 // if inter is not empty, places interactables in interactables list matrix at specified indexes.
     private void initInteractables(ArrayList<Interactable> inter) {
-        Interactable nullC = new NullCreature();
+        Interactable nothing = new AbsolutelyNothing();
         ArrayList<Interactable> widthList = new ArrayList<>();
         for (int i = 0; i < width; i++) {
-            widthList.add(nullC);
+            widthList.add(nothing);
         }
         for (int i = 0; i < height; i++) {
             interactables.add(widthList);
@@ -114,7 +116,7 @@ public class Map {
 
     //    MODIFIES: mapDisplay
     //    EFFECTS: places avatar at ypos, xpos revealing adjacent tiles
-    private void initAvatar(int startY, int startX, ArrayList<Item> items) {
+    private void initAvatar(int startY, int startX, ArrayList<Interactable> items) {
         ava = new Avatar(startY, startX, items);
         updateTileDisp(startY, startX, c);
         revealSurroundings(startY, startX);
@@ -156,7 +158,7 @@ public class Map {
     }
 
     public void removeInteractable(int y, int x) {
-        interactables.get(y).set(x, new NullCreature());
+        interactables.get(y).set(x, new AbsolutelyNothing());
     }
 
     public ArrayList<ArrayList<Interactable>> getInteractables() {

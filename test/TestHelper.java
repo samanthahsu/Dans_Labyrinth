@@ -1,4 +1,8 @@
-import model.*;
+import model.Avatar;
+import model.Interactable;
+import model.Map;
+import model.creatures.Exo;
+import model.features.AbsolutelyNothing;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -151,7 +155,7 @@ abstract class TestHelper {
     //    EFFECTS: returns interactable matrix built from
     protected ArrayList<ArrayList<Interactable>> makeInteractableMatrix(ArrayList<Interactable> inter, int h, int w) {
         ArrayList<ArrayList<Interactable>> interactables = new ArrayList<>();
-        Interactable nullC = new NullCreature();
+        Interactable nullC = new AbsolutelyNothing();
         ArrayList<Interactable> widthList = new ArrayList<>();
         for (int i = 0; i < w; i++) {
             widthList.add(nullC);

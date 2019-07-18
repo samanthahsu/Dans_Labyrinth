@@ -6,10 +6,10 @@ public class Avatar {
     private int status = 0; //health bar of sorts: 0=healthy, 1=dying, 2=dead todo reverse the numbers
     private int ypos;
     private int xpos; //tracks position of avatar
-    private ArrayList<Item> items;
+    private ArrayList<Interactable> items; // todo has a limit of three items to prevent hoarding
 
 //    EFFECTS: constructs avatar setting it's coordinates
-    public Avatar(int setY, int setX, ArrayList<Item> items) {
+    public Avatar(int setY, int setX, ArrayList<Interactable> items) {
         ypos = setY;
         xpos = setX;
         this.items = items;
@@ -31,7 +31,7 @@ public class Avatar {
         this.status = status;
     }
 
-    public ArrayList<Item> getItems() {
+    public ArrayList<Interactable> getItems() {
         return items;
     }
 
@@ -79,9 +79,9 @@ public class Avatar {
 *      otherwise print message
 */
     public void pickUpItem(Map map) {
-        Interactable inter = map.getInteractable(ypos, xpos);
-        if (inter != null && inter.isItem) {
-            items.add((Item) inter);
+        Interactable interactable = map.getInteractable(ypos, xpos);
+        if (interactable != null && interactable.isItem) {
+            items.add(interactable);
             map.removeInteractable(ypos, xpos);
             System.out.println("Picked up an item!");
         }
@@ -90,22 +90,28 @@ public class Avatar {
 // EFFECTS: prints current items
     public void printItems() {
         System.out.println("You are carrying:");
-        for (Item i: items) {
+        for (Interactable i: items) {
             System.out.println(i.getName());
         }
     }
 
-//EFFECTS: uses current item todo only one allowed
+//EFFECTS: todo uses current item
     public void useItem(String itemNm, Map map) {
         switch (itemNm) {
             case "Exo":
-                for (Item i:items) {
+                for (Interactable i:items) {
                     if (i.getName() != null && i.getName().equals("Exo")) {
-                        i.useItem(map);
+                        i.interact(map);
                     }
                 }
                 break;
             default:
         }
+    }
+
+    //    MODIFIES: map, this
+    //    EFFECTS: drops item from Item list, setting it on current map tile
+    protected void dropItem(Map map) {
+//        todo stub
     }
 }

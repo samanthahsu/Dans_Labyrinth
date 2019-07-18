@@ -1,4 +1,4 @@
-import model.Item;
+import model.Interactable;
 import model.Map;
 import model.SaveAndLoad;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +20,9 @@ class SaveAndLoadTest extends TestHelper {
         svl = new SaveAndLoad();
         interactableArrayList = new ArrayList<>();
         map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1,
-                TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Item>());
-        map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, TEST_START_Y_3, TEST_START_X_3, WIN_Y_3, WIN_X_3, interactableArrayList, new ArrayList<Item>());
+                TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Interactable>());
+        map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, TEST_START_Y_3, TEST_START_X_3, WIN_Y_3, WIN_X_3,
+                interactableArrayList, new ArrayList<Interactable>());
     }
 
     @Test

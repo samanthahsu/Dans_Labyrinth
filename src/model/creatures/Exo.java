@@ -1,24 +1,18 @@
-package model;
+package model.creatures;
 
-public class Exo extends Interactable implements Item, Creature {
+import model.Map;
 
-    String name;
-    String description;
-    int status;
-    int ypos;
-    int xpos;
+public class Exo extends Creature {
 
     //    EFFECTS: set starting coordinates
     public Exo(int y, int x) {
-        this.ypos = y;
-        this.xpos = x;
+        super(y, x);
         description = "a fuzzy black orange sized creature stares back at "
                 + "you with a deploring gaze";
         name = "Exo";
         status = 0;
         isCreature = true;
-        isItem = true;
-
+        isItem = false;
     }
 
     public String getName() {
@@ -33,17 +27,13 @@ public class Exo extends Interactable implements Item, Creature {
         return status;
     }
 
-    public int getYpos() {
-        return ypos;
-    }
-
-    public int getXpos() {
-        return xpos;
-    }
-
-    //    EFFECTS: doesn't move at all
     @Override
-    public void move() {
+    void move(Map map) {
+
+    }
+
+    @Override
+    public void interact(Map map) {
 
     }
 
@@ -60,12 +50,5 @@ public class Exo extends Interactable implements Item, Creature {
     @Override
     public void speak() {
         System.out.println("a sad ticking noise fills the hall");
-    }
-
-// EFFECTS: explodes everything on the tile
-//  todo gets used as a ranged weapon (like grenade) against walls and creatures
-    @Override
-    public void useItem(Map map) {
-        attack(map);
     }
 }

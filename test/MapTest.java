@@ -1,7 +1,6 @@
-import model.Exo;
 import model.Interactable;
-import model.Item;
 import model.Map;
+import model.creatures.Exo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +23,8 @@ class MapTest extends TestHelper {
     void beforeEachTest(){
         interactableArrayList = new ArrayList<>();
         interactableArrayList.add(new Exo(C_Y_1, C_X_1));
-        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1, TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Item>());
+        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1, TEST_START_X_1, WIN_Y_1, WIN_X_1,
+                interactableArrayList, new ArrayList<Interactable>());
     }
 
     @Test
@@ -56,7 +56,8 @@ class MapTest extends TestHelper {
     void ConstructorTestMap2(){
         interactableArrayList.remove(0);
         interactableArrayList.add(new Exo(C_Y_2, C_X_2));
-        map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, TEST_MAP_2, TEST_START_Y_2, TEST_START_X_2, WIN_Y_2, WIN_X_2, interactableArrayList, new ArrayList<Item>());
+        map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, TEST_MAP_2, TEST_START_Y_2, TEST_START_X_2, WIN_Y_2, WIN_X_2,
+                interactableArrayList, new ArrayList<Interactable>());
         assertEquals(TEST_HEIGHT_2, map1.getHeight());
         assertEquals(TEST_WIDTH_2, map1.getWidth());
 
@@ -173,7 +174,8 @@ class MapTest extends TestHelper {
     @Test
     void isWinTest() {
         assertFalse(map1.isWin());
-        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, WIN_Y_1, WIN_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Item>());
+        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, WIN_Y_1, WIN_X_1, WIN_Y_1, WIN_X_1,
+                interactableArrayList, new ArrayList<Interactable>());
         assertTrue(map1.isWin());
     }
 

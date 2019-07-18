@@ -1,5 +1,7 @@
 package model;
 
+import model.creatures.Exo;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -100,7 +102,7 @@ public class SaveAndLoad {
             System.out.println("Game Loaded");
 
             return new Map(height, width, mapString, displayMapString, startY, startX,
-                    winY, winX, interactables, new ArrayList<Item>());
+                    winY, winX, interactables, new ArrayList<Interactable>());
 
         } catch (IOException e) {
 //            e.printStackTrace();

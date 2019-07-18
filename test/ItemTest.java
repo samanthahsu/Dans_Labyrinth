@@ -1,14 +1,14 @@
-import model.*;
+import model.Interactable;
+import model.Map;
+import model.creatures.Exo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class ItemTest extends TestHelper {
 
-    private static final ArrayList<Item> items = new ArrayList<>();
+    private static final ArrayList<Interactable> items = new ArrayList<>();
     private static final int ITEM_Y_1 = 2;
     private static final int ITEM_X_1 = 1;
 
@@ -23,7 +23,6 @@ class ItemTest extends TestHelper {
 
     @Test
     void useItemTest() {
-        ava1.useItem("Exo", map1);
-        assertEquals(1, ava1.getStatus());
+        ava1.useItem("Apple", map1);
     }
 }

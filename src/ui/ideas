@@ -92,7 +92,7 @@ OK, maybe room-based?
 // you are equipped with your handy third eye reveal stuff on map or just normal vision
 // , figure out pattern of movement of things
      // how to move things?
-// read from given file for diff maps >> future definitely
+// read from given file for diff model.maps >> future definitely
 
 @@@ @@
 @@ @ @
@@ -120,3 +120,5 @@ https://www.asciiart.eu/holiday-and-events/fireworks
         _-H-__  -~-~-~-~-~-~     /_|\    -~======-~
 ~-\XXXXXXXXXX/~     ~-~-~-~     /__|_\ ~-~-~-~
 ~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~
+
+

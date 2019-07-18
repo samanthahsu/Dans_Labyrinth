@@ -1,4 +1,7 @@
-import model.*;
+import model.Interactable;
+import model.Map;
+import model.creatures.Exo;
+import model.items.Item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +21,7 @@ class CreatureTest extends TestHelper {
         exo1 = new Exo(interY1, interX1);
         interactableArrayList.add(exo1);
         map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1,
-                TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Item>());
+                TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Interactable>());
         ava1 = map1.getAva();
 
     }

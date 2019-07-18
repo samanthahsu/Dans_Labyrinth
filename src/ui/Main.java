@@ -1,6 +1,6 @@
 package ui;
 
-/**this class launches the game**/
+/*this class launches the game*/
 import model.MazeGame;
 
 public class Main {

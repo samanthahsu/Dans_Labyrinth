@@ -1,6 +1,7 @@
 package model;
 
 import model.creatures.Exo;
+import model.items.Apple;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,11 +16,14 @@ public class SaveAndLoad {
     private static final String FILE_MAP_DISPLAY_MARKER = "<mapDisplay>";
     private static final String FILE_WIN_YX_MARKER = "<winCoord>";
     private static final String FILE_AVA_YX_MARKER = "<avaCoord>";
-    private static final String FILE_CREATURE_START_MARKER = "<creatures>";
-    private static final String FILE_CREATURE_STOP_MARKER = "</creatures>";
+    private static final String FILE_ITEMS_START_MARKER = "<avaItems>";
+    private static final String FILE_ITEMS_STOP_MARKER = "</avaItems>";
+    private static final String FILE_INTER_START_MARKER = "<interactables>";
+    private static final String FILE_INTER_STOP_MARKER = "</interactables>";
     private static final String FILE_CREATURE_EXO_MARKER = "<exo>";
+    private static final String FILE_ITEM_APPLE_MARKER = "<apple>";
 
-//    REQUIRES: nm, map and ava are not null
+    //    REQUIRES: nm, map and ava are not null
     //    EFFECTS: saves current game state into a text file (either new or overwritten)
 //      called: "nm.text"
     public void saveGame(String nm, Map map, Avatar ava) {
@@ -41,7 +45,6 @@ public class SaveAndLoad {
             fileWriter.write(makeFile(map, ava));
             System.out.println("Saved to file: " + nm);
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("Unable to save!");
         }
     }
@@ -65,6 +68,7 @@ public class SaveAndLoad {
             int startY = 0;
             int startX = 0;
             ArrayList<Interactable> interactables = new ArrayList<>();
+            ArrayList<Interactable> items = new ArrayList<>();
 
             while (line != null) {
                 switch (line) {
@@ -90,9 +94,13 @@ public class SaveAndLoad {
                         startY = Integer.parseInt(reader.readLine());
                         startX = Integer.parseInt(reader.readLine());
                         break;
-                    case FILE_CREATURE_START_MARKER:
+                    case FILE_INTER_START_MARKER:
                         interactables = loadInteractables(line, reader);
                         break;
+                    case FILE_ITEMS_START_MARKER:
+                        items = loadItems(line, reader);
+                        break;
+
                     default:
                 }
                 line = reader.readLine(); // read next line
@@ -102,7 +110,7 @@ public class SaveAndLoad {
             System.out.println("Game Loaded");
 
             return new Map(height, width, mapString, displayMapString, startY, startX,
-                    winY, winX, interactables, new ArrayList<Interactable>());
+                    winY, winX, interactables, items);
 
         } catch (IOException e) {
 //            e.printStackTrace();
@@ -111,14 +119,41 @@ public class SaveAndLoad {
         return null;
     }
 
-// REQUIRES: line and reader are not null
+//    EFFECTS: loads items into array
+    private ArrayList<Interactable> loadItems(String line, BufferedReader reader) throws IOException {
+        ArrayList<Interactable> iarraylist = new ArrayList<>();
+        line = reader.readLine();
+        while (!line.equals(FILE_ITEMS_STOP_MARKER)) {
+            if (line != null) {
+                iarraylist.add(loadOneItem(reader.readLine()));
+            }
+            line = reader.readLine();
+        }
+        return iarraylist;
+    }
+
+//    REQUIRES: line is the name of a valid item
+//    EFFECTS: returns corresponding interactable else return null
+    private Interactable loadOneItem(String line) {
+        Interactable i;
+        switch (line) {
+            case "apple":
+                i = new Apple();
+                break;
+            default:
+                return null;
+        }
+        return i;
+    }
+
+    // REQUIRES: line and reader are not null
 //    EFFECTS: adds each creature onto tempCreatureList until creature stop marker is reach
 //    then returns tempCreatureList
     private ArrayList<Interactable> loadInteractables(String line, BufferedReader reader) throws IOException {
         ArrayList<Interactable> iarraylist = new ArrayList<>();
         int y;
         int x;
-        while (!line.equals(FILE_CREATURE_STOP_MARKER)) {
+        while (!line.equals(FILE_INTER_STOP_MARKER)) {
             switch (line) {
                 case FILE_CREATURE_EXO_MARKER:
                     y = Integer.parseInt(reader.readLine());
@@ -133,7 +168,7 @@ public class SaveAndLoad {
     }
 
     //    EFFECTS: compiles all game information to be saved into a string
-    private String makeFile(Map map, Avatar ava) { //todo add items section
+    private String makeFile(Map map, Avatar ava) {
         System.out.println("making file to be saved...");
         return FILE_DIMENSION_MARKER + '\n'
                 + Integer.toString(map.getHeight()) + '\n'
@@ -148,12 +183,24 @@ public class SaveAndLoad {
                 + FILE_AVA_YX_MARKER + '\n'
                 + Integer.toString(ava.getYpos()) + '\n'
                 + Integer.toString(ava.getXpos()) + '\n'
-                + FILE_CREATURE_START_MARKER + '\n'
+                + FILE_ITEMS_START_MARKER + '\n'
+                + saveItems(ava)
+                + FILE_ITEMS_STOP_MARKER + '\n'
+                + FILE_INTER_START_MARKER + '\n'
                 + saveInteractables(map) + '\n'
-                + FILE_CREATURE_STOP_MARKER;
+                + FILE_INTER_STOP_MARKER;
     }
 
-//    REQUIRES: map is not null
+//    EFFECTS: returns string of items held by ava
+    private String saveItems(Avatar ava) {
+        String returnStr = "";
+        for (Interactable i : ava.getItems()) {
+            returnStr = returnStr.concat(i.getName()+'\n');
+        }
+        return returnStr;
+    }
+
+    //    REQUIRES: map is not null
 //    EFFECTS: returns interactables as strings in saving form
     private String saveInteractables(Map map) {
         String returnString = "";
@@ -163,6 +210,11 @@ public class SaveAndLoad {
                     switch (i.getName()) {
                         case "Exo":
                             returnString = returnString.concat(FILE_CREATURE_EXO_MARKER + '\n'
+                                    + i.startY + '\n'
+                                    + i.startX + '\n'); // todo pull method for this
+                            break;
+                        case "apple":
+                            returnString = returnString.concat(FILE_ITEM_APPLE_MARKER + '\n'
                                     + i.startY + '\n'
                                     + i.startX + '\n');
                             break;

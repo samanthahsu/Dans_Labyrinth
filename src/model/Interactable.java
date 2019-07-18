@@ -6,8 +6,8 @@ public abstract class Interactable {
 //interactable would be one per tile, could be an instance event, creature, or item
     protected String name;
     protected String description;
-    int startY;
-    int startX;
+    protected int startY;
+    protected int startX;
     protected boolean isItem;
     protected boolean isCreature;
 

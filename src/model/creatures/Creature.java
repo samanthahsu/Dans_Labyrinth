@@ -5,15 +5,15 @@ import model.Map;
 
 /**An interactable creature that you can fight or talk to**/
 abstract class Creature extends Interactable {
-    int status;
+    int health;
 
     public Creature(int y, int x) {
         super(y, x);
         isCreature = true;
         isItem = false;
     }
-    public int getStatus() {
-        return status;
+    public int getHealth() {
+        return health;
     }
 
     //    EFFECTS: moves creature to valid tile in creature specific pattern

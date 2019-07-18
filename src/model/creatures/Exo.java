@@ -1,6 +1,7 @@
 package model.creatures;
 
 import model.Map;
+import model.features.AbsolutelyNothing;
 
 public class Exo extends Creature {
 
@@ -10,40 +11,34 @@ public class Exo extends Creature {
         description = "a fuzzy black orange sized creature stares back at "
                 + "you with a deploring gaze";
         name = "Exo";
-        status = 0;
+        health = 1;
         isCreature = true;
         isItem = false;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
     @Override
     void move(Map map) {
-
+//        todo stub
     }
 
+//    EFFECTS:
     @Override
     public void interact(Map map) {
-
+//        todo stub
+        attack(map);
     }
 
-//    EFFECTS: explodes causing those on the same tile mild damage
+//    REQUIRES: only called when ava is on same tile
+//    EFFECTS: explodes causing those on the same tile by 1,
+//      eliminates itself from map
     @Override
     public void attack(Map map) {
-        int futureStat = map.getAva().getStatus() + 1;
-        if (futureStat <= 2) {
+        int futureStat = map.getAva().getStatus() - 1;
+        if (futureStat >= 0) {
             map.getAva().setStatus(futureStat);
         }
+        map.getInteractables().get(startY).set(startX, new AbsolutelyNothing());
+        System.out.println("KABOOM!");
     }
 
 //    EFFECTS: prints

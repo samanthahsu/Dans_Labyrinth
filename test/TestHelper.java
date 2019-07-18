@@ -54,6 +54,7 @@ abstract class TestHelper {
 
     // FIELDS THAT CHANGE
     protected static ArrayList<Interactable> interactableArrayList = new ArrayList<>();
+    protected static ArrayList<Interactable> items = new ArrayList<>();
     protected static int interY1 = 0;
     protected static int interX1 = 0;
 
@@ -152,15 +153,16 @@ abstract class TestHelper {
         assertEquals(a.getXpos(), b.getXpos());
     }
 
-    //    EFFECTS: returns interactable matrix built from
+    //    EFFECTS: returns interactable matrix built from // todo extract code to method from here and map.initInteractables
     protected ArrayList<ArrayList<Interactable>> makeInteractableMatrix(ArrayList<Interactable> inter, int h, int w) {
         ArrayList<ArrayList<Interactable>> interactables = new ArrayList<>();
-        Interactable nullC = new AbsolutelyNothing();
-        ArrayList<Interactable> widthList = new ArrayList<>();
-        for (int i = 0; i < w; i++) {
-            widthList.add(nullC);
-        }
+        Interactable nothing = new AbsolutelyNothing();
+        ArrayList<Interactable> widthList;
         for (int i = 0; i < h; i++) {
+            widthList = new ArrayList<>();
+            for (int j = 0; j < w; j++) {
+                widthList.add(nothing);
+            }
             interactables.add(widthList);
         }
         if (inter != null) {

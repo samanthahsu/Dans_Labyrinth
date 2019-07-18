@@ -17,6 +17,13 @@
 <avaCoord>
 2
 1
-<creatures>
+<avaItems>
+apple
+apple
+</avaItems>
+<interactables>
+<apple>
+3
+1
 
-</creatures>
+</interactables>

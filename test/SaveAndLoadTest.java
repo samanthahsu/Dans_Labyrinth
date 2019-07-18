@@ -1,6 +1,6 @@
-import model.Interactable;
 import model.Map;
 import model.SaveAndLoad;
+import model.items.Apple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,11 +18,17 @@ class SaveAndLoadTest extends TestHelper {
     @BeforeEach
     void BeforeEach() {
         svl = new SaveAndLoad();
+
         interactableArrayList = new ArrayList<>();
+        interactableArrayList.add(new Apple(3, 1));
+
+        items = new ArrayList<>();
+        items.add(new Apple());
+        items.add(new Apple());
         map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1,
-                TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Interactable>());
-        map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, TEST_START_Y_3, TEST_START_X_3, WIN_Y_3, WIN_X_3,
-                interactableArrayList, new ArrayList<Interactable>());
+                TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, items);
+        map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, TEST_START_Y_3,
+                TEST_START_X_3, WIN_Y_3, WIN_X_3, interactableArrayList, items);
     }
 
     @Test

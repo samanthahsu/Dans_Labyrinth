@@ -60,17 +60,18 @@ public class Map {
 // if inter is not empty, places interactables in interactables list matrix at specified indexes.
     private void initInteractables(ArrayList<Interactable> inter) {
         Interactable nothing = new AbsolutelyNothing();
-        ArrayList<Interactable> widthList = new ArrayList<>();
-        for (int i = 0; i < width; i++) {
-            widthList.add(nothing);
-        }
+        ArrayList<Interactable> widthList;
         for (int i = 0; i < height; i++) {
+            widthList = new ArrayList<>();
+            for (int j = 0; j < width; j++) {
+                widthList.add(nothing);
+            }
             interactables.add(widthList);
         }
         if (inter != null) {
             for (Interactable c : inter) {
                 if (c != null) {
-                    interactables.get(c.getYpos()).set(c.getXpos(), c);
+                    interactables.get(c.getYpos()).set(c.getXpos(), c); // todo is setting all rows at once for some reason
                 }
             }
         }

@@ -3,13 +3,13 @@ package model;
 import java.util.ArrayList;
 
 public class Avatar {
-    private int status = 0; //health bar of sorts: 0=healthy, 1=dying, 2=dead todo reverse the numbers
+    private int status = 3; //health bar 0 = dead
     private int ypos;
     private int xpos; //tracks position of avatar
     private ArrayList<Interactable> items; // todo has a limit of three items to prevent hoarding
 
 //    EFFECTS: constructs avatar setting it's coordinates
-    public Avatar(int setY, int setX, ArrayList<Interactable> items) {
+Avatar(int setY, int setX, ArrayList<Interactable> items) {
         ypos = setY;
         xpos = setX;
         this.items = items;
@@ -35,7 +35,7 @@ public class Avatar {
         return items;
     }
 
-    //    MODIFIES: map
+//    MODIFIES: map
 //    EFFECTS: handles move commands in 4 directions
     public void moveAva(String command, Map map) {
         switch (command) {
@@ -87,7 +87,7 @@ public class Avatar {
         }
     }
 
-// EFFECTS: prints current items
+// EFFECTS: prints out current items
     public void printItems() {
         System.out.println("You are carrying:");
         for (Interactable i: items) {

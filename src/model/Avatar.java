@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Avatar {
+public class Avatar implements Serializable {
 //    todo let avatar know about map, and do it's own movements???
     private int status = 3; //health bar 0 = dead
     private int ypos;

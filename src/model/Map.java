@@ -2,25 +2,27 @@ package model;
 
 import model.features.AbsolutelyNothing;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 /*manages the map portion of this adventure*/
-public class Map {
+public class Map implements Serializable {
     //todo override equals() for this one*******
     private static final char wall = '@';
     private static final char floor = ' ';
     private static final char c = '*';
     private static final char fog = '#';
 
-    private char[][] map; //    stores the 2D matrix of the full map (not modified after)
+//    private char[][] map; //    stores the 2D matrix of the full map (not modified after) todo kill this
     private char[][] mapDisplay; // stores what the user can see of the map (character, fog, walls)
     private int height;
     private int width;
     private int winY;
     private int winX;
     private Avatar ava;
-    private ArrayList<ArrayList<Interactable>> interactables = new ArrayList<>();
+//    private ArrayList<ArrayList<Interactable>> interactables = new ArrayList<>();
+    private ArrayList<ArrayList<Tile>> tileMatrix;
 
 
     //    EFFECTS: sets height, width, winY, and winX
@@ -150,6 +152,15 @@ public class Map {
 
     public Avatar getAva() {
         return ava;
+    }
+
+//    EFFECTS: returns true if maps are equal
+    @Override
+    public boolean equals(Object obj) {
+
+
+
+        return super.equals(obj);
     }
 
     //    REQUIRES: interactables is not null

@@ -1,7 +1,9 @@
 package model;
 
+import java.io.Serializable;
+
 /*An object on the overlay map of interactables*/
-public abstract class Interactable {
+public abstract class Interactable implements Serializable {
 //interactable would be one per tile, could be an instance event, creature, or item
     protected String name;
     protected String description;

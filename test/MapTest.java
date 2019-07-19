@@ -207,4 +207,13 @@ class MapTest extends TestHelper {
                             "@* #@#\r\n" +
                             "#@#@##\r\n", output.toString());
     }
+
+    @Test
+    void EqualsTest() {
+        assertFalse(map1.equals(map3));
+        map1 = map3;
+        assertTrue(map1.equals(map3));
+//        todo also make one where they point to actual different objects, but same params
+
+    }
 }

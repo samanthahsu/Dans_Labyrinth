@@ -14,7 +14,7 @@ class CreatureTest extends TestHelper {
     private static final ArrayList<Item> items = new ArrayList<>();
 
     @BeforeEach
-    void BeforeEach(){
+    void Setup(){
         interY1 = 2;
         interX1 = 1;
 

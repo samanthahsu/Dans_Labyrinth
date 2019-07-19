@@ -13,7 +13,7 @@ class ItemTest extends TestHelper {
     private static final int ITEM_X_1 = 1;
 
     @BeforeEach
-    void BeforeEach(){
+    void Setup(){
         exo1 = new Exo(ITEM_Y_1, ITEM_X_1);
         items.add(exo1);
         map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1,

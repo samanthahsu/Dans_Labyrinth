@@ -1,7 +1,6 @@
 package ui;
 
 /*the nice clean diving board*/
-import model.GameRunner;
 
 public class Main {
 

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /*manages the map portion of this adventure*/
-public class Map implements Serializable {
+public class Map implements Serializable { //todo add assertion stuff
 
 //    default characters representing each display element
     private static final char wall = '@';
@@ -176,7 +176,7 @@ public class Map implements Serializable {
     //        otherwise does nothing
     private void checkAndUpdateTileDisp(int y, int x) {
         if (isIndexValid(y, x)) {
-            updateTileDisp(y, x, map[y][x]);
+            updateTileDisp(y, x, map[y][x]); //todo
 //            updateTileDisp(y, x, map[y][x]);
         }
     }

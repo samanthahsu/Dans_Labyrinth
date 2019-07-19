@@ -13,7 +13,7 @@ public class WriterReaderTest extends MapSuite {
     MapSuite mapSuite = new MapSuite();
 
     @BeforeEach
-    void BeforeEach() {
+    void Setup() {
         writerReader = new WriterReader();
     }
 

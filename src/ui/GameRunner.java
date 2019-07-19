@@ -1,25 +1,28 @@
-package model;
+package ui;
+
+import model.Map;
+import model.WriterReader;
 
 import java.util.Scanner;
 
-/**Main hub which manages all game processes**/
+/*Main hub which manages all game processes*/
 public class GameRunner {
 
 //    todo add exceptions
 
     private static final int CONTINUE_GAME = 0;
     private static final int QUIT_GAME = 1;
-    private static final int FAIL_GAME = 2;
+    private static final int FAIL_GAME = 2; // todo make able to die
     private static final int WIN_GAME = 3;
 
-    Integer gameState; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
-    Map map = null;
-    Scanner scnr;
-    WriterReader writerReader;
-    String ui;
+    private Integer gameState; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
+    private Map map = null;
+    private Scanner scnr;
+    private WriterReader writerReader;
+    private String ui;
 //    todo make input string class wide
 
-    public GameRunner() {
+    GameRunner() {
         gameState = CONTINUE_GAME;
         map = null;
         scnr = new Scanner(System.in);
@@ -30,9 +33,7 @@ public class GameRunner {
     //    EFFECTS: prints welcome dialogue, if map is uninitialized,
     // handles homeScreen commands
     public boolean runHomeScreen() { // todo modify so that homescreen and game run in tandem in main
-        System.out.println("BlackBox"
-                + "==========");
-
+        System.out.println("================================");
         while (map == null && gameState != QUIT_GAME) {
             System.out.println("new : new game\n"
                     + "load : load a saved game\n"
@@ -43,7 +44,7 @@ public class GameRunner {
         if (gameState == QUIT_GAME) {
             return false;
         } else {
-            map.printDisplayMap();
+//            map.printDisplayMap();
             runGame();
         }
         return true;
@@ -78,19 +79,19 @@ public class GameRunner {
 
     //  EFFECTS: runs the main body of the game
     public void runGame() {
-        String ui;
 
-//        while loop for when the game is being played
         while (gameState == CONTINUE_GAME) {
-
+            boolean isValidMove;
+//            todo print out description of current tile
             ui = scnr.nextLine();
-            if (execute(ui)) { // each move is one tick
+            isValidMove = execute(ui);
+            if (isValidMove) { // each move is one tick
                 map.nextState();
-            }
-
-            if (map.isWin()) {
-                System.out.println("CONGRATS, YOU WON!");
-                gameState = WIN_GAME;
+//                todo make it so you can't save the game after you step on the winning tile
+                if (map.isWin()) {
+                    System.out.println("CONGRATS, YOU WON!");
+                    gameState = WIN_GAME;
+                }
             }
         }
         printEndText();
@@ -138,7 +139,7 @@ public class GameRunner {
         return true;
     }
 
-    // EFFECT: print user controls and other info
+    // EFFECT: print user controls and other info *todo make dynamic for each tile
     private void printHelp() {
         System.out.println("Enter n, s, e, or w to move North, South, East, or "
                 + "West respectively." + '\n'

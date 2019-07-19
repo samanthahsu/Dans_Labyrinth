@@ -14,7 +14,7 @@ class AvatarTest extends TestHelper {
     Apple apple;
 
     @BeforeEach
-    void BeforeEach(){
+    void Setup(){
         interactableArrayList = new ArrayList<>();
         interY1 = 2;
         interX1 = 2;

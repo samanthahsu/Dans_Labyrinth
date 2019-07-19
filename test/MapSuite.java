@@ -45,12 +45,12 @@ public class MapSuite {
     protected static final int WIN_X_3 = 3;
 
     public MapSuite() {
-        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1, TEST_START_X_1, WIN_Y_1, WIN_X_1,
-                new ArrayList<Interactable>(), new ArrayList<Interactable>());
-        map2 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, TEST_MAP_2, TEST_START_Y_2, TEST_START_X_2, WIN_Y_2, WIN_X_2,
-                new ArrayList<Interactable>(), new ArrayList<Interactable>());
-        map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, TEST_START_Y_3, TEST_START_X_3, WIN_Y_3, WIN_X_3,
-                new ArrayList<Interactable>(), new ArrayList<Interactable>());
+        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
+                new ArrayList<Interactable>(), );
+        map2 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
+                new ArrayList<Interactable>(), );
+        map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, WIN_Y_3, WIN_X_3, TEST_START_Y_3, TEST_START_X_3,
+                new ArrayList<Interactable>(), );
 
     }
 }

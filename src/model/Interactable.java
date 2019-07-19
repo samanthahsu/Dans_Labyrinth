@@ -34,5 +34,6 @@ public abstract class Interactable implements Serializable {
     }
 
     public abstract boolean interact(Map map);
+
 }
 

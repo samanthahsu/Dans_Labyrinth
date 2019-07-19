@@ -21,8 +21,8 @@ class CreatureTest extends TestHelper {
         exo1 = new Exo(interY1, interX1);
         interactableArrayList = new ArrayList<>();
         interactableArrayList.add(exo1);
-        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1,
-                TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, new ArrayList<Interactable>());
+        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1,
+                TEST_START_X_1, new ArrayList<Interactable>(), );
         ava1 = map1.getAva();
 
     }

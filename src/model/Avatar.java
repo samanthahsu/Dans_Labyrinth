@@ -37,6 +37,11 @@ Avatar(int setY, int setX, ArrayList<Interactable> items) {
         return itemList;
     }
 
+//    effects: returns true if otherAva has same params as this todo
+    public boolean equals(Avatar otherAva) {
+    return false;
+    }
+
 /*
 //    EFFECT: remove item with given name from itemList if it exists
 //    else do nothing

@@ -26,7 +26,7 @@ public class WriterReaderTest extends MapSuite {
     }
 
     @Test
-    void readAndWriteTest() { // todo write read and write methods :)
+    void readAndWriteTest() {
         final String fileName1 = "writeMapTest";
         writerReader.writeMap(map1, fileName1);
         Map readMap1 = writerReader.readMap(fileName1);

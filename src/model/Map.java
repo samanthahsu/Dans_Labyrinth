@@ -8,111 +8,67 @@ import java.util.Random;
 
 /*manages the map portion of this adventure*/
 public class Map implements Serializable {
-    //todo override equals() for this one*******
+
     private static final char wall = '@';
     private static final char floor = ' ';
     private static final char c = '*';
     private static final char fog = '#';
 
-//    private char[][] map; //    stores the 2D matrix of the full map (not modified after) todo kill this
     private char[][] mapDisplay; // stores what the user can see of the map (character, fog, walls)
     private int height;
     private int width;
     private int winY;
     private int winX;
     private Avatar ava;
-//    private ArrayList<ArrayList<Interactable>> interactables = new ArrayList<>();
+//    holds interactables and other tile information
     private ArrayList<ArrayList<Tile>> tileMatrix;
 
 
-    //    EFFECTS: sets height, width, winY, and winX
-//          fills map with mapString
-//          fills mapDisplay with savedMap
-//          places ava at ypos xpos
-    public Map(int h, int w, String cleanMap, int startY, int startX, int winY,
-               int winX, ArrayList<Interactable> inter, ArrayList<Interactable> items) {
-        height = h;
-        width = w;
+//    EFFECTS: sets height, width, win coordinates, fills in mapDisplay and tileMatrix from tileList
+//          initializes ava at given coordinates
+    public Map(int height, int width, int winY, int winX, int avaY, int avaX,
+               ArrayList<Interactable> avaItems, ArrayList<Tile> tileList) {
+        this.height = height;
+        this.width = width;
         this.winY = winY;
         this.winX = winX;
-        initMap(cleanMap);
-        initMapDisplay();
-        initAvatar(startY, startX, items);
-        initInteractables(inter);
+        initTileMatrix(tileList);
+        initMapDisplay(tileList);
+
+        initAvatar(avaY, avaX, avaItems);
     }
 
-
-    //    EFFECTS: sets height, width, winY, and winX
-//          fills map with mapString
-//          fills mapDisplay with savedMap
-//          places ava at ypos xpos
-    public Map(int h, int w, String cleanMap, String savedMap, int startY, int startX, int winY,
-               int winX, ArrayList<Interactable> inter, ArrayList<Interactable> items) {
-        height = h;
-        width = w;
-        this.winY = winY;
-        this.winX = winX;
-        initMap(cleanMap);
-        initMapDisplay(savedMap);
-        initAvatar(startY, startX, items);
-        initInteractables(inter);
-    }
-
-// EFFECTS: fills Array list full of null to correct size
-// if inter is not empty, places interactables in interactables list matrix at specified indexes.
-    private void initInteractables(ArrayList<Interactable> inter) {
-        Interactable nothing = new AbsolutelyNothing();
-        ArrayList<Interactable> widthList;
-        for (int i = 0; i < height; i++) {
-            widthList = new ArrayList<>();
-            for (int j = 0; j < width; j++) {
-                widthList.add(nothing);
+//    requires tileList to be in order and of size h*w, h and w are init
+//    modifies this
+//    takes tileList, and formats it into a matrix for easier access
+    private void initTileMatrix(ArrayList<Tile> tileList) {
+        tileMatrix = new ArrayList<>(height);
+        ArrayList<Tile> tileRow;
+        int i = 0;
+        for (int m = 0; m < height; m++) {
+                tileRow = new ArrayList<>(width);
+                for (int n = 0; n < width; n++) {
+                    tileRow.add(tileList.get(i));
+                    i++;
             }
-            interactables.add(widthList);
+            tileMatrix.add(tileRow);
         }
-        if (inter != null) {
-            for (Interactable c : inter) {
-                if (c != null) {
-                    interactables.get(c.getYpos()).set(c.getXpos(), c); // todo is setting all rows at once for some reason
+    }
+
+    //    REQUIRES: given string is fitting of given height and width
+    //    MODIFIES: this
+    //    EFFECTS: fills mapDisplay according displayChar in tileList
+    private void initMapDisplay(ArrayList<Tile> tileList) {
+        mapDisplay = new char[height][width];
+        int i = 0;
+        for (int m = 0; m < height; m++) {
+            for (int n = 0; n < width; n++) {
+                if (tileList.get(i).isRevealed) {
+                    mapDisplay[m][n] = tileList.get(i).displayChar;
+                } else {
+                    mapDisplay[m][n] = fog;
                 }
-            }
-        }
-    }
-
-    //    MODIFIES: this
-    //    EFFECTS: store mapString into map
-    private void initMap(String mapString) {
-        map = new char[height][width];
-        int strIndex = 0;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                map[i][j] = mapString.charAt(strIndex);
-                strIndex++;
-            }
-        }
-    }
-
-    //    MODIFIES: this todo combine this and initMap for efficiency (eventually)
-    //    EFFECTS: fills mapDisplay with fog tiles
-    private void initMapDisplay() {
-        mapDisplay = new char[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                mapDisplay[i][j] = fog;
-            }
-        }
-    }
-
-    //    MODIFIES: this
-//    REQUIRES: given string is fitting of given height and width
-//    EFFECTS: fills mapDisplay according to state
-    private void initMapDisplay(String state) {
-        mapDisplay = new char[height][width];
-        int strIndex = 0;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                mapDisplay[i][j] = state.charAt(strIndex);
-                strIndex++;
+                i++;
             }
         }
     }
@@ -125,11 +81,7 @@ public class Map implements Serializable {
         revealSurroundings(startY, startX);
     }
 
-    //    **GETTERS**
-    public char[][] getMap() {
-        return map;
-    }
-
+//    getters...
     public char[][] getMapDisplay() {
         return mapDisplay;
     }
@@ -154,13 +106,34 @@ public class Map implements Serializable {
         return ava;
     }
 
-//    EFFECTS: returns true if maps are equal
-    @Override
-    public boolean equals(Object obj) {
+    public ArrayList<ArrayList<Tile>> getTileMatrix() {
+        return tileMatrix;
+    }
 
+    //    EFFECTS: returns true if maps are equal todo
+    public boolean equals(Map otherMap) {
+        boolean mapDisplayEq = mapDisplay == otherMap.getMapDisplay();
+        boolean heightEq = height == otherMap.getHeight();
+        boolean widthEq = width == otherMap.getWidth();
+        boolean winYEq = winY == otherMap.getWinY();
+        boolean winXEq = winX == otherMap.getWinX();
+        boolean avaEq = ava.equals(otherMap.getAva());
+        boolean tileMatrixEq = tileMatrixEquals(tileMatrix, otherMap.getTileMatrix(), height, width);
 
+        return mapDisplayEq && heightEq && widthEq && winYEq && winXEq && avaEq && tileMatrixEq;
+    }
 
-        return super.equals(obj);
+//    requires: a, b are of same size
+//    effect: returns true if a, b contain the same things in same order
+    private boolean tileMatrixEquals(ArrayList<ArrayList<Tile>> a, ArrayList<ArrayList<Tile>> b, int height, int width) {
+        for (int m = 0; m < height; m++) {
+            for (int n = 0; n < width; n++) {
+                if (!a.get(m).get(n).equals(b.get(m).get(n))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     //    REQUIRES: interactables is not null
@@ -185,7 +158,8 @@ public class Map implements Serializable {
     //    REQUIRES: ypos and xpos are valid indexes in map
     //    EFFECTS: returns true if tile of requested index is floor in map, else false
     public boolean isTileFloor(int y, int x) {
-        return map[y][x] == ' ';
+        char c = tileMatrix.get(y).get(x).displayChar;
+        return c == ' ';
     }
 
     //    REQUIRES: ypos and xpos are valid indexes in map

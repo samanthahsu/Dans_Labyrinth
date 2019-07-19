@@ -25,10 +25,10 @@ class SaveAndLoadTest extends TestHelper {
         items = new ArrayList<>();
         items.add(new Apple());
         items.add(new Apple());
-        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, TEST_START_Y_1,
-                TEST_START_X_1, WIN_Y_1, WIN_X_1, interactableArrayList, items);
-        map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, TEST_START_Y_3,
-                TEST_START_X_3, WIN_Y_3, WIN_X_3, interactableArrayList, items);
+        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1,
+                TEST_START_X_1, items, );
+        map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, WIN_Y_3, WIN_X_3, TEST_START_Y_3,
+                TEST_START_X_3, items, );
     }
 
     @Test

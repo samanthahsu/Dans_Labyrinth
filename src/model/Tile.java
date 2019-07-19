@@ -77,11 +77,11 @@ public class Tile implements Serializable {
         boolean isRevealedEq = isRevealed == tile.isRevealed();
         boolean descriptionEq = description.equals(tile.getDescription());
 //        usually, checking x and y are enough to ensure they are the same
-        boolean creaturesEq = interactableListEqualsC(creatures, tile.getCreatures());
-        boolean itemsEq = interactableListEqualsI(items, tile.getItems());
-        boolean featuresEq = interactableListEqualsF(features, tile.getFeatures());
+//        boolean creaturesEq = interactableListEqualsC(creatures, tile.getCreatures());
+//        boolean itemsEq = interactableListEqualsI(items, tile.getItems());
+//        boolean featuresEq = interactableListEqualsF(features, tile.getFeatures());
 
-        return xposEq && yposEq && displayCharEq && isRevealedEq && descriptionEq && creaturesEq && itemsEq && featuresEq;
+        return xposEq && yposEq && displayCharEq && isRevealedEq && descriptionEq /*&& creaturesEq && itemsEq && featuresEq*/;
     }
 
 //    todo

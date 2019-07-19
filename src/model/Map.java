@@ -1,7 +1,5 @@
 package model;
 
-import model.features.AbsolutelyNothing;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,19 +7,21 @@ import java.util.Random;
 /*manages the map portion of this adventure*/
 public class Map implements Serializable {
 
+//    default characters representing each display element
     private static final char wall = '@';
     private static final char floor = ' ';
     private static final char c = '*';
     private static final char fog = '#';
 
-    private char[][] mapDisplay; // stores what the user can see of the map (character, fog, walls)
+    // stores what the user can see of the map (character, fog, walls) for easy printing
+    private char[][] mapDisplay;
     private int height;
     private int width;
     private int winY;
     private int winX;
     private Avatar ava;
 //    holds interactables and other tile information
-    private ArrayList<ArrayList<Tile>> tileMatrix;
+    private ArrayList<ArrayList<Tile>> tileMatrix; //todo make separate class for tileMatrix?? >> handle browsing etc. in more appropriate place?
 
 
 //    EFFECTS: sets height, width, win coordinates, fills in mapDisplay and tileMatrix from tileList
@@ -110,7 +110,7 @@ public class Map implements Serializable {
         return tileMatrix;
     }
 
-    //    EFFECTS: returns true if maps are equal todo
+    //    EFFECTS: returns true if maps are equal
     public boolean equals(Map otherMap) {
         boolean mapDisplayEq = mapDisplay == otherMap.getMapDisplay();
         boolean heightEq = height == otherMap.getHeight();
@@ -123,8 +123,8 @@ public class Map implements Serializable {
         return mapDisplayEq && heightEq && widthEq && winYEq && winXEq && avaEq && tileMatrixEq;
     }
 
-//    requires: a, b are of same size
-//    effect: returns true if a, b contain the same things in same order
+//    requires: a and b are of same size (indicated by height and width)
+//    effect: returns true if a and b contain the tiles in the same order
     private boolean tileMatrixEquals(ArrayList<ArrayList<Tile>> a, ArrayList<ArrayList<Tile>> b, int height, int width) {
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {
@@ -136,6 +136,7 @@ public class Map implements Serializable {
         return true;
     }
 
+/*STUFF DEALING WITH INTERACTABLES THAT MAY OR MAY NOT BE NECESSARY ANYMORE
     //    REQUIRES: interactables is not null
 //    EFFECTS: if creature exists at given index, returns Interactable
     public Interactable getInteractable(int y, int x) {
@@ -149,13 +150,14 @@ public class Map implements Serializable {
     public ArrayList<ArrayList<Interactable>> getInteractables() {
         return interactables;
     }
+*/
 
-    //    EFFECTS: return true if index within bounds of map
+    //    EFFECTS: return true if index within bounds of the map
     public boolean isIndexValid(int y, int x) {
         return y >= 0 && x >= 0 && y < height && x < width;
     }
 
-    //    REQUIRES: ypos and xpos are valid indexes in map
+    //    REQUIRES: the position ypos, xpos are a valid position on the map
     //    EFFECTS: returns true if tile of requested index is floor in map, else false
     public boolean isTileFloor(int y, int x) {
         char c = tileMatrix.get(y).get(x).displayChar;
@@ -165,7 +167,7 @@ public class Map implements Serializable {
     //    REQUIRES: ypos and xpos are valid indexes in map
     //    MODIFIES: this
     //    EFFECTS: replaces character at index ypos,xpos with c in mapDisplay
-    public void updateTileDisp(int y, int x, char c) {
+    public void updateTileDisp(int y, int x, char c) { //todo move this method to Tile class
         mapDisplay[y][x] = c;
     }
 
@@ -175,13 +177,14 @@ public class Map implements Serializable {
     private void checkAndUpdateTileDisp(int y, int x) {
         if (isIndexValid(y, x)) {
             updateTileDisp(y, x, map[y][x]);
+//            updateTileDisp(y, x, map[y][x]);
         }
     }
 
     //    MODIFIES: this
     //    EFFECTS: replace any fog tiles with corresponding tiles on map orthogonally about index ypos,xpos
     //      on mapDisplay (no diagonals), if tile index not valid, do nothing
-    public void revealSurroundings(int y, int x) {
+    public void revealSurroundings(int y, int x) { //todo make this update tile as well...
         checkAndUpdateTileDisp(y, x - 1);
         checkAndUpdateTileDisp(y, x + 1);
         checkAndUpdateTileDisp(y - 1, x);
@@ -205,15 +208,25 @@ public class Map implements Serializable {
 
     //    *************PRINTING*************
 
-    //    REQUIRES: mapDisplay is not null
-    //    EFFECTS: prints mapDisplay to screen
+    //    REQUIRES: tileMatrix is not null
+    //    EFFECTS: prints mapDisplay to screen todo make this fetch char from tilematrix >> elim mapDisplay???
     public void printDisplayMap() {
+        char displayTile;
+        for (int m = 0; m < height; m++) {
+            for (int n = 0; n < width; n++) {
+                displayTile = tileMatrix.get(m).get(n).getDisplayChar();
+                System.out.print(displayTile);
+            }
+            System.out.println();
+        }
+/*
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 System.out.print(mapDisplay[i][j]);
             }
             System.out.println();
         }
+*/
     }
 
     //    EFFECTS: prints silly statements when you try to move to a wall tile

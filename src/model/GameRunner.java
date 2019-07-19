@@ -3,7 +3,7 @@ package model;
 import java.util.Scanner;
 
 /**Main hub which manages all game processes**/
-public class MazeGame {
+public class GameRunner {
 
 //    todo add exceptions
 
@@ -12,28 +12,41 @@ public class MazeGame {
     private static final int FAIL_GAME = 2;
     private static final int WIN_GAME = 3;
 
-    Integer gameState = CONTINUE_GAME; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
+    Integer gameState; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
     Map map = null;
-    Scanner scnr = new Scanner(System.in);
-    SaveAndLoad svl = new SaveAndLoad();
+    Scanner scnr;
+    WriterReader writerReader;
+    String ui;
+//    todo make input string class wide
+
+    public GameRunner() {
+        gameState = CONTINUE_GAME;
+        map = null;
+        scnr = new Scanner(System.in);
+        writerReader = new WriterReader();
+        ui = "";
+    }
 
     //    EFFECTS: prints welcome dialogue, if map is uninitialized,
     // handles homeScreen commands
-    public void runHomeScreen() {
+    public boolean runHomeScreen() { // todo modify so that homescreen and game run in tandem in main
         System.out.println("BlackBox"
                 + "==========");
-        while (map == null && gameState != QUIT_GAME) {
-            System.out.println("n : new game\n"
-                    + "l : load a saved game\n"
-                    + "q : exit");
-            homeExecute(scnr.nextLine());
-        }
 
-        if (gameState == QUIT_GAME) {
-            return;
+        while (map == null && gameState != QUIT_GAME) {
+            System.out.println("new : new game\n"
+                    + "load : load a saved game\n"
+                    + "quit : exit");
+            ui = scnr.nextLine();
+            homeExecuteUi();
         }
-        map.printDisplayMap();
-        runGame();
+        if (gameState == QUIT_GAME) {
+            return false;
+        } else {
+            map.printDisplayMap();
+            runGame();
+        }
+        return true;
     }
 
 //    MODIFIES: this
@@ -42,18 +55,18 @@ public class MazeGame {
 //      load saved game: selected mazeGame file is loaded, calls runGame
 //      help: prints help dialogue
 //    then sets gameState to appropriate value
-    private void homeExecute(String input) {
-        switch (input) {
-            case "n":
+    private void homeExecuteUi() {
+        switch (ui) {
+            case "new":
                 System.out.println("Starting new game...");
-                map = svl.loadFile("default_map");
+                map = writerReader.readMap("default_map");
                 break;
-            case "l":
+            case "load":
                 System.out.println("Enter name of saved file: ");
-                input = scnr.nextLine();
-                map = svl.loadFile(input);
+                ui = scnr.nextLine();
+                map = writerReader.readMap(ui);
                 break;
-            case "q":
+            case "quit":
                 gameState = QUIT_GAME;
                 System.out.println("Thanks for playing!");
                 break;
@@ -64,7 +77,7 @@ public class MazeGame {
     }
 
     //  EFFECTS: runs the main body of the game
-    private void runGame() {
+    public void runGame() {
         String ui;
 
 //        while loop for when the game is being played
@@ -163,7 +176,8 @@ public class MazeGame {
         switch (scnr.nextLine()) {
             case "s":
                 System.out.println("What would you like to name your file?");
-                svl.saveGame(scnr.nextLine(), map, map.getAva());
+                writerReader.writeMap(map, scnr.nextLine());
+//                svl.saveGame(scnr.nextLine(), map, map.getAva());
                 break;
             case "c":
                 System.out.println("You continue...");

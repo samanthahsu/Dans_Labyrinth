@@ -1,4 +1,4 @@
-import model.Map;
+package model;
 
 import java.io.*;
 

@@ -1,12 +1,16 @@
 package ui;
 
-/*this class launches the game*/
-import model.MazeGame;
+/*the nice clean diving board*/
+import model.GameRunner;
 
 public class Main {
 
     public static void main(String[] args) {
-        MazeGame game = new MazeGame();
-        game.runHomeScreen();
+        GameRunner game = new GameRunner();
+        boolean quit;
+
+        do {
+           quit = game.runHomeScreen(); // also runs the rest of the game
+        } while (!quit); // can only quit from the home screen now
     }
 }

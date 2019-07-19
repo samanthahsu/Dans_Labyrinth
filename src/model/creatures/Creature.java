@@ -7,7 +7,7 @@ import model.Map;
 abstract class Creature extends Interactable {
     int health;
 
-    public Creature(int y, int x) {
+    Creature(int y, int x) {
         super(y, x);
         isCreature = true;
         isItem = false;

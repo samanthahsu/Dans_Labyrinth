@@ -127,15 +127,14 @@ public class MazeGame {
 
     // EFFECT: print user controls and other info
     private void printHelp() {
-//        todo add use items commands
         System.out.println("Enter n, s, e, or w to move North, South, East, or "
                 + "West respectively." + '\n'
-                + "'m' to view the map" + '\n'
-                + "'pick up': pick up item" + '\n'
-                + "'me': view items and status" + '\n'
-                + "use : use and item" + '\n'
-                + "'h' to get help dialogue" + '\n'
-                + "'q' to quit");
+                + "map: view the map" + '\n'
+                + "pick up: pick up item" + '\n'
+                + "me: view items and status" + '\n'
+                + "use: use and item" + '\n'
+                + "h: to get help dialogue" + '\n'
+                + "q: to quit");
     }
 
     // REQUIRES: gameOver is in the interval [1, 3]

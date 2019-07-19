@@ -121,24 +121,30 @@ https://www.asciiart.eu/holiday-and-events/fireworks
 ~-\XXXXXXXXXX/~     ~-~-~-~     /__|_\ ~-~-~-~
 ~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~
 
-
+===============================================================================
 MAPS SHOULD ALWAYS BE SURROUNDED BY WALLS EXCEPT FOR ONE GAP
 
 OTHER GAME CONCEPT FOCUS???????
 OK so like a point and click escape game, except you type and read
-instead of look and click
+instead of look and click.
 
-- creatures direct you on sidequests pointing vaguely in a direction or chattering
+Puzzles - meant to keep the monster in
+- if you eat the apple you become human???
+- creatures direct you on side quests pointing vaguely in a direction or chattering
 - solve puzzles >> what puzzles???
    - hidden information >> have to examine carefully to find clue
         find codes hidden behind things, patterns
         items that help > keys, bombs etc.
+        scratch patterns, foot prints cracks and bruises indicating which things to push
+
    - maze-like passages that obey an unconventional logic
-      you lost your map! ohno, now you are blind D:
-      ohno, all the controls are flipped AND you're blind
+      you lost your map! oh no, now you are blind
+      oh no, all the controls are flipped AND you're blind
       every step, the controls flip around (Now the wheel has turned around)
+      eat a weird mushroom, to and world is wobbly for a while
    - experimentation, a couple interactables with which you have to do things to in a certain way
-        light the candle, then examine the wall
+        light the torch, then examine the wall
+
    - nitpicking, very precise experimentation with consequence of failure
         you've got one chance to secure this rope just right, if you miss a step, you're doomed
    - time dependent, you have to wait a certain amount of time for right opportunity
@@ -146,4 +152,13 @@ instead of look and click
    - you find string in the maze, a hairless creature in borrowed hide tries to hunt you down
 - navigate mostly by sound - anyways not sight
 
+- if you eat the apple, switch to human timeline
 - alt ending, you were the minotaur the whole time! (where does it split?)
+
+xxx
+
+CONSTRUCT HUMAN SIDE FIRST?
+- creatures move around in the dark in linear fashion
+- when confronted makes noises, runs away or attacks
+- human has base hp of 2
+- when creatures are on tiles next to you, text indication of sounds

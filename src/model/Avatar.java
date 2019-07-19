@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Avatar {
+//    todo let avatar know about map, and do it's own movements???
     private int status = 3; //health bar 0 = dead
     private int ypos;
     private int xpos; //tracks position of avatar

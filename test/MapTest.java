@@ -86,8 +86,8 @@ class MapTest extends TestHelper {
 
     @Test
     void isTileFloorTest(){
-        assertFalse(map1.isTileFloor(0, 1));
-        assertTrue(map1.isTileFloor(2, 2));
+        assertFalse(map1.isTileWalkable(0, 1));
+        assertTrue(map1.isTileWalkable(2, 2));
     }
 
     @Test

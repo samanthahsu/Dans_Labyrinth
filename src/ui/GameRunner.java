@@ -1,8 +1,11 @@
 package ui;
 
 import model.Map;
+import model.Tile;
 import model.WriterReader;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 /*Main hub which manages all game processes*/
@@ -10,18 +13,23 @@ public class GameRunner {
 
 //    todo add exceptions
 
+//    game states
     private static final int CONTINUE_GAME = 0;
     private static final int QUIT_GAME = 1;
     private static final int FAIL_GAME = 2; // todo make able to die
     private static final int WIN_GAME = 3;
 
-    private Integer gameState; // 0=continue, 1=quit, 2=death, 3=victory, 5=new game, 6=load game
-    private Map map = null;
+    private Integer gameState;
+    private Map map;
     private Scanner scnr;
     private WriterReader writerReader;
     private String ui;
 //    todo make input string class wide
 
+/*
+    starts real part of game
+    effects: initializes gameState, map, scnr, writerREader, and ui
+*/
     GameRunner() {
         gameState = CONTINUE_GAME;
         map = null;
@@ -30,9 +38,11 @@ public class GameRunner {
         ui = "";
     }
 
-    //    EFFECTS: prints welcome dialogue, if map is uninitialized,
-    // handles homeScreen commands
-    public boolean runHomeScreen() { // todo modify so that homescreen and game run in tandem in main
+/*
+        EFFECTS: while map is uninitialized, prints welcome text, and handles homeScreen commands
+        returns true if gameState is QUIT_GAME, else runs the game and returns false
+*/
+    public boolean runHomeScreen() {
         System.out.println("================================");
         while (map == null && gameState != QUIT_GAME) {
             System.out.println("new : new game\n"
@@ -42,20 +52,19 @@ public class GameRunner {
             homeExecuteUi();
         }
         if (gameState == QUIT_GAME) {
-            return false;
-        } else {
-//            map.printDisplayMap();
-            runGame();
+            return true;
         }
-        return true;
+        runGame();
+        return false;
     }
 
-//    MODIFIES: this
-//    EFFECTS: handles available commands from the home screen, which are:
-//      start new game: default map is loaded, and calls runGame
-//      load saved game: selected mazeGame file is loaded, calls runGame
-//      help: prints help dialogue
-//    then sets gameState to appropriate value
+/*
+    MODIFIES: this
+    EFFECTS: handles available commands from the home screen, which are:
+      start new game: default map is loaded, and calls runGame
+      load saved game: selected mazeGame file is loaded, calls runGame
+    then sets gameState to appropriate value
+*/
     private void homeExecuteUi() {
         switch (ui) {
             case "new":
@@ -77,15 +86,17 @@ public class GameRunner {
         }
     }
 
-    //  EFFECTS: runs the main body of the game
+/*
+modifies: this, map
+      EFFECTS: runs the main body of the game
+*/
     public void runGame() {
+        boolean isValidMove;
 
-        while (gameState == CONTINUE_GAME) {
-            boolean isValidMove;
-//            todo print out description of current tile
+        while (gameState == CONTINUE_GAME) { //todo print out description of current tile
             ui = scnr.nextLine();
             isValidMove = execute(ui);
-            if (isValidMove) { // each move is one tick
+            if (isValidMove) { // each move is one tick of game clock
                 map.nextState();
 //                todo make it so you can't save the game after you step on the winning tile
                 if (map.isWin()) {
@@ -98,9 +109,8 @@ public class GameRunner {
         map = null;
     }
 
-
     // EFFECTS: handles which Map functions to call. returns gameState.
-    private boolean execute(String input) { // todo add use item
+    private boolean execute(String input) {
         switch (input) {
             case "n":
             case "s":
@@ -112,17 +122,17 @@ public class GameRunner {
                 System.out.println("hello darkness.");
                 break;
             case "map":
-                map.printDisplayMap();
+                printDisplayMap();
                 break;
             case "me":
                 System.out.println("Health: " + map.getAva().getStatus()
                 + "/3");
                 map.getAva().printItems();
                 break;
-            case "h":
+            case "help":
                 printHelp();
                 break;
-            case "q":
+            case "quit":
                 gameState = handleQuit();
                 break;
             case "pick up":
@@ -144,11 +154,11 @@ public class GameRunner {
         System.out.println("Enter n, s, e, or w to move North, South, East, or "
                 + "West respectively." + '\n'
                 + "map: view the map" + '\n'
-                + "pick up: pick up item" + '\n'
+                + "pick up: pick up an item" + '\n'
                 + "me: view items and status" + '\n'
                 + "use: use and item" + '\n'
-                + "h: to get help dialogue" + '\n'
-                + "q: to quit");
+                + "help: to get help dialogue" + '\n'
+                + "quit: to quit");
     }
 
     // REQUIRES: gameOver is in the interval [1, 3]
@@ -172,13 +182,13 @@ public class GameRunner {
 //      cancel: continues the game
 //      quit: quit the game without saving
     private int handleQuit() {
-        System.out.println("Enter 's' to save, 'c' to cancel or 'q' again to "
-                + "quit without saving.");
+        System.out.println("s: save game\n"
+                + "c: cancel and continue\n"
+                +"q: quit without saving.");
         switch (scnr.nextLine()) {
             case "s":
                 System.out.println("What would you like to name your file?");
                 writerReader.writeMap(map, scnr.nextLine());
-//                svl.saveGame(scnr.nextLine(), map, map.getAva());
                 break;
             case "c":
                 System.out.println("You continue...");
@@ -191,7 +201,50 @@ public class GameRunner {
         return CONTINUE_GAME;
     }
 
-//    EFFECTS: prints celebratory graphic
+/*
+        REQUIRES: map has been initialized properly
+        EFFECTS: prints current map to screen
+*/
+private void printDisplayMap() {
+        int height = map.getHeight();
+        int width = map.getWidth();
+        ArrayList<ArrayList<Tile>> tileMatrix = map.getTileMatrix();
+        char displayTile;
+        for (int m = 0; m < height; m++) {
+            for (int n = 0; n < width; n++) {
+                displayTile = tileMatrix.get(m).get(n).getDisplayChar();
+                System.out.print(displayTile);
+            }
+            System.out.println();
+        }
+    }
+
+/*
+        EFFECTS: prints feedback when ava tries to move into a wall tile
+*/
+    public void printMovePlaceholder(String dir) {
+        Random ran = new Random();
+        switch (ran.nextInt(5)) {
+            case 0:
+                System.out.println("You smack hilariously against the " + dir + " wall.");
+                break;
+            case 1:
+                System.out.println("Your toe is painfully stubbed on the " + dir + " wall.");
+                break;
+            case 2:
+                System.out.println("You flop desperately against the " + dir + " wall.");
+                break;
+            case 3:
+                System.out.println("You sit and ponder how your life has culminated in this moment.");
+                break;
+            case 4:
+                System.out.println("You flop against the " + dir + " wall for fun.");
+                break;
+            default:
+        }
+    }
+
+    //    EFFECTS: prints celebratory graphic
     private void printWinGraphic() {
         System.out.println("                                  .''.\n"
                 + "        .''.             *''*    :_\\/_:     .\n"

@@ -1,8 +1,9 @@
 package model;
 
+import model.creatures.Creature;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
 
 /*manages the map portion of this adventure*/
 public class Map implements Serializable { //todo add assertion stuff
@@ -14,7 +15,6 @@ public class Map implements Serializable { //todo add assertion stuff
     private static final char fog = '#';
 
     // stores what the user can see of the map (character, fog, walls) for easy printing
-    private char[][] mapDisplay;
     private int height;
     private int width;
     private int winY;
@@ -24,8 +24,11 @@ public class Map implements Serializable { //todo add assertion stuff
     private ArrayList<ArrayList<Tile>> tileMatrix; //todo make separate class for tileMatrix?? >> handle browsing etc. in more appropriate place?
 
 
-//    EFFECTS: sets height, width, win coordinates, fills in mapDisplay and tileMatrix from tileList
-//          initializes ava at given coordinates
+/*constructor
+requires: height*width == tileList.size() // todo throw mismatched map size exception
+EFFECTS: sets height and width of map, win coordinates, and tileMatrix from tileList.
+initializes avatar at given coordinates with its items
+*/
     public Map(int height, int width, int winY, int winX, int avaY, int avaX,
                ArrayList<Interactable> avaItems, ArrayList<Tile> tileList) {
         this.height = height;
@@ -33,14 +36,14 @@ public class Map implements Serializable { //todo add assertion stuff
         this.winY = winY;
         this.winX = winX;
         initTileMatrix(tileList);
-        initMapDisplay(tileList);
-
         initAvatar(avaY, avaX, avaItems);
     }
 
-//    requires tileList to be in order and of size h*w, h and w are init
-//    modifies this
-//    takes tileList, and formats it into a matrix for easier access
+/*  initializes tileMatrix
+    requires: tileList to be in order and of size h*w, h and w are init
+    modifies: this // todo throw mismatched map size exception
+    effects: takes tileList, and formats it into a matrix for easier access
+*/
     private void initTileMatrix(ArrayList<Tile> tileList) {
         tileMatrix = new ArrayList<>(height);
         ArrayList<Tile> tileRow;
@@ -54,7 +57,7 @@ public class Map implements Serializable { //todo add assertion stuff
             tileMatrix.add(tileRow);
         }
     }
-
+/*
     //    REQUIRES: given string is fitting of given height and width
     //    MODIFIES: this
     //    EFFECTS: fills mapDisplay according displayChar in tileList
@@ -72,20 +75,29 @@ public class Map implements Serializable { //todo add assertion stuff
             }
         }
     }
+*/
 
-    //    MODIFIES: mapDisplay
-    //    EFFECTS: places avatar at ypos, xpos revealing adjacent tiles
+/* initializes avatar
+        MODIFIES: this, ava
+        EFFECTS: construct new Avatar with given coordinates and items
+        places avatar character at ypos, xpos in tileMatrix, revealing adjacent tiles
+*/
     private void initAvatar(int startY, int startX, ArrayList<Interactable> items) {
         ava = new Avatar(startY, startX, items);
         updateTileDisp(startY, startX, c);
         revealSurroundings(startY, startX);
     }
 
-//    getters...
-    public char[][] getMapDisplay() {
-        return mapDisplay;
+    /*
+    requires: y, x are valid coordinates on the map // todo throw edge of map exception
+    modifies: this, tileMatrix
+    effects: updates display char at y, x to c in tileMatrix
+    */
+    public void updateTileDisp(int y, int x, char c) {
+        tileMatrix.get(y).get(x).setDisplayChar(c);
     }
 
+    //    getters...
     public int getHeight() {
         return height;
     }
@@ -110,9 +122,10 @@ public class Map implements Serializable { //todo add assertion stuff
         return tileMatrix;
     }
 
-    //    EFFECTS: returns true if maps are equal
+/*
+        EFFECTS: returns true if this and otherMap are equal to each other
+*/
     public boolean equals(Map otherMap) {
-        boolean mapDisplayEq = mapDisplay == otherMap.getMapDisplay();
         boolean heightEq = height == otherMap.getHeight();
         boolean widthEq = width == otherMap.getWidth();
         boolean winYEq = winY == otherMap.getWinY();
@@ -120,11 +133,14 @@ public class Map implements Serializable { //todo add assertion stuff
         boolean avaEq = ava.equals(otherMap.getAva());
         boolean tileMatrixEq = tileMatrixEquals(tileMatrix, otherMap.getTileMatrix(), height, width);
 
-        return mapDisplayEq && heightEq && widthEq && winYEq && winXEq && avaEq && tileMatrixEq;
+        return heightEq && widthEq && winYEq && winXEq && avaEq && tileMatrixEq;
     }
 
-//    requires: a and b are of same size (indicated by height and width)
-//    effect: returns true if a and b contain the tiles in the same order
+/*
+    requires: a and b are of same size (indicated by height and width) // todo throw mismatched map size exception
+    effects: returns true if a and b contain equal tiles in the same order,
+    else returns false
+*/
     private boolean tileMatrixEquals(ArrayList<ArrayList<Tile>> a, ArrayList<ArrayList<Tile>> b, int height, int width) {
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {
@@ -152,103 +168,65 @@ public class Map implements Serializable { //todo add assertion stuff
     }
 */
 
-    //    EFFECTS: return true if index within bounds of the map
+    //    EFFECTS: return true if index within bounds of the map // TODO MAKE THIS THROW EDGE OF MAP EXCEPTION
     public boolean isIndexValid(int y, int x) {
         return y >= 0 && x >= 0 && y < height && x < width;
     }
 
-    //    REQUIRES: the position ypos, xpos are a valid position on the map
-    //    EFFECTS: returns true if tile of requested index is floor in map, else false
-    public boolean isTileFloor(int y, int x) {
-        char c = tileMatrix.get(y).get(x).displayChar;
-        return c == ' ';
+/*
+        REQUIRES: the position y, x is a valid position on the map // todo throw edge of map exc
+        EFFECTS: returns true if tile of requested index is walkable, else false
+*/
+    public boolean isTileWalkable(int y, int x) {
+        return tileMatrix.get(y).get(x).isWalkable();
     }
 
-    //    REQUIRES: ypos and xpos are valid indexes in map
-    //    MODIFIES: this
-    //    EFFECTS: replaces character at index ypos,xpos with c in mapDisplay
-    public void updateTileDisp(int y, int x, char c) { //todo move this method to Tile class
-        mapDisplay[y][x] = c;
-    }
-
-    //    MODIFIES: this
-    //    EFFECTS: if given index is valid, replaces character at index ypos,xpos with c in mapDisplay
-    //        otherwise does nothing
-    private void checkAndUpdateTileDisp(int y, int x) {
+/*
+        MODIFIES: this
+        EFFECTS: iff given index is valid, reveal actual tile char at given index
+        todo throw edge of map exception, alt fail quietly since is expected to happen
+*/
+    private void checkAndRevealTileDisp(int y, int x) {
         if (isIndexValid(y, x)) {
-            updateTileDisp(y, x, map[y][x]); //todo
-//            updateTileDisp(y, x, map[y][x]);
+            tileMatrix.get(y).get(x).revealTile();
         }
     }
 
-    //    MODIFIES: this
-    //    EFFECTS: replace any fog tiles with corresponding tiles on map orthogonally about index ypos,xpos
-    //      on mapDisplay (no diagonals), if tile index not valid, do nothing
-    public void revealSurroundings(int y, int x) { //todo make this update tile as well...
-        checkAndUpdateTileDisp(y, x - 1);
-        checkAndUpdateTileDisp(y, x + 1);
-        checkAndUpdateTileDisp(y - 1, x);
-        checkAndUpdateTileDisp(y + 1, x);
+/*
+        MODIFIES: this
+        EFFECTS: if tile index is valid, reveal the 4 (or less) tiles orthogonally around y, x (no diagonals)
+        else do nothing? todo throw exc?
+
+*/
+    public void revealSurroundings(int y, int x) {
+        checkAndRevealTileDisp(y, x - 1);
+        checkAndRevealTileDisp(y, x + 1);
+        checkAndRevealTileDisp(y - 1, x);
+        checkAndRevealTileDisp(y + 1, x);
     }
 
-    //    EFFECTS: returns true if ava is on the winning tile
+/*
+        EFFECTS: returns true if ava is on the winning tile
+*/
     public boolean isWin() {
         return ava.getYpos() == winY && ava.getXpos() == winX;
     }
 
-    //    EFFECTS: executes interactables actions
+/*
+        EFFECTS: executes each creature on the map's default actions
+        different for each type of creature including:
+         sound scope: how far away from ava for ava to get message feedback
+        about disturbance
+        movement: how far and in what pattern each creature moves (if they try to avoid or to approach ava)
+*/
     public void nextState() {
 //        System.out.println("rumbles in the distance");
-        for (ArrayList<Interactable> is: interactables) {
-            for (Interactable i: is) {
-                i.interact(this); // todo add bg checking for each creature and use diff method here
+        for (ArrayList<Tile> tileArrayList: tileMatrix) {
+            for (Tile tile : tileArrayList) {
+                for (Creature c : tile.getCreatures())
+                    c.doPassiveActions();
             }
         }
     }
 
-    //    *************PRINTING*************
-
-    //    REQUIRES: tileMatrix is not null
-    //    EFFECTS: prints mapDisplay to screen todo make this fetch char from tilematrix >> elim mapDisplay???
-    public void printDisplayMap() {
-        char displayTile;
-        for (int m = 0; m < height; m++) {
-            for (int n = 0; n < width; n++) {
-                displayTile = tileMatrix.get(m).get(n).getDisplayChar();
-                System.out.print(displayTile);
-            }
-            System.out.println();
-        }
-/*
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                System.out.print(mapDisplay[i][j]);
-            }
-            System.out.println();
-        }
-*/
-    }
-
-    //    EFFECTS: prints silly statements when you try to move to a wall tile
-    public void printMovePlaceholder(String dir) {
-        Random ran = new Random();
-        switch (ran.nextInt(5)) {
-            case 0:
-                System.out.println("You smack hilariously against the " + dir + " wall.");
-                break;
-            case 1:
-                System.out.println("Your toe is painfully stubbed on the " + dir + " wall.");
-                break;
-            case 2:
-                System.out.println("You flop desperately against the " + dir + " wall.");
-                break;
-            case 3:
-                System.out.println("You sit and ponder how your life has culminated in this moment.");
-                break;
-            case 4:
-                System.out.println("You flop against the " + dir + " wall for fun.");
-                break;
-            default:
-        }
-    }
 }

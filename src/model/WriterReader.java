@@ -2,7 +2,7 @@ package model;
 
 import java.io.*;
 
-/*this class reads and writes game states from the saves folder*/
+/*reads and writes game states from the saves folder*/
 public class WriterReader {
 
     private static final String SAVES_PATH = System.getProperty("user.dir") + "\\saves\\";

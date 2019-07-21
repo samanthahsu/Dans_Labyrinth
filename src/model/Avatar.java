@@ -5,13 +5,17 @@ import java.util.ArrayList;
 
 public class Avatar implements Serializable {
 //    todo let avatar know about map, and do it's own movements???
-    private int status = 3; //health bar 0 = dead
+    private int status; //health bar 0 = dead
     private int ypos;
     private int xpos; //tracks position of avatar
     private ArrayList<Interactable> itemList; // todo has a limit of three itemList to prevent hoarding
+//    todo change itemList into set
 
-//    EFFECTS: constructs avatar setting it's coordinates
-Avatar(int setY, int setX, ArrayList<Interactable> items) {
+/* constructor
+    EFFECTS: makes avatar setting it's coordinates, items and status to 3
+*/
+    Avatar(int setY, int setX, ArrayList<Interactable> items) {
+        status = 3;
         ypos = setY;
         xpos = setX;
         this.itemList = items;
@@ -79,7 +83,7 @@ Avatar(int setY, int setX, ArrayList<Interactable> items) {
 //    MODIFIES: this
 //    EFFECTS: if ypos,xpos is can be moved, move ava and update ava coordinates, else print feedback text
     private void moveAvaHelper(int y, int x, Map map, String dir) {
-        if (map.isTileFloor(y, x)) {
+        if (map.isTileWalkable(y, x)) {
             char avaChar = '*';
             map.updateTileDisp(y, x, avaChar);
             map.revealSurroundings(y, x);

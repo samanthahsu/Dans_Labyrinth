@@ -6,30 +6,34 @@ import model.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /*Holds information things on this step*/
 public class Tile implements Serializable {
 
 //    The map this tile belongs to
-    Map parentMap;
+    private Map parentMap;
 
 //    The position on the map which the tile is situated
-    int xpos;
-    int ypos;
+    private int xpos;
+    private int ypos;
 
 //    what character the tile will be represented as on the map
     char displayChar;
 
 // true if character has seen the part of the map before
-    boolean isRevealed;
+    private boolean isRevealed;
+//    true if ava can be present on tile
+    private boolean isWalkable;
 //    some flavour text of what the senses pick up - usually default, can be
 //    modified for providing clues
-    String description;
+    private String description;
 
 //    lists of interactables on tile
-    ArrayList<Creature> creatures;
-    ArrayList<Item> items;
-    ArrayList<Feature> features;
+    private HashSet<Creature> creatures;
+    private HashSet<Item> items;
+    private HashSet<Feature> features;
+//    todo change all these lists into hash sets
 
 // EFFECTS: this makes a default tile with nothing in it
 //    sets description to one of 3 random default descriptions of an empty tile
@@ -53,20 +57,31 @@ public class Tile implements Serializable {
         return isRevealed;
     }
 
+    public boolean isWalkable() {
+        return isWalkable;
+    }
+
     public String getDescription() {
         return description;
     }
 
-    public ArrayList<Creature> getCreatures() {
+    public HashSet<Creature> getCreatures() {
         return creatures;
     }
 
-    public ArrayList<Item> getItems() {
+    public HashSet<Item> getItems() {
         return items;
     }
 
-    public ArrayList<Feature> getFeatures() {
+    public HashSet<Feature> getFeatures() {
         return features;
+    }
+
+    /*
+    * sets actual display char of this tile
+    * used when moving the avatar icon about the map*/
+    public void setDisplayChar(char displayChar) {
+        this.displayChar = displayChar;
     }
 
     //    EFFECTS: returns true if tiles can be considered equal
@@ -84,18 +99,40 @@ public class Tile implements Serializable {
         return xposEq && yposEq && displayCharEq && isRevealedEq && descriptionEq /*&& creaturesEq && itemsEq && featuresEq*/;
     }
 
-//    todo
-    private boolean interactableListEqualsF(ArrayList<Feature> arrayList, ArrayList<Feature> b) {
+    //    REQUIRES: ypos and xpos are valid indexes in map
+    //    MODIFIES: this
+    //    EFFECTS: replaces character at index ypos,xpos with c in mapDisplay
+    public void revealTile() {
+        isRevealed = true;
+    }
+
+    //    REQUIRES: ypos and xpos are valid indexes in map
+    //    MODIFIES: this
+    //    EFFECTS: replaces character at index ypos,xpos with c in mapDisplay
+    public void updateTileDisp() {
+        isRevealed = true;
+    }
+
+
+    //    todo
+    /*returns true if a and b are of the same size, and have the same elements in the same order*/
+    private boolean interactableListEqualsF(ArrayList<Feature> a, ArrayList<Feature> b) {
+        boolean sizeEq = a.size() == b.size();
+        for (Feature f : a) {
+            if (!a.equals(b));
+        }
         return false;
     }
 
 //todo
+    /*returns true if a and b are of the same size, and have the same elements in the same order*/
     private boolean interactableListEqualsI(ArrayList<Item> a, ArrayList<Item> b) {
         return false;
     }
 
 // todo
-    private boolean interactableListEqualsC(ArrayList<Creature> arrayList, ArrayList<Creature> b) {
+    /*returns true if a and b are of the same size, and have the same elements in the same order*/
+    private boolean interactableListEqualsC(ArrayList<Creature> a, ArrayList<Creature> b) {
         return false;
     }
 

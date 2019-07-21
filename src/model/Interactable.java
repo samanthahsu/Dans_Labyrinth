@@ -35,5 +35,10 @@ public abstract class Interactable implements Serializable {
 
     public abstract boolean interact(Map map);
 
+    /* returns true if interactable == this*/
+    public boolean equals (Interactable interactable) {
+        return false;
+    }
+
 }
 

@@ -1,5 +1,7 @@
 package model;
 
+import ui.GameRunner;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -21,6 +23,7 @@ public class Avatar implements Serializable {
         this.itemList = items;
     }
 
+//    GETTERS
     public int getStatus() {
         return status;
     }
@@ -43,7 +46,11 @@ public class Avatar implements Serializable {
 
 //    effects: returns true if otherAva has same params as this todo
     public boolean equals(Avatar otherAva) {
-    return false;
+        boolean statEq = status == otherAva.getStatus();
+        boolean yEq = ypos == otherAva.getYpos();
+        boolean xEq = xpos == otherAva.getXpos();
+        boolean itemEq = itemList.equals(otherAva.getItemList()); // todo write this method
+    return statEq && yEq && xEq && itemEq;
     }
 
 /*
@@ -89,12 +96,15 @@ public class Avatar implements Serializable {
             map.revealSurroundings(y, x);
             this.ypos = y;
             this.xpos = x;
+//            todo activate beings on the tile printing descriptions etc. alternatively done in gamerunner already
+/*
             Interactable i = map.getInteractable(y, x);
             if (i.getName() != null) {
                 System.out.println(i.getDescription());
+*/
             }
         } else {
-            map.printMovePlaceholder(dir);
+            GameRunner.printMovePlaceholder(dir);
         }
     }
 

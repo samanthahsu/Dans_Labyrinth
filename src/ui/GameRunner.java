@@ -222,7 +222,7 @@ private void printDisplayMap() {
 /*
         EFFECTS: prints feedback when ava tries to move into a wall tile
 */
-    public void printMovePlaceholder(String dir) {
+    public static void printMovePlaceholder(String dir) {
         Random ran = new Random();
         switch (ran.nextInt(5)) {
             case 0:

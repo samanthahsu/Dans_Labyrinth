@@ -55,8 +55,8 @@ class MapTest extends TestMapSuite {
         try {
             map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
                     itemList1, tileList1);
-        } catch (mismatchedMapSizeException e) {
-            fail("mismatchedMapSizeException thrown");
+        } catch (mismatchedMapSizeException | edgeOfMapException e) {
+            fail("e thrown");
         }
 
         try {
@@ -65,6 +65,8 @@ class MapTest extends TestMapSuite {
             fail("no e thrown");
         } catch (mismatchedMapSizeException e) {
 //            expected
+        } catch (edgeOfMapException e) {
+            fail("wrong e thrown");
         }
 
     }
@@ -103,23 +105,45 @@ class MapTest extends TestMapSuite {
 
     @Test
     void updateTileDispOneTest(){
-        map1.updateTileDisplay(0, 0, 'G');
+        try {
+            map1.updateTileDisplay(0, 0, 'G');
+        } catch (edgeOfMapException e) {
+            fail("e thrown");
+        }
         assertEquals('G', tileMatrix1.get(0).get(0).getDisplayChar());
     }
 
     @Test
     void updateTileDispTwoSameTest(){
-        map1.updateTileDisplay(0, 0, 'G');
-        map1.updateTileDisplay(0, 0, ' ');
+        try {
+            map1.updateTileDisplay(0, 0, 'G');
+            map1.updateTileDisplay(0, 0, ' ');
+        } catch (edgeOfMapException e) {
+            System.out.println("e thrown");
+        }
         assertEquals(' ', tileMatrix1.get(0).get(0).getDisplayChar());
     }
 
     @Test
     void updateTileDispTwoDiffTest(){
-        map1.updateTileDisplay(1, 0, 'G');
-        map1.updateTileDisplay(2, 3, 'X');
+        try {
+            map1.updateTileDisplay(1, 0, 'G');
+            map1.updateTileDisplay(2, 3, 'X');
+        } catch (edgeOfMapException e) {
+            System.out.println("e thrown");
+        }
         assertEquals('G', tileMatrix1.get(1).get(0).getDisplayChar());
         assertEquals('X', tileMatrix1.get(2).get(3).getDisplayChar());
+    }
+
+    @Test
+    void testUpdateTileDisplayException () {
+        try {
+            map1.updateTileDisplay(3, TEST_WIDTH_1, 'I');
+            fail("no e thrown");
+        } catch (edgeOfMapException e) {
+//            expected
+        }
     }
 
     @Test
@@ -184,9 +208,16 @@ class MapTest extends TestMapSuite {
     @Test
     void EqualsTest() {
         assertFalse(map1.equals(map3));
+
         map1 = map3;
         assertTrue(map1.equals(map3));
-//        todo also make one where they point to actual different objects, but same params
 
+        try {
+            map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
+                    new ArrayList<Item>(), tileList2);
+        } catch (mismatchedMapSizeException | edgeOfMapException e) {
+            fail("threw e");
+        }
+        assertTrue(map1.equals(map2));
     }
 }

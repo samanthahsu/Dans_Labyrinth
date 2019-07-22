@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.edgeOfMapException;
 import exceptions.mismatchedMapSizeException;
 import model.Interactables.Interactable;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /*reads and writes game states from the saves folder*/
-public class WriterReader implements DefaultMapInfo {
+public class WriterReader implements DefaultMapData {
 
     private static final String SAVES_PATH = System.getProperty("user.dir") + "\\saves\\";
     private String savePath;
@@ -70,7 +71,7 @@ requires: path is valid
         Map map = null;
         try {
             map = new Map(height, width, winY, winX, startY, startX, avaItems, newTiles);
-        } catch (mismatchedMapSizeException e) {
+        } catch (mismatchedMapSizeException | edgeOfMapException e) {
             System.out.println("New map construction failed.");
         }
         return map;

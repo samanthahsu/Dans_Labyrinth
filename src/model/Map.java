@@ -35,7 +35,7 @@ initializes avatar at given coordinates with its items
     else throws mismatchedMapSizeException
 */
     public Map(int height, int width, int winY, int winX, int avaY, int avaX,
-               ArrayList<Item> avaItems, ArrayList<Tile> tileList) throws mismatchedMapSizeException {
+               ArrayList<Item> avaItems, ArrayList<Tile> tileList) throws mismatchedMapSizeException, edgeOfMapException {
         this.height = height;
         this.width = width;
         this.winY = winY;
@@ -72,7 +72,7 @@ initializes avatar at given coordinates with its items
         EFFECTS: construct new Avatar with given coordinates and items
         places avatar character at ypos, xpos in tileMatrix, revealing adjacent tiles
 */
-    private void initAvatar(int startY, int startX, ArrayList<Item> items) {
+    private void initAvatar(int startY, int startX, ArrayList<Item> items) throws edgeOfMapException {
         ava = new Avatar(startY, startX, items, this);
         updateTileDisplay(startY, startX, c);
         revealSurroundings(startY, startX);
@@ -83,7 +83,8 @@ initializes avatar at given coordinates with its items
     modifies: this, tileMatrix
     effects: updates display char at y, x to c in tileMatrix
     */
-    public void updateTileDisplay(int y, int x, char c) {
+    public void updateTileDisplay(int y, int x, char c) throws edgeOfMapException {
+        checkIfMapEdge(y, x);
         tileMatrix.get(y).get(x).setDisplayChar(c);
     }
 
@@ -148,22 +149,6 @@ initializes avatar at given coordinates with its items
         return true;
     }
 
-/*STUFF DEALING WITH INTERACTABLES THAT MAY OR MAY NOT BE NECESSARY ANYMORE
-    //    REQUIRES: interactables is not null
-//    EFFECTS: if creature exists at given index, returns Interactable
-    public Interactable getInteractable(int y, int x) {
-        return interactables.get(y).get(x);
-    }
-
-    public void removeInteractable(int y, int x) {
-        interactables.get(y).set(x, new AbsolutelyNothing());
-    }
-
-    public ArrayList<ArrayList<Interactable>> getInteractables() {
-        return interactables;
-    }
-*/
-
     //    EFFECTS: return true if index within bounds of the map
     public boolean isIndexValid(int y, int x) {
         return y >= 0 && x >= 0 && y < height && x < width;
@@ -174,17 +159,21 @@ initializes avatar at given coordinates with its items
         if index requested is not on map, throw edgeOfMapException
 */
     public boolean isTileWalkable(int y, int x) throws edgeOfMapException {
-        if (y < 0 || y >= height || x < 0 || x >= width) {
-            throw new edgeOfMapException();
-        }
+        checkIfMapEdge(y, x);
         return tileMatrix.get(y).get(x).isWalkable();
     }
 
-/*
-        MODIFIES: this
-        EFFECTS: iff given index is valid, reveal actual tile char at given index
-        todo throw edge of map exception, alt fail quietly since is expected to happen
-*/
+    private void checkIfMapEdge(int y, int x) throws edgeOfMapException {
+        if (y < 0 || y >= height || x < 0 || x >= width) {
+            throw new edgeOfMapException();
+        }
+    }
+
+    /*
+            MODIFIES: this
+            EFFECTS: iff given index is valid, reveal actual tile char at given index
+            todo throw edge of map exception, alt fail quietly since is expected to happen
+    */
     private void checkAndRevealTileDisp(int y, int x) {
         if (isIndexValid(y, x)) {
             tileMatrix.get(y).get(x).revealTile();

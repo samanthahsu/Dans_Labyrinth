@@ -1,3 +1,4 @@
+import exceptions.edgeOfMapException;
 import exceptions.mismatchedMapSizeException;
 import model.Avatar;
 import model.Interactables.Interactable;
@@ -80,7 +81,7 @@ public class TestMapSuite {
                     new ArrayList<Item>(), tileList2);
             map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, WIN_Y_3, WIN_X_3, TEST_START_Y_3, TEST_START_X_3,
                     new ArrayList<Item>(), tileList3);
-        } catch (mismatchedMapSizeException e) {
+        } catch (mismatchedMapSizeException | edgeOfMapException e) {
             e.printStackTrace();
         }
 

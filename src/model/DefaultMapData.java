@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 /*data used to load default map*/
-interface DefaultMapInfo {
+interface DefaultMapData {
 
     int height = 11;
     int width = 21;

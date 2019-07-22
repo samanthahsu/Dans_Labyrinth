@@ -1,6 +1,7 @@
 package model;
 
 import exceptions.mismatchedMapSizeException;
+import model.Interactables.Interactable;
 
 import java.io.*;
 import java.util.ArrayList;

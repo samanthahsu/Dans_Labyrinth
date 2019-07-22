@@ -1,9 +1,9 @@
 package ui;
 
+import model.Interactables.items.Item;
 import model.Map;
 import model.Tile;
 import model.WriterReader;
-import model.items.Item;
 
 import java.util.ArrayList;
 import java.util.Random;

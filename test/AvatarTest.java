@@ -1,5 +1,5 @@
-import model.items.Item;
-import model.items.PizzaBox;
+import model.Interactables.items.Item;
+import model.Interactables.items.PizzaBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

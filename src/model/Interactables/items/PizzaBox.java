@@ -1,4 +1,4 @@
-package model.items;
+package model.Interactables.items;
 
 import model.Avatar;
 import model.Map;

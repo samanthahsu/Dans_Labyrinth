@@ -1,8 +1,10 @@
 package model;
 
+import exceptions.edgeOfMapException;
 import exceptions.mismatchedMapSizeException;
-import model.creatures.Creature;
-import model.items.Item;
+import model.Interactables.Interactable;
+import model.Interactables.creatures.Creature;
+import model.Interactables.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -125,11 +127,14 @@ initializes avatar at given coordinates with its items
     }
 
 /*
-    requires: a and b are of same size (indicated by height and width) // todo throw mismatched map size exception
-    effects: returns true if a and b contain equal tiles in the same order,
+    effects: returns true if a and b are of same size (indicated by height and width)
+    and a and b contain equal tiles in the same order,
     else returns false
 */
     public boolean tileMatrixEquals(ArrayList<ArrayList<Tile>> a, ArrayList<ArrayList<Tile>> b, int height, int width) {
+        if (a.size() != height * width || b.size()!= height * width) {
+            return false;
+        }
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {
                 if (!a.get(m).get(n).equals(b.get(m).get(n))) {
@@ -156,16 +161,19 @@ initializes avatar at given coordinates with its items
     }
 */
 
-    //    EFFECTS: return true if index within bounds of the map // TODO MAKE THIS THROW EDGE OF MAP EXCEPTION
+    //    EFFECTS: return true if index within bounds of the map
     public boolean isIndexValid(int y, int x) {
         return y >= 0 && x >= 0 && y < height && x < width;
     }
 
 /*
-        REQUIRES: the position y, x is a valid position on the map // todo throw edge of map exc
         EFFECTS: returns true if tile of requested index is walkable, else false
+        if index requested is not on map, throw edgeOfMapException
 */
-    public boolean isTileWalkable(int y, int x) {
+    public boolean isTileWalkable(int y, int x) throws edgeOfMapException {
+        if (y < 0 || y >= height || x < 0 || x >= width) {
+            throw new edgeOfMapException();
+        }
         return tileMatrix.get(y).get(x).isWalkable();
     }
 

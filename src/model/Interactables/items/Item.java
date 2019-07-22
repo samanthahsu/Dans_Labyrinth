@@ -1,6 +1,6 @@
-package model.items;
+package model.Interactables.items;
 
-import model.Interactable;
+import model.Interactables.Interactable;
 import model.Map;
 
 /**An item that can be picked off the floor, then used for various things**/

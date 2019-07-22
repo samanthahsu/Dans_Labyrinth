@@ -1,9 +1,10 @@
+import exceptions.edgeOfMapException;
 import exceptions.mismatchedMapSizeException;
 import model.Avatar;
+import model.Interactables.items.Item;
+import model.Interactables.items.PizzaBox;
 import model.Map;
 import model.Tile;
-import model.items.Item;
-import model.items.PizzaBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -78,9 +79,25 @@ class MapTest extends TestMapSuite {
     }
 
     @Test
-    void isTileFloorTest(){
-        assertFalse(map1.isTileWalkable(0, 1));
-        assertTrue(map1.isTileWalkable(2, 2));
+    void isTileWalkableTest(){
+        try {
+            assertFalse(map1.isTileWalkable(0, 1));
+        } catch (edgeOfMapException e) {
+            fail("e thrown");
+        }
+
+        try {
+            assertTrue(map1.isTileWalkable(2, 2));
+        } catch (edgeOfMapException e) {
+            System.out.println("e thrown");
+        }
+
+        try {
+            assertTrue(map1.isTileWalkable(-1, 3));
+            fail("no e thrown");
+        } catch (edgeOfMapException e) {
+//            expected
+        }
     }
 
     @Test

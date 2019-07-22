@@ -1,6 +1,6 @@
-package model.features;
+package model.Interactables.features;
 
-import model.Interactable;
+import model.Interactables.Interactable;
 
 /*An event or quirk of the environment that can be interacted with*/
 public abstract class Feature extends Interactable {

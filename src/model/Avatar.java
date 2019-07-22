@@ -1,6 +1,8 @@
 package model;
 
-import model.items.Item;
+import exceptions.edgeOfMapException;
+import model.Interactables.Interactable;
+import model.Interactables.items.Item;
 import ui.GameRunner;
 
 import java.io.Serializable;
@@ -114,22 +116,22 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
     }
 
 //    MODIFIES: this
-//    EFFECTS: if ypos,xpos is can be moved, move ava and update ava coordinates, else print feedback text
+//    EFFECTS: if ypos, xpos is can be moved, move ava and update ava coordinates, else print feedback text
     private void moveAvaHelper(int y, int x, String dir) {
-        if (map.isTileWalkable(y, x)) {
-            char avaChar = '*';
-            map.updateTileDisplay(y, x, avaChar);
-            map.revealSurroundings(y, x);
-            this.ypos = y;
-            this.xpos = x;
-//            todo activate beings on the tile printing descriptions etc. alternatively done in gamerunner already
-/*
-            Interactable i = map.getInteractable(y, x);
-            if (i.getName() != null) {
-                System.out.println(i.getDescription());
-*/
-            } else {
-            GameRunner.printMovePlaceholder(dir);
+        try {
+            if (map.isTileWalkable(y, x)) {
+                char avaChar = '*';
+                map.updateTileDisplay(y, x, avaChar);
+                map.revealSurroundings(y, x);
+                this.ypos = y;
+                this.xpos = x;
+    //            todo activate beings on the tile printing descriptions etc. alternatively done in gamerunner already
+                } else {
+                GameRunner.printMovePlaceholder(dir);
+            }
+        } catch (edgeOfMapException e) {
+            System.out.println("Dan tries to walk of the edge of the map! The abyss gazes back into him.\n"
+                    + "There is no way he is going into that hell hole.");
         }
     }
 

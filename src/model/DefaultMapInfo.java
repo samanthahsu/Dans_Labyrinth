@@ -1,7 +1,8 @@
 package model;
 
-import model.items.Item;
-import model.items.PizzaBox;
+import model.Interactables.Interactable;
+import model.Interactables.items.Item;
+import model.Interactables.items.PizzaBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,10 +1,10 @@
 import exceptions.mismatchedMapSizeException;
 import model.Avatar;
-import model.Interactable;
+import model.Interactables.Interactable;
+import model.Interactables.items.Item;
+import model.Interactables.items.PizzaBox;
 import model.Map;
 import model.Tile;
-import model.items.Item;
-import model.items.PizzaBox;
 
 import java.util.ArrayList;
 import java.util.HashSet;

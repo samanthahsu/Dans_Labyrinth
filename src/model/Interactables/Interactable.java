@@ -1,4 +1,6 @@
-package model;
+package model.Interactables;
+
+import model.Map;
 
 import java.io.Serializable;
 
@@ -9,6 +11,7 @@ public abstract class Interactable implements Serializable {
     public static final int TYPE_CREATURE = 0;
     public static final int TYPE_ITEM = 1;
     public static final int TYPE_FEATURE = 2;
+    public static final int TYPE_SOUND = 3;
 
     protected String name;
     protected String description;

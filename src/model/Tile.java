@@ -1,8 +1,9 @@
 package model;
 
-import model.creatures.Creature;
-import model.features.Feature;
-import model.items.Item;
+import model.Interactables.Interactable;
+import model.Interactables.creatures.Creature;
+import model.Interactables.features.Feature;
+import model.Interactables.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;

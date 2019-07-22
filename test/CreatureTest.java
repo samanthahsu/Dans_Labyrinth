@@ -1,7 +1,7 @@
-//import model.Interactable;
+//import model.Interactables.Interactable;
 //import model.Map;
-//import model.creatures.Exo;
-//import model.items.Item;
+//import Exo;
+//import Item;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //

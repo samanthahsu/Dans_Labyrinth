@@ -1,8 +1,8 @@
 //import model.Avatar;
-//import model.Interactable;
+//import model.Interactables.Interactable;
 //import model.Map;
-//import model.creatures.Exo;
-//import model.features.AbsolutelyNothing;
+//import Exo;
+//import AbsolutelyNothing;
 //
 //import java.io.BufferedReader;
 //import java.io.FileReader;

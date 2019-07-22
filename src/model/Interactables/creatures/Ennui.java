@@ -1,4 +1,4 @@
-package model.creatures;
+package model.Interactables.creatures;
 
 import model.Map;
 
@@ -31,6 +31,7 @@ public class Ennui extends Creature {
 
     }
 
+    /*emits sound in a 2 block radius of varying noise degrees and direction*/
     @Override
     public void doPassiveActions() {
 

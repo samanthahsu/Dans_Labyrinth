@@ -1,6 +1,6 @@
-package model.creatures;
+package model.Interactables.creatures;
 
-import model.Interactable;
+import model.Interactables.Interactable;
 import model.Map;
 
 /**An interactable creature that you can fight or talk to**/

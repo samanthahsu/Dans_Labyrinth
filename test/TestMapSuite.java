@@ -1,12 +1,14 @@
 import exceptions.mapException;
 import model.Avatar;
 import model.Interactables.Interactable;
+import model.Interactables.creatures.Ennui;
 import model.Interactables.items.Item;
 import model.Interactables.items.PizzaBox;
 import model.Map;
 import model.Tile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class TestMapSuite {
@@ -19,8 +21,8 @@ public class TestMapSuite {
     protected ArrayList<ArrayList<Tile>> tileMatrix1;
     protected ArrayList<Interactable> interList1 = new ArrayList<>();
     protected static final String TEST_MAP_1 =
-                    "@@@ @@"
-                    + "@@ @ @"
+                      "@@@ @@"
+                    + "@  @ @"
                     + "@   @@"
                     + "@@@@@@";
     protected static final int TEST_HEIGHT_1 = 4;
@@ -47,6 +49,7 @@ public class TestMapSuite {
     protected static final int WIN_Y_2 = 2;
     protected static final int WIN_X_2 = 1;
 
+
     protected Map map3; //at the win
     protected Avatar ava3;
     ArrayList<Tile> tileList3;
@@ -66,12 +69,46 @@ public class TestMapSuite {
     protected static final int WIN_Y_3 = 0;
     protected static final int WIN_X_3 = 3;
 
+
+    protected Map mapCreature;
+    protected Avatar avaC;
+    protected ArrayList<Item> itemListC;
+    ArrayList<Tile> tileListC;
+    protected ArrayList<ArrayList<Tile>> tileMatrixC;
+    protected Ennui testEnnui;
+    protected ArrayList<Interactable> interListC = new ArrayList<>();
+    protected static final String TEST_MAP_C =
+              "@@@@@@@@ @"
+            + "@ @    @ @"
+            + "@   @@ @ @"
+            + "@@@  @   @"
+            + "@@@@@@@@@@";
+    protected static final int TEST_HEIGHT_C = 5;
+    protected static final int TEST_WIDTH_C = 9;
+    protected static final int TEST_START_Y_C = 2;
+    protected static final int TEST_START_X_C = 2;
+    protected static final int WIN_Y_C = 0;
+    protected static final int WIN_X_C = 8;
+    protected static final int  ENNUI_CAPTURE_START_Y = 2;
+    protected static final int  ENNUI_CAPTURE_START_X = 1;
+
+
+
     protected void initTestMaps() {
+        testEnnui = new Ennui(ENNUI_CAPTURE_START_Y, ENNUI_CAPTURE_START_X);
+        interListC.add(testEnnui);
+
         tileList1 = buildTileArray(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, interList1);
-        itemList1 = new ArrayList<>();
-        itemList1.add(new PizzaBox());
         tileList2 = buildTileArray(TEST_HEIGHT_2, TEST_WIDTH_2, TEST_MAP_2, interList2);
         tileList3 = buildTileArray(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, interList3);
+        tileListC = buildTileArray(TEST_HEIGHT_C, TEST_WIDTH_C, TEST_MAP_C, interListC);
+
+        itemList1 = new ArrayList<Item>(
+                Arrays.asList(new PizzaBox())
+        );
+        itemListC = new ArrayList<Item>(
+                Arrays.asList(new PizzaBox())
+        );
 
         try {
             map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
@@ -80,16 +117,21 @@ public class TestMapSuite {
                     new ArrayList<Item>(), tileList2);
             map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, WIN_Y_3, WIN_X_3, TEST_START_Y_3, TEST_START_X_3,
                     new ArrayList<Item>(), tileList3);
+            mapCreature = new Map(TEST_HEIGHT_C, TEST_WIDTH_C, WIN_Y_C, WIN_X_C, TEST_START_Y_C, TEST_START_X_C,
+                    itemListC, tileListC);
         } catch (mapException e) {
             e.printStackTrace();
         }
 
         ava1 = map1.getAva();
-        tileMatrix1 = map1.getTileMatrix();
         ava2 = map2.getAva();
-        tileMatrix2 = map2.getTileMatrix();
         ava3 = map3.getAva();
+        avaC = mapCreature.getAva();
+
+        tileMatrix1 = map1.getTileMatrix();
+        tileMatrix2 = map2.getTileMatrix();
         tileMatrix3 = map3.getTileMatrix();
+        tileMatrixC = mapCreature.getTileMatrix();
 
     }
 

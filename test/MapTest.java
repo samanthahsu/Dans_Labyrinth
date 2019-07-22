@@ -16,22 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MapTest extends TestMapSuite {
 
-    private static final int C_Y_1 = 1;
-    private static final int C_X_1 = 3;
-
-    private static final int C_Y_2 = 1;
-    private static final int C_X_2 = 1;
-
 
     @BeforeEach
     void Setup(){
         initTestMaps();
-/*
-        interactableArrayList = new ArrayList<>();
-        interactableArrayList.add(new Exo(C_Y_1, C_X_1));
-        map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
-                new ArrayList<Interactable>(), );
-*/
     }
 
     @Test

@@ -96,7 +96,7 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
     private void moveAvaHelper(int y, int x, String dir) {
         if (map.isTileWalkable(y, x)) {
             char avaChar = '*';
-            map.updateTileDisp(y, x, avaChar);
+            map.updateTileDisplay(y, x, avaChar);
             map.revealSurroundings(y, x);
             this.ypos = y;
             this.xpos = x;

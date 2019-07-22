@@ -42,7 +42,7 @@ public class TestMapSuite {
     protected static final int WIN_Y_2 = 2;
     protected static final int WIN_X_2 = 1;
 
-    protected Map map3;
+    protected Map map3; //at the win
     protected Avatar ava3;
     protected ArrayList<Interactable> interList3 = new ArrayList<>();
     protected ArrayList<ArrayList<Tile>> tileMatrix3;
@@ -53,8 +53,8 @@ public class TestMapSuite {
                     + "stuvwx";
     protected static final int TEST_HEIGHT_3 = 4;
     protected static final int TEST_WIDTH_3 = 6;
-    protected static final int TEST_START_Y_3 = 2;
-    protected static final int TEST_START_X_3 = 1;
+    protected static final int TEST_START_Y_3 = 0;
+    protected static final int TEST_START_X_3 = 3;
     protected static final int WIN_Y_3 = 0;
     protected static final int WIN_X_3 = 3;
 

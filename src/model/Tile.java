@@ -21,7 +21,7 @@ public class Tile implements Serializable {
 // true if character has seen the part of the map before
     private boolean isRevealed;
 //    true if ava can be present on tile
-    private boolean isWalkable;
+    private boolean isWalkable = true;
 //    some flavour text of what the senses pick up - usually default, can be
 //    modified for providing clues
     private String description = "";
@@ -38,6 +38,9 @@ public class Tile implements Serializable {
         ypos = y;
         xpos = x;
         this.displayChar = displayChar;
+        if (displayChar == Map.wall) {
+            isWalkable = false;
+        }
         this.interactables = interactables;
     }
 

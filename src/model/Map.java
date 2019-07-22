@@ -10,10 +10,10 @@ import java.util.ArrayList;
 public class Map implements Serializable { //todo add assertion stuff
 
 //    default characters representing each display element
-    private static final char wall = '@';
-    private static final char floor = ' ';
-    private static final char c = '*';
-    private static final char fog = '#';
+    public static final char wall = '@';
+    public static final char floor = ' ';
+    public static final char c = '*';
+    public static final char fog = '#';
 
     // stores what the user can see of the map (character, fog, walls) for easy printing
     private int height;
@@ -66,7 +66,7 @@ initializes avatar at given coordinates with its items
 */
     private void initAvatar(int startY, int startX, ArrayList<Item> items) {
         ava = new Avatar(startY, startX, items, this);
-        updateTileDisp(startY, startX, c);
+        updateTileDisplay(startY, startX, c);
         revealSurroundings(startY, startX);
     }
 
@@ -75,7 +75,7 @@ initializes avatar at given coordinates with its items
     modifies: this, tileMatrix
     effects: updates display char at y, x to c in tileMatrix
     */
-    public void updateTileDisp(int y, int x, char c) {
+    public void updateTileDisplay(int y, int x, char c) {
         tileMatrix.get(y).get(x).setDisplayChar(c);
     }
 
@@ -180,6 +180,7 @@ initializes avatar at given coordinates with its items
         else do nothing? todo throw exc?
 */
     public void revealSurroundings(int y, int x) {
+        checkAndRevealTileDisp(y, x);
         checkAndRevealTileDisp(y, x - 1);
         checkAndRevealTileDisp(y, x + 1);
         checkAndRevealTileDisp(y - 1, x);

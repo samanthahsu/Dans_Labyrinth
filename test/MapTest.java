@@ -1,4 +1,5 @@
 import exceptions.edgeOfMapException;
+import exceptions.mapException;
 import exceptions.mismatchedMapSizeException;
 import model.Avatar;
 import model.Interactables.items.Item;
@@ -55,7 +56,7 @@ class MapTest extends TestMapSuite {
         try {
             map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
                     itemList1, tileList1);
-        } catch (mismatchedMapSizeException | edgeOfMapException e) {
+        } catch (mapException e) {
             fail("e thrown");
         }
 
@@ -137,9 +138,27 @@ class MapTest extends TestMapSuite {
     }
 
     @Test
-    void testUpdateTileDisplayException () {
+    void testUpdateTileDisplayException() {
         try {
-            map1.updateTileDisplay(3, TEST_WIDTH_1, 'I');
+            map1.updateTileDisplay(TEST_HEIGHT_1 / 2, TEST_WIDTH_1, 'I');
+            fail("no e thrown");
+        } catch (edgeOfMapException e) {
+//            expected
+        }
+        try {
+            map1.updateTileDisplay(TEST_HEIGHT_1, TEST_WIDTH_1 / 2, 'I');
+            fail("no e thrown");
+        } catch (edgeOfMapException e) {
+//            expected
+        }
+        try {
+            map1.updateTileDisplay(TEST_HEIGHT_1 / 2, -1, 'I');
+            fail("no e thrown");
+        } catch (edgeOfMapException e) {
+//            expected
+        }
+        try {
+            map1.updateTileDisplay(-1, TEST_WIDTH_1 / 2, 'I');
             fail("no e thrown");
         } catch (edgeOfMapException e) {
 //            expected
@@ -215,7 +234,7 @@ class MapTest extends TestMapSuite {
         try {
             map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
                     new ArrayList<Item>(), tileList2);
-        } catch (mismatchedMapSizeException | edgeOfMapException e) {
+        } catch (mapException e) {
             fail("threw e");
         }
         assertTrue(map1.equals(map2));

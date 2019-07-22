@@ -1,3 +1,3 @@
 package exceptions;
 
-public class edgeOfMapException extends Exception {}
+public class edgeOfMapException extends mapException {}

@@ -1,7 +1,6 @@
 package model;
 
-import exceptions.edgeOfMapException;
-import exceptions.mismatchedMapSizeException;
+import exceptions.mapException;
 import model.Interactables.Interactable;
 
 import java.io.*;
@@ -71,7 +70,7 @@ requires: path is valid
         Map map = null;
         try {
             map = new Map(height, width, winY, winX, startY, startX, avaItems, newTiles);
-        } catch (mismatchedMapSizeException | edgeOfMapException e) {
+        } catch (mapException e) {
             System.out.println("New map construction failed.");
         }
         return map;

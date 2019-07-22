@@ -1,3 +1,3 @@
 package exceptions;
 
-public class mismatchedMapSizeException extends Exception{}
+public class mismatchedMapSizeException extends mapException {}

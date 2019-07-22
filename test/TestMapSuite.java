@@ -3,6 +3,7 @@ import model.Interactable;
 import model.Map;
 import model.Tile;
 import model.items.Item;
+import model.items.PizzaBox;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ public class TestMapSuite {
     //    CONSTANT FIELDS
     protected Map map1;
     protected Avatar ava1;
+    protected ArrayList<Item> itemList1;
     protected ArrayList<ArrayList<Tile>> tileMatrix1;
     protected ArrayList<Interactable> interList1 = new ArrayList<>();
     protected static final String TEST_MAP_1 =
@@ -60,10 +62,12 @@ public class TestMapSuite {
     protected static final int WIN_Y_3 = 0;
     protected static final int WIN_X_3 = 3;
 
-    public void initTestMaps() {
+    protected void initTestMaps() {
         ArrayList<Tile> tileMatrixTemp = buildTileArray(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, interList1);
+        itemList1 = new ArrayList<>();
+        itemList1.add(new PizzaBox());
         map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
-                new ArrayList<Item>(), tileMatrixTemp);
+                itemList1, tileMatrixTemp);
         ava1 = map1.getAva();
         tileMatrix1 = map1.getTileMatrix();
 

@@ -146,7 +146,7 @@ modifies: this, map
                 break;
             case "use":
                 item = scnr.next();
-                map.getAva().useItem(item, map);
+                map.getAva().useItem(item);
             default:
                 System.out.println("...");
                 return false;
@@ -238,21 +238,18 @@ private void printDisplayMap() {
 */
     public static void printMovePlaceholder(String dir) {
         Random ran = new Random();
-        switch (ran.nextInt(5)) {
+        switch (ran.nextInt(4)) {
             case 0:
-                System.out.println("You smack hilariously against the " + dir + " wall.");
+                System.out.println("Dan smacks hilariously against the " + dir + " wall.");
                 break;
             case 1:
-                System.out.println("Your toe is painfully stubbed on the " + dir + " wall.");
+                System.out.println("Dan stubs his toe painfully on the " + dir + " wall.");
                 break;
             case 2:
-                System.out.println("You flop desperately against the " + dir + " wall.");
+                System.out.println("Dan flops desperately against the " + dir + " wall.");
                 break;
             case 3:
-                System.out.println("You sit and ponder how your life has culminated in this moment.");
-                break;
-            case 4:
-                System.out.println("You flop against the " + dir + " wall for fun.");
+                System.out.println("Dan sits and ponders how his life has culminated in this moment.");
                 break;
             default:
         }
@@ -260,6 +257,7 @@ private void printDisplayMap() {
 
     //    EFFECTS: prints celebratory graphic
     private void printWinGraphic() {
+        System.out.println("As far as Dan is concerned, pizza had been delivered and eaten, another successful day.");
         System.out.println("                                  .''.\n"
                 + "        .''.             *''*    :_\\/_:     .\n"
                 + "       :_\\/_:   .    .:.*_\\/_*   : /\\ :  .'.:.'.\n"

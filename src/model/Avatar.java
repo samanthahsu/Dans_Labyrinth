@@ -40,6 +40,7 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
         return xpos;
     }
 
+//    todo for tests only
     public void setStatus(int status) {
         this.status = status;
     }
@@ -147,15 +148,14 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
 
 //EFFECTS: uses itemNm if corresponding item exists in itemList
 //    otherwise do nothing
-    public void useItem(String itemNm, Map map) {
+    public void useItem(String itemNm) {
         boolean shouldRemove = false;
         Interactable iUsed = null;
         switch (itemNm) {
-            case "apple":
-                for (Interactable i: itemList) {
-                    if (i.getName() != null && i.getName().equals("apple")) {
-                        shouldRemove = i.interact(map);
-                        iUsed = i;
+            case "pizza":
+                for (Item i: itemList) {
+                    if (i.getName() != null && i.getName().equals("pizza")) {
+                        i.interact(map);
                     }
                 }
                 break;

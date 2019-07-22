@@ -13,24 +13,24 @@ import model.Map;
 /*nevermind, scratch that i need separate objects for each*/
 public abstract class Item extends Interactable {
 
+    /*constructor
+    * for already held objects */
     public Item() {
         super(0, 0);
-        this.name = name;
         typeId = TYPE_ITEM;
     }
 
-//    EFFECTS: sets isCreature to false, and isItem to true
+/*
+    constructor for items found at specific coordinates
+*/
     public Item(int y, int x) {
         super(y, x);
-        this.name = name;
         typeId = TYPE_ITEM;
     }
 
     @Override
-    public boolean interact(Map map) {
-        return false;
-    }
-
+    /*general interact method*/
+    public abstract boolean interact(Map map);
 /*
     returns true if two items are equal if their name is the same
 */

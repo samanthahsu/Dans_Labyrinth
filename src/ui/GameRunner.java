@@ -3,6 +3,7 @@ package ui;
 import model.Map;
 import model.Tile;
 import model.WriterReader;
+import model.items.Item;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -131,7 +132,7 @@ modifies: this, map
             case "me":
                 System.out.println("Health: " + map.getAva().getStatus()
                 + "/3");
-                map.getAva().printItems();
+                printItems();
                 break;
             case "help":
                 printHelp();
@@ -163,6 +164,15 @@ modifies: this, map
                 + "use ___: use chosen item" + '\n'
                 + "help: to get help dialogue" + '\n'
                 + "quit: to quit");
+    }
+
+    // EFFECTS: prints out current itemList
+    public void printItems() {
+        ArrayList<Item> itemList = map.getAva().getItemList();
+        System.out.println("You are carrying:");
+        for (Item i: itemList) {
+            System.out.println(i.getName());
+        }
     }
 
     // REQUIRES: gameOver is in the interval [1, 3]

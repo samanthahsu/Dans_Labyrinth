@@ -60,7 +60,7 @@ public class TestMapSuite {
     protected static final int WIN_Y_3 = 0;
     protected static final int WIN_X_3 = 3;
 
-    public void initMaps() {
+    public void initTestMaps() {
         ArrayList<Tile> tileMatrixTemp = buildTileArray(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, interList1);
         map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
                 new ArrayList<Item>(), tileMatrixTemp);
@@ -127,5 +127,17 @@ public class TestMapSuite {
         }
         return returnTileMatrix;
     }
+
+    /*requires the two lists to be of the same size
+effects: returns true if both lists have items in the same order of the same name*/
+    protected boolean itemListEquals(ArrayList<Item> itemList, ArrayList<Item> otherItemList) {
+        for (int i = 0; i < itemList.size(); i++) {
+            if (!itemList.get(i).getName().equals(otherItemList.get(i).getName())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }

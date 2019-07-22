@@ -19,7 +19,7 @@ class MapTest extends TestMapSuite {
 
     @BeforeEach
     void Setup(){
-        initMaps();
+        initTestMaps();
 /*
         interactableArrayList = new ArrayList<>();
         interactableArrayList.add(new Exo(C_Y_1, C_X_1));

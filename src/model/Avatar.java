@@ -21,7 +21,7 @@ public class Avatar implements Serializable {
 */
 public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
         status = 3;
-        this.map = this.map;
+        this.map = map;
         ypos = setY;
         xpos = setX;
         this.itemList = items;
@@ -53,8 +53,19 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
         boolean statEq = status == otherAva.getStatus();
         boolean yEq = ypos == otherAva.getYpos();
         boolean xEq = xpos == otherAva.getXpos();
-        boolean itemEq = itemList.equals(otherAva.getItemList()); // todo write this method
+        boolean itemEq = itemListEquals(itemList, otherAva.getItemList()); // todo write this method
     return statEq && yEq && xEq && itemEq;
+    }
+
+    /*requires the two lists to be of the same size
+    effects: returns true if both lists have items in the same order of the same name*/
+    private boolean itemListEquals(ArrayList<Item> itemList, ArrayList<Item> otherItemList) {
+        for (int i = 0; i < itemList.size(); i++) {
+            if (!itemList.get(i).getName().equals(otherItemList.get(i).getName())) {
+                return false;
+            }
+        }
+        return true;
     }
 
 /*
@@ -133,13 +144,6 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
         System.out.println("Unable to pick up " + itemName + ".");
         }
 
-// EFFECTS: prints out current itemList
-    public void printItems() {
-        System.out.println("You are carrying:");
-        for (Interactable i: itemList) {
-            System.out.println(i.getName());
-        }
-    }
 
 //EFFECTS: uses itemNm if corresponding item exists in itemList
 //    otherwise do nothing

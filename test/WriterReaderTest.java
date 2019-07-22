@@ -28,7 +28,7 @@ class WriterReaderTest extends TestMapSuite {
 
     @Test
     void readAndWriteTest() {
-        initMaps();
+        initTestMaps();
         final String fileName1 = "writeMapTest";
         writerReader.writeMap(map1, fileName1);
         Map readMap1 = writerReader.readMap(fileName1);

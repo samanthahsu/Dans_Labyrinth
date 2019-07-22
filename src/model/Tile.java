@@ -11,9 +11,6 @@ import java.util.HashSet;
 /*Holds information things on this step*/
 public class Tile implements Serializable {
 
-//    The map this tile belongs to
-    private Map parentMap;
-
 //    The position on the map which the tile is situated
     private int xpos;
     private int ypos;
@@ -30,15 +27,18 @@ public class Tile implements Serializable {
     private String description;
 
 //    lists of interactables on tile
-    private HashSet<Creature> creatures;
-    private HashSet<Item> items;
-    private HashSet<Feature> features;
+    private HashSet<Interactable> interactables;
 //    todo change all these lists into hash sets
 
-// EFFECTS: this makes a default tile with nothing in it
-//    sets description to one of 3 random default descriptions of an empty tile
-    public Tile(Map map) {
-        parentMap = map;
+/* constructor
+ EFFECTS: this makes a default tile with nothing in it
+    sets description to one of 3 random default descriptions of an empty tile
+*/
+    public Tile(int y, int x, char displayChar, HashSet<Interactable> interactables) {
+        ypos = y;
+        xpos = x;
+        this.displayChar = displayChar;
+        this.interactables = interactables;
     }
 
     public int getXpos() {
@@ -63,18 +63,6 @@ public class Tile implements Serializable {
 
     public String getDescription() {
         return description;
-    }
-
-    public HashSet<Creature> getCreatures() {
-        return creatures;
-    }
-
-    public HashSet<Item> getItems() {
-        return items;
-    }
-
-    public HashSet<Feature> getFeatures() {
-        return features;
     }
 
     /*

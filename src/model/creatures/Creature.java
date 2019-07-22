@@ -9,8 +9,7 @@ public abstract class Creature extends Interactable /*implements List<Creature> 
 
     Creature(int y, int x) {
         super(y, x);
-        isCreature = true;
-        isItem = false;
+        typeId = TYPE_CREATURE;
     }
     public int getHealth() {
         return health;

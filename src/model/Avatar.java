@@ -1,12 +1,15 @@
 package model;
 
+import model.items.Item;
 import ui.GameRunner;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Avatar implements Serializable {
 //    todo let avatar know about map, and do it's own movements???
+    private Map map; // pointer to map which ava is part of
     private int status; //health bar 0 = dead
     private int ypos;
     private int xpos; //tracks position of avatar
@@ -16,8 +19,9 @@ public class Avatar implements Serializable {
 /* constructor
     EFFECTS: makes avatar setting it's coordinates, items and status to 3
 */
-    Avatar(int setY, int setX, ArrayList<Interactable> items) {
+    Avatar(int setY, int setX, ArrayList<Interactable> items, Map map) {
         status = 3;
+        this.map = this.map;
         ypos = setY;
         xpos = setX;
         this.itemList = items;
@@ -69,19 +73,19 @@ public class Avatar implements Serializable {
 //    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
 //    MODIFIES: map
 //    EFFECTS: handles move commands in 4 directions
-    public void moveAva(String command, Map map) {
+    public void moveAva(String command) {
         switch (command) {
             case "n":
-                moveAvaHelper(ypos - 1, xpos, map, "northern");
+                moveAvaHelper(ypos - 1, xpos, "northern");
                 break;
             case "s":
-                moveAvaHelper(ypos + 1, xpos, map, "southern");
+                moveAvaHelper(ypos + 1, xpos, "southern");
                 break;
             case "e":
-                moveAvaHelper(ypos, xpos + 1, map, "eastern");
+                moveAvaHelper(ypos, xpos + 1, "eastern");
                 break;
             case "w":
-                moveAvaHelper(ypos, xpos - 1, map, "western");
+                moveAvaHelper(ypos, xpos - 1, "western");
                 break;
             default:
         }
@@ -89,7 +93,7 @@ public class Avatar implements Serializable {
 
 //    MODIFIES: this
 //    EFFECTS: if ypos,xpos is can be moved, move ava and update ava coordinates, else print feedback text
-    private void moveAvaHelper(int y, int x, Map map, String dir) {
+    private void moveAvaHelper(int y, int x, String dir) {
         if (map.isTileWalkable(y, x)) {
             char avaChar = '*';
             map.updateTileDisp(y, x, avaChar);
@@ -102,26 +106,32 @@ public class Avatar implements Serializable {
             if (i.getName() != null) {
                 System.out.println(i.getDescription());
 */
-            }
-        } else {
+            } else {
             GameRunner.printMovePlaceholder(dir);
         }
     }
 
-//  REQUIRES: map is not null
-//  MODIFIES: this
-//  EFFECTS: if item is present in current tile, pick up item,
-//      otherwise print message
-    public void pickUpItem(Map map) {
-        Interactable interactable = map.getInteractable(ypos, xpos);
-        if (interactable != null && interactable.isItem) {
-            itemList.add(interactable);
-            map.removeInteractable(ypos, xpos);
-            System.out.println("Picked up an item!");
-        } else {
-            System.out.println("Nothing to pick up!");
+/*
+  REQUIRES: map is initialized
+  MODIFIES: this, map
+  EFFECTS: iff item corresponding itemName is present on current tile
+  remove item from tile, add item to itemList in ava and print "picked up itemName"
+  otherwise do nothing and print "unable to pick up itemName"
+*/
+    public void pickUpItem(String itemName) {
+        HashSet<Item> tileItems = map.getTileMatrix().get(ypos).get(xpos).getItems();
+        Item chosenItem;
+        for (Item item : tileItems) {
+            if (item.getName().equals(itemName)) {
+                chosenItem = item;
+                tileItems.remove(chosenItem);
+                itemList.add(chosenItem);
+                System.out.println("Picked up " + itemName + "!");
+                return;
+            }
         }
-    }
+        System.out.println("Unable to pick up " + itemName + ".");
+        }
 
 // EFFECTS: prints out current itemList
     public void printItems() {
@@ -155,6 +165,6 @@ public class Avatar implements Serializable {
     //    MODIFIES: map, this
     //    EFFECTS: drops item from Item list, setting it on current map tile
     protected void dropItem(Map map) {
-//        todo stub
+//        todo might not need this
     }
 }

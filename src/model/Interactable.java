@@ -5,12 +5,17 @@ import java.io.Serializable;
 /*An object on the overlay map of interactables*/
 public abstract class Interactable implements Serializable {
 //interactable would be one per tile, could be an instance event, creature, or item
+
+    public static final int TYPE_CREATURE = 0;
+    public static final int TYPE_ITEM = 1;
+    public static final int TYPE_FEATURE = 2;
+
     protected String name;
     protected String description;
     protected int startY;
     protected int startX;
-    protected boolean isItem;
-    protected boolean isCreature;
+//    identifies which kind of interactable this is
+    protected int typeId; // 0=creature, 1=item, 3=feature
 
     public Interactable(int y, int x) {
         startY = y;

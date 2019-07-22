@@ -6,7 +6,6 @@ import model.Interactable;
 public abstract class Feature extends Interactable {
     public Feature(int y, int x) {
         super(y, x);
-        isItem = false;
-        isCreature = false;
+        typeId = TYPE_FEATURE;
     }
 }

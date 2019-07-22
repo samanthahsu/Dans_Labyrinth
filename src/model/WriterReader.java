@@ -1,13 +1,13 @@
 package model;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /*reads and writes game states from the saves folder*/
-public class WriterReader {
+public class WriterReader implements DefaultMapInfo {
 
     private static final String SAVES_PATH = System.getProperty("user.dir") + "\\saves\\";
-//    public static final String FILENAME = "testSerializable.txt";
-
     private String savePath;
 
 //    Initializes this with default save path (within project in saves directory)
@@ -55,6 +55,41 @@ public class WriterReader {
             e.printStackTrace();
         }
     }
+
+    /*effects: constructs and returns a fresh default map*/
+    public Map buildDefaultMap() {
+        ArrayList<Tile> newTiles = buildTileArray();
+        Map map = new Map(height, width, winY, winX, startY, startX, avaItems, newTiles);
+        return map;
+    }
+
+    /*builds tile arrayList with characters form mapstring, and interactables from hashsets*/
+    private ArrayList<Tile> buildTileArray() {
+        ArrayList<Tile> returnList = new ArrayList<>();
+        Tile newTile;
+        int strIndex = 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                newTile = new Tile(y, x, mapString.charAt(strIndex),
+                        parseAllInteractables(y, x));
+                returnList.add(newTile);
+                strIndex++;
+            }
+        }
+        return returnList;
+        }
+
+        /*returns hash set of all interactables with given indexes*/
+    private HashSet<Interactable> parseAllInteractables(int y, int x) {
+        HashSet<Interactable> temp = new HashSet<>();
+        for (Interactable i : allInteractables
+             ) {
+            if (i.getYpos() == y && i.getXpos() == x) {
+                temp.add(i);
+            }
+        }
+        return temp;
+    }//todo
 
     //    requires: file (filename) contains valid Map object, if it doesn't, returns null
     //  effects: Reads from (fileName) at (savePath) which it returns as a Map object.

@@ -35,19 +35,19 @@ class AvatarTest extends TestHelper {
 
     @Test
     void moveAvaTest(){
-        ava1.moveAva("n", map1);
+        ava1.moveAva("n");
         assertEquals(TEST_START_Y_1, ava1.getYpos());
         assertEquals(TEST_START_X_1, ava1.getXpos());
 
-        ava1.moveAva("e", map1);
+        ava1.moveAva("e");
         assertEquals(TEST_START_Y_1, ava1.getYpos());
         assertEquals(TEST_START_X_1 +1, ava1.getXpos());
 
-        ava1.moveAva("s", map1);
+        ava1.moveAva("s");
         assertEquals(TEST_START_Y_1, ava1.getYpos());
         assertEquals(TEST_START_X_1 +1, ava1.getXpos());
 
-        ava1.moveAva("w", map1);
+        ava1.moveAva("w");
         assertEquals(TEST_START_Y_1, ava1.getYpos());
         assertEquals(TEST_START_X_1, ava1.getXpos());
 
@@ -55,12 +55,12 @@ class AvatarTest extends TestHelper {
 
     @Test
     void pickUpItemTest(){
-        ava1.pickUpItem(map1);
+        ava1.pickUpItem();
         ArrayList<Interactable> arrayExpected = new ArrayList<>();
         assertTrue(ava1.getItemList().equals(arrayExpected));
 
-        ava1.moveAva("e", map1);
-        ava1.pickUpItem(map1);
+        ava1.moveAva("e");
+        ava1.pickUpItem();
         arrayExpected.add(apple);
         assertTrue(arrayExpected.equals(ava1.getItemList()));
     }

@@ -69,7 +69,7 @@ public class GameRunner {
         switch (ui) {
             case "new":
                 System.out.println("Starting new game...");
-                map = writerReader.readMap("default_map");
+                map = writerReader.readMap("old_default_map");
                 break;
             case "load":
                 System.out.println("Enter name of saved file: ");
@@ -94,8 +94,11 @@ modifies: this, map
         boolean isValidMove;
 
         while (gameState == CONTINUE_GAME) { //todo print out description of current tile
-            ui = scnr.nextLine();
+
+            ui = scnr.next();
             isValidMove = execute(ui);
+            scnr.skip(".*");
+
             if (isValidMove) { // each move is one tick of game clock
                 map.nextState();
 //                todo make it so you can't save the game after you step on the winning tile
@@ -110,13 +113,14 @@ modifies: this, map
     }
 
     // EFFECTS: handles which Map functions to call. returns gameState.
-    private boolean execute(String input) {
+    private boolean execute(String input) { // todo make scanner take in one word at a time
+        String item;
         switch (input) {
             case "n":
             case "s":
             case "e":
             case "w":
-                map.getAva().moveAva(input, map);
+                map.getAva().moveAva(input);
                 break;
             case "look":
                 System.out.println("hello darkness.");
@@ -135,13 +139,13 @@ modifies: this, map
             case "quit":
                 gameState = handleQuit();
                 break;
-            case "pick up":
-                map.getAva().pickUpItem(map);
+            case "pickup":
+                item = scnr.next();
+                map.getAva().pickUpItem(item);
                 break;
             case "use":
-                System.out.println("Choose an item:");
-                input = scnr.nextLine();
-                map.getAva().useItem(input, map);
+                item = scnr.next();
+                map.getAva().useItem(item, map);
             default:
                 System.out.println("...");
                 return false;
@@ -154,9 +158,9 @@ modifies: this, map
         System.out.println("Enter n, s, e, or w to move North, South, East, or "
                 + "West respectively." + '\n'
                 + "map: view the map" + '\n'
-                + "pick up: pick up an item" + '\n'
+                + "pickup ____: pick up chosen item" + '\n'
                 + "me: view items and status" + '\n'
-                + "use: use and item" + '\n'
+                + "use ___: use chosen item" + '\n'
                 + "help: to get help dialogue" + '\n'
                 + "quit: to quit");
     }

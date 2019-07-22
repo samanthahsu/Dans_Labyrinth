@@ -2,7 +2,6 @@ package model.creatures;
 
 import model.Avatar;
 import model.Map;
-import model.features.AbsolutelyNothing;
 
 public class Exo extends Creature {
 
@@ -38,17 +37,24 @@ public class Exo extends Creature {
 //      eliminates itself from map
     @Override
     public void attack(Map map) {
+/*
         int futureStat = map.getAva().getStatus() - 1;
         if (futureStat >= 0) {
             map.getAva().setStatus(futureStat);
         }
         map.getInteractables().get(startY).set(startX, new AbsolutelyNothing());
         System.out.println("KABOOM!");
+*/
     }
 
 //    EFFECTS: prints
     @Override
     public void speak() {
         System.out.println("a sad ticking noise fills the hall");
+    }
+
+    @Override
+    public void doPassiveActions() {
+
     }
 }

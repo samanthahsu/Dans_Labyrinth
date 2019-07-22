@@ -7,14 +7,14 @@ public class Apple extends Item {
 
 //    EFFECTS: constructs apple as a held item
     public Apple() {
-        super(0,0);
+        super(, 0, 0);
         name = "apple";
         description = "Slightly bruised as the best ones are.";
     }
 
     //    EFFECTS: construct apple with given coordinates
     public Apple(int y, int x) {
-        super(y, x);
+        super(, y, x);
         name = "apple";
         description = "Slightly bruised as the best ones are.";
     }

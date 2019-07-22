@@ -21,7 +21,7 @@ public class Map implements Serializable { //todo add assertion stuff
     private int winX;
     private Avatar ava;
 //    holds interactables and other tile information
-    private ArrayList<ArrayList<Tile>> tileMatrix; //todo make separate class for tileMatrix?? >> handle browsing etc. in more appropriate place?
+    private ArrayList<ArrayList<Tile>> tileMatrix;
 
 
 /*constructor
@@ -57,25 +57,6 @@ initializes avatar at given coordinates with its items
             tileMatrix.add(tileRow);
         }
     }
-/*
-    //    REQUIRES: given string is fitting of given height and width
-    //    MODIFIES: this
-    //    EFFECTS: fills mapDisplay according displayChar in tileList
-    private void initMapDisplay(ArrayList<Tile> tileList) {
-        mapDisplay = new char[height][width];
-        int i = 0;
-        for (int m = 0; m < height; m++) {
-            for (int n = 0; n < width; n++) {
-                if (tileList.get(i).isRevealed) {
-                    mapDisplay[m][n] = tileList.get(i).displayChar;
-                } else {
-                    mapDisplay[m][n] = fog;
-                }
-                i++;
-            }
-        }
-    }
-*/
 
 /* initializes avatar
         MODIFIES: this, ava
@@ -83,7 +64,7 @@ initializes avatar at given coordinates with its items
         places avatar character at ypos, xpos in tileMatrix, revealing adjacent tiles
 */
     private void initAvatar(int startY, int startX, ArrayList<Interactable> items) {
-        ava = new Avatar(startY, startX, items);
+        ava = new Avatar(startY, startX, items, this);
         updateTileDisp(startY, startX, c);
         revealSurroundings(startY, startX);
     }
@@ -196,7 +177,6 @@ initializes avatar at given coordinates with its items
         MODIFIES: this
         EFFECTS: if tile index is valid, reveal the 4 (or less) tiles orthogonally around y, x (no diagonals)
         else do nothing? todo throw exc?
-
 */
     public void revealSurroundings(int y, int x) {
         checkAndRevealTileDisp(y, x - 1);

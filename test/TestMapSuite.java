@@ -44,7 +44,9 @@ public class TestMapSuite {
 
     protected Map map3; //at the win
     protected Avatar ava3;
-    protected ArrayList<Interactable> interList3 = new ArrayList<>();
+    protected ArrayList<Interactable> interList3 = new ArrayList<>(
+            /*Arrays.asList(new BloodFish(), new PizzaBox(), new Exo())*/
+    );
     protected ArrayList<ArrayList<Tile>> tileMatrix3;
     protected static final String TEST_MAP_3 =
             "abcdef"
@@ -80,7 +82,7 @@ public class TestMapSuite {
 
 
     /*builds tile arrayList with characters form mapstring, and interactables from hashsets*/
-    private ArrayList<Tile> buildTileArray(int height, int width, String mapString, ArrayList<Interactable> interList) {
+    protected ArrayList<Tile> buildTileArray(int height, int width, String mapString, ArrayList<Interactable> interList) {
         ArrayList<Tile> returnList = new ArrayList<>();
         Tile newTile;
         int strIndex = 0;
@@ -104,6 +106,26 @@ public class TestMapSuite {
             }
         }
         return temp;
-    }//todo
+    }
+
+    /*  initializes tileMatrix
+    requires: tileList to be in order and of size h*w, h and w are init
+    modifies: this // todo throw mismatched map size exception
+    effects: takes tileList, and formats it into a matrix for easier access
+*/
+    protected ArrayList<ArrayList<Tile>> initTileMatrix(ArrayList<Tile> tileList, int height, int width) {
+        ArrayList<ArrayList<Tile>> returnTileMatrix = new ArrayList<>(height);
+        ArrayList<Tile> tileRow;
+        int i = 0;
+        for (int m = 0; m < height; m++) {
+            tileRow = new ArrayList<>(width);
+            for (int n = 0; n < width; n++) {
+                tileRow.add(tileList.get(i));
+                i++;
+            }
+            returnTileMatrix.add(tileRow);
+        }
+        return returnTileMatrix;
+    }
 
 }

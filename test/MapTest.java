@@ -37,7 +37,10 @@ class MapTest extends TestMapSuite {
         assertTrue(ava1.equals(new Avatar(TEST_START_Y_1,
                 TEST_START_X_1,
                 new ArrayList<Item>(),map1)));
-        assertTrue(tileMatrix1.equals(new ArrayList<ArrayList<Tile>>())); //todo
+        ArrayList<Tile> expTileList = buildTileArray(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, interList1);
+        ArrayList<ArrayList<Tile>> expTileMatrix = initTileMatrix(expTileList,
+                TEST_HEIGHT_1, TEST_WIDTH_1);
+        assertTrue(map1.tileMatrixEquals(tileMatrix1, tileMatrix1, TEST_HEIGHT_1, TEST_WIDTH_1)); //todo;
     }
     @Test
     void testConstructorNonEmptyList(){
@@ -53,7 +56,7 @@ class MapTest extends TestMapSuite {
             "#@#" +
                      "@*@" +
                      "# #", map1,
-                TEST_HEIGHT_2, TEST_WIDTH_2);
+                TEST_HEIGHT_2, TEST_WIDTH_2); todo test init interactables
         String expMapStr =
                 "@@@"+
                 "@ @"+

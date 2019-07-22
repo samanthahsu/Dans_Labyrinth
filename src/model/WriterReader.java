@@ -10,7 +10,7 @@ public class WriterReader implements DefaultMapInfo {
     private static final String SAVES_PATH = System.getProperty("user.dir") + "\\saves\\";
     private String savePath;
 
-//    Initializes this with default save path (within project in saves directory)
+//    effects: Initializes this with default save path (within project in saves directory)
     public WriterReader() {
         savePath = SAVES_PATH;
     }
@@ -25,7 +25,10 @@ public class WriterReader implements DefaultMapInfo {
         return savePath;
     }
 
-    //    Writes (map) into text file named (filename) at (savePath)
+/*
+requires: path is valid
+        effects: Writes (map) into text file named (filename) at (savePath)
+*/
     public void writeMap(Map map, String fileName) {
         final String FILENAME = fileName.concat(".txt"); // specifying file type
         String savePath = SAVES_PATH + FILENAME;
@@ -63,7 +66,7 @@ public class WriterReader implements DefaultMapInfo {
         return map;
     }
 
-    /*builds tile arrayList with characters form mapstring, and interactables from hashsets*/
+    /*effects: builds tile arrayList with characters from mapstring, and interactables from hashsets*/
     private ArrayList<Tile> buildTileArray() {
         ArrayList<Tile> returnList = new ArrayList<>();
         Tile newTile;
@@ -79,7 +82,7 @@ public class WriterReader implements DefaultMapInfo {
         return returnList;
         }
 
-        /*returns hash set of all interactables with given indexes*/
+        /*effects: returns hash set of all interactables with given indexes*/
     private HashSet<Interactable> parseAllInteractables(int y, int x) {
         HashSet<Interactable> temp = new HashSet<>();
         for (Interactable i : allInteractables
@@ -89,7 +92,7 @@ public class WriterReader implements DefaultMapInfo {
             }
         }
         return temp;
-    }//todo
+    }
 
     //    requires: file (filename) contains valid Map object, if it doesn't, returns null
     //  effects: Reads from (fileName) at (savePath) which it returns as a Map object.

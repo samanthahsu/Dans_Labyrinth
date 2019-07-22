@@ -24,7 +24,7 @@ public class Tile implements Serializable {
     private boolean isWalkable;
 //    some flavour text of what the senses pick up - usually default, can be
 //    modified for providing clues
-    private String description;
+    private String description = "";
 
 //    lists of interactables on tile
     private HashSet<Interactable> interactables;

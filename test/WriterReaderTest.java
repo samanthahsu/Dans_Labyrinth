@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class WriterReaderTest extends TestMapSuite {
+class WriterReaderTest extends TestMapSuite {
 
     private static final String PROJECT_PATH = System.getProperty("user.dir");
     private WriterReader writerReader;
@@ -28,15 +28,19 @@ public class WriterReaderTest extends TestMapSuite {
 
     @Test
     void readAndWriteTest() {
+        initMaps();
         final String fileName1 = "writeMapTest";
         writerReader.writeMap(map1, fileName1);
         Map readMap1 = writerReader.readMap(fileName1);
-        assertTrue(readMap1.equals(map1)); // todo write .equals() method for builtInMaps pls
+        assertTrue(readMap1.equals(map1));
 
         writerReader.writeMap(map2, fileName1);
         Map readMap2 = writerReader.readMap(fileName1);
-        assertTrue(readMap2.equals(map2)); // todo write .equals() method for builtInMaps pls
+        assertTrue(readMap2.equals(map2));
     }
 
-
+    @Test
+    void testBuildDefaultMap() {
+        Map testMap = writerReader.buildDefaultMap(); //todo
+    }
 }

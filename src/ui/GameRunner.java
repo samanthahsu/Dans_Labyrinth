@@ -69,7 +69,7 @@ public class GameRunner {
         switch (ui) {
             case "new":
                 System.out.println("Starting new game...");
-                map = writerReader.readMap("old_default_map");
+                map = writerReader.buildDefaultMap();
                 break;
             case "load":
                 System.out.println("Enter name of saved file: ");

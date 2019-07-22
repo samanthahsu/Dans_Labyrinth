@@ -13,13 +13,13 @@ public class Avatar implements Serializable {
     private int status; //health bar 0 = dead
     private int ypos;
     private int xpos; //tracks position of avatar
-    private ArrayList<Interactable> itemList; // todo has a limit of three itemList to prevent hoarding
+    private ArrayList<Item> itemList; // todo has a limit of three itemList to prevent hoarding
 //    todo change itemList into set
 
 /* constructor
     EFFECTS: makes avatar setting it's coordinates, items and status to 3
 */
-    Avatar(int setY, int setX, ArrayList<Interactable> items, Map map) {
+public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
         status = 3;
         this.map = this.map;
         ypos = setY;
@@ -44,7 +44,7 @@ public class Avatar implements Serializable {
         this.status = status;
     }
 
-    public ArrayList<Interactable> getItemList() {
+    public ArrayList<Item> getItemList() {
         return itemList;
     }
 
@@ -119,11 +119,11 @@ public class Avatar implements Serializable {
   otherwise do nothing and print "unable to pick up itemName"
 */
     public void pickUpItem(String itemName) {
-        HashSet<Item> tileItems = map.getTileMatrix().get(ypos).get(xpos).getItems();
+        HashSet<Interactable> tileItems = map.getTileMatrix().get(ypos).get(xpos).getInteractables();
         Item chosenItem;
-        for (Item item : tileItems) {
-            if (item.getName().equals(itemName)) {
-                chosenItem = item;
+        for (Interactable i : tileItems) {
+            if (i.getName().equals(itemName) && i.getTypeId() == Interactable.TYPE_ITEM) {
+                chosenItem = (Item) i;
                 tileItems.remove(chosenItem);
                 itemList.add(chosenItem);
                 System.out.println("Picked up " + itemName + "!");

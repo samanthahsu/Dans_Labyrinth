@@ -65,6 +65,10 @@ public class Tile implements Serializable {
         return description;
     }
 
+    public HashSet<Interactable> getInteractables() {
+        return interactables;
+    }
+
     /*
     * sets actual display char of this tile
     * used when moving the avatar icon about the map*/

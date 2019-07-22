@@ -10,18 +10,20 @@ import model.Map;
  * they:
  * print out a description when interacted with
  * they only need x and y position for map placement, doesn't matter in equality*/
-public class Item extends Interactable {
+/*nevermind, scratch that i need separate objects for each*/
+public abstract class Item extends Interactable {
 
-    public Item(String name) {
+    public Item() {
         super(0, 0);
+        this.name = name;
         typeId = TYPE_ITEM;
     }
 
 //    EFFECTS: sets isCreature to false, and isItem to true
-    public Item(String name, int y, int x) {
+    public Item(int y, int x) {
         super(y, x);
-        isCreature = false;
-        isItem = true;
+        this.name = name;
+        typeId = TYPE_ITEM;
     }
 
     @Override

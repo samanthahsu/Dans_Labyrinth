@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class WriterReaderTest extends MapSuite {
+public class WriterReaderTest extends TestMapSuite {
 
     private static final String PROJECT_PATH = System.getProperty("user.dir");
-    WriterReader writerReader;
-    MapSuite mapSuite = new MapSuite();
+    private WriterReader writerReader;
+    TestMapSuite testMapSuite = new TestMapSuite();
 
     @BeforeEach
     void Setup() {

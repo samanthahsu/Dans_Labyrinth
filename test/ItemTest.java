@@ -23,6 +23,6 @@ class ItemTest extends TestHelper {
 
     @Test
     void useItemTest() {
-        ava1.useItem("Apple", map1);
+        ava1.useItem("PizzaBox", map1);
     }
 }

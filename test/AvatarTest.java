@@ -1,6 +1,6 @@
 import model.Interactable;
 import model.Map;
-import model.items.Apple;
+import model.items.PizzaBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,15 +11,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AvatarTest extends TestHelper {
 
-    Apple apple;
+    PizzaBox pizzaBox;
 
     @BeforeEach
     void Setup(){
         interactableArrayList = new ArrayList<>();
         interY1 = 2;
         interX1 = 2;
-        apple = new Apple(interY1, interX1);
-        interactableArrayList.add(apple);
+        pizzaBox = new PizzaBox(interY1, interX1);
+        interactableArrayList.add(pizzaBox);
 
         map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1,
                 TEST_START_X_1, new ArrayList<Interactable>(), );
@@ -61,7 +61,7 @@ class AvatarTest extends TestHelper {
 
         ava1.moveAva("e");
         ava1.pickUpItem();
-        arrayExpected.add(apple);
+        arrayExpected.add(pizzaBox);
         assertTrue(arrayExpected.equals(ava1.getItemList()));
     }
 

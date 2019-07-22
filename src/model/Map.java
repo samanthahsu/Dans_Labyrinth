@@ -1,6 +1,7 @@
 package model;
 
 import model.creatures.Creature;
+import model.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ EFFECTS: sets height and width of map, win coordinates, and tileMatrix from tile
 initializes avatar at given coordinates with its items
 */
     public Map(int height, int width, int winY, int winX, int avaY, int avaX,
-               ArrayList<Interactable> avaItems, ArrayList<Tile> tileList) {
+               ArrayList<Item> avaItems, ArrayList<Tile> tileList) {
         this.height = height;
         this.width = width;
         this.winY = winY;
@@ -63,7 +64,7 @@ initializes avatar at given coordinates with its items
         EFFECTS: construct new Avatar with given coordinates and items
         places avatar character at ypos, xpos in tileMatrix, revealing adjacent tiles
 */
-    private void initAvatar(int startY, int startX, ArrayList<Interactable> items) {
+    private void initAvatar(int startY, int startX, ArrayList<Item> items) {
         ava = new Avatar(startY, startX, items, this);
         updateTileDisp(startY, startX, c);
         revealSurroundings(startY, startX);
@@ -122,7 +123,7 @@ initializes avatar at given coordinates with its items
     effects: returns true if a and b contain equal tiles in the same order,
     else returns false
 */
-    private boolean tileMatrixEquals(ArrayList<ArrayList<Tile>> a, ArrayList<ArrayList<Tile>> b, int height, int width) {
+    public boolean tileMatrixEquals(ArrayList<ArrayList<Tile>> a, ArrayList<ArrayList<Tile>> b, int height, int width) {
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {
                 if (!a.get(m).get(n).equals(b.get(m).get(n))) {
@@ -203,8 +204,11 @@ initializes avatar at given coordinates with its items
 //        System.out.println("rumbles in the distance");
         for (ArrayList<Tile> tileArrayList: tileMatrix) {
             for (Tile tile : tileArrayList) {
-                for (Creature c : tile.getCreatures())
-                    c.doPassiveActions();
+                for (Interactable i : tile.getInteractables()) {
+                    if (i.getTypeId() == Interactable.TYPE_CREATURE) {
+                        ((Creature) i).doPassiveActions();
+                    }
+                }
             }
         }
     }

@@ -3,6 +3,7 @@ package model.creatures;
 import model.Avatar;
 import model.Map;
 
+/*tries to run away form you, holds rusted key*/
 public class Exo extends Creature {
 
     //    EFFECTS: set starting coordinates
@@ -12,8 +13,6 @@ public class Exo extends Creature {
                 + "you with a deploring gaze";
         name = "Exo";
         health = 1;
-        isCreature = true;
-        isItem = false;
     }
 
     @Override

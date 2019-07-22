@@ -1,6 +1,9 @@
+import model.Avatar;
 import model.Interactable;
 import model.Map;
+import model.Tile;
 import model.creatures.Exo;
+import model.items.Item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +13,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MapTest extends TestHelper {
+class MapTest extends TestMapSuite {
 
     private static final int C_Y_1 = 1;
     private static final int C_X_1 = 3;
@@ -21,39 +24,28 @@ class MapTest extends TestHelper {
 
     @BeforeEach
     void Setup(){
+        initMaps();
+/*
         interactableArrayList = new ArrayList<>();
         interactableArrayList.add(new Exo(C_Y_1, C_X_1));
         map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
                 new ArrayList<Interactable>(), );
+*/
     }
 
     @Test
-    void ConstructorTestMap1(){
+    void testConstructorEmptyLists(){
         assertEquals(TEST_HEIGHT_1, map1.getHeight());
         assertEquals(TEST_WIDTH_1, map1.getWidth());
-
-        assertEqualsStrCharMtrx(
-        "######" +
-                "#@####" +
-                "@* ###" +
-                "#@####", map1,
-                TEST_HEIGHT_1, TEST_WIDTH_1);
-        String expMapStr =
-                "@@@ @@"+
-                "@@ @ @"+
-                "@   @@"+
-                "@@@@@@";
-        char[][] expMap = strToTestCharMtrx(expMapStr, TEST_HEIGHT_1, TEST_WIDTH_1);
-        assertEqualsCharMtrx(expMap, map1.getMap(), TEST_HEIGHT_1, TEST_WIDTH_1);
-
-        ArrayList<Interactable> expected = new ArrayList<>();
-        expected.add(new Exo(C_Y_1, C_X_1));
-        assertEqualsInteractableMtrx(
-                makeInteractableMatrix(expected, map1.getHeight(), map1.getWidth()), map1.getInteractables(),
-                map1.getHeight(), map1.getWidth());
+        assertEquals(WIN_Y_1, map1.getWinY());
+        assertEquals(WIN_X_1, map1.getWinX());
+        assertTrue(ava1.equals(new Avatar(TEST_START_Y_1,
+                TEST_START_X_1,
+                new ArrayList<Item>(),map1)));
+        assertTrue(tileMatrix1.equals(new ArrayList<ArrayList<Tile>>())); //todo
     }
     @Test
-    void ConstructorTestMap2(){
+    void testConstructorNonEmptyList(){
         interactableArrayList.remove(0);
         interactableArrayList.add(new Exo(C_Y_2, C_X_2));
         map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
@@ -73,6 +65,9 @@ class MapTest extends TestHelper {
         char[][] expMap = strToTestCharMtrx(expMapStr, TEST_HEIGHT_2, TEST_WIDTH_2);
         assertEqualsCharMtrx(expMap, map1.getMap(), TEST_HEIGHT_2, TEST_WIDTH_2);
     }
+
+    @Test
+    void testConstructorException(){}
 
     @Test
     void isIndexValidTest(){

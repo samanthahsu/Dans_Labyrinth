@@ -43,11 +43,11 @@ public class GameRunner {
         returns true if gameState is QUIT_GAME, else runs the game and returns false
 */
     public boolean runHomeScreen() {
-        System.out.println("================================");
+        System.out.println("=============DAN'S LABYRINTH=============");
         while (map == null && gameState != QUIT_GAME) {
-            System.out.println("new : new game\n"
-                    + "load : load a saved game\n"
-                    + "quit : exit");
+            System.out.println("new: new game\n"
+                    + "load: load a saved game\n"
+                    + "quit: exit");
             ui = scnr.nextLine();
             homeExecuteUi();
         }

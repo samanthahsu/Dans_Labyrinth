@@ -61,8 +61,18 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
     /*requires the two lists to be of the same size
     effects: returns true if both lists have items in the same order of the same name*/
     private boolean itemListEquals(ArrayList<Item> itemList, ArrayList<Item> otherItemList) {
+        String item;
+        String otherItem;
+        if (itemList.size() != otherItemList.size()) {
+            return false;
+        }
         for (int i = 0; i < itemList.size(); i++) {
-            if (!itemList.get(i).getName().equals(otherItemList.get(i).getName())) {
+            item = itemList.get(i).getName();
+            otherItem = otherItemList.get(i).getName();
+            if (item == null && otherItem == null) {
+            } else if (item == null || otherItem == null) {
+                return false;
+            } else if (!item.equals(otherItem)) {
                 return false;
             }
         }

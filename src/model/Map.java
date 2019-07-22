@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.mismatchedMapSizeException;
 import model.creatures.Creature;
 import model.items.Item;
 
@@ -26,12 +27,13 @@ public class Map implements Serializable { //todo add assertion stuff
 
 
 /*constructor
-requires: height*width == tileList.size() // todo throw mismatched map size exception
-EFFECTS: sets height and width of map, win coordinates, and tileMatrix from tileList.
+EFFECTS: height*width == tileList.size()
+sets height and width of map, win coordinates, and tileMatrix from tileList.
 initializes avatar at given coordinates with its items
+    else throws mismatchedMapSizeException
 */
     public Map(int height, int width, int winY, int winX, int avaY, int avaX,
-               ArrayList<Item> avaItems, ArrayList<Tile> tileList) {
+               ArrayList<Item> avaItems, ArrayList<Tile> tileList) throws mismatchedMapSizeException {
         this.height = height;
         this.width = width;
         this.winY = winY;
@@ -41,11 +43,15 @@ initializes avatar at given coordinates with its items
     }
 
 /*  initializes tileMatrix
-    requires: tileList to be in order and of size h*w, h and w are init
-    modifies: this // todo throw mismatched map size exception
-    effects: takes tileList, and formats it into a matrix for easier access
+    modifies: this
+    effects: if tileList to be in order and of size h*w, h and w are init
+    takes tileList, and formats it into a matrix for easier access
+    else throws mismatchedMapSizeException
 */
-    private void initTileMatrix(ArrayList<Tile> tileList) {
+    private void initTileMatrix(ArrayList<Tile> tileList) throws mismatchedMapSizeException {
+        if (tileList.size() != height * width) {
+            throw new mismatchedMapSizeException();
+        }
         tileMatrix = new ArrayList<>(height);
         ArrayList<Tile> tileRow;
         int i = 0;

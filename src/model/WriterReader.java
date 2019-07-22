@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.mismatchedMapSizeException;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -59,10 +61,17 @@ requires: path is valid
         }
     }
 
-    /*effects: constructs and returns a fresh default map*/
+    /*effects: constructs and returns a fresh default map
+    * catches mismatchedMapSizeException
+     */
     public Map buildDefaultMap() {
         ArrayList<Tile> newTiles = buildTileArray();
-        Map map = new Map(height, width, winY, winX, startY, startX, avaItems, newTiles);
+        Map map = null;
+        try {
+            map = new Map(height, width, winY, winX, startY, startX, avaItems, newTiles);
+        } catch (mismatchedMapSizeException e) {
+            System.out.println("New map construction failed.");
+        }
         return map;
     }
 

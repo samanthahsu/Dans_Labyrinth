@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -32,7 +33,9 @@ class AvatarTest extends TestMapSuite {
     void ConstructorTest(){
         assertEquals(TEST_START_Y_1, ava1.getYpos());
         assertEquals(TEST_START_X_1, ava1.getXpos());
-        assertTrue(itemListEquals(ava1.getItemList(), new ArrayList<Item>()));
+        assertTrue(itemListEquals(ava1.getItemList(), new ArrayList<Item>(
+                Arrays.asList(new PizzaBox())
+        )));
 //        todo add test with items
     }
 

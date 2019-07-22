@@ -1,10 +1,14 @@
+import exceptions.mismatchedMapSizeException;
 import model.Avatar;
+import model.Map;
 import model.Tile;
 import model.items.Item;
+import model.items.PizzaBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,45 +33,39 @@ class MapTest extends TestMapSuite {
     }
 
     @Test
-    void testConstructorEmptyLists(){
+    void testConstructor(){
         assertEquals(TEST_HEIGHT_1, map1.getHeight());
         assertEquals(TEST_WIDTH_1, map1.getWidth());
         assertEquals(WIN_Y_1, map1.getWinY());
         assertEquals(WIN_X_1, map1.getWinX());
         assertTrue(ava1.equals(new Avatar(TEST_START_Y_1,
                 TEST_START_X_1,
-                new ArrayList<Item>(),map1)));
+                new ArrayList<Item>(
+                        Arrays.asList(new PizzaBox())
+                ), map1)));
         ArrayList<Tile> expTileList = buildTileArray(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, interList1);
         ArrayList<ArrayList<Tile>> expTileMatrix = initTileMatrix(expTileList,
                 TEST_HEIGHT_1, TEST_WIDTH_1);
         assertTrue(map1.tileMatrixEquals(tileMatrix1, tileMatrix1, TEST_HEIGHT_1, TEST_WIDTH_1)); //todo;
     }
-    @Test
-    void testConstructorNonEmptyList(){
-/*
-        interactableArrayList.remove(0);
-        interactableArrayList.add(new Exo(C_Y_2, C_X_2));
-        map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
-                new ArrayList<Interactable>(), );
-        assertEquals(TEST_HEIGHT_2, map1.getHeight());
-        assertEquals(TEST_WIDTH_2, map1.getWidth());
 
-        assertEqualsStrCharMtrx(
-            "#@#" +
-                     "@*@" +
-                     "# #", map1,
-                TEST_HEIGHT_2, TEST_WIDTH_2); todo test init interactables
-        String expMapStr =
-                "@@@"+
-                "@ @"+
-                "@ @";
-        char[][] expMap = strToTestCharMtrx(expMapStr, TEST_HEIGHT_2, TEST_WIDTH_2);
-        assertEqualsCharMtrx(expMap, map1.getMap(), TEST_HEIGHT_2, TEST_WIDTH_2);
-*/
+    @Test
+    void testConstructorException(){
+        try {
+            map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
+                    itemList1, tileList1);
+        } catch (mismatchedMapSizeException e) {
+            fail("mismatchedMapSizeException thrown");
+        }
+
+        try {
+            map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
+                    itemList1, new ArrayList<Tile>());
+            fail("no e thrown");
+        } catch (mismatchedMapSizeException e) {
+        }
+
     }
-
-    @Test
-    void testConstructorException(){}
 
     @Test
     void isIndexValidTest(){

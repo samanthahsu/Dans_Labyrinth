@@ -132,10 +132,13 @@ initializes avatar at given coordinates with its items
     else returns false
 */
     public boolean tileMatrixEquals(ArrayList<ArrayList<Tile>> a, ArrayList<ArrayList<Tile>> b, int height, int width) {
-        if (a.size() != height * width || b.size()!= height * width) {
+        if (a.size() != height || b.size()!= height) {
             return false;
         }
         for (int m = 0; m < height; m++) {
+            if (a.get(m).size() != width || b.get(m).size() != width) {
+                return false;
+            }
             for (int n = 0; n < width; n++) {
                 if (!a.get(m).get(n).equals(b.get(m).get(n))) {
                     return false;

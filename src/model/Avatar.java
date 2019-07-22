@@ -42,21 +42,22 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
         return xpos;
     }
 
+    public ArrayList<Item> getItemList() {
+        return itemList;
+    }
+
 //    todo for tests only
     public void setStatus(int status) {
         this.status = status;
     }
 
-    public ArrayList<Item> getItemList() {
-        return itemList;
-    }
 
 //    effects: returns true if otherAva has same params as this todo
     public boolean equals(Avatar otherAva) {
         boolean statEq = status == otherAva.getStatus();
         boolean yEq = ypos == otherAva.getYpos();
         boolean xEq = xpos == otherAva.getXpos();
-        boolean itemEq = itemListEquals(itemList, otherAva.getItemList()); // todo write this method
+        boolean itemEq = itemListEquals(itemList, otherAva.getItemList());
     return statEq && yEq && xEq && itemEq;
     }
 
@@ -72,6 +73,7 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
             item = itemList.get(i).getName();
             otherItem = otherItemList.get(i).getName();
             if (item == null && otherItem == null) {
+//                continue on
             } else if (item == null || otherItem == null) {
                 return false;
             } else if (!item.equals(otherItem)) {
@@ -80,19 +82,6 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
         }
         return true;
     }
-
-/*
-//    EFFECT: remove item with given name from itemList if it exists
-//    else do nothing
-    public void removeItem(String name) {
-        for (Interactable i: itemList) {
-            if (i.getName().equals(name)) {
-                itemList.remove(i);
-                return;
-            }
-        }
-    }
-*/
 
 //    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
 //    MODIFIES: map

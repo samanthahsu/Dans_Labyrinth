@@ -64,6 +64,7 @@ class MapTest extends TestMapSuite {
                     itemList1, new ArrayList<Tile>());
             fail("no e thrown");
         } catch (mismatchedMapSizeException e) {
+//            expected
         }
 
     }
@@ -127,10 +128,10 @@ class MapTest extends TestMapSuite {
         int x = 2;
         map1.revealSurroundings(y, x);
         assertTrue(tileMatrix1.get(y).get(x).isRevealed()
-        && tileMatrix1.get(y-1).get(x).isRevealed()
-        && tileMatrix1.get(y+1).get(x).isRevealed()
-        && tileMatrix1.get(y).get(x-1).isRevealed()
-        && tileMatrix1.get(y).get(x+1).isRevealed());
+        && tileMatrix1.get(y - 1).get(x).isRevealed()
+        && tileMatrix1.get(y + 1).get(x).isRevealed()
+        && tileMatrix1.get(y).get(x - 1).isRevealed()
+        && tileMatrix1.get(y).get(x + 1).isRevealed());
     }
     @Test
     void revealSurroundingsNWTest() {
@@ -138,8 +139,8 @@ class MapTest extends TestMapSuite {
         int x = 0;
         map1.revealSurroundings(0, 0);
         assertTrue(tileMatrix1.get(y).get(x).isRevealed()
-                && tileMatrix1.get(y+1).get(x).isRevealed()
-                && tileMatrix1.get(y).get(x+1).isRevealed());
+                && tileMatrix1.get(y + 1).get(x).isRevealed()
+                && tileMatrix1.get(y).get(x + 1).isRevealed());
 
     }
     @Test

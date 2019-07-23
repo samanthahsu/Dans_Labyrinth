@@ -1,5 +1,6 @@
 import model.Interactables.items.Item;
 import model.Interactables.items.PizzaBox;
+import model.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,11 +44,17 @@ class AvatarTest extends TestMapSuite {
     void moveAvaTest(){
         int currentY = TEST_START_Y_1;
         int currentX = TEST_START_X_1;
+        int prevY;
+        int prevX;
 
+        prevY = currentY;
+        prevX = currentX;
         ava1.moveAva("n");
         currentY -= 1;
         assertEquals(currentY, ava1.getYpos());
         assertEquals(currentX, ava1.getXpos());
+        assertEquals(Map.c, tileMatrix1.get(currentY).get(currentX).getDisplayChar());
+        assertEquals(Map.floor, tileMatrix1.get(prevY).get(prevX).getDisplayChar());
 
         ava1.moveAva("e");
         currentX += 1;

@@ -212,8 +212,9 @@ initializes avatar at given coordinates with its items
         for (ArrayList<Tile> tileArrayList : tileMatrix) {
             for (Tile tile : tileArrayList) {
                 for (Interactable i : tile.getInteractables()) {
-                    if (i.getTypeId() == Interactable.TYPE_CREATURE) {
-                        ((Creature) i).doPassiveActions();
+                    if (i.getName().equals("ennui")) {
+                        ((Creature) i).doPassiveActions(); // todo ennui removing and adding itself
+                        break;
                     }
                 }
             }

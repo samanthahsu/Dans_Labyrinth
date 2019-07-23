@@ -113,7 +113,6 @@ public GameRunner() {
 
             if (isValidMove) { // each move is one tick of game clock
                 map.nextState();
-
 //                todo make it so you can't save the game after you step on the winning tile
                 if (map.isWin()) {
                     System.out.println("CONGRATS, YOU WON!");
@@ -140,7 +139,7 @@ public GameRunner() {
                 break;
             case "map":
                 printDisplayMap();
-                break;
+                return false; // map doesnt count as a move
             case "me":
                 System.out.println("Health: " + map.getAva().getStatus()
                 + "/3");
@@ -150,8 +149,9 @@ public GameRunner() {
                 printHelp();
                 break;
             case "quit":
+                scnr.skip(".*");
                 gameState = handleQuit();
-                break;
+                return false;
             case "pickup":
                 item = scnr.next();
                 map.getAva().pickUpItem(item);
@@ -211,17 +211,22 @@ public GameRunner() {
         System.out.println("s: save game\n"
                 + "c: cancel and continue\n"
                 +"q: quit without saving.");
-        switch (scnr.nextLine()) {
+        do {
+            ui = scnr.nextLine();
+        } while (ui.equals(""));
+        switch (ui) {
             case "s":
                 System.out.println("What would you like to name your file?");
                 try {
                     writerReader.writeMap(map, scnr.nextLine());
                 } catch (IOException e) {
                     System.out.println("File saving failed.");
+                } finally {
+                    System.out.println("Dan continues on...");
                 }
                 break;
             case "c":
-                System.out.println("You continue...");
+                System.out.println("Dan continues on...");
                 break;
             case "q":
                 System.out.println("Quitting...");

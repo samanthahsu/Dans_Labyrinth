@@ -219,7 +219,7 @@ initializes avatar at given coordinates with its items
                 for (Interactable i : tile.getInteractables()) {
                     if (i.getName().equals("ennui")) {
                         ((Creature) i).doPassiveActions(); // todo ennui removing and adding itself
-                        break;
+                        return;
                     }
                 }
             }

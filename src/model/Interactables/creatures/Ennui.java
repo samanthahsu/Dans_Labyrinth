@@ -31,9 +31,11 @@ public class Ennui extends Creature {
         if (chooseDirAndMove()) {
             removeSounds(oldy, oldx);
             setSounds(currY, currX);
+            // todo test stuffs VVVV
+            map.getTileMatrix().get(oldy).get(oldx).setDisplayChar(' ');
+            map.getTileMatrix().get(currY).get(currX).setDisplayChar('E');
+            System.out.println("moved from" + oldy + " " + oldx + " to " +currY+" "+ currX);
         }
-
-
     }
 
     @Override
@@ -95,7 +97,7 @@ public class Ennui extends Creature {
         removeOneSound(currY, currX + 1);
     }
 
-    /*if tile index is valid, iterate through interactables list in that tile, and remove
+    /*effects: if tile index is valid, iterate through interactables list in that tile, and remove
     * interactable named SOUND_NAME*/
     private void removeOneSound(int y, int x) {
         if (map.isIndexValid(y, x)) {
@@ -111,9 +113,11 @@ public class Ennui extends Creature {
     }
 
     /*modifies: this
-    * effects: sets coords of this based on which directions are available
-    * walls block passage
-    * ava presence blocks passage*/
+    * effects:
+    * moves only if ava presence
+    * sets co-ords of this based on which directions are available
+    * walls block passage in 1 rad
+    * ava presence scares away 2 rad, 1 rad, 0 rad*/
     private boolean chooseDirAndMove() {
             if (canMove(currY - 1, currX)) {
                 executeMove(currY - 1, currX);
@@ -131,22 +135,25 @@ public class Ennui extends Creature {
             return false;
     }
 
-    /*returns true if avatar within one tile*/
+    /*effects: returns true if avatar within one tile*/
     private boolean avaInProximity() {
         return false;
     }
 
-    /*remove this from current tile and add to given tile oo-ordinates*/
+    /*modifies: this, map
+    effects: remove this from current tile, adds this to interactables in next tile
+    * sets current coordinates to next coordinates*/
     private void executeMove(int nexty, int nextx) {
-        map.getTileMatrix().get(currY).get(currX).getInteractables().remove(this);
         map.getTileMatrix().get(nexty).get(nextx).getInteractables().add(this);
+        map.getTileMatrix().get(currY).get(currX).getInteractables().remove(this);
         this.currY = nexty;
         this.currX = nextx;
     }
 
-    /*returns true if displaychar at tile of given index is not ava or wall*/
+    /*effects: returns true if display char at tile of given index is not ava and walkable is true*/
     private boolean canMove(int y, int x) {
         char c = map.getTileMatrix().get(y).get(x).getDisplayChar();
-        return c != '@' && c != '*';
+        boolean walkable = map.getTileMatrix().get(y).get(x).isWalkable();
+        return walkable && c != '*';
     }
 }

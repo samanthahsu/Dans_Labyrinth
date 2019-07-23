@@ -14,7 +14,7 @@ public class MossyGate extends Feature {
     public MossyGate(int y, int x, int yblock, int xblock) {
         super(y, x);
         name = "mossy gate";
-        description = "a gate covered in so much lichen it's original material is undiscernable.";
+        description = "a gate covered in so much lichen it's original material is indiscernible.";
         this.yblock = yblock;
         this.xblock = xblock;
     }

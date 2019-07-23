@@ -6,7 +6,7 @@ import model.Map;
 public class RustyKey extends Item {
 
     final static String KEY_NAME = "rusty key";
-    final static String KEY_DESCR = "a near disintegrating key of undiscernable colour";
+    final static String KEY_DESCR = "a near disintegrating key of indiscernible colour";
 
     public RustyKey() {
         super(0,0);

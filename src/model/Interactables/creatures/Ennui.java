@@ -115,19 +115,24 @@ public class Ennui extends Creature {
     * walls block passage
     * ava presence blocks passage*/
     private boolean chooseDirAndMove() {
-        if(canMove(currY - 1, currX)) {
-            executeMove(currY - 1, currX);
-            return true;
-        } else if (canMove(currY + 1, currX)) {
-            executeMove(currY + 1, currX);
-            return true;
-        } else if (canMove(currY, currX + 1)) {
-            executeMove(currY, currX + 1);
-            return true;
-        } else if (canMove(currY, currX - 1)) {
-            executeMove(currY, currX - 1);
-            return true;
-        }
+            if (canMove(currY - 1, currX)) {
+                executeMove(currY - 1, currX);
+                return true;
+            } else if (canMove(currY + 1, currX)) {
+                executeMove(currY + 1, currX);
+                return true;
+            } else if (canMove(currY, currX + 1)) {
+                executeMove(currY, currX + 1);
+                return true;
+            } else if (canMove(currY, currX - 1)) {
+                executeMove(currY, currX - 1);
+                return true;
+            }
+            return false;
+    }
+
+    /*returns true if avatar within one tile*/
+    private boolean avaInProximity() {
         return false;
     }
 

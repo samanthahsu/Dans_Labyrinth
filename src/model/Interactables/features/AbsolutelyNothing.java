@@ -16,4 +16,9 @@ public class AbsolutelyNothing extends Feature {
 //        System.out.println("There is nothing here...");
         return false;
     }
+
+    @Override
+    public void passiveAction() {
+
+    }
 }

@@ -113,6 +113,7 @@ public GameRunner() {
 
             if (isValidMove) { // each move is one tick of game clock
                 map.nextState();
+
 //                todo make it so you can't save the game after you step on the winning tile
                 if (map.isWin()) {
                     System.out.println("CONGRATS, YOU WON!");

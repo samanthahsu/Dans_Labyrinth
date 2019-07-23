@@ -8,4 +8,6 @@ public abstract class Feature extends Interactable {
         super(y, x);
         typeId = TYPE_FEATURE;
     }
+
+    public abstract void passiveAction();
 }

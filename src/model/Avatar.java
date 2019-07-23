@@ -113,8 +113,11 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
                 map.revealSurroundings(y, x);
                 this.ypos = y;
                 this.xpos = x;
-    //            todo activate beings on the tile printing descriptions etc. alternatively done in gamerunner already
-                } else {
+                for (Interactable inter :map.getTileMatrix().get(y).get(x).getInteractables()
+                     ) {
+                    System.out.println(inter.getName());
+                }
+            } else {
                 GameRunner.printMovePlaceholder(dir);
             }
         } catch (edgeOfMapException e) {
@@ -158,6 +161,8 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
                         i.interact(map);
                     }
                 }
+                break;
+            case "rusty key":
                 break;
             default:
         }

@@ -77,23 +77,24 @@ class TestMapSuite {
     ArrayList<Tile> tileListC;
     ArrayList<ArrayList<Tile>> tileMatrixC;
     Ennui testEnnui;
-    private ArrayList<Interactable> interListC = new ArrayList<>();
-    private static final String TEST_MAP_C =
+    ArrayList<Interactable> interListC = new ArrayList<>();
+    static final String TEST_MAP_C =
               "@@@@@@@@ @"
             + "@ @    @ @"
             + "@   @@ @ @"
             + "@@@  @   @"
             + "@@@@@@@@@@";
-    private static final int TEST_HEIGHT_C = 5;
-    private static final int TEST_WIDTH_C = 10;
-    private static final int TEST_START_Y_C = 2;
-    private static final int TEST_START_X_C = 2;
-    private static final int WIN_Y_C = 0;
-    private static final int WIN_X_C = 8;
+    static final int TEST_HEIGHT_C = 5;
+    static final int TEST_WIDTH_C = 10;
+    static final int TEST_START_Y_C = 2;
+    static final int TEST_START_X_C = 2;
+    static final int WIN_Y_C = 0;
+    static final int WIN_X_C = 8;
     static final int  ENNUI_CAPTURE_START_Y = 2;
     static final int  ENNUI_CAPTURE_START_X = 1;
 
 
+    WriterReader wr = new WriterReader();
 
 
     /*TEST HELPER METHODS*/
@@ -136,7 +137,6 @@ class TestMapSuite {
         tileMatrix3 = map3.getTileMatrix();
         tileMatrixC = mapCreature.getTileMatrix();
 
-        WriterReader wr = new WriterReader();
         try {
             wr.setMapsInTiles(map1);
             wr.setMapsInTiles(map2);

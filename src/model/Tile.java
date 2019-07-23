@@ -74,6 +74,10 @@ public class Tile implements Serializable {
         this.map = map;
     }
 
+    public void setWalkable(boolean walkable) {
+        isWalkable = walkable;
+    }
+
     public ArrayList<Interactable> getInteractables() {
         return interactables;
     }

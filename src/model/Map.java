@@ -154,6 +154,11 @@ initializes avatar at given coordinates with its items
         return y >= 0 && x >= 0 && y < height && x < width;
     }
 
+    public void addInteractable(Interactable i, int y, int x) {
+        if (isIndexValid(y, x)) {
+            tileMatrix.get(y).get(x).getInteractables().add(i);
+        }
+    }
 /*
         EFFECTS: returns true if tile of requested index is walkable, else false
         if index requested is not on map, throw edgeOfMapException

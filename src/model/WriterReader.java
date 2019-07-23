@@ -79,8 +79,8 @@ requires: path is valid
     /*requires: map already initialized
     modifies: this
     sets map field in each interactable*/
-    private void setMapsInInteractables(Map map, ArrayList<Interactable> set) {
-        for (Interactable i : set) {
+    private void setMapsInInteractables(Map map, ArrayList<Interactable> interactableArrayList) {
+        for (Interactable i : interactableArrayList) {
             i.setMap(map);
         }
     }

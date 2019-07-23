@@ -14,7 +14,7 @@ public abstract class Interactable implements Serializable {
     public static final int TYPE_SOUND = 3;
 
 //    the map this belongs to
-protected Map map;
+    protected Map map;
     protected String name;
     protected String description;
     protected int currY;

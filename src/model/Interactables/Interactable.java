@@ -13,16 +13,18 @@ public abstract class Interactable implements Serializable {
     public static final int TYPE_FEATURE = 2;
     public static final int TYPE_SOUND = 3;
 
+//    the map this belongs to
+protected Map map;
     protected String name;
     protected String description;
-    protected int startY;
-    protected int startX;
+    protected int currY;
+    protected int currX;
 //    identifies which kind of interactable this is
     protected int typeId; // 0=creature, 1=item, 3=feature
 
     public Interactable(int y, int x) {
-        startY = y;
-        startX = x;
+        currY = y;
+        currX = x;
     }
 
     public String getName() {
@@ -34,17 +36,21 @@ public abstract class Interactable implements Serializable {
     }
 
     public int getYpos() {
-        return startY;
+        return currY;
     }
 
     public int getXpos() {
-        return startX;
+        return currX;
     }
 
     public abstract boolean interact(Map map);
 
     public int getTypeId() {
         return typeId;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     /* returns true if interactable == this*/

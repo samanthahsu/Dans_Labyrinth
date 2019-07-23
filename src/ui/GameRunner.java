@@ -1,10 +1,12 @@
 package ui;
 
+import exceptions.mapException;
 import model.Interactables.items.Item;
 import model.Map;
 import model.Tile;
 import model.WriterReader;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -31,7 +33,7 @@ public class GameRunner {
     starts real part of game
     effects: initializes gameState, map, scnr, writerREader, and ui
 */
-    GameRunner() {
+public GameRunner() {
         gameState = CONTINUE_GAME;
         map = null;
         scnr = new Scanner(System.in);
@@ -70,12 +72,20 @@ public class GameRunner {
         switch (ui) {
             case "new":
                 System.out.println("Starting new game...");
-                map = writerReader.buildDefaultMap();
+                try {
+                    map = writerReader.buildDefaultMap();
+                } catch (mapException e) {
+                    System.out.println("Failed to build new map.");
+                }
                 break;
             case "load":
                 System.out.println("Enter name of saved file: ");
                 ui = scnr.nextLine();
-                map = writerReader.readMap(ui);
+                try {
+                    map = writerReader.readMap(ui);
+                } catch (IOException | ClassNotFoundException e) {
+                    System.out.println("Loading failed.");
+                }
                 break;
             case "quit":
                 gameState = QUIT_GAME;
@@ -87,13 +97,13 @@ public class GameRunner {
         }
     }
 
-/*
-modifies: this, map
-      EFFECTS: runs the main body of the game
-*/
-    public void runGame() {
+    /*
+    modifies: this, map
+          EFFECTS: runs the main body of the game
+    */
+    private void runGame() {
         boolean isValidMove;
-
+//        TODO INITIATE MAP FIELD IN ALL TILES AND CREATURES
         while (gameState == CONTINUE_GAME) { //todo print out description of current tile
 
             ui = scnr.next();
@@ -114,7 +124,7 @@ modifies: this, map
     }
 
     // EFFECTS: handles which Map functions to call. returns gameState.
-    private boolean execute(String input) { // todo make scanner take in one word at a time
+    private boolean execute(String input) { // todo implement listen and examine
         String item;
         switch (input) {
             case "n":
@@ -202,7 +212,11 @@ modifies: this, map
         switch (scnr.nextLine()) {
             case "s":
                 System.out.println("What would you like to name your file?");
-                writerReader.writeMap(map, scnr.nextLine());
+                try {
+                    writerReader.writeMap(map, scnr.nextLine());
+                } catch (IOException e) {
+                    System.out.println("File saving failed.");
+                }
                 break;
             case "c":
                 System.out.println("You continue...");

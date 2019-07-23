@@ -16,7 +16,7 @@ public abstract class Creature extends Interactable /*implements List<Creature> 
     }
 
     //    EFFECTS: moves creature to valid tile in creature specific pattern
-    abstract void move(Map map);
+    abstract void move();
 
 //    EFFECTS: creature takes special action
     abstract void attack(Map map);
@@ -26,5 +26,6 @@ public abstract class Creature extends Interactable /*implements List<Creature> 
 
 //    EFFECTS: does default moves, like move around
     public abstract void doPassiveActions();
+
 }
 

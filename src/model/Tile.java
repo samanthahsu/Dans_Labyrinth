@@ -12,6 +12,8 @@ import java.util.HashSet;
 /*Holds information things on this step*/
 public class Tile implements Serializable {
 
+//    the map the tile is in
+    private Map map;
 //    The position on the map which the tile is situated
     private int xpos;
     private int ypos;
@@ -67,6 +69,10 @@ public class Tile implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 
     public HashSet<Interactable> getInteractables() {

@@ -41,21 +41,28 @@ class AvatarTest extends TestMapSuite {
 
     @Test
     void moveAvaTest(){
+        int currentY = TEST_START_Y_1;
+        int currentX = TEST_START_X_1;
+
         ava1.moveAva("n");
-        assertEquals(TEST_START_Y_1, ava1.getYpos());
-        assertEquals(TEST_START_X_1, ava1.getXpos());
+        currentY -= 1;
+        assertEquals(currentY, ava1.getYpos());
+        assertEquals(currentX, ava1.getXpos());
 
         ava1.moveAva("e");
-        assertEquals(TEST_START_Y_1, ava1.getYpos());
-        assertEquals(TEST_START_X_1 +1, ava1.getXpos());
+        currentX += 1;
+        assertEquals(currentY, ava1.getYpos());
+        assertEquals(currentX, ava1.getXpos());
 
         ava1.moveAva("s");
-        assertEquals(TEST_START_Y_1, ava1.getYpos());
-        assertEquals(TEST_START_X_1 +1, ava1.getXpos());
+        currentY += 1;
+        assertEquals(currentY, ava1.getYpos());
+        assertEquals(currentX, ava1.getXpos());
 
         ava1.moveAva("w");
-        assertEquals(TEST_START_Y_1, ava1.getYpos());
-        assertEquals(TEST_START_X_1, ava1.getXpos());
+        currentX -= 1;
+        assertEquals(currentY, ava1.getYpos());
+        assertEquals(currentX, ava1.getXpos());
 
     }
 

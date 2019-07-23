@@ -7,6 +7,9 @@ import model.Map;
 * if within 1 tile, give loud sound indication*/
 public class Ennui extends Creature {
 
+    final String FAR_SOUND = "a faint scuffling in the dirt";
+    final String CLOSE_SOUND = "a louder patter of tiny footsteps";
+
     boolean hasKey = true;
     /*effects: set coordinates, name, and description*/
     public Ennui(int y, int x) {
@@ -15,8 +18,16 @@ public class Ennui extends Creature {
         description = "a flash of turquoise fuzz in the dark";
     }
 
+    /*effects: removes this from current tile, move to tile in calculated direction */
     @Override
-    void move(Map map) {
+    void move() {
+        int oldy = currY;
+        int oldx = currX;
+        if (chooseDirAndMove()) {
+            removeSounds(oldy, oldx);
+            setSounds(currY, currX);
+        }
+
 
     }
 
@@ -37,8 +48,7 @@ public class Ennui extends Creature {
     emits sound in a 2 block radius of varying noise degrees and direction*/
     @Override
     public void doPassiveActions() {
-//        move();
-//        makeSound();
+        move();
     }
 
     /*enters instance where if ennui has key either:
@@ -52,5 +62,49 @@ public class Ennui extends Creature {
     @Override
     public boolean interact(Map map) {
         return false;
+    }
+
+    /*modifies: map
+    effects: sets close sounds in max 4 floor tiles of orthog radius 1
+    * sets far sounds in max 8 floor tiles of orthog radius 2, and diagonal radius 1*/
+    private void setSounds(int currY, int currX){}
+
+    /*modifies: map
+    effects: removes all sounds within scope caused by this creature*/
+    private void removeSounds(int oldy, int oldx) {}
+
+    /*modifies: this
+    * effects: sets coords of this based on which directions are available
+    * walls block passage
+    * ava presence blocks passage*/
+    private boolean chooseDirAndMove() {
+        if(canMove(currY - 1, currX)) {
+            executeMove(currY - 1, currX);
+            return true;
+        } else if (canMove(currY + 1, currX)) {
+            executeMove(currY + 1, currX);
+            return true;
+        } else if (canMove(currY, currX + 1)) {
+            executeMove(currY, currX + 1);
+            return true;
+        } else if (canMove(currY, currX - 1)) {
+            executeMove(currY, currX - 1);
+            return true;
+        }
+        return false;
+    }
+
+    /*remove this from current tile and add to given tile oo-ordinates*/
+    private void executeMove(int nexty, int nextx) {
+        map.getTileMatrix().get(currY).get(currX).getInteractables().remove(this);
+        map.getTileMatrix().get(nexty).get(nextx).getInteractables().add(this);
+        this.currY = nexty;
+        this.currX = nextx;
+    }
+
+    /*returns true if displaychar at tile of given index is not ava or wall*/
+    private boolean canMove(int y, int x) {
+        char c = map.getTileMatrix().get(y).get(x).getDisplayChar();
+        return c != '@' && c != '*';
     }
 }

@@ -1,4 +1,5 @@
 import exceptions.mapException;
+import exceptions.mapIsNullException;
 import model.Avatar;
 import model.Interactables.Interactable;
 import model.Interactables.creatures.Ennui;
@@ -6,95 +7,98 @@ import model.Interactables.items.Item;
 import model.Interactables.items.PizzaBox;
 import model.Map;
 import model.Tile;
+import model.WriterReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class TestMapSuite {
+class TestMapSuite {
 
     //    CONSTANT FIELDS
-    protected Map map1;
-    protected Avatar ava1;
-    protected ArrayList<Item> itemList1;
+    Map map1;
+    Avatar ava1;
+    ArrayList<Item> itemList1;
     ArrayList<Tile> tileList1;
-    protected ArrayList<ArrayList<Tile>> tileMatrix1;
-    protected ArrayList<Interactable> interList1 = new ArrayList<>();
-    protected static final String TEST_MAP_1 =
+    ArrayList<ArrayList<Tile>> tileMatrix1;
+    ArrayList<Interactable> interList1 = new ArrayList<>();
+    static final String TEST_MAP_1 =
                       "@@@ @@"
                     + "@  @ @"
                     + "@   @@"
                     + "@@@@@@";
-    protected static final int TEST_HEIGHT_1 = 4;
-    protected static final int TEST_WIDTH_1 = 6;
-    protected static final int TEST_START_Y_1 = 2;
-    protected static final int TEST_START_X_1 = 1;
-    protected static final int WIN_Y_1 = 0;
-    protected static final int WIN_X_1 = 3;
+    static final int TEST_HEIGHT_1 = 4;
+    static final int TEST_WIDTH_1 = 6;
+    static final int TEST_START_Y_1 = 2;
+    static final int TEST_START_X_1 = 1;
+    static final int WIN_Y_1 = 0;
+    static final int WIN_X_1 = 3;
 
 
-    protected Map map2;
-    protected Avatar ava2;
+    Map map2;
+    private Avatar ava2;
     ArrayList<Tile> tileList2;
-    protected ArrayList<Interactable> interList2 = new ArrayList<>();
-    protected ArrayList<ArrayList<Tile>> tileMatrix2;
-    protected static final String TEST_MAP_2 =
+    private ArrayList<Interactable> interList2 = new ArrayList<>();
+    private ArrayList<ArrayList<Tile>> tileMatrix2;
+    private static final String TEST_MAP_2 =
             "@@@" +
                     "@ @" +
                     "@ @";
-    protected static final int TEST_HEIGHT_2 = 3;
-    protected static final int TEST_WIDTH_2 = 3;
-    protected static final int TEST_START_Y_2 = 1;
-    protected static final int TEST_START_X_2 = 1;
-    protected static final int WIN_Y_2 = 2;
-    protected static final int WIN_X_2 = 1;
+    static final int TEST_HEIGHT_2 = 3;
+    static final int TEST_WIDTH_2 = 3;
+    static final int TEST_START_Y_2 = 1;
+    static final int TEST_START_X_2 = 1;
+    static final int WIN_Y_2 = 2;
+    static final int WIN_X_2 = 1;
 
 
-    protected Map map3; //at the win
-    protected Avatar ava3;
+    Map map3; //at the win
+    private Avatar ava3;
     ArrayList<Tile> tileList3;
-    protected ArrayList<Interactable> interList3 = new ArrayList<>(
+    private ArrayList<Interactable> interList3 = new ArrayList<>(
             /*Arrays.asList(new BloodFish(), new PizzaBox(), new Exo())*/
     );
-    protected ArrayList<ArrayList<Tile>> tileMatrix3;
-    protected static final String TEST_MAP_3 =
+    private ArrayList<ArrayList<Tile>> tileMatrix3;
+    private static final String TEST_MAP_3 =
             "abcdef"
                     + "ghijkl"
                     + "mnopqr"
                     + "stuvwx";
-    protected static final int TEST_HEIGHT_3 = 4;
-    protected static final int TEST_WIDTH_3 = 6;
-    protected static final int TEST_START_Y_3 = 0;
-    protected static final int TEST_START_X_3 = 3;
-    protected static final int WIN_Y_3 = 0;
-    protected static final int WIN_X_3 = 3;
+    private static final int TEST_HEIGHT_3 = 4;
+    private static final int TEST_WIDTH_3 = 6;
+    private static final int TEST_START_Y_3 = 0;
+    private static final int TEST_START_X_3 = 3;
+    private static final int WIN_Y_3 = 0;
+    private static final int WIN_X_3 = 3;
 
 
-    protected Map mapCreature;
-    protected Avatar avaC;
-    protected ArrayList<Item> itemListC;
+    Map mapCreature;
+    Avatar avaC;
+    ArrayList<Item> itemListC;
     ArrayList<Tile> tileListC;
-    protected ArrayList<ArrayList<Tile>> tileMatrixC;
-    protected Ennui testEnnui;
-    protected ArrayList<Interactable> interListC = new ArrayList<>();
-    protected static final String TEST_MAP_C =
+    private ArrayList<ArrayList<Tile>> tileMatrixC;
+    Ennui testEnnui;
+    private ArrayList<Interactable> interListC = new ArrayList<>();
+    private static final String TEST_MAP_C =
               "@@@@@@@@ @"
             + "@ @    @ @"
             + "@   @@ @ @"
             + "@@@  @   @"
             + "@@@@@@@@@@";
-    protected static final int TEST_HEIGHT_C = 5;
-    protected static final int TEST_WIDTH_C = 9;
-    protected static final int TEST_START_Y_C = 2;
-    protected static final int TEST_START_X_C = 2;
-    protected static final int WIN_Y_C = 0;
-    protected static final int WIN_X_C = 8;
-    protected static final int  ENNUI_CAPTURE_START_Y = 2;
-    protected static final int  ENNUI_CAPTURE_START_X = 1;
+    private static final int TEST_HEIGHT_C = 5;
+    private static final int TEST_WIDTH_C = 10;
+    private static final int TEST_START_Y_C = 2;
+    private static final int TEST_START_X_C = 2;
+    private static final int WIN_Y_C = 0;
+    private static final int WIN_X_C = 8;
+    static final int  ENNUI_CAPTURE_START_Y = 2;
+    static final int  ENNUI_CAPTURE_START_X = 1;
 
 
 
-    protected void initTestMaps() {
+
+    /*TEST HELPER METHODS*/
+    void initTestMaps() {
         testEnnui = new Ennui(ENNUI_CAPTURE_START_Y, ENNUI_CAPTURE_START_X);
         interListC.add(testEnnui);
 
@@ -133,11 +137,20 @@ public class TestMapSuite {
         tileMatrix3 = map3.getTileMatrix();
         tileMatrixC = mapCreature.getTileMatrix();
 
+        WriterReader wr = new WriterReader();
+        try {
+            wr.setMapsInTiles(map1);
+            wr.setMapsInTiles(map2);
+            wr.setMapsInTiles(map3);
+            wr.setMapsInTiles(mapCreature);
+        } catch (mapIsNullException e) {
+            e.printStackTrace();
+        }
     }
 
 
     /*builds tile arrayList with characters form mapstring, and interactables from hashsets*/
-    protected ArrayList<Tile> buildTileArray(int height, int width, String mapString, ArrayList<Interactable> interList) {
+    ArrayList<Tile> buildTileArray(int height, int width, String mapString, ArrayList<Interactable> interList) {
         ArrayList<Tile> returnList = new ArrayList<>();
         Tile newTile;
         int strIndex = 0;
@@ -165,7 +178,7 @@ public class TestMapSuite {
 
     /*  initializes tileMatrix
     requires: tileList to be in order and of size h*w, h and w are init
-    modifies: this // todo throw mismatched map size exception
+    modifies: this
     effects: takes tileList, and formats it into a matrix for easier access
 */
     protected ArrayList<ArrayList<Tile>> initTileMatrix(ArrayList<Tile> tileList, int height, int width) {
@@ -185,7 +198,7 @@ public class TestMapSuite {
 
     /*requires the two lists to be of the same size
 effects: returns true if both lists have items in the same order of the same name*/
-    protected boolean itemListEquals(ArrayList<Item> itemList, ArrayList<Item> otherItemList) {
+    boolean itemListEquals(ArrayList<Item> itemList, ArrayList<Item> otherItemList) {
         String item;
         String otherItem;
         if (itemList.size() != otherItemList.size()) {
@@ -204,5 +217,18 @@ effects: returns true if both lists have items in the same order of the same nam
         return true;
     }
 
+    void printDisplayMap(Map map) {
+        int height = map.getHeight();
+        int width = map.getWidth();
+        ArrayList<ArrayList<Tile>> tileMatrix = map.getTileMatrix();
+        char displayTile;
+        for (int m = 0; m < height; m++) {
+            for (int n = 0; n < width; n++) {
+                displayTile = tileMatrix.get(m).get(n).getDisplayChar();
+                System.out.print(displayTile);
+            }
+            System.out.println();
+        }
+    }
 
 }

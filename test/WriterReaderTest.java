@@ -1,10 +1,12 @@
+import exceptions.mapException;
 import model.Map;
 import model.WriterReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class WriterReaderTest extends TestMapSuite {
 
@@ -30,17 +32,45 @@ class WriterReaderTest extends TestMapSuite {
     void readAndWriteTest() {
         initTestMaps();
         final String fileName1 = "writeMapTest";
-        writerReader.writeMap(map1, fileName1);
-        Map readMap1 = writerReader.readMap(fileName1);
+        Map readMap1 = null;
+        try {
+            writerReader.writeMap(map1, fileName1);
+            readMap1 = writerReader.readMap(fileName1);
+
+        } catch (IOException | ClassNotFoundException e) {
+            fail("threw e");
+        }
         assertTrue(readMap1.equals(map1));
 
+        Map readMap2 = null;
+        try {
         writerReader.writeMap(map2, fileName1);
-        Map readMap2 = writerReader.readMap(fileName1);
+        readMap2 = writerReader.readMap(fileName1);
+        } catch (IOException | ClassNotFoundException e) {
+            fail("threw e");
+        }
         assertTrue(readMap2.equals(map2));
     }
 
-    @Test
-    void testBuildDefaultMap() {
-        Map testMap = writerReader.buildDefaultMap(); //todo
+    @Test //todo
+    void testReadAndWriteException() {
+        try {
+            writerReader.readMap("No File");
+            fail("no e");
+        } catch (IOException e) {
+//            expected
+        } catch (ClassNotFoundException e) {
+            fail("wrong e");
+        }
+//        todo find a thing that will make writer fail
+    }
+
+    @Test //todo is testing failure necessary??? (only one default ever)
+    void testBuildDefaultMapException() {
+        try {
+            Map testMap = writerReader.buildDefaultMap();
+        } catch (mapException e) {
+            fail("threw e");
+        }
     }
 }

@@ -1,6 +1,8 @@
 package model;
 
-import exceptions.mapException;
+import exceptions.edgeOfMapException;
+import exceptions.mapIsNullException;
+import exceptions.mismatchedMapSizeException;
 import model.Interactables.Interactable;
 
 import java.io.*;
@@ -32,48 +34,56 @@ public class WriterReader implements DefaultMapData {
 requires: path is valid
         effects: Writes (map) into text file named (filename) at (savePath)
 */
-    public void writeMap(Map map, String fileName) {
+    public void writeMap(Map map, String fileName) throws IOException {
         final String FILENAME = fileName.concat(".txt"); // specifying file type
         String savePath = SAVES_PATH + FILENAME;
         File file = new File(savePath);
-        try {
             if (file.createNewFile()) {
                 System.out.println("New save file created");
             } else {
                 System.out.println("Save file already present... overwriting");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("File creation throws exception");
-        }
 
-        try {
             FileOutputStream f = new FileOutputStream(new File(FILENAME));
             ObjectOutputStream o = new ObjectOutputStream(f);
             o.writeObject(map); // write map to file
             o.close();
             f.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println("Error initializing stream");
-            e.printStackTrace();
-        }
     }
 
     /*effects: constructs and returns a fresh default map
     * catches mismatchedMapSizeException
      */
-    public Map buildDefaultMap() {
+    public Map buildDefaultMap() throws mapIsNullException, mismatchedMapSizeException, edgeOfMapException {
         ArrayList<Tile> newTiles = buildTileArray();
         Map map = null;
-        try {
             map = new Map(height, width, winY, winX, startY, startX, avaItems, newTiles);
-        } catch (mapException e) {
-            System.out.println("New map construction failed.");
-        }
+        setMapsInTiles(map);
         return map;
+    }
+
+    /*requires: map already initialized
+    modifies: this
+    effects: sets map field in each tile todo public for tests*/
+    public void setMapsInTiles(Map map) throws mapIsNullException {
+        if (map == null) {
+            throw new mapIsNullException();
+        }
+        for (ArrayList<Tile> tiles : map.getTileMatrix()) {
+            for (Tile t : tiles) {
+                t.setMap(map);
+                setMapsInInteractables(map, t.getInteractables());
+            }
+        }
+    }
+
+    /*requires: map already initialized
+    modifies: this
+    sets map field in each interactable*/
+    private void setMapsInInteractables(Map map, HashSet<Interactable> set) {
+        for (Interactable i : set) {
+            i.setMap(map);
+        }
     }
 
     /*effects: builds tile arrayList with characters from mapstring, and interactables from hashsets*/
@@ -106,25 +116,14 @@ requires: path is valid
 
     //    requires: file (filename) contains valid Map object, if it doesn't, returns null
     //  effects: Reads from (fileName) at (savePath) which it returns as a Map object.
-    public Map readMap (String fileName) {
+    public Map readMap (String fileName) throws IOException, ClassNotFoundException {
         final String FILENAME = fileName.concat(".txt"); // specifying file type
         Map savedMap = null;
-        try {
             FileInputStream fi = new FileInputStream(new File(FILENAME));
             ObjectInputStream oi = new ObjectInputStream(fi);
             savedMap = (Map) oi.readObject(); // read in map
             oi.close();
             fi.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println("Error initializing stream");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            System.out.println("Class not found");
-            e.printStackTrace();
-        }
         return savedMap;
     }
 }

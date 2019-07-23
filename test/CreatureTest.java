@@ -2,7 +2,10 @@ import model.Interactables.Interactable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CreatureTest extends TestMapSuite {
 
@@ -28,11 +31,17 @@ class CreatureTest extends TestMapSuite {
 
         int newY = ENNUI_CAPTURE_START_Y - 1;
         int newX = ENNUI_CAPTURE_START_X;
-//        tileMatrix1.get(newY).get(newX).getInteractables().contains(new Sound(low sound));
-/*todo
-        check loud sounds on 1 tile rad floors,
-        check soft sounds on 2 tile rad floors
-*/
+
+        HashSet<Interactable> tempInter;
+//        todo careful checking if index valid
+        assertTrue(interactablesContains(tileMatrixC.get(newY - 1).get(newX)
+                .getInteractables(), "ennui sound"));
+        assertTrue(interactablesContains(tileMatrixC.get(newY + 1).get(newX)
+                .getInteractables(), "ennui sound"));
+        assertTrue(interactablesContains(tileMatrixC.get(newY).get(newX - 1)
+                .getInteractables(), "ennui sound"));
+        assertTrue(interactablesContains(tileMatrixC.get(newY).get(newX + 1)
+                .getInteractables(), "ennui sound"));
 
     }
 }

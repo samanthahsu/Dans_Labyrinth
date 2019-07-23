@@ -102,6 +102,7 @@ public GameRunner() {
           EFFECTS: runs the main body of the game
     */
     private void runGame() {
+        System.out.println("New game started!");
         boolean isValidMove;
 //        TODO INITIATE MAP FIELD IN ALL TILES AND CREATURES
         while (gameState == CONTINUE_GAME) { //todo print out description of current tile

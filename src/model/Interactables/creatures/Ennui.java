@@ -1,12 +1,17 @@
 package model.Interactables.creatures;
 
+import model.Interactables.Interactable;
+import model.Interactables.Sound;
 import model.Map;
+
+import java.util.HashSet;
 
 /*the one that tries to run away*/
 /*if within 2 tiles of dan give indication of faint sound
 * if within 1 tile, give loud sound indication*/
 public class Ennui extends Creature {
 
+    final String SOUND_NAME = "ennui sound";
     final String FAR_SOUND = "a faint scuffling in the dirt";
     final String CLOSE_SOUND = "a louder patter of tiny footsteps";
 
@@ -67,11 +72,43 @@ public class Ennui extends Creature {
     /*modifies: map
     effects: sets close sounds in max 4 floor tiles of orthog radius 1
     * sets far sounds in max 8 floor tiles of orthog radius 2, and diagonal radius 1*/
-    private void setSounds(int currY, int currX){}
+    private void setSounds(int currY, int currX){
+        setOneSound(currY - 1, currX);
+        setOneSound(currY + 1, currX);
+        setOneSound(currY, currX - 1);
+        setOneSound(currY, currX + 1);
+    }
+
+    private void setOneSound(int y, int x) {
+        if (map.isIndexValid(y, x)) {
+            map.getTileMatrix().get(y).get(x).getInteractables()
+                    .add(new Sound(y, x, SOUND_NAME, CLOSE_SOUND));
+        }
+    }
 
     /*modifies: map
     effects: removes all sounds within scope caused by this creature*/
-    private void removeSounds(int oldy, int oldx) {}
+    private void removeSounds(int oldy, int oldx) {
+        removeOneSound(currY - 1, currX);
+        removeOneSound(currY + 1, currX);
+        removeOneSound(currY, currX - 1);
+        removeOneSound(currY, currX + 1);
+    }
+
+    /*if tile index is valid, iterate through interactables list in that tile, and remove
+    * interactable named SOUND_NAME*/
+    private void removeOneSound(int y, int x) {
+        if (map.isIndexValid(y, x)) {
+            HashSet<Interactable> tempList = map.getTileMatrix().get(y).get(x).getInteractables();
+            for (Interactable i : tempList
+                 ) {
+                if(i.getName().equals(SOUND_NAME)) {
+                    tempList.remove(i);
+                    return;
+                }
+            }
+        }
+    }
 
     /*modifies: this
     * effects: sets coords of this based on which directions are available

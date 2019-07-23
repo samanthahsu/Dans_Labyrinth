@@ -76,7 +76,7 @@ class TestMapSuite {
     Avatar avaC;
     ArrayList<Item> itemListC;
     ArrayList<Tile> tileListC;
-    private ArrayList<ArrayList<Tile>> tileMatrixC;
+    ArrayList<ArrayList<Tile>> tileMatrixC;
     Ennui testEnnui;
     private ArrayList<Interactable> interListC = new ArrayList<>();
     private static final String TEST_MAP_C =
@@ -229,6 +229,17 @@ effects: returns true if both lists have items in the same order of the same nam
             }
             System.out.println();
         }
+    }
+    /*contains method for Hashset<Interactables>
+    returns true if interactable named name, is present int interactables*/
+    boolean interactablesContains(HashSet<Interactable> interactables, String name) {
+        for (Interactable i : interactables
+                ) {
+            if (i.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

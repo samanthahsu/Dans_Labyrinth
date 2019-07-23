@@ -4,7 +4,7 @@ import model.Interactables.Interactable;
 import model.Interactables.Sound;
 import model.Map;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 /*the one that tries to run away*/
 /*if within 2 tiles of dan give indication of faint sound
@@ -99,7 +99,7 @@ public class Ennui extends Creature {
     * interactable named SOUND_NAME*/
     private void removeOneSound(int y, int x) {
         if (map.isIndexValid(y, x)) {
-            HashSet<Interactable> tempList = map.getTileMatrix().get(y).get(x).getInteractables();
+            ArrayList<Interactable> tempList = map.getTileMatrix().get(y).get(x).getInteractables();
             for (Interactable i : tempList
                  ) {
                 if(i.getName().equals(SOUND_NAME)) {

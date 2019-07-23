@@ -11,7 +11,6 @@ import model.WriterReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 
 class TestMapSuite {
 
@@ -149,7 +148,7 @@ class TestMapSuite {
     }
 
 
-    /*builds tile arrayList with characters form mapstring, and interactables from hashsets*/
+    /*builds tile arrayList with characters form mapstring, and interactables from interList*/
     ArrayList<Tile> buildTileArray(int height, int width, String mapString, ArrayList<Interactable> interList) {
         ArrayList<Tile> returnList = new ArrayList<>();
         Tile newTile;
@@ -164,9 +163,9 @@ class TestMapSuite {
         }
         return returnList;
     }
-    /*returns hash set of all interactables with given indexes*/
-    private HashSet<Interactable> parseAllInteractables(int y, int x, ArrayList<Interactable> interList) {
-        HashSet<Interactable> temp = new HashSet<>();
+    /*returns Arraylist of all interactables with given indexes*/
+    private ArrayList<Interactable> parseAllInteractables(int y, int x, ArrayList<Interactable> interList) {
+        ArrayList<Interactable> temp = new ArrayList<>();
         for (Interactable i : interList
                 ) {
             if (i.getYpos() == y && i.getXpos() == x) {
@@ -230,9 +229,9 @@ effects: returns true if both lists have items in the same order of the same nam
             System.out.println();
         }
     }
-    /*contains method for Hashset<Interactables>
+    /*contains method for ArrayList<Interactables>
     returns true if interactable named name, is present int interactables*/
-    boolean interactablesContains(HashSet<Interactable> interactables, String name) {
+    boolean interactablesContains(ArrayList<Interactable> interactables, String name) {
         for (Interactable i : interactables
                 ) {
             if (i.getName().equals(name)) {

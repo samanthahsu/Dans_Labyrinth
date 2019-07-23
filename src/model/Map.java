@@ -209,13 +209,10 @@ initializes avatar at given coordinates with its items
 */
     public void nextState() {
 //        System.out.println("rumbles in the distance");
-        ArrayList<ArrayList<Tile>> tileMatrixItr = tileMatrix;
-        ArrayList<Interactable> inter;
-        for (ArrayList<Tile> tileArrayList : tileMatrixItr) {
+        for (ArrayList<Tile> tileArrayList : tileMatrix) {
             for (Tile tile : tileArrayList) {
-                inter = tile.getInteractables().toArray();
-                for (int i = 0; i < inter.size(); i++) {
-                    if (inter.toArray().getTypeId() == Interactable.TYPE_CREATURE) {
+                for (Interactable i : tile.getInteractables()) {
+                    if (i.getTypeId() == Interactable.TYPE_CREATURE) {
                         ((Creature) i).doPassiveActions();
                     }
                 }

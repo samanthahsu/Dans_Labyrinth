@@ -7,7 +7,6 @@ import model.Interactables.Interactable;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /*reads and writes game states from the saves folder*/
 public class WriterReader implements DefaultMapData {
@@ -80,7 +79,7 @@ requires: path is valid
     /*requires: map already initialized
     modifies: this
     sets map field in each interactable*/
-    private void setMapsInInteractables(Map map, HashSet<Interactable> set) {
+    private void setMapsInInteractables(Map map, ArrayList<Interactable> set) {
         for (Interactable i : set) {
             i.setMap(map);
         }
@@ -103,8 +102,8 @@ requires: path is valid
         }
 
         /*effects: returns hash set of all interactables with given indexes*/
-    private HashSet<Interactable> parseAllInteractables(int y, int x) {
-        HashSet<Interactable> temp = new HashSet<>();
+    private ArrayList<Interactable> parseAllInteractables(int y, int x) {
+        ArrayList<Interactable> temp = new ArrayList<>();
         for (Interactable i : allInteractables
              ) {
             if (i.getYpos() == y && i.getXpos() == x) {

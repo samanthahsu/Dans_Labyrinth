@@ -7,7 +7,6 @@ import model.Interactables.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /*Holds information things on this step*/
 public class Tile implements Serializable {
@@ -30,14 +29,14 @@ public class Tile implements Serializable {
     private String description = "";
 
 //    lists of interactables on tile
-    private HashSet<Interactable> interactables;
+    private ArrayList<Interactable> interactables;
 //    todo change all these lists into hash sets
 
 /* constructor
  EFFECTS: this makes a default tile with nothing in it
     sets description to one of 3 random default descriptions of an empty tile
 */
-    public Tile(int y, int x, char displayChar, HashSet<Interactable> interactables) {
+    public Tile(int y, int x, char displayChar, ArrayList<Interactable> interactables) {
         ypos = y;
         xpos = x;
         this.displayChar = displayChar;
@@ -75,7 +74,7 @@ public class Tile implements Serializable {
         this.map = map;
     }
 
-    public HashSet<Interactable> getInteractables() {
+    public ArrayList<Interactable> getInteractables() {
         return interactables;
     }
 

@@ -7,7 +7,6 @@ import ui.GameRunner;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Avatar implements Serializable {
 //    todo let avatar know about map, and do it's own movements???
@@ -132,7 +131,7 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
   otherwise do nothing and print "unable to pick up itemName"
 */
     public void pickUpItem(String itemName) {
-        HashSet<Interactable> tileItems = map.getTileMatrix().get(ypos).get(xpos).getInteractables();
+        ArrayList<Interactable> tileItems = map.getTileMatrix().get(ypos).get(xpos).getInteractables();
         Item chosenItem;
         for (Interactable i : tileItems) {
             if (i.getName().equals(itemName) && i.getTypeId() == Interactable.TYPE_ITEM) {

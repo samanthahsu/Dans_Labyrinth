@@ -2,6 +2,7 @@ package model;
 
 import model.Interactables.Interactable;
 import model.Interactables.creatures.Ennui;
+import model.Interactables.features.MossyGate;
 import model.Interactables.items.Item;
 import model.Interactables.items.PizzaBox;
 
@@ -20,22 +21,22 @@ interface DefaultMapData {
     int startX = 3;
 
     String mapString = "@@@@@@@@@ @@@@@@@@@@@"
-    + "@     @ @ @       @ @"
-    + "@ @ @ @ @   @@@ @ @ @"
-    + "@@@ @ @ @@@@@ @ @ @ @"
-    + "@   @   @   @   @ @ @"
-    + "@ @@@@@@@ @ @@@@@   @"
-    + "@ @ @     @   @     @"
-    + "@ @   @  @@ @ @ @@@@@"
-    + "@ @@@@@@  @ @ @ @   @"
-    + "@         @@@       @"
-    + "@@@@@@@@@@@@@@@@@@@@@";
+                    + "@     @ @ @       @ @"
+                    + "@ @ @ @ @   @@@ @ @ @"
+                    + "@@@ @ @ @@@@@ @ @ @ @"
+                    + "@   @   @   @   @ @ @"
+                    + "@ @@@@@@@ @ @@@@@   @"
+                    + "@ @ @     @   @     @"
+                    + "@ @   @  @@ @ @ @@@@@"
+                    + "@ @@@@@@  @ @ @ @   @"
+                    + "@         @@@       @"
+                    + "@@@@@@@@@@@@@@@@@@@@@";
 
     ArrayList<Item> avaItems = new ArrayList <Item> (
             Arrays.asList(new PizzaBox()));
 
     HashSet<Interactable> allInteractables = new HashSet<Interactable>(
-            Arrays.asList(new Ennui(6, 6))
+            Arrays.asList(new Ennui(6, 6), new MossyGate(5, 9, 4, 9))
     );
 
 }

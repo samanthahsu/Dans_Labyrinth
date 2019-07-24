@@ -112,8 +112,8 @@ public class Ennui extends Creature {
         }
     }
 
-    /*modifies: this
-    * effects:
+    /* modifies: this
+    * effects: todo
     * moves only if ava presence
     * sets co-ords of this based on which directions are available
     * walls block passage in 1 rad

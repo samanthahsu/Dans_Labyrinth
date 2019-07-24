@@ -81,7 +81,7 @@ class MapTest extends TestMapSuite {
         try {
             assertTrue(map1.isTileWalkable(2, 2));
         } catch (edgeOfMapException e) {
-            System.out.println("e thrown");
+            fail("e thrown");
         }
 
         try {

@@ -7,6 +7,7 @@ import ui.GameRunner;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Avatar implements Serializable {
 //    todo let avatar know about map, and do it's own movements???
@@ -14,13 +15,12 @@ public class Avatar implements Serializable {
     private int status; //health bar 0 = dead
     private int ypos;
     private int xpos; //tracks position of avatar
-    private ArrayList<Item> itemList; // todo has a limit of three itemList to prevent hoarding
-//    todo change itemList into set
+    private List<Item> itemList;
 
 /* constructor
     EFFECTS: makes avatar setting it's coordinates, items and status to 3
 */
-public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
+public Avatar(int setY, int setX, List<Item> items, Map map) {
         status = 3;
         this.map = map;
         ypos = setY;
@@ -41,7 +41,7 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
         return xpos;
     }
 
-    public ArrayList<Item> getItemList() {
+    public List<Item> getItemList() {
         return itemList;
     }
 
@@ -62,7 +62,7 @@ public Avatar(int setY, int setX, ArrayList<Item> items, Map map) {
 
     /*requires the two lists to be of the same size
     effects: returns true if both lists have items in the same order of the same name*/
-    private boolean itemListEquals(ArrayList<Item> itemList, ArrayList<Item> otherItemList) {
+    private boolean itemListEquals(List<Item> itemList, List<Item> otherItemList) {
         String item;
         String otherItem;
         if (itemList.size() != otherItemList.size()) {

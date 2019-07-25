@@ -11,16 +11,17 @@ import model.WriterReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 class TestMapSuite {
 
     //    CONSTANT FIELDS
     Map map1;
     Avatar ava1;
-    ArrayList<Item> itemList1;
-    ArrayList<Tile> tileList1;
-    ArrayList<ArrayList<Tile>> tileMatrix1;
-    ArrayList<Interactable> interList1 = new ArrayList<>();
+    List<Item> itemList1;
+    List<Tile> tileList1;
+    List<List<Tile>> tileMatrix1;
+    List<Interactable> interList1 = new ArrayList<>();
     static final String TEST_MAP_1 =
                       "@@@ @@"
                     + "@  @ @"
@@ -36,9 +37,9 @@ class TestMapSuite {
 
     Map map2;
     private Avatar ava2;
-    ArrayList<Tile> tileList2;
-    private ArrayList<Interactable> interList2 = new ArrayList<>();
-    private ArrayList<ArrayList<Tile>> tileMatrix2;
+    List<Tile> tileList2;
+    private List<Interactable> interList2 = new ArrayList<>();
+    private List<List<Tile>> tileMatrix2;
     private static final String TEST_MAP_2 =
             "@@@" +
                     "@ @" +
@@ -53,11 +54,11 @@ class TestMapSuite {
 
     Map map3; //at the win
     private Avatar ava3;
-    ArrayList<Tile> tileList3;
-    private ArrayList<Interactable> interList3 = new ArrayList<>(
+    List<Tile> tileList3;
+    private List<Interactable> interList3 = new ArrayList<>(
             /*Arrays.asList(new BloodFish(), new PizzaBox(), new Exo())*/
     );
-    private ArrayList<ArrayList<Tile>> tileMatrix3;
+    private List<List<Tile>> tileMatrix3;
     private static final String TEST_MAP_3 =
             "abcdef"
                     + "ghijkl"
@@ -73,11 +74,11 @@ class TestMapSuite {
 
     Map mapCreature;
     Avatar avaC;
-    ArrayList<Item> itemListC;
-    ArrayList<Tile> tileListC;
-    ArrayList<ArrayList<Tile>> tileMatrixC;
+    List<Item> itemListC;
+    List<Tile> tileListC;
+    List<List<Tile>> tileMatrixC;
     Ennui testEnnui;
-    ArrayList<Interactable> interListC = new ArrayList<>();
+    List<Interactable> interListC = new ArrayList<>();
     static final String TEST_MAP_C =
               "@@@@@@@@ @"
             + "@ @    @ @"
@@ -149,8 +150,8 @@ class TestMapSuite {
 
 
     /*builds tile arrayList with characters form mapstring, and interactables from interList*/
-    ArrayList<Tile> buildTileArray(int height, int width, String mapString, ArrayList<Interactable> interList) {
-        ArrayList<Tile> returnList = new ArrayList<>();
+    List<Tile> buildTileArray(int height, int width, String mapString, List<Interactable> interList) {
+        List<Tile> returnList = new ArrayList<>();
         Tile newTile;
         int strIndex = 0;
         for (int y = 0; y < height; y++) {
@@ -164,7 +165,7 @@ class TestMapSuite {
         return returnList;
     }
     /*returns Arraylist of all interactables with given indexes*/
-    private ArrayList<Interactable> parseAllInteractables(int y, int x, ArrayList<Interactable> interList) {
+    private ArrayList<Interactable> parseAllInteractables(int y, int x, List<Interactable> interList) {
         ArrayList<Interactable> temp = new ArrayList<>();
         for (Interactable i : interList
                 ) {
@@ -180,7 +181,7 @@ class TestMapSuite {
     modifies: this
     effects: takes tileList, and formats it into a matrix for easier access
 */
-    protected ArrayList<ArrayList<Tile>> initTileMatrix(ArrayList<Tile> tileList, int height, int width) {
+    protected ArrayList<ArrayList<Tile>> initTileMatrix(List<Tile> tileList, int height, int width) {
         ArrayList<ArrayList<Tile>> returnTileMatrix = new ArrayList<>(height);
         ArrayList<Tile> tileRow;
         int i = 0;
@@ -197,7 +198,7 @@ class TestMapSuite {
 
     /*requires the two lists to be of the same size
 effects: returns true if both lists have items in the same order of the same name*/
-    boolean itemListEquals(ArrayList<Item> itemList, ArrayList<Item> otherItemList) {
+    boolean itemListEquals(List<Item> itemList, List<Item> otherItemList) {
         String item;
         String otherItem;
         if (itemList.size() != otherItemList.size()) {
@@ -219,7 +220,7 @@ effects: returns true if both lists have items in the same order of the same nam
     void printDisplayMap(Map map) {
         int height = map.getHeight();
         int width = map.getWidth();
-        ArrayList<ArrayList<Tile>> tileMatrix = map.getTileMatrix();
+        List<List<Tile>> tileMatrix = map.getTileMatrix();
         char displayTile;
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {

@@ -56,7 +56,7 @@ public abstract class Interactable implements Serializable {
     /* returns true if interactable == this*/
     public boolean equals (Interactable interactable) {
         return false;
-    }
+    }//todo
 
 }
 

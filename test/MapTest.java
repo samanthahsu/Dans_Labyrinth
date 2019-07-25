@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,7 +34,7 @@ class MapTest extends TestMapSuite {
                 new ArrayList<Item>(
                         Arrays.asList(new PizzaBox())
                 ), map1)));
-        ArrayList<Tile> expTileList = buildTileArray(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, interList1);
+        List<Tile> expTileList = buildTileArray(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, interList1);
         ArrayList<ArrayList<Tile>> expTileMatrix = initTileMatrix(expTileList,
                 TEST_HEIGHT_1, TEST_WIDTH_1);
         assertTrue(map1.tileMatrixEquals(tileMatrix1, tileMatrix1, TEST_HEIGHT_1, TEST_WIDTH_1)); //todo;

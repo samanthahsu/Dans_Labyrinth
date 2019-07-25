@@ -7,6 +7,7 @@ import model.Interactables.Interactable;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /*reads and writes game states from the saves folder*/
 public class WriterReader implements DefaultMapData {
@@ -68,7 +69,7 @@ requires: path is valid
         if (map == null) {
             throw new mapIsNullException();
         }
-        for (ArrayList<Tile> tiles : map.getTileMatrix()) {
+        for (List<Tile> tiles : map.getTileMatrix()) {
             for (Tile t : tiles) {
                 t.setMap(map);
                 setMapsInInteractables(map, t.getInteractables());

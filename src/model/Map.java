@@ -8,6 +8,7 @@ import model.Interactables.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /*manages the map portion of this adventure*/
 public class Map implements Serializable { //todo add assertion stuff
@@ -25,7 +26,7 @@ public class Map implements Serializable { //todo add assertion stuff
     private int winX;
     private Avatar ava;
 //    holds interactables and other tile information
-    private ArrayList<ArrayList<Tile>> tileMatrix;
+    private List<List<Tile>> tileMatrix;
 
 
 /*constructor
@@ -35,7 +36,7 @@ initializes avatar at given coordinates with its items
     else throws mismatchedMapSizeException
 */
     public Map(int height, int width, int winY, int winX, int avaY, int avaX,
-               ArrayList<Item> avaItems, ArrayList<Tile> tileList) throws mismatchedMapSizeException, edgeOfMapException {
+               List<Item> avaItems, List<Tile> tileList) throws mismatchedMapSizeException, edgeOfMapException {
         this.height = height;
         this.width = width;
         this.winY = winY;
@@ -50,7 +51,7 @@ initializes avatar at given coordinates with its items
     takes tileList, and formats it into a matrix for easier access
     else throws mismatchedMapSizeException
 */
-    private void initTileMatrix(ArrayList<Tile> tileList) throws mismatchedMapSizeException {
+    private void initTileMatrix(List<Tile> tileList) throws mismatchedMapSizeException {
         if (tileList.size() != height * width) {
             throw new mismatchedMapSizeException();
         }
@@ -72,7 +73,7 @@ initializes avatar at given coordinates with its items
         EFFECTS: construct new Avatar with given coordinates and items
         places avatar character at ypos, xpos in tileMatrix, revealing adjacent tiles
 */
-    private void initAvatar(int startY, int startX, ArrayList<Item> items) throws edgeOfMapException {
+    private void initAvatar(int startY, int startX, List<Item> items) throws edgeOfMapException {
         ava = new Avatar(startY, startX, items, this);
         updateTileDisplay(startY, startX, c);
         revealSurroundings(startY, startX);
@@ -109,7 +110,7 @@ initializes avatar at given coordinates with its items
         return ava;
     }
 
-    public ArrayList<ArrayList<Tile>> getTileMatrix() {
+    public List<List<Tile>> getTileMatrix() {
         return tileMatrix;
     }
 
@@ -132,7 +133,7 @@ initializes avatar at given coordinates with its items
     and a and b contain equal tiles in the same order,
     else returns false
 */
-    public boolean tileMatrixEquals(ArrayList<ArrayList<Tile>> a, ArrayList<ArrayList<Tile>> b, int height, int width) {
+    public boolean tileMatrixEquals(List<List<Tile>> a, List<List<Tile>> b, int height, int width) {
         if (a.size() != height || b.size()!= height) {
             return false;
         }
@@ -214,7 +215,7 @@ initializes avatar at given coordinates with its items
 */
     public void nextState() {
 //        System.out.println("rumbles in the distance");
-        for (ArrayList<Tile> tileArrayList : tileMatrix) {
+        for (List<Tile> tileArrayList : tileMatrix) {
             for (Tile tile : tileArrayList) {
                 for (Interactable i : tile.getInteractables()) {
                     if (i.getName().equals("ennui")) {

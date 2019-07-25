@@ -19,6 +19,5 @@ public class AbsolutelyNothing extends Feature {
 
     @Override
     public void passiveAction() {
-
     }
 }

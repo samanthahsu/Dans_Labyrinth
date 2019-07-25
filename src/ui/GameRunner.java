@@ -7,7 +7,7 @@ import model.Tile;
 import model.WriterReader;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -180,7 +180,7 @@ public GameRunner() {
 
     // EFFECTS: prints out current itemList
     public void printItems() {
-        ArrayList<Item> itemList = map.getAva().getItemList();
+        List<Item> itemList = map.getAva().getItemList();
         System.out.println("You are carrying:");
         for (Item i: itemList) {
             System.out.println(i.getName());
@@ -243,7 +243,7 @@ public GameRunner() {
 private void printDisplayMap() {
         int height = map.getHeight();
         int width = map.getWidth();
-        ArrayList<ArrayList<Tile>> tileMatrix = map.getTileMatrix();
+    List<List<Tile>> tileMatrix = map.getTileMatrix();
         char displayTile;
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {

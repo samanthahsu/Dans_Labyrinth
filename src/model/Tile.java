@@ -1,9 +1,6 @@
 package model;
 
 import model.Interactables.Interactable;
-import model.Interactables.creatures.Creature;
-import model.Interactables.features.Feature;
-import model.Interactables.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -111,16 +108,12 @@ public class Tile implements Serializable {
         isRevealed = true;
     }
 
-    //    REQUIRES: ypos and xpos are valid indexes in map
-    //    MODIFIES: this
-    //    EFFECTS: replaces character at index ypos,xpos with c in mapDisplay
-    public void updateTileDisp() {
-        isRevealed = true;
-    }
-
+/*
 
     //    todo
-    /*returns true if a and b are of the same size, and have the same elements in the same order*/
+    */
+/*returns true if a and b are of the same size, and have the same elements in the same order*//*
+
     private boolean interactableListEqualsF(ArrayList<Feature> a, ArrayList<Feature> b) {
         boolean sizeEq = a.size() == b.size();
         for (Feature f : a) {
@@ -130,16 +123,21 @@ public class Tile implements Serializable {
     }
 
 //todo
-    /*returns true if a and b are of the same size, and have the same elements in the same order*/
+    */
+/*returns true if a and b are of the same size, and have the same elements in the same order*//*
+
     private boolean interactableListEqualsI(ArrayList<Item> a, ArrayList<Item> b) {
         return false;
     }
 
 // todo
-    /*returns true if a and b are of the same size, and have the same elements in the same order*/
+    */
+/*returns true if a and b are of the same size, and have the same elements in the same order*//*
+
     private boolean interactableListEqualsC(ArrayList<Creature> a, ArrayList<Creature> b) {
         return false;
     }
+*/
 
 
 }

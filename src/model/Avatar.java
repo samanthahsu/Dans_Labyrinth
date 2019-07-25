@@ -151,15 +151,20 @@ public Avatar(int setY, int setX, List<Item> items, Map map) {
 
 //EFFECTS: uses itemNm if corresponding item exists in itemList
 //    otherwise do nothing
-    public void useItem(String itemNm) {
+    public void useItem(String itemNm, String target) {
         boolean shouldRemove = false;
         Interactable iUsed = null;
         switch (itemNm) {
             case "pizza":
-                for (Item i: itemList) {
-                    if (i.getName() != null && i.getName().equals("pizza")) {
-                        i.interact(map);
+                switch (target) {
+                    case "Dan":
+                    for (Item i : itemList) {
+                        if (i.getName() != null && i.getName().equals("pizza")) {
+                            i.interact(map);
+                        }
                     }
+                    break;
+
                 }
                 break;
             case "rusty key":

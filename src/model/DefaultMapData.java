@@ -8,7 +8,7 @@ import model.Interactables.items.PizzaBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.List;
 
 /*data used to load default map*/
 interface DefaultMapData {
@@ -35,7 +35,7 @@ interface DefaultMapData {
     ArrayList<Item> avaItems = new ArrayList <Item> (
             Arrays.asList(new PizzaBox()));
 
-    HashSet<Interactable> allInteractables = new HashSet<Interactable>(
+    List<Interactable> allInteractables = new ArrayList<>(
             Arrays.asList(new Ennui(6, 6), new MossyGate(5, 9, 4, 9))
     );
 

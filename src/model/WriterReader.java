@@ -1,13 +1,11 @@
 package model;
 
 import exceptions.edgeOfMapException;
-import exceptions.mapIsNullException;
 import exceptions.mismatchedMapSizeException;
 import model.Interactables.Interactable;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /*reads and writes game states from the saves folder*/
 public class WriterReader implements DefaultMapData {
@@ -54,27 +52,8 @@ requires: path is valid
     /*effects: constructs and returns a fresh default map
     * catches mismatchedMapSizeException
      */
-    public Map buildDefaultMap() throws mapIsNullException, mismatchedMapSizeException, edgeOfMapException {
-        ArrayList<Tile> newTiles = buildTileArray();
-        Map map = null;
-            map = new Map(height, width, winY, winX, startY, startX, avaItems, newTiles);
-        setMapsInTiles(map);
-        return map;
-    }
-
-    /*requires: map already initialized
-    modifies: this
-    effects: sets map field in each tile todo public for tests*/
-    public void setMapsInTiles(Map map) throws mapIsNullException {
-        if (map == null) {
-            throw new mapIsNullException();
-        }
-        for (List<Tile> tiles : map.getTileMatrix()) {
-            for (Tile t : tiles) {
-                t.setMap(map);
-                setMapsInInteractables(map, t.getInteractables());
-            }
-        }
+    public Map buildDefaultMap() throws mismatchedMapSizeException, edgeOfMapException {
+        return new Map(height, width, winY, winX, startY, startX, avaItems, allInteractables, mapString);
     }
 
     /*requires: map already initialized
@@ -85,22 +64,6 @@ requires: path is valid
             i.setMap(map);
         }
     }
-
-    /*effects: builds tile arrayList with characters from mapstring, and interactables from hashsets*/
-    private ArrayList<Tile> buildTileArray() {
-        ArrayList<Tile> returnList = new ArrayList<>();
-        Tile newTile;
-        int strIndex = 0;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                newTile = new Tile(y, x, mapString.charAt(strIndex),
-                        parseAllInteractables(y, x));
-                returnList.add(newTile);
-                strIndex++;
-            }
-        }
-        return returnList;
-        }
 
         /*effects: returns hash set of all interactables with given indexes*/
     private ArrayList<Interactable> parseAllInteractables(int y, int x) {

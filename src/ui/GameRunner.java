@@ -127,6 +127,7 @@ public GameRunner() {
     // EFFECTS: handles which Map functions to call. returns gameState.
     private boolean execute(String input) { // todo implement listen and examine
         String item;
+        String target;
         switch (input) {
             case "n":
             case "s":
@@ -157,8 +158,11 @@ public GameRunner() {
                 map.getAva().pickUpItem(item);
                 break;
             case "use":
+//                use ___ on ___
                 item = scnr.next();
-                map.getAva().useItem(item);
+//                scnr.next("on");
+                target = scnr.next();
+                map.getAva().useItem(item, target);
             default:
                 System.out.println("...");
                 return false;

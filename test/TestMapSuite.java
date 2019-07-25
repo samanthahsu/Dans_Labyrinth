@@ -1,5 +1,4 @@
 import exceptions.mapException;
-import exceptions.mapIsNullException;
 import model.Avatar;
 import model.Interactables.Interactable;
 import model.Interactables.creatures.Ennui;
@@ -40,7 +39,7 @@ class TestMapSuite {
     List<Tile> tileList2;
     private List<Interactable> interList2 = new ArrayList<>();
     private List<List<Tile>> tileMatrix2;
-    private static final String TEST_MAP_2 =
+    static final String TEST_MAP_2 =
             "@@@" +
                     "@ @" +
                     "@ @";
@@ -103,10 +102,10 @@ class TestMapSuite {
         testEnnui = new Ennui(ENNUI_CAPTURE_START_Y, ENNUI_CAPTURE_START_X);
         interListC.add(testEnnui);
 
-        tileList1 = buildTileArray(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, interList1);
-        tileList2 = buildTileArray(TEST_HEIGHT_2, TEST_WIDTH_2, TEST_MAP_2, interList2);
-        tileList3 = buildTileArray(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, interList3);
-        tileListC = buildTileArray(TEST_HEIGHT_C, TEST_WIDTH_C, TEST_MAP_C, interListC);
+//        tileList1 = buildTileArray(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, interList1);
+//        tileList2 = buildTileArray(TEST_HEIGHT_2, TEST_WIDTH_2, TEST_MAP_2, interList2);
+//        tileList3 = buildTileArray(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, interList3);
+//        tileListC = buildTileArray(TEST_HEIGHT_C, TEST_WIDTH_C, TEST_MAP_C, interListC);
 
         itemList1 = new ArrayList<Item>(
                 Arrays.asList(new PizzaBox())
@@ -117,64 +116,55 @@ class TestMapSuite {
 
         try {
             map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
-                    itemList1, tileList1);
+                    itemList1, interList1, TEST_MAP_1);
             map2 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
-                    new ArrayList<Item>(), tileList2);
+                    new ArrayList<Item>(), interList2, TEST_MAP_2);
             map3 = new Map(TEST_HEIGHT_3, TEST_WIDTH_3, WIN_Y_3, WIN_X_3, TEST_START_Y_3, TEST_START_X_3,
-                    new ArrayList<Item>(), tileList3);
+                    new ArrayList<Item>(), interList3, TEST_MAP_3);
             mapCreature = new Map(TEST_HEIGHT_C, TEST_WIDTH_C, WIN_Y_C, WIN_X_C, TEST_START_Y_C, TEST_START_X_C,
-                    itemListC, tileListC);
+                    itemListC, interListC, TEST_MAP_C);
         } catch (mapException e) {
             e.printStackTrace();
         }
 
+//        setting avatar and tileMatrix for easier access in tests
         ava1 = map1.getAva();
         ava2 = map2.getAva();
         ava3 = map3.getAva();
         avaC = mapCreature.getAva();
-
         tileMatrix1 = map1.getTileMatrix();
         tileMatrix2 = map2.getTileMatrix();
         tileMatrix3 = map3.getTileMatrix();
         tileMatrixC = mapCreature.getTileMatrix();
-
-        try {
-            wr.setMapsInTiles(map1);
-            wr.setMapsInTiles(map2);
-            wr.setMapsInTiles(map3);
-            wr.setMapsInTiles(mapCreature);
-        } catch (mapIsNullException e) {
-            e.printStackTrace();
         }
-    }
 
 
-    /*builds tile arrayList with characters form mapstring, and interactables from interList*/
-    List<Tile> buildTileArray(int height, int width, String mapString, List<Interactable> interList) {
-        List<Tile> returnList = new ArrayList<>();
-        Tile newTile;
-        int strIndex = 0;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                newTile = new Tile(y, x, mapString.charAt(strIndex),
-                        parseAllInteractables(y, x, interList));
-                returnList.add(newTile);
-                strIndex++;
-            }
-        }
-        return returnList;
-    }
-    /*returns Arraylist of all interactables with given indexes*/
-    private ArrayList<Interactable> parseAllInteractables(int y, int x, List<Interactable> interList) {
-        ArrayList<Interactable> temp = new ArrayList<>();
-        for (Interactable i : interList
-                ) {
-            if (i.getYpos() == y && i.getXpos() == x) {
-                temp.add(i);
-            }
-        }
-        return temp;
-    }
+//    /*builds tile arrayList with characters form mapstring, and interactables from interList*/
+//    List<Tile> buildTileArray(int height, int width, String mapString, List<Interactable> interList) {
+//        List<Tile> returnList = new ArrayList<>();
+//        Tile newTile;
+//        int strIndex = 0;
+//        for (int y = 0; y < height; y++) {
+//            for (int x = 0; x < width; x++) {
+//                newTile = new Tile(, y, x,
+//                        mapString.charAt(strIndex), parseAllInteractables(y, x, interList));
+//                returnList.add(newTile);
+//                strIndex++;
+//            }
+//        }
+//        return returnList;
+//    }
+//    /*returns Arraylist of all interactables with given indexes*/
+//    private ArrayList<Interactable> parseAllInteractables(int y, int x, List<Interactable> interList) {
+//        ArrayList<Interactable> temp = new ArrayList<>();
+//        for (Interactable i : interList
+//                ) {
+//            if (i.getYpos() == y && i.getXpos() == x) {
+//                temp.add(i);
+//            }
+//        }
+//        return temp;
+//    }
 
     /*  initializes tileMatrix
     requires: tileList to be in order and of size h*w, h and w are init

@@ -9,5 +9,5 @@ public abstract class Feature extends Interactable {
         typeId = TYPE_FEATURE;
     }
 
-    public abstract void passiveAction();
+    public abstract void doPassiveActions();
 }

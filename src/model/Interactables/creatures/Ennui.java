@@ -114,11 +114,13 @@ public class Ennui extends Creature {
 
     /* modifies: this
     * effects: todo
-    * moves only if ava presence
-    * sets co-ords of this based on which directions are available
-    * walls block passage in 1 rad
-    * ava presence scares away 2 rad, 1 rad, 0 rad*/
+    * if ava is on the same tile, return false
+    * moves N>S>E>W depending on which direction is available
+    * walls block passage in 1 rad*/
     private boolean chooseDirAndMove() {
+        if (map.getAva().getYpos() == currY && map.getAva().getXpos() == currX) {
+            return false;
+        }
             if (canMove(currY - 1, currX)) {
                 executeMove(currY - 1, currX);
                 return true;

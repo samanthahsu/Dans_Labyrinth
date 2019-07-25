@@ -25,9 +25,9 @@ public class MossyGate extends Feature {
         return false;
     }
 
-    /*checks gate to make sure coord blocked is blocked always*/
+    /*checks gate to make sure coordinate blocked is blocked always*/
     @Override
-    public void passiveAction() {
+    public void doPassiveActions() {
         if (isOpened) {
             map.getTileMatrix().get(yblock).get(xblock).setWalkable(true);
         } else {

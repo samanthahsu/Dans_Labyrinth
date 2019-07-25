@@ -33,7 +33,8 @@ public class Tile implements Serializable {
  EFFECTS: this makes a default tile with nothing in it
     sets description to one of 3 random default descriptions of an empty tile
 */
-    public Tile(int y, int x, char displayChar, ArrayList<Interactable> interactables) {
+    public Tile(Map map, int y, int x, char displayChar, ArrayList<Interactable> interactables) {
+        this.map = this.map;
         ypos = y;
         xpos = x;
         this.displayChar = displayChar;

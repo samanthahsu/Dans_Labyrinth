@@ -4,8 +4,7 @@ import model.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -32,11 +31,11 @@ class AvatarTest extends TestMapSuite {
 
     @Test
     void ConstructorTest(){
-        assertEquals(TEST_START_Y_1, ava1.getYpos());
-        assertEquals(TEST_START_X_1, ava1.getXpos());
-        assertTrue(itemListEquals(ava1.getItemList(), new ArrayList<Item>(
-                Arrays.asList(new PizzaBox())
-        )));
+        assertEquals(TEST_START_Y_1, ava1.getCurrY());
+        assertEquals(TEST_START_X_1, ava1.getCurrX());
+        HashMap<String, Item> expected = new HashMap<>();
+        expected.put("pizza", new PizzaBox());
+        assertTrue(ava1.getCurrItems().equals(expected));
 //        todo add test with items
     }
 
@@ -51,25 +50,25 @@ class AvatarTest extends TestMapSuite {
         prevX = currentX;
         ava1.moveAva("n");
         currentY -= 1;
-        assertEquals(currentY, ava1.getYpos());
-        assertEquals(currentX, ava1.getXpos());
+        assertEquals(currentY, ava1.getCurrY());
+        assertEquals(currentX, ava1.getCurrX());
         assertEquals(Map.c, tileMatrix1.get(currentY).get(currentX).getDisplayChar());
         assertEquals(Map.floor, tileMatrix1.get(prevY).get(prevX).getDisplayChar());
 
         ava1.moveAva("e");
         currentX += 1;
-        assertEquals(currentY, ava1.getYpos());
-        assertEquals(currentX, ava1.getXpos());
+        assertEquals(currentY, ava1.getCurrY());
+        assertEquals(currentX, ava1.getCurrX());
 
         ava1.moveAva("s");
         currentY += 1;
-        assertEquals(currentY, ava1.getYpos());
-        assertEquals(currentX, ava1.getXpos());
+        assertEquals(currentY, ava1.getCurrY());
+        assertEquals(currentX, ava1.getCurrX());
 
         ava1.moveAva("w");
         currentX -= 1;
-        assertEquals(currentY, ava1.getYpos());
-        assertEquals(currentX, ava1.getXpos());
+        assertEquals(currentY, ava1.getCurrY());
+        assertEquals(currentX, ava1.getCurrX());
 
     }
 
@@ -78,12 +77,12 @@ class AvatarTest extends TestMapSuite {
 /*
         ava1.pickUpItem();
         ArrayList<Interactable> arrayExpected = new ArrayList<>();
-        assertTrue(ava1.getItemList().equals(arrayExpected));
+        assertTrue(ava1.getCurrItems().equals(arrayExpected));
 
         ava1.moveAva("e");
         ava1.pickUpItem();
         arrayExpected.add(pizzaBox);
-        assertTrue(arrayExpected.equals(ava1.getItemList()));
+        assertTrue(arrayExpected.equals(ava1.getCurrItems()));
 */
     }
 

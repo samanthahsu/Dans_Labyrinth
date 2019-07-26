@@ -7,9 +7,7 @@ import model.Tile;
 import model.WriterReader;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 /*Main hub which manages all game processes*/
 public class GameRunner {
@@ -135,25 +133,10 @@ public GameRunner() {
             case "w":
                 map.getAva().moveAva(input);
                 break;
-            case "look":
+            case "examine":
                 System.out.println("hello darkness.");
                 break;
-            case "map":
-                printDisplayMap();
-                return false; // map doesnt count as a move
-            case "me":
-                System.out.println("Health: " + map.getAva().getStatus()
-                + "/3");
-                printItems();
-                break;
-            case "help":
-                printHelp();
-                break;
-            case "quit":
-                scnr.skip(".*");
-                gameState = handleQuit();
-                return false;
-            case "pickup":
+            case "pick up": // change to pick up <item name>
                 item = scnr.next();
                 map.getAva().pickUpItem(item);
                 break;
@@ -163,6 +146,23 @@ public GameRunner() {
 //                scnr.next("on");
                 target = scnr.next();
                 map.getAva().useItem(item, target);
+                break;
+
+            case "me":
+                System.out.println("Health: " + map.getAva().getStatus()
+                + "/3");
+                printItems();
+                return false;
+            case "help":
+                printHelp();
+                return false;
+            case "quit":
+                scnr.skip(".*");
+                gameState = handleQuit();
+                return false;
+            case "map":
+                printDisplayMap();
+                return false; // map doesnt count as a move
             default:
                 System.out.println("...");
                 return false;
@@ -177,16 +177,17 @@ public GameRunner() {
                 + "map: view the map" + '\n'
                 + "pickup ____: pick up chosen item" + '\n'
                 + "me: view items and status" + '\n'
-                + "use ___: use chosen item" + '\n'
+                + "use ___ on ____: use item on target" + '\n'
                 + "help: to get help dialogue" + '\n'
                 + "quit: to quit");
     }
 
     // EFFECTS: prints out current itemList
-    public void printItems() {
-        List<Item> itemList = map.getAva().getItemList();
+    private void printItems() {
+        HashMap<String, Item> itemList = map.getAva().getCurrItems();
         System.out.println("You are carrying:");
-        for (Item i: itemList) {
+        Collection<Item> items = itemList.values();
+        for (Item i: items) {
             System.out.println(i.getName());
         }
     }

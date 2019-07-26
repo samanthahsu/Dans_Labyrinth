@@ -3,6 +3,7 @@ package model.Interactables;
 import model.Map;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /*An object on the overlay map of interactables*/
 public abstract class Interactable implements Serializable {
@@ -15,16 +16,19 @@ public abstract class Interactable implements Serializable {
 
 //    the map this belongs to
     protected Map map;
+//    used to id interactable
     protected String name;
     protected String description;
-    protected int currY;
-    protected int currX;
+//    detailed description accessible by the "examine" command
+    protected String examineDescription;
+    protected int currentY;
+    protected int currentX;
 //    identifies which kind of interactable this is
     protected int typeId; // 0=creature, 1=item, 3=feature
 
     public Interactable(int y, int x) {
-        currY = y;
-        currX = x;
+        currentY = y;
+        currentX = x;
     }
 
     public String getName() {
@@ -36,11 +40,29 @@ public abstract class Interactable implements Serializable {
     }
 
     public int getYpos() {
-        return currY;
+        return currentY;
     }
 
     public int getXpos() {
-        return currX;
+        return currentX;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Interactable)) return false;
+        Interactable that = (Interactable) o;
+        return typeId == that.typeId &&
+                Objects.equals(map, that.map) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(examineDescription, that.examineDescription);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(map, name, description, examineDescription, typeId);
     }
 
     public abstract boolean interact(Map map);

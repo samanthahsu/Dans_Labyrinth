@@ -25,7 +25,7 @@
 //    public boolean interact(Map map) {
 //        Avatar ava = map.getAva();
 ////        todo stub
-//        if(ava.getYpos() == currY && ava.getXpos() == currX) {
+//        if(ava.getCurrY() == currentY && ava.getCurrX() == currentX) {
 //            attack(map);
 //        }
 //        return false;
@@ -41,7 +41,7 @@
 //        if (futureStat >= 0) {
 //            map.getAva().setStatus(futureStat);
 //        }
-//        map.getInteractables().get(currY).set(currX, new AbsolutelyNothing());
+//        map.getInteractables().get(currentY).set(currentX, new AbsolutelyNothing());
 //        System.out.println("KABOOM!");
 //*/
 //    }

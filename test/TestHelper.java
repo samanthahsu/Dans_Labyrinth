@@ -103,8 +103,8 @@
 //        assertEquals(mapexp.getWinY(), mapactual.getWinY());
 //        assertEquals(mapexp.getWinX(), mapactual.getWinX());
 //
-//        assertEquals(mapexp.getAva().getYpos(), mapactual.getAva().getYpos());
-//        assertEquals(mapexp.getAva().getXpos(), mapactual.getAva().getXpos());
+//        assertEquals(mapexp.getAva().getCurrY(), mapactual.getAva().getCurrY());
+//        assertEquals(mapexp.getAva().getCurrX(), mapactual.getAva().getCurrX());
 //    }
 //
 //
@@ -149,8 +149,8 @@
 ////    EFFECTS: passes if interactables are the same
 //    private void assertEqualsInteractable(Interactable a, Interactable b) {
 //        assertEquals(a.getName(), b.getName());
-//        assertEquals(a.getYpos(), b.getYpos());
-//        assertEquals(a.getXpos(), b.getXpos());
+//        assertEquals(a.getCurrY(), b.getCurrY());
+//        assertEquals(a.getCurrX(), b.getCurrX());
 //    }
 //
 //    //    EFFECTS: returns interactable matrix built from // todo extract code to method from here and map.initInteractables
@@ -167,7 +167,7 @@
 //        }
 //        if (inter != null) {
 //            for (Interactable c : inter) {
-//                    interactables.get(c.getYpos()).set(c.getXpos(), c);
+//                    interactables.get(c.getCurrY()).set(c.getCurrX(), c);
 //            }
 //        }
 //        return interactables;

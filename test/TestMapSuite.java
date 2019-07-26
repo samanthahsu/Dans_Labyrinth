@@ -159,7 +159,7 @@ class TestMapSuite {
 //        ArrayList<Interactable> temp = new ArrayList<>();
 //        for (Interactable i : interList
 //                ) {
-//            if (i.getYpos() == y && i.getXpos() == x) {
+//            if (i.getCurrY() == y && i.getCurrX() == x) {
 //                temp.add(i);
 //            }
 //        }

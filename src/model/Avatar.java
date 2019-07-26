@@ -7,45 +7,57 @@ import ui.GameRunner;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Avatar implements Serializable {
 //    todo let avatar know about map, and do it's own movements???
     private Map map; // pointer to map which ava is part of
     private int status; //health bar 0 = dead
-    private int ypos;
-    private int xpos; //tracks position of avatar
-    private List<Item> itemList;
+    private int currY;
+    private int currX; //tracks position of avatar
+    private HashMap<String, Item> currItems;
 
 /* constructor
-    EFFECTS: makes avatar setting it's coordinates, items and status to 3
+    EFFECTS: makes avatar setting it's coordinates, startingItems and status to 3
 */
-public Avatar(int setY, int setX, List<Item> items, Map map) {
+public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
         status = 3;
         this.map = map;
-        ypos = setY;
-        xpos = setX;
-        this.itemList = items;
+        currY = startY;
+        currX = startX;
+        initItems(startingItems);
     }
 
-//    GETTERS
+    /* modifies: this
+    effects: initializes items from list into hashmap*/
+    private void initItems(List<Item> items) {
+        HashMap<String, Item> hashMap = new HashMap<>();
+        for (Item i : items
+             ) {
+            hashMap.put(i.getName(), i);
+        }
+        currItems = hashMap;
+    }
+
+    //    GETTERS
     public int getStatus() {
         return status;
     }
 
-    public int getYpos() {
-        return ypos;
+    public int getCurrY() {
+        return currY;
     }
 
-    public int getXpos() {
-        return xpos;
+    public int getCurrX() {
+        return currX;
     }
 
-    public List<Item> getItemList() {
-        return itemList;
+    public HashMap<String, Item> getCurrItems() {
+        return currItems;
     }
 
-//    todo for tests only
+    //    todo for tests only
     public void setStatus(int status) {
         this.status = status;
     }
@@ -54,22 +66,25 @@ public Avatar(int setY, int setX, List<Item> items, Map map) {
 //    effects: returns true if otherAva has same params as this todo
     public boolean equals(Avatar otherAva) {
         boolean statEq = status == otherAva.getStatus();
-        boolean yEq = ypos == otherAva.getYpos();
-        boolean xEq = xpos == otherAva.getXpos();
-        boolean itemEq = itemListEquals(itemList, otherAva.getItemList());
+        boolean yEq = currY == otherAva.getCurrY();
+        boolean xEq = currX == otherAva.getCurrX();
+        boolean itemEq = currItems.equals(otherAva.getCurrItems());
     return statEq && yEq && xEq && itemEq;
     }
 
-    /*requires the two lists to be of the same size
-    effects: returns true if both lists have items in the same order of the same name*/
-    private boolean itemListEquals(List<Item> itemList, List<Item> otherItemList) {
+/*
+    */
+/*requires the two lists to be of the same size
+    effects: returns true if both lists have items in the same order of the same name*//*
+
+    private boolean itemListEquals(HashMap<String, Item> currItems, List<Item> otherItemList) {
         String item;
         String otherItem;
-        if (itemList.size() != otherItemList.size()) {
+        if (currItems.size() != otherItemList.size()) {
             return false;
         }
-        for (int i = 0; i < itemList.size(); i++) {
-            item = itemList.get(i).getName();
+        for (int i = 0; i < currItems.size(); i++) {
+            item = currItems.get(i).getName();
             otherItem = otherItemList.get(i).getName();
             if (item == null && otherItem == null) {
 //                continue on
@@ -81,6 +96,7 @@ public Avatar(int setY, int setX, List<Item> items, Map map) {
         }
         return true;
     }
+*/
 
 //    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
 //    MODIFIES: map
@@ -88,31 +104,31 @@ public Avatar(int setY, int setX, List<Item> items, Map map) {
     public void moveAva(String command) {
         switch (command) {
             case "n":
-                moveAvaHelper(ypos - 1, xpos, "northern");
+                moveAvaHelper(currY - 1, currX, "northern");
                 break;
             case "s":
-                moveAvaHelper(ypos + 1, xpos, "southern");
+                moveAvaHelper(currY + 1, currX, "southern");
                 break;
             case "e":
-                moveAvaHelper(ypos, xpos + 1, "eastern");
+                moveAvaHelper(currY, currX + 1, "eastern");
                 break;
             case "w":
-                moveAvaHelper(ypos, xpos - 1, "western");
+                moveAvaHelper(currY, currX - 1, "western");
                 break;
             default:
         }
     }
 
 //    MODIFIES: this
-//    EFFECTS: if ypos, xpos is can be moved, move ava and update ava coordinates, else print feedback text
+//    EFFECTS: if currY, currX is can be moved, move ava and update ava coordinates, else print feedback text
     private void moveAvaHelper(int y, int x, String dir) {
         try {
             if (map.isTileWalkable(y, x)) {
                 map.updateTileDisplay(y, x, Map.c);
-                map.updateTileDisplay(ypos, xpos, Map.floor);
+                map.updateTileDisplay(currY, currX, Map.floor);
                 map.revealSurroundings(y, x);
-                this.ypos = y;
-                this.xpos = x;
+                this.currY = y;
+                this.currX = x;
                 for (Interactable inter : map.getTileMatrix().get(y).get(x).getInteractables()
                      ) {
                     System.out.println(inter.getName());
@@ -130,17 +146,17 @@ public Avatar(int setY, int setX, List<Item> items, Map map) {
   REQUIRES: map is initialized
   MODIFIES: this, map
   EFFECTS: iff item corresponding itemName is present on current tile
-  remove item from tile, add item to itemList in ava and print "picked up itemName"
+  remove item from tile, add item to currItems in ava and print "picked up itemName"
   otherwise do nothing and print "unable to pick up itemName"
 */
     public void pickUpItem(String itemName) {
-        ArrayList<Interactable> tileItems = map.getTileMatrix().get(ypos).get(xpos).getInteractables();
+        ArrayList<Interactable> tileItems = map.getTileMatrix().get(currY).get(currX).getInteractables();
         Item chosenItem;
         for (Interactable i : tileItems) {
             if (i.getName().equals(itemName) && i.getTypeId() == Interactable.TYPE_ITEM) {
                 chosenItem = (Item) i;
                 tileItems.remove(chosenItem);
-                itemList.add(chosenItem);
+                currItems.put(itemName, chosenItem);
                 System.out.println("Picked up " + itemName + "!");
                 return;
             }
@@ -149,22 +165,20 @@ public Avatar(int setY, int setX, List<Item> items, Map map) {
         }
 
 
-//EFFECTS: uses itemNm if corresponding item exists in itemList
+//EFFECTS: uses itemName if corresponding item exists in currItems
 //    otherwise do nothing
-    public void useItem(String itemNm, String target) {
+    public void useItem(String itemName, String target) {
         boolean shouldRemove = false;
         Interactable iUsed = null;
-        switch (itemNm) {
+        switch (itemName) {
             case "pizza":
                 switch (target) {
                     case "Dan":
-                    for (Item i : itemList) {
-                        if (i.getName() != null && i.getName().equals("pizza")) {
-                            i.interact(map);
+                        Item i = currItems.get(itemName);
+                        if (i != null) {
+                            i.interact(map); //todo, figure out how this is gonna work
                         }
-                    }
                     break;
-
                 }
                 break;
             case "rusty key":
@@ -172,7 +186,7 @@ public Avatar(int setY, int setX, List<Item> items, Map map) {
             default:
         }
         if (shouldRemove) {
-            itemList.remove(iUsed);
+            currItems.remove(iUsed);
         }
     }
 

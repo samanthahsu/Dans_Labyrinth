@@ -254,7 +254,7 @@ public class Map implements Serializable { //todo add assertion stuff
             EFFECTS: returns true if ava is on the winning tile
     */
     public boolean isWin() {
-        return ava.getYpos() == winY && ava.getXpos() == winX;
+        return ava.getCurrY() == winY && ava.getCurrX() == winX;
     }
 
     /*
@@ -274,6 +274,5 @@ public class Map implements Serializable { //todo add assertion stuff
                 ((Feature) i).doPassiveActions();
             }
         }
-
     }
 }

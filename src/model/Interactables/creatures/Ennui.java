@@ -20,21 +20,21 @@ public class Ennui extends Creature {
     public Ennui(int y, int x) {
         super(y, x);
         name = "ennui";
-        description = "a flash of turquoise fuzz in the dark";
+        description = "there is a flash of turquoise fuzz in the dark";
     }
 
     /*effects: removes this from current tile, move to tile in calculated direction */
     @Override
     void move() {
-        int oldy = currY;
-        int oldx = currX;
+        int oldy = currentY;
+        int oldx = currentX;
         if (chooseDirAndMove()) {
             removeSounds(oldy, oldx);
-            setSounds(currY, currX);
+            setSounds(currentY, currentX);
             // todo test stuffs VVVV
             map.getTileMatrix().get(oldy).get(oldx).setDisplayChar(' ');
-            map.getTileMatrix().get(currY).get(currX).setDisplayChar('E');
-            System.out.println("moved from" + oldy + " " + oldx + " to " +currY+" "+ currX);
+            map.getTileMatrix().get(currentY).get(currentX).setDisplayChar('E');
+            System.out.println("moved from" + oldy + " " + oldx + " to " + currentY +" "+ currentX);
         }
     }
 
@@ -91,10 +91,10 @@ public class Ennui extends Creature {
     /*modifies: map
     effects: removes all sounds within scope caused by this creature*/
     private void removeSounds(int oldy, int oldx) {
-        removeOneSound(currY - 1, currX);
-        removeOneSound(currY + 1, currX);
-        removeOneSound(currY, currX - 1);
-        removeOneSound(currY, currX + 1);
+        removeOneSound(currentY - 1, currentX);
+        removeOneSound(currentY + 1, currentX);
+        removeOneSound(currentY, currentX - 1);
+        removeOneSound(currentY, currentX + 1);
     }
 
     /*effects: if tile index is valid, iterate through interactables list in that tile, and remove
@@ -118,20 +118,21 @@ public class Ennui extends Creature {
     * moves N>S>E>W depending on which direction is available
     * walls block passage in 1 rad*/
     private boolean chooseDirAndMove() {
-        if (map.getAva().getYpos() == currY && map.getAva().getXpos() == currX) {
+        if (map.getAva().getCurrY() == currentY && map.getAva().getCurrX() == currentX) {
+            System.out.println("A basketball sized blue pompom is quivering on the floor in front of Dan.");
             return false;
         }
-            if (canMove(currY - 1, currX)) {
-                executeMove(currY - 1, currX);
+            if (canMove(currentY - 1, currentX)) {
+                executeMove(currentY - 1, currentX);
                 return true;
-            } else if (canMove(currY + 1, currX)) {
-                executeMove(currY + 1, currX);
+            } else if (canMove(currentY + 1, currentX)) {
+                executeMove(currentY + 1, currentX);
                 return true;
-            } else if (canMove(currY, currX + 1)) {
-                executeMove(currY, currX + 1);
+            } else if (canMove(currentY, currentX + 1)) {
+                executeMove(currentY, currentX + 1);
                 return true;
-            } else if (canMove(currY, currX - 1)) {
-                executeMove(currY, currX - 1);
+            } else if (canMove(currentY, currentX - 1)) {
+                executeMove(currentY, currentX - 1);
                 return true;
             }
             return false;
@@ -147,9 +148,9 @@ public class Ennui extends Creature {
     * sets current coordinates to next coordinates*/
     private void executeMove(int nexty, int nextx) {
         map.getTileMatrix().get(nexty).get(nextx).getInteractables().add(this);
-        map.getTileMatrix().get(currY).get(currX).getInteractables().remove(this);
-        this.currY = nexty;
-        this.currX = nextx;
+        map.getTileMatrix().get(currentY).get(currentX).getInteractables().remove(this);
+        this.currentY = nexty;
+        this.currentX = nextx;
     }
 
     /*effects: returns true if display char at tile of given index is not ava and walkable is true*/

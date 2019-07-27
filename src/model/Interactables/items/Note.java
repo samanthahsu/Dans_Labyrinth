@@ -1,7 +1,5 @@
 package model.Interactables.items;
 
-import model.Map;
-
 /*note that is at the beginning in the same tile as ava*/
 public class Note extends Item {
 
@@ -12,7 +10,7 @@ public class Note extends Item {
     }
 
     @Override
-    public boolean interact(Map map) {
+    public boolean interact(String target) {
         return false;
     }
 }

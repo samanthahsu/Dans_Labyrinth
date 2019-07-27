@@ -1,4 +1,5 @@
 import model.Interactables.Interactable;
+import model.Interactables.creatures.Ennui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +8,7 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class CreatureTest extends TestMapSuite {
+class CreatureTest extends TestMapDataAndMethods {
 
     @BeforeEach
     void Setup(){
@@ -33,17 +34,10 @@ class CreatureTest extends TestMapSuite {
 
         HashSet<Interactable> tempInter;
 //        todo careful checking if index valid
-        assertTrue(interactablesContains(tileMatrixC.get(newY - 1).get(newX)
-                .getInteractables(), "ennui sound"));
-        assertTrue(interactablesContains(tileMatrixC.get(newY + 1).get(newX)
-                .getInteractables(), "ennui sound"));
-        assertTrue(interactablesContains(tileMatrixC.get(newY).get(newX - 1)
-                .getInteractables(), "ennui sound"));
-        assertTrue(interactablesContains(tileMatrixC.get(newY).get(newX + 1)
-                .getInteractables(), "ennui sound"));
-        assertTrue(interactablesContains(tileMatrixC.get(newY).get(newX)
-                .getInteractables(), "ennui"));
-
+        assertTrue(tileMatrixC.get(newY - 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
+        assertTrue(tileMatrixC.get(newY + 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
+        assertTrue(tileMatrixC.get(newY).get(newX - 1).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
+        assertTrue(tileMatrixC.get(newY).get(newX + 1).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
 
         testEnnui.doPassiveActions();
         newY += 1;
@@ -52,16 +46,10 @@ class CreatureTest extends TestMapSuite {
         assertEquals(newY, testEnnui.getYpos());
         assertEquals(newX, testEnnui.getXpos());
 
-        assertTrue(interactablesContains(tileMatrixC.get(newY - 1).get(newX)
-                .getInteractables(), "ennui sound"));
-        assertTrue(interactablesContains(tileMatrixC.get(newY + 1).get(newX)
-                .getInteractables(), "ennui sound"));
-        assertTrue(interactablesContains(tileMatrixC.get(newY).get(newX - 1)
-                .getInteractables(), "ennui sound"));
-        assertTrue(interactablesContains(tileMatrixC.get(newY).get(newX + 1)
-                .getInteractables(), "ennui sound"));
-        assertTrue(interactablesContains(tileMatrixC.get(newY).get(newX)
-                .getInteractables(), "ennui"));
+        assertTrue(tileMatrixC.get(newY - 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
+        assertTrue(tileMatrixC.get(newY + 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
+        assertTrue(tileMatrixC.get(newY).get(newX - 1).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
+        assertTrue(tileMatrixC.get(newY).get(newX + 1).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
 
     }
 }

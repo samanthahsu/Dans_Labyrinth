@@ -1,10 +1,10 @@
 package model.Interactables.creatures;
 
-import model.Interactables.Interactable;
+import model.Interactables.Doer;
 import model.Map;
 
 /**An interactable creature that you can fight or talk to**/
-public abstract class Creature extends Interactable /*implements List<Creature> todo find out what this does*/ {
+public abstract class Creature extends Doer {
     int health;
 
     Creature(int y, int x) {
@@ -23,9 +23,6 @@ public abstract class Creature extends Interactable /*implements List<Creature> 
 
 //    EFFECTS: prints creature speech
     abstract void speak();
-
-//    EFFECTS: does default moves, like move around
-    public abstract void doPassiveActions();
 
 }
 

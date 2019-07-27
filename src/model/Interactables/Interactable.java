@@ -65,7 +65,7 @@ public abstract class Interactable implements Serializable {
         return Objects.hash(map, name, description, examineDescription, typeId);
     }
 
-    public abstract boolean interact(Map map);
+    public abstract boolean interact(String target);
 
     public int getTypeId() {
         return typeId;
@@ -75,10 +75,9 @@ public abstract class Interactable implements Serializable {
         this.map = map;
     }
 
-    /* returns true if interactable == this*/
-    public boolean equals (Interactable interactable) {
-        return false;
-    }//todo
-
+    /*effects: handles examining actions and returns string to be printed*/
+    public String examine() {
+        return examineDescription;
+    }
 }
 

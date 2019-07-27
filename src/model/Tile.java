@@ -4,6 +4,9 @@ import model.Interactables.Interactable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 /*Holds information things on this step*/
 public class Tile implements Serializable {
@@ -13,10 +16,8 @@ public class Tile implements Serializable {
 //    The position on the map which the tile is situated
     private int xpos;
     private int ypos;
-
 //    what character the tile will be represented as on the map
-    char displayChar;
-
+    private char currChar;
 // true if character has seen the part of the map before
     private boolean isRevealed;
 //    true if ava can be present on tile
@@ -24,24 +25,32 @@ public class Tile implements Serializable {
 //    some flavour text of what the senses pick up - usually default, can be
 //    modified for providing clues
     private String description = "";
-
-//    lists of interactables on tile
-    private ArrayList<Interactable> interactables;
-//    todo change all these lists into hash sets
+//    lists of currInteractables on tile
+    private HashMap<String, Interactable> currInteractables;
 
 /* constructor
  EFFECTS: this makes a default tile with nothing in it
     sets description to one of 3 random default descriptions of an empty tile
 */
     public Tile(Map map, int y, int x, char displayChar, ArrayList<Interactable> interactables) {
-        this.map = this.map;
+        this.map = map;
         ypos = y;
         xpos = x;
-        this.displayChar = displayChar;
-        if (displayChar == Map.wall) {
+        this.currChar = displayChar;
+        initInteractables(interactables);
+
+        if (displayChar == Map.WALL) {
             isWalkable = false;
         }
-        this.interactables = interactables;
+    }
+
+    private void initInteractables(List<Interactable> interactables) {
+        HashMap<String, Interactable> hashMap = new HashMap<>();
+        for (Interactable i : interactables) {
+            hashMap.put(i.getName(), i);
+        }
+        currInteractables = hashMap;
+
     }
 
     public int getXpos() {
@@ -52,13 +61,13 @@ public class Tile implements Serializable {
         return ypos;
     }
 
-    public char getDisplayChar() {
-        return displayChar;
+    public char getActualChar() {
+        return currChar;
     }
 
     public boolean isRevealed() {
         return isRevealed;
-    }
+    } // todo exists for tests
 
     public boolean isWalkable() {
         return isWalkable;
@@ -76,69 +85,48 @@ public class Tile implements Serializable {
         isWalkable = walkable;
     }
 
-    public ArrayList<Interactable> getInteractables() {
-        return interactables;
+    public HashMap<String, Interactable> getCurrInteractables() {
+        return currInteractables;
     }
 
-    /*
-    * sets actual display char of this tile
+//    effects: if tile is revealed return current char, else return fog char
+    public char getDisplayChar() {
+        if (isRevealed) {
+            return currChar;
+        }
+        return Map.FOG;
+    }
+
+    /* sets actual display char of this tile
     * used when moving the avatar icon about the map*/
-    public void setDisplayChar(char displayChar) {
-        this.displayChar = displayChar;
+    public void setCurrChar(char currChar) {
+        this.currChar = currChar;
     }
 
-    //    EFFECTS: returns true if tiles can be considered equal
-    public boolean equals(Tile tile) {
-        boolean xposEq = xpos == tile.getXpos();
-        boolean yposEq = ypos == tile.getYpos();
-        boolean displayCharEq = displayChar == tile.getDisplayChar();
-        boolean isRevealedEq = isRevealed == tile.isRevealed();
-        boolean descriptionEq = description.equals(tile.getDescription());
-//        usually, checking x and y are enough to ensure they are the same
-//        boolean creaturesEq = interactableListEqualsC(creatures, tile.getCreatures());
-//        boolean itemsEq = interactableListEqualsI(items, tile.getItems());
-//        boolean featuresEq = interactableListEqualsF(features, tile.getFeatures());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tile)) return false;
+        Tile tile = (Tile) o;
+        return xpos == tile.xpos &&
+                ypos == tile.ypos &&
+                currChar == tile.currChar &&
+                isRevealed == tile.isRevealed &&
+                isWalkable == tile.isWalkable &&
+                Objects.equals(description, tile.description) &&
+                Objects.equals(currInteractables, tile.currInteractables);
+    }
 
-        return xposEq && yposEq && displayCharEq && isRevealedEq && descriptionEq /*&& creaturesEq && itemsEq && featuresEq*/;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(xpos, ypos, currChar, isRevealed, isWalkable, description, currInteractables);
     }
 
     //    REQUIRES: ypos and xpos are valid indexes in map
     //    MODIFIES: this
-    //    EFFECTS: replaces character at index ypos,xpos with c in mapDisplay
+    //    EFFECTS: replaces character at index ypos,xpos with AVATAR in mapDisplay
     public void revealTile() {
         isRevealed = true;
     }
-
-/*
-
-    //    todo
-    */
-/*returns true if a and b are of the same size, and have the same elements in the same order*//*
-
-    private boolean interactableListEqualsF(ArrayList<Feature> a, ArrayList<Feature> b) {
-        boolean sizeEq = a.size() == b.size();
-        for (Feature f : a) {
-            if (!a.equals(b));
-        }
-        return false;
-    }
-
-//todo
-    */
-/*returns true if a and b are of the same size, and have the same elements in the same order*//*
-
-    private boolean interactableListEqualsI(ArrayList<Item> a, ArrayList<Item> b) {
-        return false;
-    }
-
-// todo
-    */
-/*returns true if a and b are of the same size, and have the same elements in the same order*//*
-
-    private boolean interactableListEqualsC(ArrayList<Creature> a, ArrayList<Creature> b) {
-        return false;
-    }
-*/
-
-
 }

@@ -1,7 +1,5 @@
 package model.Interactables;
 
-import model.Map;
-
 /*sounds made by surrounding interactables, varying in intensity, and fades or strengthens based on distance*/
 public class Sound extends Interactable {
 
@@ -14,7 +12,7 @@ public class Sound extends Interactable {
 
     /*effects: prints sound description*/
     @Override
-    public boolean interact(Map map) {
+    public boolean interact(String target) {
         System.out.println(description);
         return true;
     }

@@ -62,12 +62,12 @@
 //    Exo exo1;
 //
 //    //    REQUIRES: expMapStr is same size as h x w
-//    //    EFFECT converts expectedMap string to char matrix of test height and width
-//    protected char[][] strToTestCharMtrx(String expMapStr, int height, int width){
-//        char[][] expMatrix = new char[height][width];
+//    //    EFFECT converts expectedMap string to char matrix of test DEFAULT_HEIGHT and DEFAULT_WIDTH
+//    protected char[][] strToTestCharMtrx(String expMapStr, int DEFAULT_HEIGHT, int DEFAULT_WIDTH){
+//        char[][] expMatrix = new char[DEFAULT_HEIGHT][DEFAULT_WIDTH];
 //        int i = 0;
-//        for (int j = 0; j < height; j++) {
-//            for(int k = 0; k < width; k++){
+//        for (int j = 0; j < DEFAULT_HEIGHT; j++) {
+//            for(int k = 0; k < DEFAULT_WIDTH; k++){
 //                expMatrix[j][k] = expMapStr.charAt(i);
 //                i++;
 //            }
@@ -166,8 +166,8 @@
 //            interactables.add(widthList);
 //        }
 //        if (inter != null) {
-//            for (Interactable c : inter) {
-//                    interactables.get(c.getCurrY()).set(c.getCurrX(), c);
+//            for (Interactable AVATAR : inter) {
+//                    interactables.get(AVATAR.getCurrY()).set(AVATAR.getCurrX(), AVATAR);
 //            }
 //        }
 //        return interactables;

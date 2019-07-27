@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class WriterReader implements DefaultMapData {
 
     private static final String SAVES_PATH = System.getProperty("user.dir") + "\\saves\\";
-    private String savePath;
+    private String savePath = "";
 
 //    effects: Initializes this with default save path (within project in saves directory)
     public WriterReader() {
@@ -34,8 +34,8 @@ requires: path is valid
 */
     public void writeMap(Map map, String fileName) throws IOException {
         final String FILENAME = fileName.concat(".txt"); // specifying file type
-        String savePath = SAVES_PATH + FILENAME;
-        File file = new File(savePath);
+        String newSavePath = this.savePath + FILENAME;
+        File file = new File(newSavePath);
             if (file.createNewFile()) {
                 System.out.println("New save file created");
             } else {
@@ -53,7 +53,7 @@ requires: path is valid
     * catches mismatchedMapSizeException
      */
     public Map buildDefaultMap() throws mismatchedMapSizeException, edgeOfMapException {
-        return new Map(height, width, winY, winX, startY, startX, avaItems, allInteractables, mapString);
+        return new Map(DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_WIN_Y, DEFAULT_WIN_X, DEFAULT_START_Y, DEFAULT_START_X, DEFAULT_AVA_ITEMS_LIST, DEFAULT_INTERACTABLES_LIST, DEFAULT_MAP_STRING);
     }
 
     /*requires: map already initialized
@@ -68,7 +68,7 @@ requires: path is valid
         /*effects: returns hash set of all interactables with given indexes*/
     private ArrayList<Interactable> parseAllInteractables(int y, int x) {
         ArrayList<Interactable> temp = new ArrayList<>();
-        for (Interactable i : allInteractables
+        for (Interactable i : DEFAULT_INTERACTABLES_LIST
              ) {
             if (i.getYpos() == y && i.getXpos() == x) {
                 temp.add(i);

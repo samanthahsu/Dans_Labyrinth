@@ -13,14 +13,14 @@ import java.util.List;
 /*data used to load default map*/
 interface DefaultMapData {
 
-    int height = 11;
-    int width = 21;
-    int winY = 0;
-    int winX = 9;
-    int startY = 6;
-    int startX = 3;
+    int DEFAULT_HEIGHT = 11;
+    int DEFAULT_WIDTH = 21;
+    int DEFAULT_WIN_Y = 0;
+    int DEFAULT_WIN_X = 9;
+    int DEFAULT_START_Y = 6;
+    int DEFAULT_START_X = 3;
 
-    String mapString = "@@@@@@@@@ @@@@@@@@@@@"
+    String DEFAULT_MAP_STRING = "@@@@@@@@@ @@@@@@@@@@@"
                     + "@     @ @ @       @ @"
                     + "@ @ @ @ @   @@@ @ @ @"
                     + "@@@ @ @ @@@@@ @ @ @ @"
@@ -32,10 +32,10 @@ interface DefaultMapData {
                     + "@         @@@       @"
                     + "@@@@@@@@@@@@@@@@@@@@@";
 
-    ArrayList<Item> avaItems = new ArrayList <Item> (
+    List<Item> DEFAULT_AVA_ITEMS_LIST = new ArrayList <Item> (
             Arrays.asList(new PizzaBox()));
 
-    List<Interactable> allInteractables = new ArrayList<>(
+    List<Interactable> DEFAULT_INTERACTABLES_LIST = new ArrayList<Interactable>(
             Arrays.asList(new Ennui(6, 6), new MossyGate(5, 9, 4, 9))
     );
 

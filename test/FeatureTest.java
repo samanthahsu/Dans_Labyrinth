@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class FeatureTest extends TestMapSuite {
+public class FeatureTest extends TestMapDataAndMethods {
     MossyGate mgC;
 
     @BeforeEach

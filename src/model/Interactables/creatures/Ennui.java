@@ -1,19 +1,21 @@
 package model.Interactables.creatures;
 
+import model.Avatar;
 import model.Interactables.Interactable;
 import model.Interactables.Sound;
 import model.Map;
+import model.Tile;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /*the one that tries to run away*/
 /*if within 2 tiles of dan give indication of faint sound
 * if within 1 tile, give loud sound indication*/
 public class Ennui extends Creature {
 
-    final String SOUND_NAME = "ennui sound";
-    final String FAR_SOUND = "a faint scuffling in the dirt";
-    final String CLOSE_SOUND = "a louder patter of tiny footsteps";
+    final static public String SOUND_NAME = "ennui sound";
+    final String CLOSE_SOUND = "a patter of tiny footsteps";
 
     boolean hasKey = true;
     /*effects: set coordinates, name, and description*/
@@ -32,8 +34,8 @@ public class Ennui extends Creature {
             removeSounds(oldy, oldx);
             setSounds(currentY, currentX);
             // todo test stuffs VVVV
-            map.getTileMatrix().get(oldy).get(oldx).setDisplayChar(' ');
-            map.getTileMatrix().get(currentY).get(currentX).setDisplayChar('E');
+            map.getTileMatrix().get(oldy).get(oldx).setCurrChar(' ');
+            map.getTileMatrix().get(currentY).get(currentX).setCurrChar('E');
             System.out.println("moved from" + oldy + " " + oldx + " to " + currentY +" "+ currentX);
         }
     }
@@ -49,7 +51,7 @@ public class Ennui extends Creature {
 
     }
 
-    /*moves one tile in a random direction (that is floor)
+    /*moves one tile in a random direction (that is FLOOR)
     if ava is in a 2 block radius of this, go in direction away from ava
     if there are no directions left to go, don't move
     emits sound in a 2 block radius of varying noise degrees and direction*/
@@ -67,13 +69,13 @@ public class Ennui extends Creature {
     * OR if ennui doesn't have key (aka is fed)
     * chatters about more friendly*/
     @Override
-    public boolean interact(Map map) {
+    public boolean interact(String target) {
         return false;
     }
 
     /*modifies: map
-    effects: sets close sounds in max 4 floor tiles of orthog radius 1
-    * sets far sounds in max 8 floor tiles of orthog radius 2, and diagonal radius 1*/
+    effects: sets close sounds in max 4 FLOOR tiles of orthog radius 1
+    * sets far sounds in max 8 FLOOR tiles of orthog radius 2, and diagonal radius 1*/
     private void setSounds(int currY, int currX){
         setOneSound(currY - 1, currX);
         setOneSound(currY + 1, currX);
@@ -83,8 +85,8 @@ public class Ennui extends Creature {
 
     private void setOneSound(int y, int x) {
         if (map.isIndexValid(y, x)) {
-            map.getTileMatrix().get(y).get(x).getInteractables()
-                    .add(new Sound(y, x, SOUND_NAME, CLOSE_SOUND));
+            map.getTileMatrix().get(y).get(x).getCurrInteractables()
+                    .put(SOUND_NAME, new Sound(y, x, SOUND_NAME, CLOSE_SOUND));
         }
     }
 
@@ -101,7 +103,7 @@ public class Ennui extends Creature {
     * interactable named SOUND_NAME*/
     private void removeOneSound(int y, int x) {
         if (map.isIndexValid(y, x)) {
-            ArrayList<Interactable> tempList = map.getTileMatrix().get(y).get(x).getInteractables();
+            Collection<Interactable> tempList = map.getTileMatrix().get(y).get(x).getCurrInteractables().values();
             for (Interactable i : tempList
                  ) {
                 if(i.getName().equals(SOUND_NAME)) {
@@ -118,8 +120,9 @@ public class Ennui extends Creature {
     * moves N>S>E>W depending on which direction is available
     * walls block passage in 1 rad*/
     private boolean chooseDirAndMove() {
-        if (map.getAva().getCurrY() == currentY && map.getAva().getCurrX() == currentX) {
-            System.out.println("A basketball sized blue pompom is quivering on the floor in front of Dan.");
+        Avatar ava = map.getAva();
+        if (ava.getCurrY() == currentY && ava.getCurrX() == currentX) {
+            System.out.println("A basketball sized blue pompom is quivering on the FLOOR in front of Dan.");
             return false;
         }
             if (canMove(currentY - 1, currentX)) {
@@ -146,17 +149,28 @@ public class Ennui extends Creature {
     /*modifies: this, map
     effects: remove this from current tile, adds this to interactables in next tile
     * sets current coordinates to next coordinates*/
-    private void executeMove(int nexty, int nextx) {
-        map.getTileMatrix().get(nexty).get(nextx).getInteractables().add(this);
-        map.getTileMatrix().get(currentY).get(currentX).getInteractables().remove(this);
-        this.currentY = nexty;
-        this.currentX = nextx;
+    private void executeMove(int nextY, int nextX) {
+        List<List<Tile>> tileMatrix = map.getTileMatrix();
+        tileMatrix.get(nextY).get(nextX).getCurrInteractables().put(name, this);
+        tileMatrix.get(currentY).get(currentX).getCurrInteractables().remove(name);
+        this.currentY = nextY;
+        this.currentX = nextX;
     }
 
     /*effects: returns true if display char at tile of given index is not ava and walkable is true*/
     private boolean canMove(int y, int x) {
-        char c = map.getTileMatrix().get(y).get(x).getDisplayChar();
-        boolean walkable = map.getTileMatrix().get(y).get(x).isWalkable();
+        Tile tile = map.getTileMatrix().get(y).get(x);
+        char c = tile.getActualChar();
+        boolean walkable = tile.isWalkable();
         return walkable && c != '*';
+    }
+
+    /*requires: player is on the same tile
+    * modifies: this
+    * effects: starts instance where player can try and take key*/
+    @Override
+    public String examine() {
+//        todo
+        return super.examine();
     }
 }

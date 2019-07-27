@@ -9,18 +9,20 @@ import model.Interactables.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /*manages the map portion of this adventure*/
 public class Map implements Serializable { //todo add assertion stuff
 
     //    default characters representing each display element
-    public static final char wall = '@';
-    public static final char floor = ' ';
-    public static final char c = '*';
-    public static final char fog = '#';
+    public static final char WALL = '@';
+    public static final char FLOOR = ' ';
+    public static final char AVATAR = '*';
+    public static final char FOG = '#';
 
-    // stores what the user can see of the map (character, fog, walls) for easy printing
+    // stores what the user can see of the map (character, FOG, walls) for easy printing
     private int height;
     private int width;
     private int winY;
@@ -29,13 +31,13 @@ public class Map implements Serializable { //todo add assertion stuff
     //    holds interactables and other tile information
     private List<List<Tile>> tileMatrix;
     //    for easier access to all interactables
-    private List<Interactable> interactables;
+    private HashMap<String, Interactable> interactables;
 
 
     /*constructor
-    EFFECTS: height*width == tileList.size()
-    sets height and width of map, win coordinates, and interactables
-    then sets initializes tileMatrix from mapString
+    EFFECTS: DEFAULT_HEIGHT*DEFAULT_WIDTH == tileList.size()
+    sets DEFAULT_HEIGHT and DEFAULT_WIDTH of map, win coordinates, and interactables
+    then sets initializes tileMatrix from DEFAULT_MAP_STRING
     initializes avatar at given coordinates with its items
         else throws mismatchedMapSizeException
     */
@@ -55,15 +57,15 @@ public class Map implements Serializable { //todo add assertion stuff
     effects: sets the map variable in each interactable in list to this map
     * and sets interactables in map to interactables list*/
     private void initInteractables(List<Interactable> interactables) {
-        for (Interactable i : interactables
-             ) {
+        this.interactables = new HashMap<>();
+        for (Interactable i : interactables) { //todo make hashmap
             i.setMap(this);
+            this.interactables.put(i.getName(), i);
         }
-        this.interactables = interactables;
     }
 
     /*  initializes tileMatrix
-        requires: height, width have been initialized
+        requires: DEFAULT_HEIGHT, DEFAULT_WIDTH have been initialized
         modifies: this
         effects: if tileList to be in order and of size h*w, h and w are init
         takes tileList, and formats it into a matrix for easier access
@@ -88,7 +90,7 @@ public class Map implements Serializable { //todo add assertion stuff
     }
 
     /*builds a list of tiles that will be used to construct tileMatrix
-    requires: height, width, and interactables have been initialized
+    requires: DEFAULT_HEIGHT, DEFAULT_WIDTH, and interactables have been initialized
     effects: builds tile arrayList with characters form mapstring, and interactables from interList*/
     private List<Tile> buildTileList(String mapString) {
         List<Tile> returnList = new ArrayList<>();
@@ -106,9 +108,9 @@ public class Map implements Serializable { //todo add assertion stuff
     }
 
     /*effects: returns ArrayList of all interactables with given indexes*/
-    private ArrayList<Interactable> getInteractablesAtIndex(int y, int x, List<Interactable> interList) {
+    private ArrayList<Interactable> getInteractablesAtIndex(int y, int x, HashMap<String, Interactable> interList) {
         ArrayList<Interactable> temp = new ArrayList<>();
-        for (Interactable i : interList
+        for (Interactable i : interList.values()
                 ) {
             if (i.getYpos() == y && i.getXpos() == x) {
                 temp.add(i);
@@ -125,18 +127,18 @@ public class Map implements Serializable { //todo add assertion stuff
     */
     private void initAvatar(int startY, int startX, List<Item> items) throws edgeOfMapException {
         ava = new Avatar(startY, startX, items, this);
-        updateTileDisplay(startY, startX, c);
+        updateTileDisplay(startY, startX, AVATAR);
         revealSurroundings(startY, startX);
     }
 
     /*
-    requires: y, x are valid coordinates on the map // todo throw edge of map exception
+    requires: y, x are valid coordinates on the map
     modifies: this, tileMatrix
-    effects: updates display char at y, x to c in tileMatrix
+    effects: updates display char at y, x to AVATAR in tileMatrix
     */
     public void updateTileDisplay(int y, int x, char c) throws edgeOfMapException {
         checkIfMapEdge(y, x);
-        tileMatrix.get(y).get(x).setDisplayChar(c);
+        tileMatrix.get(y).get(x).setCurrChar(c);
     }
 
     //    getters...
@@ -164,22 +166,32 @@ public class Map implements Serializable { //todo add assertion stuff
         return tileMatrix;
     }
 
-    /*
-            EFFECTS: returns true if this and otherMap are equal to each other
-    */
-    public boolean equals(Map otherMap) {
-        boolean heightEq = height == otherMap.getHeight();
-        boolean widthEq = width == otherMap.getWidth();
-        boolean winYEq = winY == otherMap.getWinY();
-        boolean winXEq = winX == otherMap.getWinX();
-        boolean avaEq = ava.equals(otherMap.getAva());
-        boolean tileMatrixEq = tileMatrixEquals(tileMatrix, otherMap.getTileMatrix(), height, width);
+    public HashMap<String, Interactable> getInteractables() {
+        return interactables;
+    }
 
-        return heightEq && widthEq && winYEq && winXEq && avaEq && tileMatrixEq;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Map)) return false;
+        Map map = (Map) o;
+        return height == map.height &&
+                width == map.width &&
+                winY == map.winY &&
+                winX == map.winX &&
+                ava.equals(map.ava) &&
+                tileMatrix.equals(map.tileMatrix) &&
+                interactables.equals(map.interactables);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(height, width, winY, winX, ava, tileMatrix, interactables);
     }
 
     /*
-        effects: returns true if a and b are of same size (indicated by height and width)
+        effects: returns true if a and b are of same size (indicated by DEFAULT_HEIGHT and DEFAULT_WIDTH)
         and a and b contain equal tiles in the same order,
         else returns false
     */
@@ -207,7 +219,7 @@ public class Map implements Serializable { //todo add assertion stuff
 
     public void addInteractable(Interactable i, int y, int x) {
         if (isIndexValid(y, x)) {
-            tileMatrix.get(y).get(x).getInteractables().add(i);
+            tileMatrix.get(y).get(x).getCurrInteractables().put(i.getName(), i);
         }
     }
 
@@ -267,7 +279,7 @@ public class Map implements Serializable { //todo add assertion stuff
             todo
     */
     public void nextState() {
-        for (Interactable i : interactables) {
+        for (Interactable i : interactables.values()) {
             if (i.getTypeId() == Interactable.TYPE_CREATURE) {
                 ((Creature) i).doPassiveActions();
             } else if (i.getTypeId() == Interactable.TYPE_FEATURE) {

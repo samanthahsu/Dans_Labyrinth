@@ -6,9 +6,9 @@ import model.Interactables.items.Item;
 import ui.GameRunner;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class Avatar implements Serializable {
 //    todo let avatar know about map, and do it's own movements???
@@ -62,43 +62,23 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
         this.status = status;
     }
 
-
-//    effects: returns true if otherAva has same params as this todo
-    public boolean equals(Avatar otherAva) {
-        boolean statEq = status == otherAva.getStatus();
-        boolean yEq = currY == otherAva.getCurrY();
-        boolean xEq = currX == otherAva.getCurrX();
-        boolean itemEq = currItems.equals(otherAva.getCurrItems());
-    return statEq && yEq && xEq && itemEq;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Avatar)) return false;
+        Avatar avatar = (Avatar) o;
+        return status == avatar.status &&
+                currY == avatar.currY &&
+                currX == avatar.currX &&
+                currItems.equals(avatar.currItems);
     }
 
-/*
-    */
-/*requires the two lists to be of the same size
-    effects: returns true if both lists have items in the same order of the same name*//*
-
-    private boolean itemListEquals(HashMap<String, Item> currItems, List<Item> otherItemList) {
-        String item;
-        String otherItem;
-        if (currItems.size() != otherItemList.size()) {
-            return false;
-        }
-        for (int i = 0; i < currItems.size(); i++) {
-            item = currItems.get(i).getName();
-            otherItem = otherItemList.get(i).getName();
-            if (item == null && otherItem == null) {
-//                continue on
-            } else if (item == null || otherItem == null) {
-                return false;
-            } else if (!item.equals(otherItem)) {
-                return false;
-            }
-        }
-        return true;
+    @Override
+    public int hashCode() {
+        return Objects.hash(status, currY, currX, currItems);
     }
-*/
 
-//    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
+    //    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
 //    MODIFIES: map
 //    EFFECTS: handles move commands in 4 directions
     public void moveAva(String command) {
@@ -124,12 +104,12 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
     private void moveAvaHelper(int y, int x, String dir) {
         try {
             if (map.isTileWalkable(y, x)) {
-                map.updateTileDisplay(y, x, Map.c);
-                map.updateTileDisplay(currY, currX, Map.floor);
+                map.updateTileDisplay(y, x, Map.AVATAR);
+                map.updateTileDisplay(currY, currX, Map.FLOOR);
                 map.revealSurroundings(y, x);
                 this.currY = y;
                 this.currX = x;
-                for (Interactable inter : map.getTileMatrix().get(y).get(x).getInteractables()
+                for (Interactable inter : map.getTileMatrix().get(y).get(x).getCurrInteractables().values()
                      ) {
                     System.out.println(inter.getName());
                 }
@@ -150,33 +130,39 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
   otherwise do nothing and print "unable to pick up itemName"
 */
     public void pickUpItem(String itemName) {
-        ArrayList<Interactable> tileItems = map.getTileMatrix().get(currY).get(currX).getInteractables();
-        Item chosenItem;
-        for (Interactable i : tileItems) {
-            if (i.getName().equals(itemName) && i.getTypeId() == Interactable.TYPE_ITEM) {
-                chosenItem = (Item) i;
-                tileItems.remove(chosenItem);
-                currItems.put(itemName, chosenItem);
-                System.out.println("Picked up " + itemName + "!");
-                return;
-            }
+        HashMap<String, Interactable> tileItems =  map.getTileMatrix().get(currY).get(currX).getCurrInteractables();
+        Interactable chosenItem = tileItems.get(itemName);
+
+        if (chosenItem != null) {
+            tileItems.remove(itemName);
+            currItems.put(itemName, (Item) chosenItem);
+            System.out.println("Dan picked up '" + itemName + "'!");
         }
-        System.out.println("Unable to pick up " + itemName + ".");
-        }
+        System.out.println("Couldn't pick up '" + itemName + "'.");
+    }
 
 
-//EFFECTS: uses itemName if corresponding item exists in currItems
-//    otherwise do nothing
+//EFFECTS: uses the item called itemName on target
     public void useItem(String itemName, String target) {
-        boolean shouldRemove = false;
-        Interactable iUsed = null;
+//        boolean shouldRemove = false;
+//        Interactable iUsed = null;
+        if (!currItems.containsKey(itemName)) {
+            System.out.println("Dan remembers he left the " + itemName + " at home again.");
+        } else if (!map.getTileMatrix().get(currY).get(currX)
+                .getCurrInteractables().containsKey(target) && !target.equals("Dan")) {
+            System.out.println("Dan cannot find a " + target + " around him");
+        } else if (!currItems.get(itemName).interact(target)) {
+            System.out.println("<todo beef out text> that doesn't work");
+        }
+/*
+
         switch (itemName) {
             case "pizza":
                 switch (target) {
                     case "Dan":
                         Item i = currItems.get(itemName);
                         if (i != null) {
-                            i.interact(map); //todo, figure out how this is gonna work
+                            i.interact(target); //todo, figure out how this is gonna work
                         }
                     break;
                 }
@@ -188,6 +174,7 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
         if (shouldRemove) {
             currItems.remove(iUsed);
         }
+*/
     }
 
     //    MODIFIES: map, this

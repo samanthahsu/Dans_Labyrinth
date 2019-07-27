@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class TestMapSuite {
+class TestMapDataAndMethods {
 
     //    CONSTANT FIELDS
     Map map1;
@@ -140,14 +140,14 @@ class TestMapSuite {
 
 
 //    /*builds tile arrayList with characters form mapstring, and interactables from interList*/
-//    List<Tile> buildTileArray(int height, int width, String mapString, List<Interactable> interList) {
+//    List<Tile> buildTileArray(int DEFAULT_HEIGHT, int DEFAULT_WIDTH, String DEFAULT_MAP_STRING, List<Interactable> interList) {
 //        List<Tile> returnList = new ArrayList<>();
 //        Tile newTile;
 //        int strIndex = 0;
-//        for (int y = 0; y < height; y++) {
-//            for (int x = 0; x < width; x++) {
+//        for (int y = 0; y < DEFAULT_HEIGHT; y++) {
+//            for (int x = 0; x < DEFAULT_WIDTH; x++) {
 //                newTile = new Tile(, y, x,
-//                        mapString.charAt(strIndex), parseAllInteractables(y, x, interList));
+//                        DEFAULT_MAP_STRING.charAt(strIndex), parseAllInteractables(y, x, interList));
 //                returnList.add(newTile);
 //                strIndex++;
 //            }
@@ -214,7 +214,7 @@ effects: returns true if both lists have items in the same order of the same nam
         char displayTile;
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {
-                displayTile = tileMatrix.get(m).get(n).getDisplayChar();
+                displayTile = tileMatrix.get(m).get(n).getActualChar();
                 System.out.print(displayTile);
             }
             System.out.println();

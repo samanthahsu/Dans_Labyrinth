@@ -1,9 +1,8 @@
 package model.Interactables.items;
 
 import model.Interactables.Interactable;
-import model.Map;
 
-/**An item that can be picked off the floor, then used for various things**/
+/**An item that can be picked off the FLOOR, then used for various things**/
 /*generally, items don't change, and have the similar properties of interactables, and the ability
  * to be used by the player. thus this need not be an abstract class, but a general one, and interactions can come
  * mainly from other classes recognizing the object name
@@ -30,7 +29,7 @@ public abstract class Item extends Interactable {
 
     @Override
     /*general interact method*/
-    public abstract boolean interact(Map map);
+    public abstract boolean interact(String target);
 /*
     returns true if two items are equal if their name is the same
 */

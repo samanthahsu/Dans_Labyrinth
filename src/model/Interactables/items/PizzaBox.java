@@ -1,7 +1,6 @@
 package model.Interactables.items;
 
 import model.Avatar;
-import model.Map;
 
 /*starting box, found nowhere else in maze*/
 /*in this edition of pizza fixes everything*/
@@ -26,7 +25,7 @@ public class PizzaBox extends Item {
 // EFFECTS: iff slices > 0, slice is taken from box
 // user sanity is recovered by one point
     @Override
-    public boolean interact(Map map) {
+    public boolean interact(String target) {
         if (slices == JUST_A_BOX) {
             System.out.println("Dan sadly remembers that there is no more pizza."
                     + " He resists eating the box");

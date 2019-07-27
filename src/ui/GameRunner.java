@@ -122,6 +122,7 @@ public GameRunner() {
         map = null;
     }
 
+//    todo figure out how to handle creature interactions
     // EFFECTS: handles which Map functions to call. returns gameState.
     private boolean execute(String input) { // todo implement listen and examine
         String item;
@@ -134,9 +135,11 @@ public GameRunner() {
                 map.getAva().moveAva(input);
                 break;
             case "examine":
+                target = scnr.next();
+                // todo print out target's examine description
                 System.out.println("hello darkness.");
                 break;
-            case "pick up": // change to pick up <item name>
+            case "pickup": // change to pick up <item name>
                 item = scnr.next();
                 map.getAva().pickUpItem(item);
                 break;
@@ -174,12 +177,14 @@ public GameRunner() {
     private void printHelp() {
         System.out.println("Enter n, s, e, or w to move North, South, East, or "
                 + "West respectively." + '\n'
-                + "map: view the map" + '\n'
-                + "pickup ____: pick up chosen item" + '\n'
-                + "me: view items and status" + '\n'
-                + "use ___ on ____: use item on target" + '\n'
-                + "help: to get help dialogue" + '\n'
-                + "quit: to quit");
+                + "Available commands:\n"
+                + "map" + '\n'
+                + "pickup <item>" + '\n'
+                + "me" + '\n'
+                + "examine <target>" + '\n'
+                + "use <item> on <target>\n"
+                + "help" + '\n'
+                + "quit: quit or save");
     }
 
     // EFFECTS: prints out current itemList
@@ -214,7 +219,7 @@ public GameRunner() {
 //      quit: quit the game without saving
     private int handleQuit() {
         System.out.println("s: save game\n"
-                + "c: cancel and continue\n"
+                + "AVATAR: cancel and continue\n"
                 +"q: quit without saving.");
         do {
             ui = scnr.nextLine();
@@ -230,7 +235,7 @@ public GameRunner() {
                     System.out.println("Dan continues on...");
                 }
                 break;
-            case "c":
+            case "AVATAR":
                 System.out.println("Dan continues on...");
                 break;
             case "q":
@@ -249,30 +254,28 @@ private void printDisplayMap() {
         int height = map.getHeight();
         int width = map.getWidth();
     List<List<Tile>> tileMatrix = map.getTileMatrix();
-        char displayTile;
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {
-                displayTile = tileMatrix.get(m).get(n).getDisplayChar();
-                System.out.print(displayTile);
+                System.out.print(tileMatrix.get(m).get(n).getDisplayChar());
             }
             System.out.println();
         }
     }
 
 /*
-        EFFECTS: prints feedback when ava tries to move into a wall tile
+        EFFECTS: prints feedback when ava tries to move into a WALL tile
 */
     public static void printMovePlaceholder(String dir) {
         Random ran = new Random();
         switch (ran.nextInt(4)) {
             case 0:
-                System.out.println("Dan smacks hilariously against the " + dir + " wall.");
+                System.out.println("Dan smacks hilariously against the " + dir + " WALL.");
                 break;
             case 1:
-                System.out.println("Dan stubs his toe painfully on the " + dir + " wall.");
+                System.out.println("Dan stubs his toe painfully on the " + dir + " WALL.");
                 break;
             case 2:
-                System.out.println("Dan flops desperately against the " + dir + " wall.");
+                System.out.println("Dan flops desperately against the " + dir + " WALL.");
                 break;
             case 3:
                 System.out.println("Dan sits and ponders how his life has culminated in this moment.");

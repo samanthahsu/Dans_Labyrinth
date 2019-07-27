@@ -41,7 +41,7 @@
 //        if (futureStat >= 0) {
 //            map.getAva().setStatus(futureStat);
 //        }
-//        map.getInteractables().get(currentY).set(currentX, new AbsolutelyNothing());
+//        map.getCurrInteractables().get(currentY).set(currentX, new AbsolutelyNothing());
 //        System.out.println("KABOOM!");
 //*/
 //    }

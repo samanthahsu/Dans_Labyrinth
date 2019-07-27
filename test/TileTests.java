@@ -23,7 +23,7 @@ class TileTests extends TestMapDataAndMethods {
     @BeforeEach
     void setup() {
         initTestMaps();
-        tile = null;
+        tile = new Tile(map2, T_Y_2, T_X_2, Map.FLOOR, new ArrayList<Interactable>());
     }
 
     @Test
@@ -60,6 +60,13 @@ class TileTests extends TestMapDataAndMethods {
         assertEquals(Map.FLOOR, tile.getCurrChar());
         assertTrue(tempInterList.containsAll(tile.getCurrInteractables().values()));
         assertTrue(tile.isWalkable());
+    }
+
+    @Test
+    void testGetDisplayCharAndRevealed() {
+        assertEquals(Map.FOG, tile.getDisplayChar());
+        tile.revealTile();
+        assertEquals(Map.FLOOR, tile.getDisplayChar());
     }
 
 }

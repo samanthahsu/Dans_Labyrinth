@@ -18,7 +18,7 @@ public class Tile implements Serializable {
 //    what character the tile will be represented as on the map
     private char currChar;
 // true if character has seen the part of the map before
-    private boolean isRevealed;
+    private boolean isRevealed = false;
 //    true if ava can be present on tile
     private boolean isWalkable = true;
 //    some flavour text of what the senses pick up - usually default, can be
@@ -91,7 +91,11 @@ public class Tile implements Serializable {
     public Map getMap() {
         return map;
     }
-    
+
+    public void setCurrChar(char currChar) {
+        this.currChar = currChar;
+    }
+
     //    effects: if tile is revealed return current char, else return fog char
     public char getDisplayChar() {
         if (isRevealed) {
@@ -100,10 +104,10 @@ public class Tile implements Serializable {
         return Map.FOG;
     }
 
-    /* sets actual display char of this tile
-    * used when moving the avatar icon about the map*/
-    public void setCurrChar(char currChar) {
-        this.currChar = currChar;
+    //    MODIFIES: this
+    //    EFFECTS: reveals this tile irreversibly
+    public void revealTile() {
+        isRevealed = true;
     }
 
     @Override
@@ -122,14 +126,7 @@ public class Tile implements Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(xpos, ypos, currChar, isRevealed, isWalkable, description, currInteractables);
     }
 
-    //    REQUIRES: ypos and xpos are valid indexes in map
-    //    MODIFIES: this
-    //    EFFECTS: replaces character at index ypos,xpos with AVATAR in mapDisplay
-    public void revealTile() {
-        isRevealed = true;
-    }
 }

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class AvatarTest extends TestMapDataAndMethods {
+class AvatarTests extends TestMapDataAndMethods {
 
     PizzaBox pizzaBox;
 
@@ -52,8 +52,8 @@ class AvatarTest extends TestMapDataAndMethods {
         currentY -= 1;
         assertEquals(currentY, ava1.getCurrY());
         assertEquals(currentX, ava1.getCurrX());
-        assertEquals(Map.AVATAR, tileMatrix1.get(currentY).get(currentX).getActualChar());
-        assertEquals(Map.FLOOR, tileMatrix1.get(prevY).get(prevX).getActualChar());
+        assertEquals(Map.AVATAR, tileMatrix1.get(currentY).get(currentX).getCurrChar());
+        assertEquals(Map.FLOOR, tileMatrix1.get(prevY).get(prevX).getCurrChar());
 
         ava1.moveAva("e");
         currentX += 1;

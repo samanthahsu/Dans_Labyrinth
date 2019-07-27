@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WriterReaderTest extends TestMapDataAndMethods {
+class WriterReaderTests extends TestMapDataAndMethods {
 
     private static final String PROJECT_PATH = System.getProperty("user.dir");
     final static String FILE_NAME_1 = "writeMapTest";

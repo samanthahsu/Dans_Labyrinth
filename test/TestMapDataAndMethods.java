@@ -214,7 +214,7 @@ effects: returns true if both lists have items in the same order of the same nam
         char displayTile;
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {
-                displayTile = tileMatrix.get(m).get(n).getActualChar();
+                displayTile = tileMatrix.get(m).get(n).getCurrChar();
                 System.out.print(displayTile);
             }
             System.out.println();

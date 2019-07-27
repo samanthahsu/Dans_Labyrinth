@@ -8,7 +8,7 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class CreatureTest extends TestMapDataAndMethods {
+class CreatureTests extends TestMapDataAndMethods {
 
     @BeforeEach
     void Setup(){

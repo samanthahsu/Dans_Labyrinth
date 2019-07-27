@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MapTest extends TestMapDataAndMethods {
+class MapTests extends TestMapDataAndMethods {
 
 
     @BeforeEach
@@ -101,7 +101,7 @@ class MapTest extends TestMapDataAndMethods {
         } catch (edgeOfMapException e) {
             fail("e thrown");
         }
-        assertEquals('G', tileMatrix1.get(0).get(0).getActualChar());
+        assertEquals('G', tileMatrix1.get(0).get(0).getCurrChar());
     }
 
     @Test
@@ -112,7 +112,7 @@ class MapTest extends TestMapDataAndMethods {
         } catch (edgeOfMapException e) {
             System.out.println("e thrown");
         }
-        assertEquals(' ', tileMatrix1.get(0).get(0).getActualChar());
+        assertEquals(' ', tileMatrix1.get(0).get(0).getCurrChar());
     }
 
     @Test
@@ -123,8 +123,8 @@ class MapTest extends TestMapDataAndMethods {
         } catch (edgeOfMapException e) {
             System.out.println("e thrown");
         }
-        assertEquals('G', tileMatrix1.get(1).get(0).getActualChar());
-        assertEquals('X', tileMatrix1.get(2).get(3).getActualChar());
+        assertEquals('G', tileMatrix1.get(1).get(0).getCurrChar());
+        assertEquals('X', tileMatrix1.get(2).get(3).getCurrChar());
     }
 
     @Test

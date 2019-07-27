@@ -160,7 +160,7 @@ public class Ennui extends Creature {
     /*effects: returns true if display char at tile of given index is not ava and walkable is true*/
     private boolean canMove(int y, int x) {
         Tile tile = map.getTileMatrix().get(y).get(x);
-        char c = tile.getActualChar();
+        char c = tile.getCurrChar();
         boolean walkable = tile.isWalkable();
         return walkable && c != '*';
     }

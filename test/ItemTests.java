@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ItemTest extends TestMapDataAndMethods {
+class ItemTests extends TestMapDataAndMethods {
 
     @BeforeEach
     void Setup(){

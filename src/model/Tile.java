@@ -61,7 +61,7 @@ public class Tile implements Serializable {
         return ypos;
     }
 
-    public char getActualChar() {
+    public char getCurrChar() {
         return currChar;
     }
 
@@ -89,7 +89,11 @@ public class Tile implements Serializable {
         return currInteractables;
     }
 
-//    effects: if tile is revealed return current char, else return fog char
+    public Map getMap() {
+        return map;
+    }
+    
+    //    effects: if tile is revealed return current char, else return fog char
     public char getDisplayChar() {
         if (isRevealed) {
             return currChar;

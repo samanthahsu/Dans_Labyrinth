@@ -3,7 +3,6 @@ package model;
 import model.Interactables.Interactable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -32,7 +31,7 @@ public class Tile implements Serializable {
  EFFECTS: this makes a default tile with nothing in it
     sets description to one of 3 random default descriptions of an empty tile
 */
-    public Tile(Map map, int y, int x, char displayChar, ArrayList<Interactable> interactables) {
+    public Tile(Map map, int y, int x, char displayChar, List<Interactable> interactables) {
         this.map = map;
         ypos = y;
         xpos = x;

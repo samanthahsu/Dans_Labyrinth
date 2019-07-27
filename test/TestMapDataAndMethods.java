@@ -107,11 +107,15 @@ class TestMapDataAndMethods {
 //        tileList3 = buildTileArray(TEST_HEIGHT_3, TEST_WIDTH_3, TEST_MAP_3, interList3);
 //        tileListC = buildTileArray(TEST_HEIGHT_C, TEST_WIDTH_C, TEST_MAP_C, interListC);
 
+        PizzaBox pizzaBox1 = new PizzaBox();
+        pizzaBox1.setMap(map1);
+        PizzaBox pizzaBoxC = new PizzaBox();
+        pizzaBox1.setMap(mapCreature);
         itemList1 = new ArrayList<Item>(
-                Arrays.asList(new PizzaBox())
+                Arrays.asList(pizzaBox1)
         );
         itemListC = new ArrayList<Item>(
-                Arrays.asList(new PizzaBox())
+                Arrays.asList(pizzaBoxC)
         );
 
         try {

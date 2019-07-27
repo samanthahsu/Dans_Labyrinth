@@ -72,10 +72,10 @@ public class Map implements Serializable { //todo add assertion stuff
         else throws mismatchedMapSizeException
     */
     private void initTileMatrix(String mapString) throws mismatchedMapSizeException {
-        List<Tile> tileList = buildTileList(mapString);
-        if (tileList.size() != height * width) {
+        if (mapString.length() != height * width) {
             throw new mismatchedMapSizeException();
         }
+        List<Tile> tileList = buildTileList(mapString);
         tileMatrix = new ArrayList<>(height);
         ArrayList<Tile> tileRow;
         int i = 0;

@@ -51,7 +51,7 @@ class MapTests extends TestMapDataAndMethods {
         }
 
         try {
-            map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
+            map1 = new Map(TEST_HEIGHT_1 + 1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
                     itemList1, new ArrayList<Interactable>(), TEST_MAP_1);
             fail("no e thrown");
         } catch (mismatchedMapSizeException e) {

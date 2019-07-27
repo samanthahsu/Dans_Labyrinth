@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-/*Holds information things on this step*/
+/*one tile in the map*/
 public class Tile implements Serializable {
 
 //    the map the tile is in

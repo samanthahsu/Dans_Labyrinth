@@ -10,23 +10,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class Avatar implements Serializable {
-//    todo let avatar know about map, and do it's own movements???
-    private Map map; // pointer to map which ava is part of
-    private int status; //health bar 0 = dead
-    private int currY;
-    private int currX; //tracks position of avatar
+public class Avatar extends Locatable implements Serializable {
+
+    public static final int MAX_HP = 3;
+    public static final String MAP_EDGE_MESSAGE = "Dan tries to walk of the edge of the map! The abyss gazes back into him.\n"
+            + "There is no way he is going into that hell hole.";
+
     private HashMap<String, Item> currItems;
+    private int status; //health bar 0 = dead
 
 /* constructor
     EFFECTS: makes avatar setting it's coordinates, startingItems and status to 3
 */
-public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
-        status = 3;
-        this.map = map;
-        currY = startY;
-        currX = startX;
+    public Avatar(int startingY, int startingX, List<Item> startingItems, Map map) {
+        super(map, startingY, startingX);
         initItems(startingItems);
+        status = MAX_HP;
     }
 
     /* modifies: this
@@ -45,14 +44,6 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
         return status;
     }
 
-    public int getCurrY() {
-        return currY;
-    }
-
-    public int getCurrX() {
-        return currX;
-    }
-
     public HashMap<String, Item> getCurrItems() {
         return currItems;
     }
@@ -64,18 +55,22 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Avatar)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Avatar)) {
+            return false;
+        }
         Avatar avatar = (Avatar) o;
-        return status == avatar.status &&
-                currY == avatar.currY &&
-                currX == avatar.currX &&
-                currItems.equals(avatar.currItems);
+        return status == avatar.status
+                && getY() == avatar.getY()
+                && getX() == avatar.getY()
+                && currItems.equals(avatar.currItems);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(status, currY, currX, currItems);
+        return Objects.hash(status, getY(), getX(), currItems);
     }
 
     //    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
@@ -84,16 +79,16 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
     public void moveAva(String command) {
         switch (command) {
             case "n":
-                moveAvaHelper(currY - 1, currX, "northern");
+                moveAvaHelper(getY() - 1, getX(), "northern");
                 break;
             case "s":
-                moveAvaHelper(currY + 1, currX, "southern");
+                moveAvaHelper(getY() + 1, getX(), "southern");
                 break;
             case "e":
-                moveAvaHelper(currY, currX + 1, "eastern");
+                moveAvaHelper(getY(), getX() + 1, "eastern");
                 break;
             case "w":
-                moveAvaHelper(currY, currX - 1, "western");
+                moveAvaHelper(getY(), getX() - 1, "western");
                 break;
             default:
         }
@@ -102,13 +97,14 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
 //    MODIFIES: this
 //    EFFECTS: if currY, currX is can be moved, move ava and update ava coordinates, else print feedback text
     private void moveAvaHelper(int y, int x, String dir) {
+        Map map = getMap();
         try {
             if (map.isTileWalkable(y, x)) {
                 map.updateTileDisplay(y, x, Map.AVATAR);
-                map.updateTileDisplay(currY, currX, Map.FLOOR);
+                map.updateTileDisplay(getY(), getX(), Map.FLOOR);
                 map.revealSurroundings(y, x);
-                this.currY = y;
-                this.currX = x;
+                setY(y);
+                setX(x);
                 for (Interactable inter : map.getTileMatrix().get(y).get(x).getCurrInteractables().values()
                      ) {
                     System.out.println(inter.getName());
@@ -117,8 +113,7 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
                 GameRunner.printMovePlaceholder(dir);
             }
         } catch (edgeOfMapException e) {
-            System.out.println("Dan tries to walk of the edge of the map! The abyss gazes back into him.\n"
-                    + "There is no way he is going into that hell hole.");
+            System.out.println(MAP_EDGE_MESSAGE);
         }
     }
 
@@ -130,7 +125,8 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
   otherwise do nothing and print "unable to pick up itemName"
 */
     public void pickUpItem(String itemName) {
-        HashMap<String, Interactable> tileItems =  map.getTileMatrix().get(currY).get(currX).getCurrInteractables();
+        HashMap<String, Interactable> tileItems =  getMap().getTileMatrix()
+                .get(getY()).get(getX()).getCurrInteractables();
         Interactable chosenItem = tileItems.get(itemName);
 
         if (chosenItem != null) {
@@ -144,37 +140,14 @@ public Avatar(int startY, int startX, List<Item> startingItems, Map map) {
 
 //EFFECTS: uses the item called itemName on target
     public void useItem(String itemName, String target) {
-//        boolean shouldRemove = false;
-//        Interactable iUsed = null;
         if (!currItems.containsKey(itemName)) {
             System.out.println("Dan remembers he left the " + itemName + " at home again.");
-        } else if (!map.getTileMatrix().get(currY).get(currX)
+        } else if (!getMap().getTileMatrix().get(getY()).get(getX())
                 .getCurrInteractables().containsKey(target) && !target.equals("Dan")) {
             System.out.println("Dan cannot find a " + target + " around him");
         } else if (!currItems.get(itemName).interact(target)) {
             System.out.println("<todo beef out text> that doesn't work");
         }
-/*
-
-        switch (itemName) {
-            case "pizza":
-                switch (target) {
-                    case "Dan":
-                        Item i = currItems.get(itemName);
-                        if (i != null) {
-                            i.interact(target); //todo, figure out how this is gonna work
-                        }
-                    break;
-                }
-                break;
-            case "rusty key":
-                break;
-            default:
-        }
-        if (shouldRemove) {
-            currItems.remove(iUsed);
-        }
-*/
     }
 
     //    MODIFIES: map, this

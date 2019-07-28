@@ -1,6 +1,6 @@
 package model;
 
-import model.Interactables.Interactable;
+import model.MapObjects.Examinable;
 import model.exceptions.edgeOfMapException;
 import model.exceptions.mismatchedMapSizeException;
 
@@ -59,16 +59,16 @@ requires: path is valid
     /*requires: map already initialized
     modifies: this
     sets map field in each interactable*/
-    private void setMapsInInteractables(Map map, ArrayList<Interactable> interactableArrayList) {
-        for (Interactable i : interactableArrayList) {
+    private void setMapsInInteractables(Map map, ArrayList<Examinable> examinableArrayList) {
+        for (Examinable i : examinableArrayList) {
             i.setMap(map);
         }
     }
 
         /*effects: returns hash set of all interactables with given indexes*/
-    private ArrayList<Interactable> parseAllInteractables(int y, int x) {
-        ArrayList<Interactable> temp = new ArrayList<>();
-        for (Interactable i : DEFAULT_INTERACTABLES_LIST
+    private ArrayList<Examinable> parseAllInteractables(int y, int x) {
+        ArrayList<Examinable> temp = new ArrayList<>();
+        for (Examinable i : DEFAULT_INTERACTABLES_LIST
              ) {
             if (i.getYpos() == y && i.getXpos() == x) {
                 temp.add(i);

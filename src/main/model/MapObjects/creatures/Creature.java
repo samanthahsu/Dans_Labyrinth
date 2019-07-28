@@ -1,7 +1,7 @@
-package model.Interactables.creatures;
+package model.MapObjects.creatures;
 
-import model.Interactables.Doer;
 import model.Map;
+import model.MapObjects.Doer;
 
 /**An interactable creature that you can fight or talk to**/
 public abstract class Creature extends Doer {

@@ -1,6 +1,7 @@
-package model.Interactables.items;
+package model.MapObjects.items;
 
-import model.Interactables.Interactable;
+import model.Map;
+import model.MapObjects.Examinable;
 
 import java.util.regex.Pattern;
 
@@ -12,35 +13,26 @@ import java.util.regex.Pattern;
  * print out a description when interacted with
  * they only need x and y position for map placement, doesn't matter in equality*/
 /*nevermind, scratch that i need separate objects for each*/
-public abstract class Item extends Interactable {
+public abstract class Item extends Examinable {
 
-    boolean isHeld;
+    private boolean isHeld;
 
-    /*constructor
-    * for already held objects */
-    public Item() {
-        super(0, 0);
+//constructor for already held objects
+    public Item(Map map) {
+        super(map, 0, 0);
         typeId = TYPE_ITEM;
         isHeld = true;
     }
 
-/*
-    constructor for items found at specific coordinates
-*/
-    public Item(int y, int x) {
-        super(y, x);
+//    constructor for items found at specific coordinates
+    public Item(Map map, int y, int x) {
+        super(map, y, x);
         typeId = TYPE_ITEM;
         isHeld = false;
     }
 
-    @Override
-    /*general interact method*/
-    public abstract boolean interact(String target);
-/*
-    returns true if two items are equal if their name is the same
-*/
-    public boolean equals(Item otherItem) {
-        return this.name.equals(otherItem.getName());
+    public boolean isHeld() {
+        return isHeld;
     }
 
     /*requires: isHeld is instantiated*/
@@ -50,9 +42,11 @@ public abstract class Item extends Interactable {
             return true;
         } else if (Pattern.matches("(pick( )!up|get)", ui)) {
             isHeld = true;
-            map.getAva().getCurrItems().put(name, this);
+            getMap().getAva().getCurrItems().put(name, this);
             return true;
         }
             return false;
     }
+
+    public abstract boolean use(String target);
 }

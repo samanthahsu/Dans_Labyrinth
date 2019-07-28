@@ -1,7 +1,7 @@
-package model;
+package model.MapObjects;
 
-import model.Interactables.Interactable;
-import model.Interactables.items.Item;
+import model.Map;
+import model.MapObjects.items.Item;
 import model.exceptions.edgeOfMapException;
 import ui.GameRunner;
 
@@ -105,7 +105,7 @@ public class Avatar extends Locatable implements Serializable {
                 map.revealSurroundings(y, x);
                 setY(y);
                 setX(x);
-                for (Interactable inter : map.getTileMatrix().get(y).get(x).getCurrInteractables().values()
+                for (Examinable inter : map.getTileMatrix().get(y).get(x).getCurrInteractables().values()
                      ) {
                     System.out.println(inter.getName());
                 }
@@ -125,9 +125,9 @@ public class Avatar extends Locatable implements Serializable {
   otherwise do nothing and print "unable to pick up itemName"
 */
     public void pickUpItem(String itemName) {
-        HashMap<String, Interactable> tileItems =  getMap().getTileMatrix()
+        HashMap<String, Examinable> tileItems =  getMap().getTileMatrix()
                 .get(getY()).get(getX()).getCurrInteractables();
-        Interactable chosenItem = tileItems.get(itemName);
+        Examinable chosenItem = tileItems.get(itemName);
 
         if (chosenItem != null) {
             tileItems.remove(itemName);
@@ -145,7 +145,7 @@ public class Avatar extends Locatable implements Serializable {
         } else if (!getMap().getTileMatrix().get(getY()).get(getX())
                 .getCurrInteractables().containsKey(target) && !target.equals("Dan")) {
             System.out.println("Dan cannot find a " + target + " around him");
-        } else if (!currItems.get(itemName).interact(target)) {
+        } else if (!currItems.get(itemName).use(target)) {
             System.out.println("<todo beef out text> that doesn't work");
         }
     }

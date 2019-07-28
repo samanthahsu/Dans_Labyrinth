@@ -1,7 +1,7 @@
 package tests;
 
-import model.Interactables.Interactable;
-import model.Interactables.creatures.Ennui;
+import model.MapObjects.Examinable;
+import model.MapObjects.creatures.Ennui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ class CreatureTests extends TestMapDataAndMethods {
         assertEquals(ENNUI_CAPTURE_START_Y, testEnnui.getYpos());
         assertEquals(ENNUI_CAPTURE_START_X, testEnnui.getXpos());
         assertEquals("ennui", testEnnui.getName());
-        assertEquals(Interactable.TYPE_CREATURE, testEnnui.getTypeId());
+        assertEquals(Examinable.TYPE_CREATURE, testEnnui.getTypeId());
     }
 
     @Test
@@ -34,7 +34,7 @@ class CreatureTests extends TestMapDataAndMethods {
         int newY = ENNUI_CAPTURE_START_Y - 1; //1
         int newX = ENNUI_CAPTURE_START_X; //1
 
-        HashSet<Interactable> tempInter;
+        HashSet<Examinable> tempInter;
 //        todo careful checking if index valid
         assertTrue(tileMatrixC.get(newY - 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
         assertTrue(tileMatrixC.get(newY + 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));

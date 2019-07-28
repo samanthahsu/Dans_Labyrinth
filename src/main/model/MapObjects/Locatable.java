@@ -1,4 +1,6 @@
-package model;
+package model.MapObjects;
+
+import model.Map;
 
 public abstract class Locatable {
     private Map map;

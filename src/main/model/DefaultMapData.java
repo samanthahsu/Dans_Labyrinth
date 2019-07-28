@@ -1,10 +1,10 @@
 package model;
 
-import model.Interactables.Interactable;
-import model.Interactables.creatures.Ennui;
-import model.Interactables.features.MossyGate;
-import model.Interactables.items.Item;
-import model.Interactables.items.PizzaBox;
+import model.MapObjects.Examinable;
+import model.MapObjects.creatures.Ennui;
+import model.MapObjects.features.MossyGate;
+import model.MapObjects.items.Item;
+import model.MapObjects.items.PizzaBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ interface DefaultMapData {
     List<Item> DEFAULT_AVA_ITEMS_LIST = new ArrayList <Item> (
             Arrays.<Item>asList(new PizzaBox()));
 
-    List<Interactable> DEFAULT_INTERACTABLES_LIST = new ArrayList<Interactable>(
+    List<Examinable> DEFAULT_INTERACTABLES_LIST = new ArrayList<Examinable>(
             Arrays.asList(new Ennui(6, 6), new MossyGate(5, 9, 4, 9))
     );
 

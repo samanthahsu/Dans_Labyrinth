@@ -1,6 +1,6 @@
 //package main.model.Interactables.creatures;
 //
-//import main.model.Avatar;
+//import main.model.MapObjects.Avatar;
 //import main.model.Map;
 //
 ///*tries to run away form you, holds rusted key*/

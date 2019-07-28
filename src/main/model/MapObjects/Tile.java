@@ -1,20 +1,16 @@
-package model;
+package model.MapObjects;
 
-import model.Interactables.Interactable;
+import model.Map;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 /*one tile in the map*/
-public class Tile implements Serializable {
+public class Tile extends Locatable implements Serializable {
 
-//    the map the tile is in
-    private Map map;
-//    The position on the map which the tile is situated
-    private int xpos;
-    private int ypos;
 //    what character the tile will be represented as on the map
     private char currChar;
 // true if character has seen the part of the map before
@@ -25,39 +21,31 @@ public class Tile implements Serializable {
 //    modified for providing clues
     private String description = "";
 //    lists of currInteractables on tile
-    private HashMap<String, Interactable> currInteractables;
+    private HashMap<String, Examinable> currInteractables;
+    private List<Sound> sounds;
 
 /* constructor
  EFFECTS: this makes a default tile with nothing in it
     sets description to one of 3 random default descriptions of an empty tile
 */
-    public Tile(Map map, int y, int x, char displayChar, List<Interactable> interactables) {
-        this.map = map;
-        ypos = y;
-        xpos = x;
+    public Tile(Map map, int y, int x, char displayChar, List<Examinable> examinables) {
+        super(map, y, x);
         this.currChar = displayChar;
-        initInteractables(interactables);
+        initInteractables(examinables);
+        sounds = new ArrayList<>();
 
         if (displayChar == Map.WALL) {
             isWalkable = false;
         }
     }
 
-    private void initInteractables(List<Interactable> interactables) {
-        HashMap<String, Interactable> hashMap = new HashMap<>();
-        for (Interactable i : interactables) {
+    private void initInteractables(List<Examinable> examinables) {
+        HashMap<String, Examinable> hashMap = new HashMap<>();
+        for (Examinable i : examinables) {
             hashMap.put(i.getName(), i);
         }
         currInteractables = hashMap;
 
-    }
-
-    public int getXpos() {
-        return xpos;
-    }
-
-    public int getYpos() {
-        return ypos;
     }
 
     public char getCurrChar() {
@@ -76,24 +64,28 @@ public class Tile implements Serializable {
         return description;
     }
 
-    public void setMap(Map map) {
-        this.map = map;
-    }
-
     public void setWalkable(boolean walkable) {
         isWalkable = walkable;
     }
 
-    public HashMap<String, Interactable> getCurrInteractables() {
+    public HashMap<String, Examinable> getCurrInteractables() {
         return currInteractables;
-    }
-
-    public Map getMap() {
-        return map;
     }
 
     public void setCurrChar(char currChar) {
         this.currChar = currChar;
+    }
+
+    public List<Sound> getSounds() {
+        return sounds;
+    }
+
+    public void addSound(Sound sound) {
+        sounds.add(sound);
+    }
+
+    public void removeSound(String soundSource) {
+        sounds.remove(new Sound(null, -1,-1, soundSource, ""));
     }
 
     //    effects: if tile is revealed return current char, else return fog char
@@ -115,8 +107,8 @@ public class Tile implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Tile)) return false;
         Tile tile = (Tile) o;
-        return xpos == tile.xpos &&
-                ypos == tile.ypos &&
+        return getX() == tile.getX() &&
+                getY() == tile.getY() &&
                 currChar == tile.currChar &&
                 isRevealed == tile.isRevealed &&
                 isWalkable == tile.isWalkable &&
@@ -126,7 +118,7 @@ public class Tile implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(xpos, ypos, currChar, isRevealed, isWalkable, description, currInteractables);
+        return Objects.hash(getX(), getY(), currChar, isRevealed, isWalkable, description, currInteractables);
     }
 
 }

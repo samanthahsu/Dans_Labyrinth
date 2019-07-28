@@ -1,9 +1,11 @@
 package model;
 
-import model.Interactables.Interactable;
-import model.Interactables.creatures.Creature;
-import model.Interactables.features.Feature;
-import model.Interactables.items.Item;
+import model.MapObjects.Avatar;
+import model.MapObjects.Examinable;
+import model.MapObjects.Tile;
+import model.MapObjects.creatures.Creature;
+import model.MapObjects.features.Feature;
+import model.MapObjects.items.Item;
 import model.exceptions.edgeOfMapException;
 import model.exceptions.mismatchedMapSizeException;
 
@@ -31,33 +33,33 @@ public class Map implements Serializable { //todo add assertion stuff
     //    holds interactables and other tile information
     private List<List<Tile>> tileMatrix;
     //    for easier access to all interactables
-    private HashMap<String, Interactable> interactables;
+    private HashMap<String, Examinable> interactables;
 
 
     /*constructor
     EFFECTS: DEFAULT_HEIGHT * DEFAULT_WIDTH == tileList.size()
-    sets DEFAULT_HEIGHT and DEFAULT_WIDTH of map, win coordinates, and interactables
+    sets DEFAULT_HEIGHT and DEFAULT_WIDTH of map, win coordinates, and examinables
     then sets initializes tileMatrix from DEFAULT_MAP_STRING
     initializes avatar at given coordinates with its items
         else throws mismatchedMapSizeException
     */
     public Map(int height, int width, int winY, int winX, int avaY, int avaX,
-               List<Item> avaItems, List<Interactable> interactables, String mapString) throws mismatchedMapSizeException, edgeOfMapException {
+               List<Item> avaItems, List<Examinable> examinables, String mapString) throws mismatchedMapSizeException, edgeOfMapException {
         this.height = height;
         this.width = width;
         this.winY = winY;
         this.winX = winX;
-        initInteractables(interactables);
+        initInteractables(examinables);
         initTileMatrix(mapString);
         initAvatar(avaY, avaX, avaItems);
     }
 
     /* modifies: this
     effects: sets the map variable in each interactable in list to this map
-    * and sets interactables in map to interactables list*/
-    private void initInteractables(List<Interactable> interactables) {
+    * and sets examinables in map to examinables list*/
+    private void initInteractables(List<Examinable> examinables) {
         this.interactables = new HashMap<>();
-        for (Interactable i : interactables) { //todo make hashmap
+        for (Examinable i : examinables) { //todo make hashmap
             i.setMap(this);
             this.interactables.put(i.getName(), i);
         }
@@ -107,11 +109,11 @@ public class Map implements Serializable { //todo add assertion stuff
     }
 
     /*effects: returns ArrayList of all interactables with given indexes*/
-    private ArrayList<Interactable> getInteractablesAtIndex(int y, int x, HashMap<String, Interactable> interList) {
-        ArrayList<Interactable> temp = new ArrayList<>();
-        for (Interactable i : interList.values()
+    private ArrayList<Examinable> getInteractablesAtIndex(int y, int x, HashMap<String, Examinable> interList) {
+        ArrayList<Examinable> temp = new ArrayList<>();
+        for (Examinable i : interList.values()
                 ) {
-            if (i.getYpos() == y && i.getXpos() == x) {
+            if (i.getY() == y && i.getX() == x) {
                 temp.add(i);
             }
         }
@@ -165,7 +167,7 @@ public class Map implements Serializable { //todo add assertion stuff
         return tileMatrix;
     }
 
-    public HashMap<String, Interactable> getInteractables() {
+    public HashMap<String, Examinable> getInteractables() {
         return interactables;
     }
 
@@ -216,7 +218,7 @@ public class Map implements Serializable { //todo add assertion stuff
         return y >= 0 && x >= 0 && y < height && x < width;
     }
 
-    public void addInteractable(Interactable i, int y, int x) {
+    public void addInteractable(Examinable i, int y, int x) {
         if (isIndexValid(y, x)) {
             tileMatrix.get(y).get(x).getCurrInteractables().put(i.getName(), i);
         }
@@ -265,7 +267,7 @@ public class Map implements Serializable { //todo add assertion stuff
             EFFECTS: returns true if ava is on the winning tile
     */
     public boolean isWin() {
-        return ava.getCurrY() == winY && ava.getCurrX() == winX;
+        return ava.getY() == winY && ava.getX() == winX;
     }
 
     /*
@@ -277,10 +279,10 @@ public class Map implements Serializable { //todo add assertion stuff
             checking if areas are open or closed
     */
     public void nextState() {
-        for (Interactable i : interactables.values()) {
-            if (i.getTypeId() == Interactable.TYPE_CREATURE) {
+        for (Examinable i : interactables.values()) {
+            if (i.getTypeId() == Examinable.TYPE_CREATURE) {
                 ((Creature) i).doPassiveActions();
-            } else if (i.getTypeId() == Interactable.TYPE_FEATURE) {
+            } else if (i.getTypeId() == Examinable.TYPE_FEATURE) {
                 ((Feature) i).doPassiveActions();
             }
         }

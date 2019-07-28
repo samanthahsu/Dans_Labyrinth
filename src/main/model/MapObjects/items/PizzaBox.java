@@ -1,6 +1,7 @@
-package model.Interactables.items;
+package model.MapObjects.items;
 
-import model.Avatar;
+import model.Map;
+import model.MapObjects.Avatar;
 
 /*starting box, found nowhere else in maze*/
 /*in this edition of pizza fixes everything*/
@@ -14,8 +15,8 @@ public class PizzaBox extends Item {
 /*
     EFFECTS: constructs pizza as a held item
 */
-    public PizzaBox() {
-        super();
+    public PizzaBox(Map map) {
+        super(map);
         name = "pizza"; // todo separate description from detailed examination description
         description = "A pristine cardboard box with the umber and mahogany original 'Danminos' company logo on the sides with "
                 + slices + " toasty deluxe pizza slices nestled inside.";
@@ -23,7 +24,7 @@ public class PizzaBox extends Item {
 
 // MODIFIES: map(avatar)
 // EFFECTS: iff slices > 0, slice is taken from box
-// user sanity is recovered by one point
+// user sanity is recovered by one point todo
     @Override
     public boolean interact(String target) {
         if (slices == JUST_A_BOX) {

@@ -1,12 +1,12 @@
 package tests;
 
-import model.Avatar;
-import model.Interactables.Interactable;
-import model.Interactables.creatures.Ennui;
-import model.Interactables.items.Item;
-import model.Interactables.items.PizzaBox;
 import model.Map;
-import model.Tile;
+import model.MapObjects.Avatar;
+import model.MapObjects.Examinable;
+import model.MapObjects.Tile;
+import model.MapObjects.creatures.Ennui;
+import model.MapObjects.items.Item;
+import model.MapObjects.items.PizzaBox;
 import model.WriterReader;
 import model.exceptions.mapException;
 
@@ -22,7 +22,7 @@ class TestMapDataAndMethods {
     List<Item> itemList1;
     List<Tile> tileList1;
     List<List<Tile>> tileMatrix1;
-    List<Interactable> interList1 = new ArrayList<>();
+    List<Examinable> interList1 = new ArrayList<>();
     static final String TEST_MAP_1 =
                       "@@@ @@"
                     + "@  @ @"
@@ -39,7 +39,7 @@ class TestMapDataAndMethods {
     Map map2;
     private Avatar ava2;
     List<Tile> tileList2;
-    private List<Interactable> interList2 = new ArrayList<>();
+    private List<Examinable> interList2 = new ArrayList<>();
     private List<List<Tile>> tileMatrix2;
     static final String TEST_MAP_2 =
             "@@@" +
@@ -56,7 +56,7 @@ class TestMapDataAndMethods {
     Map map3; //at the win
     private Avatar ava3;
     List<Tile> tileList3;
-    private List<Interactable> interList3 = new ArrayList<>(
+    private List<Examinable> interList3 = new ArrayList<>(
             /*Arrays.asList(new BloodFish(), new PizzaBox(), new Exo())*/
     );
     private List<List<Tile>> tileMatrix3;
@@ -79,7 +79,7 @@ class TestMapDataAndMethods {
     List<Tile> tileListC;
     List<List<Tile>> tileMatrixC;
     Ennui testEnnui;
-    List<Interactable> interListC = new ArrayList<>();
+    List<Examinable> interListC = new ArrayList<>();
     static final String TEST_MAP_C =
               "@@@@@@@@ @"
             + "@ @    @ @"
@@ -146,7 +146,7 @@ class TestMapDataAndMethods {
 
 
 //    /*builds tile arrayList with characters form mapstring, and interactables from interList*/
-//    List<Tile> buildTileArray(int DEFAULT_HEIGHT, int DEFAULT_WIDTH, String DEFAULT_MAP_STRING, List<Interactable> interList) {
+//    List<Tile> buildTileArray(int DEFAULT_HEIGHT, int DEFAULT_WIDTH, String DEFAULT_MAP_STRING, List<Examinable> interList) {
 //        List<Tile> returnList = new ArrayList<>();
 //        Tile newTile;
 //        int strIndex = 0;
@@ -161,9 +161,9 @@ class TestMapDataAndMethods {
 //        return returnList;
 //    }
 //    /*returns Arraylist of all interactables with given indexes*/
-//    private ArrayList<Interactable> parseAllInteractables(int y, int x, List<Interactable> interList) {
-//        ArrayList<Interactable> temp = new ArrayList<>();
-//        for (Interactable i : interList
+//    private ArrayList<Examinable> parseAllInteractables(int y, int x, List<Examinable> interList) {
+//        ArrayList<Examinable> temp = new ArrayList<>();
+//        for (Examinable i : interList
 //                ) {
 //            if (i.getCurrY() == y && i.getCurrX() == x) {
 //                temp.add(i);
@@ -226,10 +226,10 @@ effects: returns true if both lists have items in the same order of the same nam
             System.out.println();
         }
     }
-    /*contains method for ArrayList<Interactables>
-    returns true if interactable named name, is present int interactables*/
-    boolean interactablesContains(ArrayList<Interactable> interactables, String name) {
-        for (Interactable i : interactables
+    /*contains method for ArrayList<MapObjects>
+    returns true if interactable named name, is present int examinables*/
+    boolean interactablesContains(ArrayList<Examinable> examinables, String name) {
+        for (Examinable i : examinables
                 ) {
             if (i.getName().equals(name)) {
                 return true;

@@ -1,6 +1,6 @@
-package model.Interactables.features;
+package model.MapObjects.features;
 
-import model.Interactables.Doer;
+import model.MapObjects.Doer;
 
 /*An event or quirk of the environment that can be interacted with*/
 public abstract class Feature extends Doer {

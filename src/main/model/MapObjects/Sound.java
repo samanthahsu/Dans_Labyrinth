@@ -1,6 +1,5 @@
-package model.Interactables;
+package model.MapObjects;
 
-import model.Locatable;
 import model.Map;
 
 import java.util.Objects;

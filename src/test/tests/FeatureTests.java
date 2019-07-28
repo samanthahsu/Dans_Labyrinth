@@ -1,8 +1,8 @@
 package tests;
 
-import model.Interactables.features.MossyGate;
-import model.Interactables.items.RustyKey;
 import model.Map;
+import model.MapObjects.features.MossyGate;
+import model.MapObjects.items.RustyKey;
 import model.exceptions.edgeOfMapException;
 import model.exceptions.mismatchedMapSizeException;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,10 +1,10 @@
 package tests;
 
-import model.Avatar;
-import model.Interactables.Interactable;
-import model.Interactables.items.Item;
-import model.Interactables.items.PizzaBox;
 import model.Map;
+import model.MapObjects.Avatar;
+import model.MapObjects.Examinable;
+import model.MapObjects.items.Item;
+import model.MapObjects.items.PizzaBox;
 import model.exceptions.edgeOfMapException;
 import model.exceptions.mapException;
 import model.exceptions.mismatchedMapSizeException;
@@ -54,7 +54,7 @@ class MapTests extends TestMapDataAndMethods {
 
         try {
             map1 = new Map(TEST_HEIGHT_1 + 1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
-                    itemList1, new ArrayList<Interactable>(), TEST_MAP_1);
+                    itemList1, new ArrayList<Examinable>(), TEST_MAP_1);
             fail("no e thrown");
         } catch (mismatchedMapSizeException e) {
 //            expected
@@ -225,7 +225,7 @@ class MapTests extends TestMapDataAndMethods {
 
         try {
             map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
-                    new ArrayList<Item>(), new ArrayList<Interactable>(), TEST_MAP_2);
+                    new ArrayList<Item>(), new ArrayList<Examinable>(), TEST_MAP_2);
         } catch (mapException e) {
             fail("threw mapException");
         }

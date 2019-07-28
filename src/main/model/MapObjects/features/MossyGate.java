@@ -1,4 +1,4 @@
-package model.Interactables.features;
+package model.MapObjects.features;
 
 import java.util.regex.Pattern;
 

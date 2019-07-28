@@ -1,5 +1,5 @@
-//import main.model.Avatar;
-//import main.model.Interactables.Interactable;
+//import main.model.MapObjects.Avatar;
+//import main.model.MapObjects.Examinable;
 //import main.model.Map;
 //import Exo;
 //import AbsolutelyNothing;
@@ -53,8 +53,8 @@
 //    protected static final int WIN_X_3 = 3;
 //
 //    // FIELDS THAT CHANGE
-//    protected static ArrayList<Interactable> interactableArrayList = new ArrayList<>();
-//    protected static ArrayList<Interactable> items = new ArrayList<>();
+//    protected static ArrayList<Examinable> interactableArrayList = new ArrayList<>();
+//    protected static ArrayList<Examinable> items = new ArrayList<>();
 //    protected static int interY1 = 0;
 //    protected static int interX1 = 0;
 //
@@ -135,8 +135,8 @@
 //    }
 //
 ////    EFFECTS: passes if two array lists are equal
-//    protected void assertEqualsInteractableMtrx(ArrayList<ArrayList<Interactable>> expected,
-//                                                ArrayList<ArrayList<Interactable>> actual,
+//    protected void assertEqualsInteractableMtrx(ArrayList<ArrayList<Examinable>> expected,
+//                                                ArrayList<ArrayList<Examinable>> actual,
 //                                                int h, int w) {
 //        for (int i = 0; i < h; i++) {
 //            for (int j = 0; j < w; j++) {
@@ -147,17 +147,17 @@
 //    }
 //
 ////    EFFECTS: passes if interactables are the same
-//    private void assertEqualsInteractable(Interactable a, Interactable b) {
+//    private void assertEqualsInteractable(Examinable a, Examinable b) {
 //        assertEquals(a.getName(), b.getName());
 //        assertEquals(a.getCurrY(), b.getCurrY());
 //        assertEquals(a.getCurrX(), b.getCurrX());
 //    }
 //
 //    //    EFFECTS: returns interactable matrix built from // todo extract code to method from here and map.initInteractables
-//    protected ArrayList<ArrayList<Interactable>> makeInteractableMatrix(ArrayList<Interactable> inter, int h, int w) {
-//        ArrayList<ArrayList<Interactable>> interactables = new ArrayList<>();
-//        Interactable nothing = new AbsolutelyNothing();
-//        ArrayList<Interactable> widthList;
+//    protected ArrayList<ArrayList<Examinable>> makeInteractableMatrix(ArrayList<Examinable> inter, int h, int w) {
+//        ArrayList<ArrayList<Examinable>> interactables = new ArrayList<>();
+//        Examinable nothing = new AbsolutelyNothing();
+//        ArrayList<Examinable> widthList;
 //        for (int i = 0; i < h; i++) {
 //            widthList = new ArrayList<>();
 //            for (int j = 0; j < w; j++) {
@@ -166,7 +166,7 @@
 //            interactables.add(widthList);
 //        }
 //        if (inter != null) {
-//            for (Interactable AVATAR : inter) {
+//            for (Examinable AVATAR : inter) {
 //                    interactables.get(AVATAR.getCurrY()).set(AVATAR.getCurrX(), AVATAR);
 //            }
 //        }

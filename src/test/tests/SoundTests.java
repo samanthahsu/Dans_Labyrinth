@@ -1,6 +1,6 @@
 package tests;
 
-import model.Interactables.Sound;
+import model.MapObjects.Sound;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

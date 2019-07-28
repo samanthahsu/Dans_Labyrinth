@@ -1,9 +1,9 @@
 package ui;
 
-import model.Interactables.Interactable;
-import model.Interactables.items.Item;
 import model.Map;
-import model.Tile;
+import model.MapObjects.Examinable;
+import model.MapObjects.Tile;
+import model.MapObjects.items.Item;
 import model.WriterReader;
 import model.exceptions.mapException;
 
@@ -177,12 +177,12 @@ public class GameRunner {
     /*modifies: map
      * effects: if the target is in list of interactables examine target further*/
     private void enterExamineInstance(String targetNm) {
-        Interactable targetInter = map.getInteractables().get(targetNm);
+        Examinable targetInter = map.getInteractables().get(targetNm);
         if (targetInter != null) {
             System.out.println(targetInter.getExamineDescription());
             ui = scnr.next();
-            while (!ui.equals(Interactable.EXIT_EXAMINATION)) {
-                if (targetInter.examine(ui) && !ui.equals(Interactable.EXIT_EXAMINATION)) {
+            while (!ui.equals(Examinable.EXIT_EXAMINATION)) {
+                if (targetInter.examine(ui) && !ui.equals(Examinable.EXIT_EXAMINATION)) {
                     System.out.println("Nothing happened.");
                 }
             }

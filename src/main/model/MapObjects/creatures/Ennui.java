@@ -1,11 +1,11 @@
-package model.Interactables.creatures;
+package model.MapObjects.creatures;
 
-import model.Avatar;
-import model.Interactables.Interactable;
-import model.Interactables.Sound;
-import model.Interactables.items.RustyKey;
 import model.Map;
-import model.Tile;
+import model.MapObjects.Avatar;
+import model.MapObjects.Examinable;
+import model.MapObjects.Sound;
+import model.MapObjects.Tile;
+import model.MapObjects.items.RustyKey;
 
 import java.util.Collection;
 import java.util.List;
@@ -112,8 +112,8 @@ public class Ennui extends Creature {
     * interactable named SOUND_NAME*/
     private void removeOneSound(int y, int x) {
         if (map.isIndexValid(y, x)) {
-            Collection<Interactable> tempList = map.getTileMatrix().get(y).get(x).getCurrInteractables().values();
-            for (Interactable i : tempList
+            Collection<Examinable> tempList = map.getTileMatrix().get(y).get(x).getCurrInteractables().values();
+            for (Examinable i : tempList
                  ) {
                 if(i.getName().equals(SOUND_NAME)) {
                     tempList.remove(i);

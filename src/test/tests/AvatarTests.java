@@ -1,8 +1,8 @@
 package tests;
 
-import model.Interactables.items.Item;
-import model.Interactables.items.PizzaBox;
 import model.Map;
+import model.MapObjects.items.Item;
+import model.MapObjects.items.PizzaBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -67,7 +67,7 @@ class AvatarTests extends TestMapDataAndMethods {
     void pickUpItemTest(){
 /*
         ava1.pickUpItem();
-        ArrayList<Interactable> arrayExpected = new ArrayList<>();
+        ArrayList<Examinable> arrayExpected = new ArrayList<>();
         assertTrue(ava1.getCurrItems().equals(arrayExpected));
 
         ava1.moveAva("e");

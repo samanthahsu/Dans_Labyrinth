@@ -1,0 +1,164 @@
+harebrained ideas:
+
+//pan's labyrinth
+        ▁▁▁▁▁
+        ▏     ⋄ ║
+        ▍▏▂▂▍
+        ┣⎯⎯┾―――
+
+  ▲       N
+◀   ▶  W ✚ E compass ❖
+  ▼       S
+
+⋄ = you
+
+//timed instances would be cool >>
+
+◛◛◛◛◛◛
+
+◚◚◚◚◚◚
+▁▁
+▏   ▏
+▏ ⋄ ▏
+▔▔
+
+---
+|⋄ |
+|  |
+---
+
+▧▧██□□
+▧▧██□□▒▓◫
+
+□□▣□
+□□□□ << this one is more legible???
+
+// escape maze while avoiding getting caught by something
+// "moaning echo", "rumbling" >> cues to get outta there
+// collect clues through throughout the maze
+// solve a "what is my name" mystery
+
+// doing actions uses steps
+// health: get hit twice and you die
+// weapons: bow and 3 arrows >> shoot in specified direction, keeps going until it hits wall/obj
+
+
+shovel(3):make your own way
+elevator: takes you to new floors ohnooo
+▧▧▧▧▧▧▧▧□▧▧▧▧▧▧▧▧
+▧□□□□□▧□▧□▧□□□□▧□▧
+▧□▧□▧□▧□▧□▧□□□□▧□▧
+▧▧▧□▧
+▧□□□▧
+▧□▧▧▧
+▧
+▧
+▧
+▧ << not same size as empty space
+// this map sucks
+// wait so if one tile is one instance
+Ⅱ
+▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+▏    Ⅱ
+▏⋄Ⅱ ▏ ▏▊ ▋
+▔▔
+▋▋▋▋   ▋
+ ▋▋ ▋ ▋▋
+
+▉▉▉▉▉▉▉▉▉▉▉▉
+
+@@@@@@@@@ @@@@@@@@@@@
+@     @ @ @       @ @
+@ @ @ @ @   @@@ @ @ @
+@@@ @ @ @@@@@ @ @ @ @
+@   @   @   @   @ @ @
+@ @@@@@@@ @ @@@@@   @
+@ @ @     @   @     @
+@ @   @  @@ @ @ @@@@@
+@ @@@@@@  @ @ @ @   @
+@         @@@       @
+@@@@@@@@@@@@@@@@@@@@@
+'*' = char
+'@' = wall
+' ' = floor
+'#' = mystery area?
+
+OK, maybe room-based?
+□-□-▣-□
+|
+// so they can move around???
+// its a maze, observe surroundings >> awareness
+// enter into instances(?) VS just bumping into stuff in the hall>> but bumping into stuff gives
+// you are equipped with your handy third eye reveal stuff on map or just normal vision
+// , figure out pattern of movement of things
+     // how to move things?
+// read from given file for diff main.model.builtInMaps >> future definitely
+
+@@@ @@
+@@ @ @
+@   @@
+@@@@@@
+^testing map
+
+https://www.asciiart.eu/holiday-and-events/fireworks
+
+                                  .''.
+        .''.             *''*    :_\/_:     .
+       :_\/_:   .    .:.*_\/_*   : /\ :  .'.:.'.
+   .''.: /\ : _\(/_  ':'* /\ *  : '..'.  -=:o:=-
+  :_\/_:'.:::. /)\*''*  .|.* '.\'/.'_\(/_'.':'.'
+  : /\ : :::::  '*_\/_* | |  -= o =- /)\    '  *
+   '..'  ':::'   * /\ * |'|  .'/.\'.  '._____
+       *        __*..* |  |     :      |.   |' .---"|
+        _*   .-'   '-. |  |     .--'|  ||   | _|    |
+     .-'|  _.|  |    ||   '-__  |   |  |    ||      |
+     |' | |.    |    ||       | |   |  |    ||      |
+  ___|  '-'     '    ""       '-'   '-.'    '`      |____
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                       ~-~-~-~-~-~-~-~-~-~   /|
+          )      ~-~-~-~-~-~-~-~  /|~       /_|\
+        _-H-__  -~-~-~-~-~-~     /_|\    -~======-~
+~-\XXXXXXXXXX/~     ~-~-~-~     /__|_\ ~-~-~-~
+~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~
+
+===============================================================================
+MAPS SHOULD ALWAYS BE SURROUNDED BY WALLS EXCEPT FOR ONE GAP
+
+OTHER GAME CONCEPT FOCUS???????
+OK so like a point and click escape game, except you type and read
+instead of look and click.
+
+Puzzles - meant to keep the monster in
+- if you eat the apple you become human???
+- creatures direct you on side quests pointing vaguely in a direction or chattering
+- solve puzzles >> what puzzles???
+   - hidden information >> have to examine carefully to find clue
+        find codes hidden behind things, patterns
+        items that help > keys, bombs etc.
+        scratch patterns, foot prints cracks and bruises indicating which things to push
+
+   - maze-like passages that obey an unconventional logic
+      you lost your map! oh no, now you are blind
+      oh no, all the controls are flipped AND you're blind
+      every step, the controls flip around (Now the wheel has turned around)
+      eat a weird mushroom and world is wobbly for a while
+   - experimentation, a couple interactables with which you have to do things to in a certain way
+        light the torch, then examine the wall
+
+   - nitpicking, very precise experimentation with consequence of failure
+        you've got one chance to secure this rope just right, if you miss a step, you're doomed
+   - time dependent, you have to wait a certain amount of time for right opportunity
+        wait and hide for exo to walk to next tile
+   - you find string in the maze, a hairless creature in borrowed hide tries to hunt you down
+- navigate mostly by sound - anyways not sight
+
+- if you eat the apple, switch to human timeline
+- alt ending, you were the minotaur the whole time! (where does it split?)
+
+xxx
+
+CONSTRUCT HUMAN SIDE FIRST?
+- creatures move around in the dark in linear fashion
+- when confronted makes noises, runs away or attacks
+- human has base hp of 2
+- when creatures are on tiles next to you, text indication of sounds

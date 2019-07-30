@@ -38,8 +38,7 @@ public abstract class Examinable extends Locatable implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Examinable)) return false;
         Examinable that = (Examinable) o;
-        return typeId == that.typeId &&
-                Objects.equals(getMap(), that.getMap()) &&
+        return  typeId == that.typeId &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(examineDescription, that.examineDescription);
@@ -48,7 +47,7 @@ public abstract class Examinable extends Locatable implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(getMap(), name, description, examineDescription, typeId);
+        return Objects.hash(name, description, examineDescription, typeId);
     }
 
     public int getTypeId() {

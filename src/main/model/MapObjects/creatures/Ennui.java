@@ -179,13 +179,13 @@ public class Ennui extends Creature {
     * returns true if action is valid, else return false*/
     @Override
     public boolean examine(String action) {
-        if (!hasKey | Pattern.matches("(take|get) .*", action)) {
-            System.out.println("Dan has no reason to disturb the terrified animal");
-//            scampers away or something
-        } else if (Pattern.matches("(take|get) (rusty |rusted )?key", action)) {
+        if (Pattern.matches("(take|get) (rusty |rusted )?key", action)) {
             takeKey();
             System.out.println("Dan pries the rusty key out of its little hands.");
             return true;
+        } else if (!hasKey | Pattern.matches("(take|get) .*", action)) {
+            System.out.println("Dan has no reason to disturb the terrified animal");
+//            scampers away or something
         }
         return false;
     }

@@ -110,9 +110,7 @@ class TestMapDataAndMethods {
 //        tileListC = buildTileArray(TEST_HEIGHT_C, TEST_WIDTH_C, TEST_MAP_C, interListC);
 
         PizzaBox pizzaBox1 = new PizzaBox();
-        pizzaBox1.setMap(map1);
         PizzaBox pizzaBoxC = new PizzaBox();
-        pizzaBox1.setMap(mapCreature);
         itemList1 = new ArrayList<Item>(
                 Arrays.asList(pizzaBox1)
         );
@@ -144,33 +142,6 @@ class TestMapDataAndMethods {
         tileMatrixC = mapCreature.getTileMatrix();
         }
 
-
-//    /*builds tile arrayList with characters form mapstring, and interactables from interList*/
-//    List<Tile> buildTileArray(int DEFAULT_HEIGHT, int DEFAULT_WIDTH, String DEFAULT_MAP_STRING, List<Examinable> interList) {
-//        List<Tile> returnList = new ArrayList<>();
-//        Tile newTile;
-//        int strIndex = 0;
-//        for (int y = 0; y < DEFAULT_HEIGHT; y++) {
-//            for (int x = 0; x < DEFAULT_WIDTH; x++) {
-//                newTile = new Tile(, y, x,
-//                        DEFAULT_MAP_STRING.charAt(strIndex), parseAllInteractables(y, x, interList));
-//                returnList.add(newTile);
-//                strIndex++;
-//            }
-//        }
-//        return returnList;
-//    }
-//    /*returns Arraylist of all interactables with given indexes*/
-//    private ArrayList<Examinable> parseAllInteractables(int y, int x, List<Examinable> interList) {
-//        ArrayList<Examinable> temp = new ArrayList<>();
-//        for (Examinable i : interList
-//                ) {
-//            if (i.getCurrY() == y && i.getCurrX() == x) {
-//                temp.add(i);
-//            }
-//        }
-//        return temp;
-//    }
 
     /*  initializes tileMatrix
     requires: tileList to be in order and of size h*w, h and w are init

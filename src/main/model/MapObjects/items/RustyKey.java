@@ -13,13 +13,9 @@ public class RustyKey extends Item {
         description = KEY_DESCR;
     }
 
+    //todo what is going on
     @Override
     public boolean use(String target) {
-        return false;
-    }
-
-    //todo what is going on
-    public boolean interact(String target) {
         if (target.equals(MossyGate.NAME)) {
             MossyGate mossyGate = (MossyGate) getMap().getAllExaminables().get(MossyGate.NAME);
             mossyGate.open();

@@ -1,14 +1,12 @@
 package tests;
 
 import model.MapObjects.Examinable;
+import model.MapObjects.Sound;
 import model.MapObjects.creatures.Ennui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CreatureTests extends TestMapDataAndMethods {
 
@@ -34,12 +32,12 @@ class CreatureTests extends TestMapDataAndMethods {
         int newY = ENNUI_CAPTURE_START_Y - 1; //1
         int newX = ENNUI_CAPTURE_START_X; //1
 
-        HashSet<Examinable> tempInter;
-//        todo careful checking if index valid
-        assertTrue(tileMatrixC.get(newY - 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
-        assertTrue(tileMatrixC.get(newY + 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
-        assertTrue(tileMatrixC.get(newY).get(newX - 1).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
-        assertTrue(tileMatrixC.get(newY).get(newX + 1).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
+//        todo careful checking if index valid\
+        Sound ennuiSound = new Sound(map1, -1, -1, Ennui.NAME, "");
+        assertTrue(tileMatrixC.get(newY - 1).get(newX).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY + 1).get(newX).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY).get(newX - 1).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY).get(newX + 1).getTileSounds().contains(ennuiSound));
 
         testEnnui.doPassiveActions();
         newY += 1;
@@ -48,10 +46,25 @@ class CreatureTests extends TestMapDataAndMethods {
         assertEquals(newY, testEnnui.getY());
         assertEquals(newX, testEnnui.getX());
 
-        assertTrue(tileMatrixC.get(newY - 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
-        assertTrue(tileMatrixC.get(newY + 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
-        assertTrue(tileMatrixC.get(newY).get(newX - 1).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
-        assertTrue(tileMatrixC.get(newY).get(newX + 1).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
+        assertTrue(tileMatrixC.get(newY - 1).get(newX).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY + 1).get(newX).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY).get(newX - 1).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY).get(newX + 1).getTileSounds().contains(ennuiSound));
+    }
 
+    @Test
+    void testStopMovingAvaSameTile() {
+        testEnnui.setY(TEST_START_Y_C);
+        testEnnui.setX(TEST_START_X_C);
+
+        testEnnui.doPassiveActions();
+        assertEquals(TEST_START_Y_C, testEnnui.getY());
+        assertEquals(TEST_START_X_C, testEnnui.getX());
+    }
+
+    @Test
+    void testExamineRightString() {
+        assertFalse(testEnnui.examine("take thing"));
+        assertTrue(testEnnui.examine("take rusty key"));
     }
 }

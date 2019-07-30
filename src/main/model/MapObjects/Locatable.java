@@ -2,7 +2,9 @@ package model.MapObjects;
 
 import model.Map;
 
-public abstract class Locatable {
+import java.io.Serializable;
+
+public abstract class Locatable implements Serializable {
     private Map map;
     private int y;
     private int x;

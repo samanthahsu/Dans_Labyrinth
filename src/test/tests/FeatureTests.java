@@ -32,8 +32,8 @@ class FeatureTests extends TestMapDataAndMethods {
     void testMossyConstructor() {
         mgC.doPassiveActions();
         assertEquals("mossy gate", mgC.getName());
-        assertEquals(1, mgC.getYpos());
-        assertEquals(6, mgC.getXpos());
+        assertEquals(1, mgC.getY());
+        assertEquals(6, mgC.getX());
         assertFalse(mapCreature.getTileMatrix().get(2).get(6).isWalkable());
     }
 }

@@ -64,7 +64,7 @@ public class Avatar extends Locatable implements Serializable {
         Avatar avatar = (Avatar) o;
         return status == avatar.status
                 && getY() == avatar.getY()
-                && getX() == avatar.getY()
+                && getX() == avatar.getX()
                 && currItems.equals(avatar.currItems);
     }
 

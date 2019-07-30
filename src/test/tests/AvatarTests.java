@@ -22,8 +22,8 @@ class AvatarTests extends TestMapDataAndMethods {
 
     @Test
     void ConstructorTest(){
-        assertEquals(TEST_START_Y_1, ava1.getCurrY());
-        assertEquals(TEST_START_X_1, ava1.getCurrX());
+        assertEquals(TEST_START_Y_1, ava1.getY());
+        assertEquals(TEST_START_X_1, ava1.getX());
         HashMap<String, Item> expected = new HashMap<>();
         expected.put("pizza", new PizzaBox());
         assertTrue(ava1.getCurrItems().equals(expected));
@@ -41,25 +41,25 @@ class AvatarTests extends TestMapDataAndMethods {
         prevX = currentX;
         ava1.moveAva("n");
         currentY -= 1;
-        assertEquals(currentY, ava1.getCurrY());
-        assertEquals(currentX, ava1.getCurrX());
+        assertEquals(currentY, ava1.getY());
+        assertEquals(currentX, ava1.getX());
         assertEquals(Map.AVATAR, tileMatrix1.get(currentY).get(currentX).getCurrChar());
         assertEquals(Map.FLOOR, tileMatrix1.get(prevY).get(prevX).getCurrChar());
 
         ava1.moveAva("e");
         currentX += 1;
-        assertEquals(currentY, ava1.getCurrY());
-        assertEquals(currentX, ava1.getCurrX());
+        assertEquals(currentY, ava1.getY());
+        assertEquals(currentX, ava1.getX());
 
         ava1.moveAva("s");
         currentY += 1;
-        assertEquals(currentY, ava1.getCurrY());
-        assertEquals(currentX, ava1.getCurrX());
+        assertEquals(currentY, ava1.getY());
+        assertEquals(currentX, ava1.getX());
 
         ava1.moveAva("w");
         currentX -= 1;
-        assertEquals(currentY, ava1.getCurrY());
-        assertEquals(currentX, ava1.getCurrX());
+        assertEquals(currentY, ava1.getY());
+        assertEquals(currentX, ava1.getX());
 
     }
 

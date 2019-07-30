@@ -19,8 +19,8 @@ class CreatureTests extends TestMapDataAndMethods {
 
     @Test
     void ConstructorTest(){
-        assertEquals(ENNUI_CAPTURE_START_Y, testEnnui.getYpos());
-        assertEquals(ENNUI_CAPTURE_START_X, testEnnui.getXpos());
+        assertEquals(ENNUI_CAPTURE_START_Y, testEnnui.getY());
+        assertEquals(ENNUI_CAPTURE_START_X, testEnnui.getX());
         assertEquals("ennui", testEnnui.getName());
         assertEquals(Examinable.TYPE_CREATURE, testEnnui.getTypeId());
     }
@@ -28,8 +28,8 @@ class CreatureTests extends TestMapDataAndMethods {
     @Test
     void testDoPassiveActionsOnceAvaClose() {
         testEnnui.doPassiveActions();
-        assertEquals(ENNUI_CAPTURE_START_Y - 1, testEnnui.getYpos());
-        assertEquals(ENNUI_CAPTURE_START_X, testEnnui.getXpos());
+        assertEquals(ENNUI_CAPTURE_START_Y - 1, testEnnui.getY());
+        assertEquals(ENNUI_CAPTURE_START_X, testEnnui.getX());
 
         int newY = ENNUI_CAPTURE_START_Y - 1; //1
         int newX = ENNUI_CAPTURE_START_X; //1
@@ -45,8 +45,8 @@ class CreatureTests extends TestMapDataAndMethods {
         newY += 1;
         newX += 0;
 
-        assertEquals(newY, testEnnui.getYpos());
-        assertEquals(newX, testEnnui.getXpos());
+        assertEquals(newY, testEnnui.getY());
+        assertEquals(newX, testEnnui.getX());
 
         assertTrue(tileMatrixC.get(newY - 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));
         assertTrue(tileMatrixC.get(newY + 1).get(newX).getCurrInteractables().containsKey(Ennui.SOUND_NAME));

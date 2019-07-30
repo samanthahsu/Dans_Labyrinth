@@ -76,10 +76,6 @@ public class Ennui extends Creature {
     *
     * OR if ennui doesn't have key (aka is fed)
     * chatters about more friendly*/
-    @Override
-    public boolean interact(String target) {
-        return false;
-    }
 
     /*modifies: map
     effects: sets close sounds in max 4 FLOOR tiles of orthog radius 1

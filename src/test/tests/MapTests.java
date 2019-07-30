@@ -4,7 +4,6 @@ import model.Map;
 import model.MapObjects.Avatar;
 import model.MapObjects.Examinable;
 import model.MapObjects.items.Item;
-import model.MapObjects.items.PizzaBox;
 import model.exceptions.edgeOfMapException;
 import model.exceptions.mapException;
 import model.exceptions.mismatchedMapSizeException;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,10 +29,7 @@ class MapTests extends TestMapDataAndMethods {
         assertEquals(WIN_Y_1, map1.getWinY());
         assertEquals(WIN_X_1, map1.getWinX());
         assertTrue(ava1.equals(new Avatar(TEST_START_Y_1,
-                TEST_START_X_1,
-                new ArrayList<Item>(
-                        Arrays.asList(new PizzaBox())
-                ), map1)));
+                TEST_START_X_1, itemList1, map1)));
 //        List<Tile> expTileList = buildTileArray(TEST_HEIGHT_1, TEST_WIDTH_1, TEST_MAP_1, interList1);
 /* todo fix this test
         ArrayList<ArrayList<Tile>> expTileMatrix = initTileMatrix(expTileList,

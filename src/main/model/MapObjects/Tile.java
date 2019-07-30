@@ -22,7 +22,7 @@ public class Tile extends Locatable implements Serializable {
     private String description = "";
 //    lists of currInteractables on tile
     private HashMap<String, Examinable> currInteractables;
-    private List<Sound> sounds;
+    private List<Sound> tileSounds;
 
 /* constructor
  EFFECTS: this makes a default tile with nothing in it
@@ -32,7 +32,7 @@ public class Tile extends Locatable implements Serializable {
         super(map, y, x);
         this.currChar = displayChar;
         initInteractables(examinables);
-        sounds = new ArrayList<>();
+        tileSounds = new ArrayList<>();
 
         if (displayChar == Map.WALL) {
             isWalkable = false;
@@ -76,16 +76,16 @@ public class Tile extends Locatable implements Serializable {
         this.currChar = currChar;
     }
 
-    public List<Sound> getSounds() {
-        return sounds;
+    public List<Sound> getTileSounds() {
+        return tileSounds;
     }
 
     public void addSound(Sound sound) {
-        sounds.add(sound);
+        tileSounds.add(sound);
     }
 
     public void removeSound(String soundSource) {
-        sounds.remove(new Sound(null, -1,-1, soundSource, ""));
+        tileSounds.remove(new Sound(null, -1,-1, soundSource, ""));
     }
 
     //    effects: if tile is revealed return current char, else return fog char

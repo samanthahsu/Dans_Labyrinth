@@ -24,12 +24,12 @@ public class MossyGate extends Feature {
     /*effects: opens the gate setting the blocked index to walkable*/
     public void open() {
         isOpened = true;
-        map.getTileMatrix().get(yBlock).get(xBlock).setWalkable(true);
+        getMap().getTileMatrix().get(yBlock).get(xBlock).setWalkable(true);
     }
 
     /*if rusty key is used, open door (make yBlock, xBlock walkable)*/
-    @Override
-    public boolean interact(String target) {
+    public boolean derp(String target) {
+//        todo what
         return false;
     }
 
@@ -47,7 +47,7 @@ public class MossyGate extends Feature {
     @Override
     public void doPassiveActions() {
         if (!isOpened) {
-            map.getTileMatrix().get(yBlock).get(xBlock).setWalkable(false);
+            getMap().getTileMatrix().get(yBlock).get(xBlock).setWalkable(false);
         }
     }
 

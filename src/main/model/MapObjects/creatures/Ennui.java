@@ -2,7 +2,6 @@ package model.MapObjects.creatures;
 
 import model.Map;
 import model.MapObjects.Avatar;
-import model.MapObjects.Examinable;
 import model.MapObjects.Sound;
 import model.MapObjects.Tile;
 import model.MapObjects.items.RustyKey;
@@ -34,18 +33,18 @@ public class Ennui extends Creature {
     /*effects: removes this from current tile, move to tile in calculated direction */
     @Override
     void move() {
-        int oldY = currentY;
-        int oldX = currentX;
+        int oldY = getY();
+        int oldX = getX();
         if (isAvaOnSameTile()) {
             return;
         }
         if (chooseDirAndMove()) {
             removeSounds(oldY, oldX);
-            setSounds(currentY, currentX);
+            setSounds(getY(), getX());
             // todo test stuffs VVVV
-            map.getTileMatrix().get(oldY).get(oldX).setCurrChar(' ');
-            map.getTileMatrix().get(currentY).get(currentX).setCurrChar('E');
-            System.out.println("moved from" + oldY + " " + oldX + " to " + currentY +" "+ currentX);
+            getMap().getTileMatrix().get(oldY).get(oldX).setCurrChar(' ');
+            getMap().getTileMatrix().get(getY()).get(getX()).setCurrChar('E');
+            System.out.println("moved from" + oldY + " " + oldX + " to " + getY() +" "+ getX());
         }
     }
 
@@ -86,22 +85,24 @@ public class Ennui extends Creature {
     effects: sets close sounds in max 4 FLOOR tiles of orthog radius 1
     * sets far sounds in max 8 FLOOR tiles of orthog radius 2, and diagonal radius 1*/
     private void setSounds(int currY, int currX){
-        setOneSound(currY - 1, currX);
-        setOneSound(currY + 1, currX);
-        setOneSound(currY, currX - 1);
-        setOneSound(currY, currX + 1);
+        addSound(currY - 1, currX);
+        addSound(currY + 1, currX);
+        addSound(currY, currX - 1);
+        addSound(currY, currX + 1);
     }
 
-    private void setOneSound(int y, int x) {
-        if (map.isIndexValid(y, x)) {
-            map.getTileMatrix().get(y).get(x).getCurrInteractables()
-                    .put(SOUND_NAME, new Sound(y, x, SOUND_NAME, SOUND_DESCRIPTION));
+    private void addSound(int y, int x) {
+        if (getMap().isIndexValid(y, x)) {
+            getMap().getTileMatrix().get(y).get(x).getTileSounds()
+                    .add(new Sound(getMap(), y, x, NAME, SOUND_DESCRIPTION));
         }
     }
 
     /*modifies: map
     effects: removes all sounds within scope caused by this creature*/
     private void removeSounds(int oldy, int oldx) {
+        int currentY = getY();
+        int currentX = getX();
         removeOneSound(currentY - 1, currentX);
         removeOneSound(currentY + 1, currentX);
         removeOneSound(currentY, currentX - 1);
@@ -111,12 +112,12 @@ public class Ennui extends Creature {
     /*effects: if tile index is valid, iterate through interactables list in that tile, and remove
     * interactable named SOUND_NAME*/
     private void removeOneSound(int y, int x) {
-        if (map.isIndexValid(y, x)) {
-            Collection<Examinable> tempList = map.getTileMatrix().get(y).get(x).getCurrInteractables().values();
-            for (Examinable i : tempList
+        if (getMap().isIndexValid(y, x)) {
+            Collection<Sound> soundCollection = getMap().getTileMatrix().get(y).get(x).getTileSounds();
+            for (Sound sound : soundCollection
                  ) {
-                if(i.getName().equals(SOUND_NAME)) {
-                    tempList.remove(i);
+                if(sound.getSourceName().equals(NAME)) {
+                    soundCollection.remove(sound);
                     return;
                 }
             }
@@ -129,7 +130,9 @@ public class Ennui extends Creature {
     * moves N>S>E>W depending on which direction is available
     * walls block passage in 1 rad*/
     private boolean chooseDirAndMove() {
-            if (canMove(currentY - 1, currentX)) {
+        int currentY = getY();
+        int currentX = getX();
+        if (canMove(currentY - 1, currentX)) {
                 executeMove(currentY - 1, currentX);
                 return true;
             } else if (canMove(currentY + 1, currentX)) {
@@ -147,8 +150,8 @@ public class Ennui extends Creature {
 
     /*effects: returns true if avatar within one tile*/
     private boolean isAvaOnSameTile() {
-        Avatar ava = map.getAva();
-        if (ava.getCurrY() == currentY && ava.getCurrX() == currentX) {
+        Avatar ava = getMap().getAva();
+        if (ava.getY() == getY() && ava.getX() == getX()) {
             System.out.println("A basketball sized blue pompom is quivering on the FLOOR in front of Dan.");
             return true;
         }
@@ -159,16 +162,16 @@ public class Ennui extends Creature {
     effects: remove this from current tile, adds this to interactables in next tile
     * sets current coordinates to next coordinates*/
     private void executeMove(int nextY, int nextX) {
-        List<List<Tile>> tileMatrix = map.getTileMatrix();
+        List<List<Tile>> tileMatrix = getMap().getTileMatrix();
         tileMatrix.get(nextY).get(nextX).getCurrInteractables().put(name, this);
-        tileMatrix.get(currentY).get(currentX).getCurrInteractables().remove(name);
-        this.currentY = nextY;
-        this.currentX = nextX;
+        tileMatrix.get(getY()).get(getY()).getCurrInteractables().remove(name);
+        setY(nextY);
+        setX(nextX);
     }
 
     /*effects: returns true if display char at tile of given index is not ava and walkable is true*/
     private boolean canMove(int y, int x) {
-        Tile tile = map.getTileMatrix().get(y).get(x);
+        Tile tile = getMap().getTileMatrix().get(y).get(x);
         char c = tile.getCurrChar();
         boolean walkable = tile.isWalkable();
         return walkable && c != '*';
@@ -195,6 +198,6 @@ public class Ennui extends Creature {
     * effects: takes key from ennui, and adds rusty key to player items*/
     private void takeKey() {
         hasKey = false;
-        map.getAva().getCurrItems().put(RustyKey.NAME, new RustyKey());
+        getMap().getAva().getCurrItems().put(RustyKey.NAME, new RustyKey());
     }
 }

@@ -1,7 +1,5 @@
 package model.MapObjects;
 
-import model.Map;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -18,10 +16,9 @@ public abstract class Examinable extends Locatable implements Serializable {
     protected String examineDescription;
 //    identifies which kind of interactable this is
     protected int typeId; // 0=creature, 1=item, 3=feature
-    protected String ui;
 
-    public Examinable(Map map, int y, int x) {
-        super(map, y, x);
+    public Examinable(int y, int x) {
+        super(y, x);
     }
 
     public String getName() {

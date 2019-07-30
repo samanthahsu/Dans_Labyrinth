@@ -177,7 +177,7 @@ public class GameRunner {
     /*modifies: map
      * effects: if the target is in list of interactables examine target further*/
     private void enterExamineInstance(String targetNm) {
-        Examinable targetInter = map.getInteractables().get(targetNm);
+        Examinable targetInter = map.getAllExaminables().get(targetNm);
         if (targetInter != null) {
             System.out.println(targetInter.getExamineDescription());
             ui = scnr.next();

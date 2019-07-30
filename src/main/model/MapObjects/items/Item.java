@@ -1,6 +1,5 @@
 package model.MapObjects.items;
 
-import model.Map;
 import model.MapObjects.Examinable;
 
 import java.util.regex.Pattern;
@@ -18,15 +17,15 @@ public abstract class Item extends Examinable {
     private boolean isHeld;
 
 //constructor for already held objects
-    public Item(Map map) {
-        super(map, 0, 0);
+    public Item() {
+        super(-1, -1);
         typeId = TYPE_ITEM;
         isHeld = true;
     }
 
 //    constructor for items found at specific coordinates
-    public Item(Map map, int y, int x) {
-        super(map, y, x);
+    public Item(int y, int x) {
+        super(y, x);
         typeId = TYPE_ITEM;
         isHeld = false;
     }

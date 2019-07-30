@@ -16,11 +16,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TileTests extends TestMapDataAndMethods {
-    static final int T_Y_1 = 0;
-    static final int T_X_1 = 0;
-    static final int T_Y_2 = 3;
-    static final int T_X_2 = 4;
-    Tile tile;
+    private static final int T_Y_1 = 0;
+    private static final int T_X_1 = 0;
+    private static final int T_Y_2 = 3;
+    private static final int T_X_2 = 4;
+    private Tile tile;
 
     @BeforeEach
     void setup() {
@@ -32,8 +32,8 @@ class TileTests extends TestMapDataAndMethods {
     void makeEmptyFloorTile() {
         tile = new Tile(map1, T_Y_1, T_X_1, Map.FLOOR, new ArrayList<Examinable>());
         assertTrue(map1.equals(tile.getMap()));
-        assertEquals(T_Y_1, tile.getYpos());
-        assertEquals(T_X_1, tile.getXpos());
+        assertEquals(T_Y_1, tile.getY());
+        assertEquals(T_X_1, tile.getX());
         assertEquals(Map.FLOOR, tile.getCurrChar());
         assertTrue(new HashMap<String, Examinable>().equals(tile.getCurrInteractables()));
         assertTrue(tile.isWalkable());
@@ -43,8 +43,8 @@ class TileTests extends TestMapDataAndMethods {
     void makeWallTile() {
         tile = new Tile(map1, T_Y_1, T_X_1, Map.WALL, new ArrayList<Examinable>());
         assertTrue(map1.equals(tile.getMap()));
-        assertEquals(T_Y_1, tile.getYpos());
-        assertEquals(T_X_1, tile.getXpos());
+        assertEquals(T_Y_1, tile.getY());
+        assertEquals(T_X_1, tile.getX());
         assertEquals(Map.WALL, tile.getCurrChar());
         assertTrue(new HashMap<String, Examinable>().equals(tile.getCurrInteractables()));
         assertFalse(tile.isWalkable());
@@ -57,8 +57,8 @@ class TileTests extends TestMapDataAndMethods {
         );
         tile = new Tile(map1, T_Y_2, T_X_2, Map.FLOOR, tempInterList);
         assertTrue(map1.equals(tile.getMap()));
-        assertEquals(T_Y_2, tile.getYpos());
-        assertEquals(T_X_2, tile.getXpos());
+        assertEquals(T_Y_2, tile.getY());
+        assertEquals(T_X_2, tile.getX());
         assertEquals(Map.FLOOR, tile.getCurrChar());
         assertTrue(tempInterList.containsAll(tile.getCurrInteractables().values()));
         assertTrue(tile.isWalkable());

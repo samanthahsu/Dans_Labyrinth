@@ -30,40 +30,54 @@ public class Map implements Serializable { //todo add assertion stuff
     private int winY;
     private int winX;
     private Avatar ava;
-    //    holds interactables and other tile information
+    //    holds allExaminables and other tile information
+    // TODO @DEMO8: tileMatrix and allExaminables in TileMatrix needs to be synced
     private List<List<Tile>> tileMatrix;
-    //    for easier access to all interactables
-    private HashMap<String, Examinable> interactables;
+    //    for easier access to all allExaminables @DEMO8
+    private HashMap<String, Examinable> allExaminables;
 
 
     /*constructor
-    EFFECTS: DEFAULT_HEIGHT * DEFAULT_WIDTH == tileList.size()
-    sets DEFAULT_HEIGHT and DEFAULT_WIDTH of map, win coordinates, and examinables
-    then sets initializes tileMatrix from DEFAULT_MAP_STRING
-    initializes avatar at given coordinates with its items
-        else throws mismatchedMapSizeException
-    */
+    * requires: height and width match that of mapString
+    * effects: constructor, initializes all fields*/
     public Map(int height, int width, int winY, int winX, int avaY, int avaX,
-               List<Item> avaItems, List<Examinable> examinables, String mapString) throws mismatchedMapSizeException, edgeOfMapException {
+               List<Item> avaItems, List<Examinable> allExaminables, String mapString) throws mismatchedMapSizeException, edgeOfMapException {
         this.height = height;
         this.width = width;
         this.winY = winY;
         this.winX = winX;
-        initInteractables(examinables);
+        initExaminables(allExaminables);
         initTileMatrix(mapString);
         initAvatar(avaY, avaX, avaItems);
+//        todo make this take in list of string: name, x, y for each interactable
+
     }
 
     /* modifies: this
-    effects: sets the map variable in each interactable in list to this map
-    * and sets examinables in map to examinables list*/
-    private void initInteractables(List<Examinable> examinables) {
-        this.interactables = new HashMap<>();
-        for (Examinable i : examinables) { //todo make hashmap
-            i.setMap(this);
-            this.interactables.put(i.getName(), i);
+    * effects: initializes all examinables in the map*/
+    private void initExaminables(List<Examinable> examinables) {
+        this.allExaminables = new HashMap<>();
+        for (Examinable exa : examinables) {
+            exa.setMap(this);
+            this.allExaminables.put(exa.getName(), exa);
         }
     }
+
+////    require: given name of valid examinable, with two strings of y and x
+////
+////    returns examinable from given strings
+//    private Examinable parseToExaminable(String name, String y, String x) {
+//        Examinable examinable;
+//        int startY = Integer.parseInt(y);
+//        int startX = Integer.parseInt(x);
+//        switch (name) {
+//            case Ennui.NAME:
+//                examinable = new Ennui(startY, startX);
+//                break;
+//            case MossyGate.NAME:
+//                examinable = new MossyGate(startY, startX);
+//        }
+//    }
 
     /*  initializes tileMatrix
         requires: DEFAULT_HEIGHT, DEFAULT_WIDTH have been initialized
@@ -91,8 +105,8 @@ public class Map implements Serializable { //todo add assertion stuff
     }
 
     /*builds a list of tiles that will be used to construct tileMatrix
-    requires: DEFAULT_HEIGHT, DEFAULT_WIDTH, and interactables have been initialized
-    effects: builds tile arrayList with characters form mapstring, and interactables from interList*/
+    requires: DEFAULT_HEIGHT, DEFAULT_WIDTH, and allExaminables have been initialized
+    effects: builds tile arrayList with characters form mapstring, and allExaminables from interList*/
     private List<Tile> buildTileList(String mapString) {
         List<Tile> returnList = new ArrayList<>();
         Tile newTile;
@@ -100,7 +114,7 @@ public class Map implements Serializable { //todo add assertion stuff
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 newTile = new Tile(this , y, x, mapString.charAt(strIndex),
-                        getInteractablesAtIndex(y, x, interactables));
+                        getInteractablesAtIndex(y, x, allExaminables));
                 returnList.add(newTile);
                 strIndex++;
             }
@@ -108,7 +122,7 @@ public class Map implements Serializable { //todo add assertion stuff
         return returnList;
     }
 
-    /*effects: returns ArrayList of all interactables with given indexes*/
+    /*effects: returns ArrayList of all allExaminables with given indexes*/
     private ArrayList<Examinable> getInteractablesAtIndex(int y, int x, HashMap<String, Examinable> interList) {
         ArrayList<Examinable> temp = new ArrayList<>();
         for (Examinable i : interList.values()
@@ -142,7 +156,7 @@ public class Map implements Serializable { //todo add assertion stuff
         tileMatrix.get(y).get(x).setCurrChar(c);
     }
 
-    //    getters...
+    //    getters
     public int getHeight() {
         return height;
     }
@@ -167,8 +181,8 @@ public class Map implements Serializable { //todo add assertion stuff
         return tileMatrix;
     }
 
-    public HashMap<String, Examinable> getInteractables() {
-        return interactables;
+    public HashMap<String, Examinable> getAllExaminables() {
+        return allExaminables;
     }
 
     @Override
@@ -182,66 +196,79 @@ public class Map implements Serializable { //todo add assertion stuff
                 winX == map.winX &&
                 ava.equals(map.ava) &&
                 tileMatrix.equals(map.tileMatrix) &&
-                interactables.equals(map.interactables);
+                allExaminables.equals(map.allExaminables);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(height, width, winY, winX, ava, tileMatrix, interactables);
+        return Objects.hash(height, width, winY, winX, ava, tileMatrix, allExaminables);
     }
 
-    /*
-        effects: returns true if a and b are of same size (indicated by DEFAULT_HEIGHT and DEFAULT_WIDTH)
-        and a and b contain equal tiles in the same order,
-        else returns false
-    */
-    public boolean tileMatrixEquals(List<List<Tile>> a, List<List<Tile>> b, int height, int width) {
-        if (a.size() != height || b.size() != height) {
-            return false;
-        }
-        for (int m = 0; m < height; m++) {
-            if (a.get(m).size() != width || b.get(m).size() != width) {
-                return false;
-            }
-            for (int n = 0; n < width; n++) {
-                if (!a.get(m).get(n).equals(b.get(m).get(n))) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+//    /*
+//        effects: returns true if a and b are of same size (indicated by DEFAULT_HEIGHT and DEFAULT_WIDTH)
+//        and a and b contain equal tiles in the same order,
+//        else returns false
+//    */
+//    public boolean tileMatrixEquals(List<List<Tile>> a, List<List<Tile>> b, int height, int width) {
+//        if (a.size() != height || b.size() != height) {
+//            return false;
+//        }
+//        for (int m = 0; m < height; m++) {
+//            if (a.get(m).size() != width || b.get(m).size() != width) {
+//                return false;
+//            }
+//            for (int n = 0; n < width; n++) {
+//                if (!a.get(m).get(n).equals(b.get(m).get(n))) {
+//                    return false;
+//                }
+//            }
+//        }
+//        return true;
+//    }
 
-    //    EFFECTS: return true if index within bounds of the map
+    //    effects: returns true if index is within bounds of the map
     public boolean isIndexValid(int y, int x) {
         return y >= 0 && x >= 0 && y < height && x < width;
     }
 
-    public void addInteractable(Examinable i, int y, int x) {
-        if (isIndexValid(y, x)) {
-            tileMatrix.get(y).get(x).getCurrInteractables().put(i.getName(), i);
+    /*requires: examinable is not null @DEMO8
+    * effects: this
+    * requires: adds new examinable to the map at the given position*/
+    public void addExaminable(Examinable newExaminable, int startY, int startX) {
+        if (isIndexValid(startY, startX)) {
+            tileMatrix.get(startY).get(startX).getCurrInteractables().put(newExaminable.getName(), newExaminable);
+            allExaminables.put(newExaminable.getName(), newExaminable);
         }
     }
 
-    /*
-            EFFECTS: returns true if tile of requested index is walkable, else false
-            if index requested is not on map, throw edgeOfMapException
-    */
+    /*requires: examinable is not null @DEMO8
+    * modifies: this
+    * effects: removes the examinable from the map at the given location*/
+    public void removeExaminable (Examinable toRemove, int currentY, int currentX) {
+        String toRemoveName = toRemove.getName();
+        tileMatrix.get(currentY).get(currentX).getCurrInteractables().remove(toRemoveName);
+        allExaminables.remove(toRemoveName);
+    }
+
+    /*requires:
+    * modifies:
+    * effects: returns true if the tile of requested index is walkable, else false
+            if index requested is not on map and throws an exception*/
     public boolean isTileWalkable(int y, int x) throws edgeOfMapException {
         checkIfMapEdge(y, x);
         return tileMatrix.get(y).get(x).isWalkable();
     }
 
+    /* effects: throws exception if given position is not on the map*/
     private void checkIfMapEdge(int y, int x) throws edgeOfMapException {
         if (y < 0 || y >= height || x < 0 || x >= width) {
             throw new edgeOfMapException();
         }
     }
 
-    /*
-            MODIFIES: this
-            EFFECTS: iff given index is valid, reveal actual tile char at given index
+    /* modifies: this
+     * effects: iff given index is valid, reveal the tile at the given index
             todo throw edge of map exception, alt fail quietly since is expected to happen
     */
     private void checkAndRevealTileDisp(int y, int x) {
@@ -250,11 +277,9 @@ public class Map implements Serializable { //todo add assertion stuff
         }
     }
 
-    /*
-            MODIFIES: this
-            EFFECTS: if tile index is valid, reveal the 4 (or less) tiles orthogonally around y, x (no diagonals)
-            else do nothing? todo throw exc?
-    */
+    /* modifies: this
+      * effects: if tile index is valid, reveal the 4 (or less) tiles orthogonally
+      * around y, x (no diagonals) else do nothing? todo throw exc?*/
     public void revealSurroundings(int y, int x) {
         checkAndRevealTileDisp(y, x);
         checkAndRevealTileDisp(y, x - 1);
@@ -264,7 +289,7 @@ public class Map implements Serializable { //todo add assertion stuff
     }
 
     /*
-            EFFECTS: returns true if ava is on the winning tile
+            EFFECTS: returns true if player is on the winning tile
     */
     public boolean isWin() {
         return ava.getY() == winY && ava.getX() == winX;
@@ -272,14 +297,14 @@ public class Map implements Serializable { //todo add assertion stuff
 
     /*
             modifies: this
-            EFFECTS: executes the doPassiveActions for each feature or creature in interactables
+            EFFECTS: executes the doPassiveActions for each feature or creature in allExaminables
             different for each type of creature including:
             sound scope: how far away from ava for ava to get message feedback about disturbance
             movement: how far and in what pattern each creature moves (if they try to avoid or to approach ava)
             checking if areas are open or closed
     */
     public void nextState() {
-        for (Examinable i : interactables.values()) {
+        for (Examinable i : allExaminables.values()) {
             if (i.getTypeId() == Examinable.TYPE_CREATURE) {
                 ((Creature) i).doPassiveActions();
             } else if (i.getTypeId() == Examinable.TYPE_FEATURE) {

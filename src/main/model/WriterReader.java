@@ -67,14 +67,13 @@ requires: path is valid
 
         /*effects: returns hash set of all interactables with given indexes*/
     private ArrayList<Examinable> parseAllInteractables(int y, int x) {
-        ArrayList<Examinable> temp = new ArrayList<>();
-        for (Examinable i : DEFAULT_INTERACTABLES_LIST
-             ) {
-            if (i.getYpos() == y && i.getXpos() == x) {
-                temp.add(i);
+        ArrayList<Examinable> tempList = new ArrayList<>();
+        for (Examinable exa : DEFAULT_INTERACTABLES_LIST) {
+            if (exa.getY() == y && exa.getX() == x) {
+                tempList.add(exa);
             }
         }
-        return temp;
+        return tempList;
     }
 
     //    requires: file (filename) contains valid Map object, if it doesn't, returns null

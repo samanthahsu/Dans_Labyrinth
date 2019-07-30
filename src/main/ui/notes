@@ -142,7 +142,7 @@ Puzzles - meant to keep the monster in
       oh no, all the controls are flipped AND you're blind
       every step, the controls flip around (Now the wheel has turned around)
       eat a weird mushroom and world is wobbly for a while
-   - experimentation, a couple examinables with which you have to do things to in a certain way
+   - experimentation, a couple allExaminables with which you have to do things to in a certain way
         light the torch, then examine the wall
 
    - nitpicking, very precise experimentation with consequence of failure

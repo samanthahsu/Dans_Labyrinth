@@ -7,6 +7,11 @@ public abstract class Locatable {
     private int y;
     private int x;
 
+    public Locatable(int y, int x) {
+        this.y = y;
+        this.x = x;
+    }
+
     public Locatable(Map map, int y, int x) {
         this.map = map;
         this.y = y;
@@ -31,5 +36,9 @@ public abstract class Locatable {
 
     public Map getMap() {
         return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
     }
 }

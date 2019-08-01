@@ -37,11 +37,11 @@
 //    @Override
 //    public void attack(Map map) {
 ///*
-//        int futureStat = map.getAva().getStatus() - 1;
+//        int futureStat = map.getAva().getSanity() - 1;
 //        if (futureStat >= 0) {
-//            map.getAva().setStatus(futureStat);
+//            map.getAva().setSanity(futureStat);
 //        }
-//        map.getCurrInteractables().get(currentY).set(currentX, new AbsolutelyNothing());
+//        map.getCurrExaminables().get(currentY).set(currentX, new AbsolutelyNothing());
 //        System.out.println("KABOOM!");
 //*/
 //    }

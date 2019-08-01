@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 /*manages the map portion of this adventure*/
-public class Map implements Serializable { //todo add assertion stuff
+public class Map implements Serializable {
 
     //    default characters representing each display element
     public static final char WALL = '@';
@@ -49,8 +49,6 @@ public class Map implements Serializable { //todo add assertion stuff
         initExaminables(allExaminables);
         initTileMatrix(mapString);
         initAvatar(avaY, avaX, avaItems);
-//        todo make this take in list of string: name, x, y for each interactable
-
     }
 
     /* modifies: this
@@ -201,7 +199,6 @@ public class Map implements Serializable { //todo add assertion stuff
 
     @Override
     public int hashCode() {
-
         return Objects.hash(height, width, winY, winX, ava, tileMatrix, allExaminables);
     }
 
@@ -237,8 +234,29 @@ public class Map implements Serializable { //todo add assertion stuff
     * requires: adds new examinable to the map at the given position*/
     public void addExaminable(Examinable newExaminable, int startY, int startX) {
         if (isIndexValid(startY, startX)) {
-            tileMatrix.get(startY).get(startX).getCurrInteractables().put(newExaminable.getName(), newExaminable);
+            tileMatrix.get(startY).get(startX).getCurrExaminables().put(newExaminable.getName(), newExaminable);
             allExaminables.put(newExaminable.getName(), newExaminable);
+            newExaminable.setY(startY);
+            newExaminable.setX(startX);
+            if (newExaminable.getMap() != this) {
+                newExaminable.setMap(this);
+            }
+        }
+    }
+
+    /*requires:
+    * modifies: this, examinable
+    * effects: moves examinable to new position in tile matrix, and sets it's
+    * internal indexes accordingly*/
+    public void moveExaminable (Examinable examinable, int oldy, int oldx, int newy, int newx) {
+        String examinableName = examinable.getName();
+        if (isIndexValid(oldy, oldx)) {
+            tileMatrix.get(oldy).get(oldx).getCurrExaminables().remove(examinableName);
+        }
+        tileMatrix.get(newy).get(newx).getCurrExaminables().put(examinableName, examinable);
+        if (examinable.getY() != newy || examinable.getX() != newx) {
+            examinable.setY(newy);
+            examinable.setX(newx);
         }
     }
 
@@ -247,7 +265,7 @@ public class Map implements Serializable { //todo add assertion stuff
     * effects: removes the examinable from the map at the given location*/
     public void removeExaminable (Examinable toRemove, int currentY, int currentX) {
         String toRemoveName = toRemove.getName();
-        tileMatrix.get(currentY).get(currentX).getCurrInteractables().remove(toRemoveName);
+        tileMatrix.get(currentY).get(currentX).getCurrExaminables().remove(toRemoveName);
         allExaminables.remove(toRemoveName);
     }
 
@@ -269,9 +287,8 @@ public class Map implements Serializable { //todo add assertion stuff
 
     /* modifies: this
      * effects: iff given index is valid, reveal the tile at the given index
-            todo throw edge of map exception, alt fail quietly since is expected to happen
-    */
-    private void checkAndRevealTileDisp(int y, int x) {
+            todo throw edge of map exception, alt fail quietly since is expected to happen*/
+    private void checkAndRevealTileDisplay(int y, int x) {
         if (isIndexValid(y, x)) {
             tileMatrix.get(y).get(x).revealTile();
         }
@@ -281,28 +298,24 @@ public class Map implements Serializable { //todo add assertion stuff
       * effects: if tile index is valid, reveal the 4 (or less) tiles orthogonally
       * around y, x (no diagonals) else do nothing? todo throw exc?*/
     public void revealSurroundings(int y, int x) {
-        checkAndRevealTileDisp(y, x);
-        checkAndRevealTileDisp(y, x - 1);
-        checkAndRevealTileDisp(y, x + 1);
-        checkAndRevealTileDisp(y - 1, x);
-        checkAndRevealTileDisp(y + 1, x);
+        checkAndRevealTileDisplay(y, x);
+        checkAndRevealTileDisplay(y, x - 1);
+        checkAndRevealTileDisplay(y, x + 1);
+        checkAndRevealTileDisplay(y - 1, x);
+        checkAndRevealTileDisplay(y + 1, x);
     }
 
-    /*
-            EFFECTS: returns true if player is on the winning tile
-    */
+    /*effects: returns true if player is on the winning tile*/
     public boolean isWin() {
         return ava.getY() == winY && ava.getX() == winX;
     }
 
-    /*
-            modifies: this
-            EFFECTS: executes the doPassiveActions for each feature or creature in allExaminables
-            different for each type of creature including:
-            sound scope: how far away from ava for ava to get message feedback about disturbance
-            movement: how far and in what pattern each creature moves (if they try to avoid or to approach ava)
-            checking if areas are open or closed
-    */
+    /*modifies: this
+    effects: executes the doPassiveActions for each feature or creature in allExaminables
+    different for each type of creature including:
+    sound scope: how far away from ava for ava to get message feedback about disturbance
+    movement: how far and in what pattern each creature moves (if they try to avoid or to approach ava)
+    checking if areas are open or closed*/
     public void nextState() {
         for (Examinable i : allExaminables.values()) {
             if (i.getTypeId() == Examinable.TYPE_CREATURE) {

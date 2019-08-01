@@ -9,23 +9,31 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Avatar extends Locatable implements Serializable {
+//    TODO SPLIT OUT ITEM HANDLER FROM AVATAR
 
-    public static final int MAX_HP = 3;
+    public static final int NORMAL = 3;
+    public static final int POISONED = 1;
+    public static String NAME;
+
     public static final String MAP_EDGE_MESSAGE = "Dan tries to walk of the edge of the map! The abyss gazes back into him.\n"
             + "There is no way he is going into that hell hole.";
 
     private HashMap<String, Item> currItems;
-    private int status; //health bar 0 = dead
+    private int sanity; //sanity = 0 means stupid controls
+    private ItemManager itemManager;
 
 /* constructor
-    EFFECTS: makes avatar setting it's coordinates, startingItems and status to 3
+    EFFECTS: makes avatar setting it's coordinates, startingItems and sanity to 3
 */
     public Avatar(int startingY, int startingX, List<Item> startingItems, Map map) {
         super(map, startingY, startingX);
         initItems(startingItems);
-        status = MAX_HP;
+        sanity = NORMAL;
+        NAME = "Dan";
+        itemManager = new ItemManager(getMap(), startingItems);
     }
 
     /* modifies: this
@@ -40,8 +48,8 @@ public class Avatar extends Locatable implements Serializable {
     }
 
     //    GETTERS
-    public int getStatus() {
-        return status;
+    public int getSanity() {
+        return sanity;
     }
 
     public HashMap<String, Item> getCurrItems() {
@@ -49,8 +57,8 @@ public class Avatar extends Locatable implements Serializable {
     }
 
     //    todo for tests only
-    public void setStatus(int status) {
-        this.status = status;
+    public void setSanity(int sanity) {
+        this.sanity = sanity;
     }
 
     @Override
@@ -62,7 +70,7 @@ public class Avatar extends Locatable implements Serializable {
             return false;
         }
         Avatar avatar = (Avatar) o;
-        return status == avatar.status
+        return sanity == avatar.sanity
                 && getY() == avatar.getY()
                 && getX() == avatar.getX()
                 && currItems.equals(avatar.currItems);
@@ -70,7 +78,7 @@ public class Avatar extends Locatable implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(status, getY(), getX(), currItems);
+        return Objects.hash(sanity, getY(), getX(), currItems);
     }
 
     //    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
@@ -105,7 +113,7 @@ public class Avatar extends Locatable implements Serializable {
                 map.revealSurroundings(y, x);
                 setY(y);
                 setX(x);
-                for (Examinable inter : map.getTileMatrix().get(y).get(x).getCurrInteractables().values()
+                for (Examinable inter : map.getTileMatrix().get(y).get(x).getCurrExaminables().values()
                      ) {
                     System.out.println(inter.getName());
                 }
@@ -126,11 +134,11 @@ public class Avatar extends Locatable implements Serializable {
 */
     public void pickUpItem(String itemName) {
         HashMap<String, Examinable> tileItems =  getMap().getTileMatrix()
-                .get(getY()).get(getX()).getCurrInteractables();
+                .get(getY()).get(getX()).getCurrExaminables();
         Examinable chosenItem = tileItems.get(itemName);
 
         if (chosenItem != null) {
-            tileItems.remove(itemName);
+            getMap().removeExaminable(chosenItem, getY(), getX());
             currItems.put(itemName, (Item) chosenItem);
             System.out.println("Dan picked up '" + itemName + "'!");
         }
@@ -138,22 +146,35 @@ public class Avatar extends Locatable implements Serializable {
     }
 
 
-//EFFECTS: uses the item called itemName on target
+//EFFECTS: uses the item on the target
     public void useItem(String itemName, String target) {
         if (!currItems.containsKey(itemName)) {
             System.out.println("Dan remembers he left the " + itemName + " at home again.");
-        } else if (!getMap().getTileMatrix().get(getY()).get(getX())
-                .getCurrInteractables().containsKey(target) && !target.equals("Dan")) {
-            System.out.println("Dan cannot find a " + target + " around him");
-        } else if (!currItems.get(itemName).use(target)) {
-            System.out.println("<todo beef out text> that doesn't work");
+        } else {
+            Tile currentTile = getMap().getTileMatrix().get(getY()).get(getX());
+            if (!currentTile.getCurrExaminables().containsKey(target)
+                    && !Pattern.matches("(D|d)an", target)) {
+                System.out.println("Dan cannot find a " + target + " around him");
+            } else if (!currItems.get(itemName).use(target)) {
+                System.out.println("<todo beef out text> that doesn't work");
+            }
         }
     }
 
-    //    MODIFIES: map, this
-    //    EFFECTS: drops item from Item list, setting it on current map tile
-    protected void dropItem(Map map) {
-//        todo might not need this
+        /*MODIFIES: map, this
+        EFFECTS: drops item from Item list, setting it on current map tile
+        and setting item indexes accordingly*/
+    public void dropItem(String itemName) {
+        if (!currItems.containsKey(itemName)) {
+            System.out.println("Dan is glad that one could not lose something one never had.");
+        } else {
+            Item target = currItems.get(itemName);
+            target.setIndexes(getY(), getX());
+            getMap().addExaminable(target, getY(), getX());
+
+            currItems.remove(itemName);
+            System.out.println("Dan drops the " + itemName + " to the floor.");
+        }
     }
 
 }

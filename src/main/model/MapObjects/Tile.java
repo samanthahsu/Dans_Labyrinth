@@ -60,15 +60,11 @@ public class Tile extends Locatable implements Serializable {
         return isWalkable;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public void setWalkable(boolean walkable) {
         isWalkable = walkable;
     }
 
-    public HashMap<String, Examinable> getCurrInteractables() {
+    public HashMap<String, Examinable> getCurrExaminables() {
         return currInteractables;
     }
 
@@ -85,7 +81,13 @@ public class Tile extends Locatable implements Serializable {
     }
 
     public void removeSound(String soundSource) {
-        tileSounds.remove(new Sound(null, -1,-1, soundSource, ""));
+        for (Sound sound : tileSounds) {
+            if (sound.equals(new Sound(null, -1,-1, soundSource, ""))) {
+                tileSounds.remove(sound);
+                return;
+            }
+        }
+//        tileSounds.remove(new Sound(null, -1,-1, soundSource, ""));
     }
 
     //    effects: if tile is revealed return current char, else return fog char

@@ -8,8 +8,8 @@ public abstract class Examinable extends Locatable implements Serializable {
     public static final int TYPE_CREATURE = 0;
     public static final int TYPE_ITEM = 1;
     public static final int TYPE_FEATURE = 2;
-    public static final String EXIT_EXAMINATION = "back";
-
+    public static final String EXIT_EXAMINATION_KEY = "back";
+//todo since everything has the same name, set as public static ID instead
 //    used to id interactable
     protected String name;
     protected String description;
@@ -46,10 +46,26 @@ public abstract class Examinable extends Locatable implements Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(name, description, examineDescription, typeId);
     }
 
+// todo maybe add override of setMap here for coupling
+
+    /*requires: given y,x are within map
+    * modifies: this, map
+    * effects: sets examinable location to y, x*/
+    public void setIndexes(int y, int x) {
+        int oldy = getY();
+        int oldx = getX();
+        super.setY(y);
+        super.setX(x);
+        if (!getMap().getTileMatrix().get(y).get(x).getCurrExaminables().containsKey(getName())) {
+            getMap().moveExaminable(this, oldy, oldx, y, x);
+        }
+    }
+
+    /* requires: typeId is not null
+    * effects: returns id*/
     public int getTypeId() {
         return typeId;
     }

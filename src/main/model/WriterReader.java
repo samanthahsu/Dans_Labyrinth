@@ -1,11 +1,9 @@
 package model;
 
-import model.MapObjects.Examinable;
 import model.exceptions.edgeOfMapException;
 import model.exceptions.mismatchedMapSizeException;
 
 import java.io.*;
-import java.util.ArrayList;
 
 /*reads and writes game states from the saves folder*/
 public class WriterReader implements DefaultMapData {
@@ -56,25 +54,25 @@ requires: path is valid
         return new Map(DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_WIN_Y, DEFAULT_WIN_X, DEFAULT_START_Y, DEFAULT_START_X, DEFAULT_AVA_ITEMS_LIST, DEFAULT_INTERACTABLES_LIST, DEFAULT_MAP_STRING);
     }
 
-    /*requires: map already initialized
-    modifies: this
-    sets map field in each interactable*/
-    private void setMapsInInteractables(Map map, ArrayList<Examinable> examinableArrayList) {
-        for (Examinable i : examinableArrayList) {
-            i.setMap(map);
-        }
-    }
+//    /*requires: map already initialized
+//    modifies: this
+//    sets map field in each interactable*/
+//    private void setMapsInInteractables(Map map, ArrayList<Examinable> examinableArrayList) {
+//        for (Examinable i : examinableArrayList) {
+//            i.setMap(map);
+//        }
+//    }
 
-        /*effects: returns hash set of all interactables with given indexes*/
-    private ArrayList<Examinable> parseAllInteractables(int y, int x) {
-        ArrayList<Examinable> tempList = new ArrayList<>();
-        for (Examinable exa : DEFAULT_INTERACTABLES_LIST) {
-            if (exa.getY() == y && exa.getX() == x) {
-                tempList.add(exa);
-            }
-        }
-        return tempList;
-    }
+//        /*effects: returns hash set of all interactables with given indexes*/
+//    private ArrayList<Examinable> parseAllInteractables(int y, int x) {
+//        ArrayList<Examinable> tempList = new ArrayList<>();
+//        for (Examinable exa : DEFAULT_INTERACTABLES_LIST) {
+//            if (exa.getY() == y && exa.getX() == x) {
+//                tempList.add(exa);
+//            }
+//        }
+//        return tempList;
+//    }
 
     //    requires: file (filename) contains valid Map object, if it doesn't, returns null
     //  effects: Reads from (fileName) at (savePath) which it returns as a Map object.

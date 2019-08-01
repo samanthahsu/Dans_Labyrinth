@@ -8,8 +8,8 @@ import java.util.Objects;
 strengthens based on distance*/
 public class Sound extends Locatable {
 
-    private String soundStr;
-    private String sourceName;
+    private String soundStr; // what is printed
+    private String sourceName; //where it came from
 
     public Sound(Map map, int y, int x, String sourceName, String soundStr) {
         super(map, y, x);
@@ -35,7 +35,6 @@ public class Sound extends Locatable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(sourceName);
     }
 }

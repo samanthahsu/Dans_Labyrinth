@@ -1,12 +1,10 @@
 package model.MapObjects.creatures;
 
-import model.Map;
 import model.MapObjects.Avatar;
 import model.MapObjects.Sound;
 import model.MapObjects.Tile;
 import model.MapObjects.items.RustyKey;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -16,6 +14,10 @@ import java.util.regex.Pattern;
 public class Ennui extends Creature {
 
     public final static String SOUND_NAME = "ennui sound";
+    public static final String DESCRIPTION = "there is a flash of turquoise fuzz in the dark";
+    public static final String EXAMINE_DESCRIPTION = "A small mole like animal with a star shaped nose" +
+            "is flattened against the dirt floor.\nBarely concealed by it's paws is a flat " +
+            "rusted piece of metal resembling a lollipop.";
     final String SOUND_DESCRIPTION = "a patter of tiny footsteps";
     public static final String NAME = "ennui";
 
@@ -24,10 +26,8 @@ public class Ennui extends Creature {
     public Ennui(int y, int x) {
         super(y, x);
         name = NAME;
-        description = "there is a flash of turquoise fuzz in the dark";
-        examineDescription = "A small mole like animal with a star shaped nose" +
-                "is flattened against the dirt floor.\nBarely concealed by it's paws is a flat " +
-                "rusted piece of metal resembling a lollipop.";
+        description = DESCRIPTION;
+        examineDescription = EXAMINE_DESCRIPTION;
     }
 
     /*effects: removes this from current tile, move to tile in calculated direction */
@@ -46,17 +46,6 @@ public class Ennui extends Creature {
             getMap().getTileMatrix().get(getY()).get(getX()).setCurrChar('E');
             System.out.println("moved from" + oldY + " " + oldX + " to " + getY() +" "+ getX());
         }
-    }
-
-    @Override
-    void attack(Map map) {
-
-    }
-
-
-    @Override
-    void speak() {
-
     }
 
     /*moves one tile in a random direction (that is FLOOR)
@@ -89,8 +78,8 @@ public class Ennui extends Creature {
 
     private void addSound(int y, int x) {
         if (getMap().isIndexValid(y, x)) {
-            getMap().getTileMatrix().get(y).get(x).getTileSounds()
-                    .add(new Sound(getMap(), y, x, NAME, SOUND_DESCRIPTION));
+            getMap().getTileMatrix().get(y).get(x)
+                    .addSound(new Sound(getMap(), y, x, NAME, SOUND_DESCRIPTION));
         }
     }
 
@@ -99,24 +88,25 @@ public class Ennui extends Creature {
     private void removeSounds(int oldy, int oldx) {
         int currentY = getY();
         int currentX = getX();
-        removeOneSound(currentY - 1, currentX);
-        removeOneSound(currentY + 1, currentX);
-        removeOneSound(currentY, currentX - 1);
-        removeOneSound(currentY, currentX + 1);
+        removeOneSoundAtPos(currentY - 1, currentX);
+        removeOneSoundAtPos(currentY + 1, currentX);
+        removeOneSoundAtPos(currentY, currentX - 1);
+        removeOneSoundAtPos(currentY, currentX + 1);
     }
 
     /*effects: if tile index is valid, iterate through interactables list in that tile, and remove
     * interactable named SOUND_NAME*/
-    private void removeOneSound(int y, int x) {
+    private void removeOneSoundAtPos(int y, int x) {
         if (getMap().isIndexValid(y, x)) {
-            Collection<Sound> soundCollection = getMap().getTileMatrix().get(y).get(x).getTileSounds();
-            for (Sound sound : soundCollection
-                 ) {
-                if(sound.getSourceName().equals(NAME)) {
-                    soundCollection.remove(sound);
-                    return;
-                }
-            }
+            getMap().getTileMatrix().get(y).get(x).removeSound(name);
+//            Collection<Sound> soundCollection = getMap().getTileMatrix().get(y).get(x).getTileSounds();
+//            for (Sound sound : soundCollection
+//                 ) {
+//                if(sound.getSourceName().equals(NAME)) {
+//                    soundCollection.remove(sound);
+//                    return;
+//                }
+//            }
         }
     }
 
@@ -159,8 +149,8 @@ public class Ennui extends Creature {
     * sets current coordinates to next coordinates*/
     private void executeMove(int nextY, int nextX) {
         List<List<Tile>> tileMatrix = getMap().getTileMatrix();
-        tileMatrix.get(nextY).get(nextX).getCurrInteractables().put(name, this);
-        tileMatrix.get(getY()).get(getY()).getCurrInteractables().remove(name);
+        tileMatrix.get(nextY).get(nextX).getCurrExaminables().put(name, this);
+        tileMatrix.get(getY()).get(getY()).getCurrExaminables().remove(name);
         setY(nextY);
         setX(nextX);
     }

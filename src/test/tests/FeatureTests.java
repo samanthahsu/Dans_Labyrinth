@@ -1,6 +1,7 @@
 package tests;
 
 import model.Map;
+import model.MapObjects.features.BloodFish;
 import model.MapObjects.features.MossyGate;
 import model.MapObjects.items.RustyKey;
 import model.exceptions.edgeOfMapException;
@@ -8,17 +9,19 @@ import model.exceptions.mismatchedMapSizeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FeatureTests extends TestMapDataAndMethods {
+    public static final int YBLOCK = 2;
+    public static final int XBLOCK = 6;
     private MossyGate mgC;
+    private BloodFish bloodFish;
 
     @BeforeEach
     void setup() throws mismatchedMapSizeException, edgeOfMapException {
         initTestMaps();
         //        uses mapC
-        mgC = new MossyGate(1, 6, 2, 6);
+        mgC = new MossyGate(1, 6, YBLOCK, XBLOCK);
         interListC.add(mgC);
 //        tileListC = buildTileArray(TEST_HEIGHT_C, TEST_WIDTH_C, TEST_MAP_C, interListC);
         itemListC.add(new RustyKey());
@@ -28,12 +31,28 @@ class FeatureTests extends TestMapDataAndMethods {
 
     }
 
-    @Test //todo build into game
+    @Test
     void testMossyConstructor() {
         mgC.doPassiveActions();
         assertEquals("mossy gate", mgC.getName());
         assertEquals(1, mgC.getY());
         assertEquals(6, mgC.getX());
         assertFalse(mapCreature.getTileMatrix().get(2).get(6).isWalkable());
+    }
+
+    @Test
+    void testOpen() {
+        mgC.open();
+        assertTrue(mgC.isOpened());
+        assertTrue(tileMatrixC.get(YBLOCK).get(XBLOCK).isWalkable());
+    }
+
+    @Test
+    void testExamine() {
+        mgC.examine("hello");
+    }
+
+    @Test
+    void testBloodFishTODO() {
     }
 }

@@ -2,6 +2,7 @@ package tests;
 
 import model.Map;
 import model.MapObjects.Examinable;
+import model.MapObjects.Sound;
 import model.MapObjects.Tile;
 import model.MapObjects.creatures.Ennui;
 import model.MapObjects.items.Note;
@@ -20,6 +21,7 @@ class TileTests extends TestMapDataAndMethods {
     private static final int T_X_1 = 0;
     private static final int T_Y_2 = 3;
     private static final int T_X_2 = 4;
+    public static final String SOURCE_NAME = "test source";
     private Tile tile;
 
     @BeforeEach
@@ -35,7 +37,7 @@ class TileTests extends TestMapDataAndMethods {
         assertEquals(T_Y_1, tile.getY());
         assertEquals(T_X_1, tile.getX());
         assertEquals(Map.FLOOR, tile.getCurrChar());
-        assertTrue(new HashMap<String, Examinable>().equals(tile.getCurrInteractables()));
+        assertTrue(new HashMap<String, Examinable>().equals(tile.getCurrExaminables()));
         assertTrue(tile.isWalkable());
     }
 
@@ -46,7 +48,7 @@ class TileTests extends TestMapDataAndMethods {
         assertEquals(T_Y_1, tile.getY());
         assertEquals(T_X_1, tile.getX());
         assertEquals(Map.WALL, tile.getCurrChar());
-        assertTrue(new HashMap<String, Examinable>().equals(tile.getCurrInteractables()));
+        assertTrue(new HashMap<String, Examinable>().equals(tile.getCurrExaminables()));
         assertFalse(tile.isWalkable());
     }
 
@@ -60,7 +62,7 @@ class TileTests extends TestMapDataAndMethods {
         assertEquals(T_Y_2, tile.getY());
         assertEquals(T_X_2, tile.getX());
         assertEquals(Map.FLOOR, tile.getCurrChar());
-        assertTrue(tempInterList.containsAll(tile.getCurrInteractables().values()));
+        assertTrue(tempInterList.containsAll(tile.getCurrExaminables().values()));
         assertTrue(tile.isWalkable());
     }
 
@@ -69,6 +71,16 @@ class TileTests extends TestMapDataAndMethods {
         assertEquals(Map.FOG, tile.getDisplayChar());
         tile.revealTile();
         assertEquals(Map.FLOOR, tile.getDisplayChar());
+    }
+
+    @Test
+    void testAddAndRemoveSounds() {
+        Sound sound = new Sound(map1, T_Y_1, T_X_1, SOURCE_NAME, "");
+        Tile tile1 = tileMatrix1.get(T_Y_1).get(T_X_1);
+        tile1.addSound(sound);
+        assertTrue(tile1.getTileSounds().contains(sound));
+        tile1.removeSound(SOURCE_NAME);
+        assertFalse(tile1.getTileSounds().contains(sound));
     }
 
 }

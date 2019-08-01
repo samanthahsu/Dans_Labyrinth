@@ -2,6 +2,7 @@ package model;
 
 import model.MapObjects.Examinable;
 import model.MapObjects.creatures.Ennui;
+import model.MapObjects.features.BloodFish;
 import model.MapObjects.features.MossyGate;
 import model.MapObjects.items.Item;
 import model.MapObjects.items.PizzaBox;
@@ -36,7 +37,8 @@ interface DefaultMapData {
             Arrays.<Item>asList(new PizzaBox()));
 
     List<Examinable> DEFAULT_INTERACTABLES_LIST = new ArrayList<Examinable>(
-            Arrays.asList(new Ennui(6, 6), new MossyGate(5, 9, 4, 9))
+            Arrays.asList(new Ennui(6, 6), new MossyGate(5, 9, 4, 9),
+                    new BloodFish(2, 1))
     );
 
 }

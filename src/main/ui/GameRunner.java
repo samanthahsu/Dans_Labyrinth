@@ -3,6 +3,7 @@ package ui;
 import model.Map;
 import model.MapObjects.Examinable;
 import model.MapObjects.Tile;
+import model.MapObjects.creatures.Ennui;
 import model.MapObjects.items.Item;
 import model.WriterReader;
 import model.exceptions.mapException;
@@ -137,7 +138,7 @@ public class GameRunner {
                 break;
             case "examine":
                 enterExamineInstance(scnr.next());
-                // todo print out target's examine description
+                System.out.println("<exited examine instance>");
                 break;
             case "pickup": // change to pick up <item name>
                 item = scnr.next();
@@ -146,13 +147,12 @@ public class GameRunner {
             case "use":
 //                use ___ on ___
                 item = scnr.next();
-//                scnr.next("on");
+                scnr.next("on");
                 target = scnr.next();
                 map.getAva().useItem(item, target);
                 break;
-
             case "me":
-                System.out.println("Health: " + map.getAva().getStatus()
+                System.out.println("Health: " + map.getAva().getSanity()
                 + "/3");
                 printItems();
                 return false;
@@ -179,10 +179,14 @@ public class GameRunner {
     private void enterExamineInstance(String targetNm) {
         Examinable targetInter = map.getAllExaminables().get(targetNm);
         if (targetInter != null) {
+            System.out.println("<entered examine instance>\n"
+                    + Ennui.EXIT_EXAMINATION_KEY + " to exit");
             System.out.println(targetInter.getExamineDescription());
-            ui = scnr.next();
-            while (!ui.equals(Examinable.EXIT_EXAMINATION)) {
-                if (targetInter.examine(ui) && !ui.equals(Examinable.EXIT_EXAMINATION)) {
+            while (true) {
+                ui = scnr.nextLine();
+                if (ui.equals(Examinable.EXIT_EXAMINATION_KEY)) {
+                    return;
+                } else if (!targetInter.examine(ui)) {
                     System.out.println("Nothing happened.");
                 }
             }

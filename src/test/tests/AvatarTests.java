@@ -1,19 +1,24 @@
 package tests;
 
 import model.Map;
+import model.MapObjects.Avatar;
+import model.MapObjects.Examinable;
 import model.MapObjects.items.Item;
+import model.MapObjects.items.Note;
 import model.MapObjects.items.PizzaBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AvatarTests extends TestMapDataAndMethods {
 
+    private static final String DUMMY_ITEM_NAME = "my sanity";
+    private static final String DUMMY_TARGET = "oxygen";
     PizzaBox pizzaBox;
+    private static HashMap<String, Examinable> expectedItems = new HashMap<>();
 
     @BeforeEach
     void Setup(){
@@ -25,8 +30,9 @@ class AvatarTests extends TestMapDataAndMethods {
         assertEquals(TEST_START_Y_1, ava1.getY());
         assertEquals(TEST_START_X_1, ava1.getX());
         HashMap<String, Item> expected = new HashMap<>();
-        expected.put("pizza", new PizzaBox());
+        expected.put(PizzaBox.NAME, new PizzaBox());
         assertTrue(ava1.getCurrItems().equals(expected));
+        expectedItems = new HashMap<>();
 //        todo add test with items
     }
 
@@ -64,19 +70,103 @@ class AvatarTests extends TestMapDataAndMethods {
     }
 
     @Test
-    void pickUpItemTest(){
-/*
-        ava1.pickUpItem();
-        ArrayList<Examinable> arrayExpected = new ArrayList<>();
-        assertTrue(ava1.getCurrItems().equals(arrayExpected));
-
-        ava1.moveAva("e");
-        ava1.pickUpItem();
-        arrayExpected.add(pizzaBox);
-        assertTrue(arrayExpected.equals(ava1.getCurrItems()));
-*/
+    void testWalkOfEdgeDoNothing() {
+        ava1.setY(WIN_Y_1);
+        ava1.setX(WIN_X_1);
+        ava1.moveAva("n");
+        assertEquals(WIN_Y_1, ava1.getY());
+        assertEquals(WIN_X_1, ava1.getX());
     }
 
+    @Test
+    void testWalkIntoWall() {
+        ava1.moveAva("w");
+        assertEquals(TEST_START_Y_1, ava1.getY());
+        assertEquals(TEST_START_X_1, ava1.getX());
+    }
 
+    @Test
+    void testWalkIntoExaminable() {
+        Examinable examinable = new Note(TEST_START_Y_1, TEST_START_X_1 + 1);
+        examinable.setMap(map1);
+        ava1.moveAva("e");
+        assertEquals(TEST_START_Y_1, ava1.getY());
+        assertEquals(TEST_START_X_1 + 1, ava1.getX());
+    }
 
+    @Test
+    void pickUpItemTest(){
+        Note newExaminable = new Note(TEST_START_Y_1, TEST_START_X_1);
+        newExaminable.setMap(map1);
+        map1.addExaminable(newExaminable, TEST_START_Y_1,
+                TEST_START_X_1);
+        ava1.pickUpItem(Note.NAME);
+        HashMap<String, Examinable> hashMap = new HashMap<>();
+        hashMap.put(PizzaBox.NAME, new PizzaBox());
+        hashMap.put(newExaminable.getName(), newExaminable);
+        assertTrue(ava1.getCurrItems().equals(hashMap));
+
+        ava1.pickUpItem(Note.NAME);
+        assertTrue(ava1.getCurrItems().equals(hashMap));
+    }
+
+    @Test
+    void dropItemTestWhichExists() {
+        Item droppedItem = ava1.getCurrItems().get(PizzaBox.NAME);
+        droppedItem.setMap(map1);
+        ava1.dropItem(PizzaBox.NAME);
+        assertTrue(ava1.getCurrItems().isEmpty());
+        assertTrue(map1.getTileMatrix().get(TEST_START_Y_1).get(TEST_START_X_1)
+                .getCurrExaminables().containsKey(PizzaBox.NAME));
+        assertEquals(TEST_START_Y_1, droppedItem.getY());
+        assertEquals(TEST_START_X_1, droppedItem.getX());
+    }
+
+    @Test
+    void dropItemWhichDoesntExist() {
+        HashMap<String, Examinable> expectedItems = new HashMap<>();
+        expectedItems.put(PizzaBox.NAME, new PizzaBox());
+
+        assertEquals(expectedItems, ava1.getCurrItems());
+        ava1.dropItem(DUMMY_ITEM_NAME);
+        assertEquals(expectedItems, ava1.getCurrItems());
+        assertFalse(map1.getTileMatrix().get(TEST_START_Y_1).get(TEST_START_X_1)
+                .getCurrExaminables().containsKey(DUMMY_ITEM_NAME));
+    }
+
+    @Test
+    void testPickupAndDrop() {
+        Note abusedItem = new Note(TEST_START_Y_1, TEST_START_X_1);
+        abusedItem.setMap(map1);
+        map1.addExaminable(abusedItem, TEST_START_Y_1,
+                TEST_START_X_1);
+        ava1.pickUpItem(Note.NAME);
+        expectedItems.put(PizzaBox.NAME, new PizzaBox());
+        expectedItems.put(abusedItem.getName(), abusedItem);
+        assertTrue(ava1.getCurrItems().equals(expectedItems));
+
+        ava1.dropItem(Note.NAME);
+        expectedItems.remove(Note.NAME);
+        assertEquals(expectedItems, ava1.getCurrItems());
+        assertTrue(map1.getTileMatrix().get(TEST_START_Y_1).get(TEST_START_X_1)
+                .getCurrExaminables().containsKey(Note.NAME));
+        assertEquals(TEST_START_Y_1, abusedItem.getY());
+        assertEquals(TEST_START_X_1, abusedItem.getX());
+    }
+
+    @Test
+    void useNullItem() {
+        expectedItems.put(PizzaBox.NAME, new PizzaBox());
+        assertEquals(expectedItems, ava1.getCurrItems());
+        ava1.useItem(DUMMY_ITEM_NAME, Avatar.NAME);
+        assertEquals(expectedItems, ava1.getCurrItems());
+    }
+
+    @Test
+    void testUseItemOnNullTarget() {
+        expectedItems.put(PizzaBox.NAME, new PizzaBox());
+        assertEquals(expectedItems, ava1.getCurrItems());
+        ava1.useItem(PizzaBox.NAME, DUMMY_TARGET);
+        assertEquals(expectedItems, ava1.getCurrItems());
+    }
 }

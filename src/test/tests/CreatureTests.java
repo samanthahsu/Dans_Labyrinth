@@ -50,6 +50,20 @@ class CreatureTests extends TestMapDataAndMethods {
         assertTrue(tileMatrixC.get(newY + 1).get(newX).getTileSounds().contains(ennuiSound));
         assertTrue(tileMatrixC.get(newY).get(newX - 1).getTileSounds().contains(ennuiSound));
         assertTrue(tileMatrixC.get(newY).get(newX + 1).getTileSounds().contains(ennuiSound));
+
+        testEnnui.setY(3);
+        testEnnui.setX(7);
+        testEnnui.doPassiveActions();
+        newY = 3;
+        newX = 8;
+
+        assertEquals(newY, testEnnui.getY());
+        assertEquals(newX, testEnnui.getX());
+        assertTrue(tileMatrixC.get(newY - 1).get(newX).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY + 1).get(newX).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY).get(newX - 1).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY).get(newX + 1).getTileSounds().contains(ennuiSound));
+
     }
 
     @Test
@@ -63,8 +77,9 @@ class CreatureTests extends TestMapDataAndMethods {
     }
 
     @Test
-    void testExamineRightString() {
+    void testExamineStrings() {
         assertFalse(testEnnui.examine("take thing"));
         assertTrue(testEnnui.examine("take rusty key"));
+        assertTrue(testEnnui.examine("take key"));
     }
 }

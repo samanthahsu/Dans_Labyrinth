@@ -1,13 +1,13 @@
 package model;
 
-import model.MapObjects.Avatar;
-import model.MapObjects.Examinable;
-import model.MapObjects.Tile;
-import model.MapObjects.creatures.Creature;
-import model.MapObjects.features.Feature;
-import model.MapObjects.items.Item;
-import model.exceptions.edgeOfMapException;
-import model.exceptions.mismatchedMapSizeException;
+import model.exceptions.EdgeOfMapException;
+import model.exceptions.MismatchedMapSizeException;
+import model.mapobjects.Avatar;
+import model.mapobjects.Examinable;
+import model.mapobjects.Tile;
+import model.mapobjects.creatures.Creature;
+import model.mapobjects.features.Feature;
+import model.mapobjects.items.Item;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -41,7 +41,8 @@ public class Map implements Serializable {
     * requires: height and width match that of mapString
     * effects: constructor, initializes all fields*/
     public Map(int height, int width, int winY, int winX, int avaY, int avaX,
-               List<Item> avaItems, List<Examinable> allExaminables, String mapString) throws mismatchedMapSizeException, edgeOfMapException {
+               List<Item> avaItems, List<Examinable> allExaminables, String mapString)
+            throws MismatchedMapSizeException, EdgeOfMapException {
         this.height = height;
         this.width = width;
         this.winY = winY;
@@ -82,11 +83,11 @@ public class Map implements Serializable {
         modifies: this
         effects: if tileList to be in order and of size h*w, h and w are init
         takes tileList, and formats it into a matrix for easier access
-        else throws mismatchedMapSizeException
+        else throws MismatchedMapSizeException
     */
-    private void initTileMatrix(String mapString) throws mismatchedMapSizeException {
+    private void initTileMatrix(String mapString) throws MismatchedMapSizeException {
         if (mapString.length() != height * width) {
-            throw new mismatchedMapSizeException();
+            throw new MismatchedMapSizeException();
         }
         List<Tile> tileList = buildTileList(mapString);
         tileMatrix = new ArrayList<>(height);
@@ -111,7 +112,7 @@ public class Map implements Serializable {
         int strIndex = 0;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                newTile = new Tile(this , y, x, mapString.charAt(strIndex),
+                newTile = new Tile(this, y, x, mapString.charAt(strIndex),
                         getInteractablesAtIndex(y, x, allExaminables));
                 returnList.add(newTile);
                 strIndex++;
@@ -123,9 +124,8 @@ public class Map implements Serializable {
     /*effects: returns ArrayList of all allExaminables with given indexes*/
     private ArrayList<Examinable> getInteractablesAtIndex(int y, int x, HashMap<String, Examinable> interList) {
         ArrayList<Examinable> temp = new ArrayList<>();
-        for (Examinable i : interList.values()
-                ) {
-            if (i.getY() == y && i.getX() == x) {
+        for (Examinable i : interList.values()) {
+            if (i.getYc() == y && i.getXc() == x) {
                 temp.add(i);
             }
         }
@@ -138,7 +138,7 @@ public class Map implements Serializable {
         EFFECTS: construct new Avatar with given coordinates and items
         places avatar character at ypos, xpos in tileMatrix, revealing adjacent tiles
     */
-    private void initAvatar(int startY, int startX, List<Item> items) throws edgeOfMapException {
+    private void initAvatar(int startY, int startX, List<Item> items) throws EdgeOfMapException {
         ava = new Avatar(startY, startX, items, this);
         updateTileDisplay(startY, startX, AVATAR);
         revealSurroundings(startY, startX);
@@ -150,7 +150,7 @@ public class Map implements Serializable {
     modifies: this, tileMatrix
     effects: updates display char at y, x to AVATAR in tileMatrix
     */
-    public void updateTileDisplay(int y, int x, char c) throws edgeOfMapException {
+    public void updateTileDisplay(int y, int x, char c) throws EdgeOfMapException {
         checkIfMapEdge(y, x);
         tileMatrix.get(y).get(x).setCurrChar(c);
     }
@@ -186,16 +186,20 @@ public class Map implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Map)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Map)) {
+            return false;
+        }
         Map map = (Map) o;
-        return height == map.height &&
-                width == map.width &&
-                winY == map.winY &&
-                winX == map.winX &&
-                ava.equals(map.ava) &&
-                tileMatrix.equals(map.tileMatrix) &&
-                allExaminables.equals(map.allExaminables);
+        return height == map.height
+                && width == map.width
+                && winY == map.winY
+                && winX == map.winX
+                && ava.equals(map.ava)
+                && tileMatrix.equals(map.tileMatrix)
+                && allExaminables.equals(map.allExaminables);
     }
 
     @Override
@@ -237,8 +241,8 @@ public class Map implements Serializable {
         if (isIndexValid(startY, startX)) {
             tileMatrix.get(startY).get(startX).getCurrExaminables().put(newExaminable.getName(), newExaminable);
             allExaminables.put(newExaminable.getName(), newExaminable);
-            newExaminable.setY(startY);
-            newExaminable.setX(startX);
+            newExaminable.setYc(startY);
+            newExaminable.setXc(startX);
             if (newExaminable.getMap() != this) {
                 newExaminable.setMap(this);
             }
@@ -249,22 +253,22 @@ public class Map implements Serializable {
     * modifies: this, examinable
     * effects: moves examinable to new position in tile matrix, and sets it's
     * internal indexes accordingly*/
-    public void moveExaminable (Examinable examinable, int oldy, int oldx, int newy, int newx) {
+    public void moveExaminable(Examinable examinable, int oldy, int oldx, int newy, int newx) {
         String examinableName = examinable.getName();
         if (isIndexValid(oldy, oldx)) {
             tileMatrix.get(oldy).get(oldx).getCurrExaminables().remove(examinableName);
         }
         tileMatrix.get(newy).get(newx).getCurrExaminables().put(examinableName, examinable);
-        if (examinable.getY() != newy || examinable.getX() != newx) {
-            examinable.setY(newy);
-            examinable.setX(newx);
+        if (examinable.getYc() != newy || examinable.getXc() != newx) {
+            examinable.setYc(newy);
+            examinable.setXc(newx);
         }
     }
 
     /*requires: examinable is not null @DEMO8
     * modifies: this
     * effects: removes the examinable from the map at the given location*/
-    public void removeExaminable (Examinable toRemove, int currentY, int currentX) {
+    public void removeExaminable(Examinable toRemove, int currentY, int currentX) {
         String toRemoveName = toRemove.getName();
         tileMatrix.get(currentY).get(currentX).getCurrExaminables().remove(toRemoveName);
         allExaminables.remove(toRemoveName);
@@ -274,15 +278,15 @@ public class Map implements Serializable {
     * modifies:
     * effects: returns true if the tile of requested index is walkable, else false
             if index requested is not on map and throws an exception*/
-    public boolean isTileWalkable(int y, int x) throws edgeOfMapException {
+    public boolean isTileWalkable(int y, int x) throws EdgeOfMapException {
         checkIfMapEdge(y, x);
         return tileMatrix.get(y).get(x).isWalkable();
     }
 
     /* effects: throws exception if given position is not on the map*/
-    private void checkIfMapEdge(int y, int x) throws edgeOfMapException {
+    private void checkIfMapEdge(int y, int x) throws EdgeOfMapException {
         if (y < 0 || y >= height || x < 0 || x >= width) {
-            throw new edgeOfMapException();
+            throw new EdgeOfMapException();
         }
     }
 
@@ -308,7 +312,7 @@ public class Map implements Serializable {
 
     /*effects: returns true if player is on the winning tile*/
     public boolean isWin() {
-        return ava.getY() == winY && ava.getX() == winX;
+        return ava.getYc() == winY && ava.getXc() == winX;
     }
 
     /*modifies: this

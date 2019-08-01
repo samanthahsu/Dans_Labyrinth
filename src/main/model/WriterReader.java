@@ -1,7 +1,7 @@
 package model;
 
-import model.exceptions.edgeOfMapException;
-import model.exceptions.mismatchedMapSizeException;
+import model.exceptions.EdgeOfMapException;
+import model.exceptions.MismatchedMapSizeException;
 
 import java.io.*;
 
@@ -34,24 +34,25 @@ requires: path is valid
         final String FILENAME = fileName.concat(".txt"); // specifying file type
         String newSavePath = this.savePath + FILENAME;
         File file = new File(newSavePath);
-            if (file.createNewFile()) {
-                System.out.println("New save file created");
-            } else {
-                System.out.println("Save file already present... overwriting");
-            }
+        if (file.createNewFile()) {
+            System.out.println("New save file created");
+        } else {
+            System.out.println("Save file already present... overwriting");
+        }
 
-            FileOutputStream f = new FileOutputStream(new File(FILENAME));
-            ObjectOutputStream o = new ObjectOutputStream(f);
-            o.writeObject(map); // write map to file
-            o.close();
-            f.close();
+        FileOutputStream f = new FileOutputStream(new File(FILENAME));
+        ObjectOutputStream o = new ObjectOutputStream(f);
+        o.writeObject(map); // write map to file
+        o.close();
+        f.close();
     }
 
     /*effects: constructs and returns a fresh default map
-    * catches mismatchedMapSizeException
+    * catches MismatchedMapSizeException
      */
-    public Map buildDefaultMap() throws mismatchedMapSizeException, edgeOfMapException {
-        return new Map(DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_WIN_Y, DEFAULT_WIN_X, DEFAULT_START_Y, DEFAULT_START_X, DEFAULT_AVA_ITEMS_LIST, DEFAULT_INTERACTABLES_LIST, DEFAULT_MAP_STRING);
+    public Map buildDefaultMap() throws MismatchedMapSizeException, EdgeOfMapException {
+        return new Map(DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_WIN_Y, DEFAULT_WIN_X, DEFAULT_START_Y,
+                DEFAULT_START_X, DEFAULT_AVA_ITEMS_LIST, DEFAULT_INTERACTABLES_LIST, DEFAULT_MAP_STRING);
     }
 
 //    /*requires: map already initialized
@@ -67,7 +68,7 @@ requires: path is valid
 //    private ArrayList<Examinable> parseAllInteractables(int y, int x) {
 //        ArrayList<Examinable> tempList = new ArrayList<>();
 //        for (Examinable exa : DEFAULT_INTERACTABLES_LIST) {
-//            if (exa.getY() == y && exa.getX() == x) {
+//            if (exa.getYc() == y && exa.getXc() == x) {
 //                tempList.add(exa);
 //            }
 //        }
@@ -76,14 +77,14 @@ requires: path is valid
 
     //    requires: file (filename) contains valid Map object, if it doesn't, returns null
     //  effects: Reads from (fileName) at (savePath) which it returns as a Map object.
-    public Map readMap (String fileName) throws IOException, ClassNotFoundException {
+    public Map readMap(String fileName) throws IOException, ClassNotFoundException {
         final String FILENAME = fileName.concat(".txt"); // specifying file type
         Map savedMap = null;
-            FileInputStream fi = new FileInputStream(new File(FILENAME));
-            ObjectInputStream oi = new ObjectInputStream(fi);
-            savedMap = (Map) oi.readObject(); // read in map
-            oi.close();
-            fi.close();
+        FileInputStream fi = new FileInputStream(new File(FILENAME));
+        ObjectInputStream oi = new ObjectInputStream(fi);
+        savedMap = (Map) oi.readObject(); // read in map
+        oi.close();
+        fi.close();
         return savedMap;
     }
 }

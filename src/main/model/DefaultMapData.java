@@ -1,11 +1,11 @@
 package model;
 
-import model.MapObjects.Examinable;
-import model.MapObjects.creatures.Ennui;
-import model.MapObjects.features.BloodFish;
-import model.MapObjects.features.MossyGate;
-import model.MapObjects.items.Item;
-import model.MapObjects.items.PizzaBox;
+import model.mapobjects.Examinable;
+import model.mapobjects.creatures.Ennui;
+import model.mapobjects.features.BloodFish;
+import model.mapobjects.features.MossyGate;
+import model.mapobjects.items.Item;
+import model.mapobjects.items.PizzaBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +33,7 @@ interface DefaultMapData {
                     + "@         @@@       @"
                     + "@@@@@@@@@@@@@@@@@@@@@";
 
-    List<Item> DEFAULT_AVA_ITEMS_LIST = new ArrayList <Item> (
+    List<Item> DEFAULT_AVA_ITEMS_LIST = new ArrayList<Item>(
             Arrays.<Item>asList(new PizzaBox()));
 
     List<Examinable> DEFAULT_INTERACTABLES_LIST = new ArrayList<Examinable>(

@@ -1,7 +1,7 @@
 package tests;
 
-import model.MapObjects.Avatar;
-import model.MapObjects.items.PizzaBox;
+import model.mapobjects.Avatar;
+import model.mapobjects.items.PizzaBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

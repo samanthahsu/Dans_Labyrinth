@@ -1,11 +1,11 @@
 package tests;
 
 import model.Map;
-import model.MapObjects.features.BloodFish;
-import model.MapObjects.features.MossyGate;
-import model.MapObjects.items.RustyKey;
-import model.exceptions.edgeOfMapException;
-import model.exceptions.mismatchedMapSizeException;
+import model.exceptions.EdgeOfMapException;
+import model.exceptions.MismatchedMapSizeException;
+import model.mapobjects.features.BloodFish;
+import model.mapobjects.features.MossyGate;
+import model.mapobjects.items.RustyKey;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class FeatureTests extends TestMapDataAndMethods {
     private BloodFish bloodFish;
 
     @BeforeEach
-    void setup() throws mismatchedMapSizeException, edgeOfMapException {
+    void setup() throws MismatchedMapSizeException, EdgeOfMapException {
         initTestMaps();
         //        uses mapC
         mgC = new MossyGate(1, 6, YBLOCK, XBLOCK);
@@ -35,8 +35,8 @@ class FeatureTests extends TestMapDataAndMethods {
     void testMossyConstructor() {
         mgC.doPassiveActions();
         assertEquals("mossy gate", mgC.getName());
-        assertEquals(1, mgC.getY());
-        assertEquals(6, mgC.getX());
+        assertEquals(1, mgC.getYc());
+        assertEquals(6, mgC.getXc());
         assertFalse(mapCreature.getTileMatrix().get(2).get(6).isWalkable());
     }
 

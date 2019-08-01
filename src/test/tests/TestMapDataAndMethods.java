@@ -1,14 +1,14 @@
 package tests;
 
 import model.Map;
-import model.MapObjects.Avatar;
-import model.MapObjects.Examinable;
-import model.MapObjects.Tile;
-import model.MapObjects.creatures.Ennui;
-import model.MapObjects.items.Item;
-import model.MapObjects.items.PizzaBox;
 import model.WriterReader;
-import model.exceptions.mapException;
+import model.exceptions.MapException;
+import model.mapobjects.Avatar;
+import model.mapobjects.Examinable;
+import model.mapobjects.Tile;
+import model.mapobjects.creatures.Ennui;
+import model.mapobjects.items.Item;
+import model.mapobjects.items.PizzaBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -127,7 +127,7 @@ class TestMapDataAndMethods {
                     new ArrayList<Item>(), interList3, TEST_MAP_3);
             mapCreature = new Map(TEST_HEIGHT_C, TEST_WIDTH_C, WIN_Y_C, WIN_X_C, TEST_START_Y_C, TEST_START_X_C,
                     itemListC, interListC, TEST_MAP_C);
-        } catch (mapException e) {
+        } catch (MapException e) {
             e.printStackTrace();
         }
 
@@ -200,7 +200,7 @@ effects: returns true if both lists have items in the same order of the same nam
             System.out.println();
         }
     }
-    /*contains method for ArrayList<MapObjects>
+    /*contains method for ArrayList<mapobjects>
     returns true if interactable named name, is present int examinables*/
     boolean interactablesContains(ArrayList<Examinable> examinables, String name) {
         for (Examinable i : examinables

@@ -1,7 +1,7 @@
 package tests;
 
-import model.MapObjects.Examinable;
-import model.MapObjects.creatures.Ennui;
+import model.mapobjects.Examinable;
+import model.mapobjects.creatures.Ennui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

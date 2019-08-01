@@ -1,8 +1,8 @@
 package tests;
 
-import model.MapObjects.Examinable;
-import model.MapObjects.Sound;
-import model.MapObjects.creatures.Ennui;
+import model.mapobjects.Examinable;
+import model.mapobjects.Sound;
+import model.mapobjects.creatures.Ennui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,8 +17,8 @@ class CreatureTests extends TestMapDataAndMethods {
 
     @Test
     void ConstructorTest(){
-        assertEquals(ENNUI_CAPTURE_START_Y, testEnnui.getY());
-        assertEquals(ENNUI_CAPTURE_START_X, testEnnui.getX());
+        assertEquals(ENNUI_CAPTURE_START_Y, testEnnui.getYc());
+        assertEquals(ENNUI_CAPTURE_START_X, testEnnui.getXc());
         assertEquals("ennui", testEnnui.getName());
         assertEquals(Examinable.TYPE_CREATURE, testEnnui.getTypeId());
     }
@@ -26,8 +26,8 @@ class CreatureTests extends TestMapDataAndMethods {
     @Test
     void testDoPassiveActionsOnceAvaClose() {
         testEnnui.doPassiveActions();
-        assertEquals(ENNUI_CAPTURE_START_Y - 1, testEnnui.getY());
-        assertEquals(ENNUI_CAPTURE_START_X, testEnnui.getX());
+        assertEquals(ENNUI_CAPTURE_START_Y - 1, testEnnui.getYc());
+        assertEquals(ENNUI_CAPTURE_START_X, testEnnui.getXc());
 
         int newY = ENNUI_CAPTURE_START_Y - 1; //1
         int newX = ENNUI_CAPTURE_START_X; //1
@@ -43,22 +43,22 @@ class CreatureTests extends TestMapDataAndMethods {
         newY += 1;
         newX += 0;
 
-        assertEquals(newY, testEnnui.getY());
-        assertEquals(newX, testEnnui.getX());
+        assertEquals(newY, testEnnui.getYc());
+        assertEquals(newX, testEnnui.getXc());
 
         assertTrue(tileMatrixC.get(newY - 1).get(newX).getTileSounds().contains(ennuiSound));
         assertTrue(tileMatrixC.get(newY + 1).get(newX).getTileSounds().contains(ennuiSound));
         assertTrue(tileMatrixC.get(newY).get(newX - 1).getTileSounds().contains(ennuiSound));
         assertTrue(tileMatrixC.get(newY).get(newX + 1).getTileSounds().contains(ennuiSound));
 
-        testEnnui.setY(3);
-        testEnnui.setX(7);
+        testEnnui.setYc(3);
+        testEnnui.setXc(7);
         testEnnui.doPassiveActions();
         newY = 3;
         newX = 8;
 
-        assertEquals(newY, testEnnui.getY());
-        assertEquals(newX, testEnnui.getX());
+        assertEquals(newY, testEnnui.getYc());
+        assertEquals(newX, testEnnui.getXc());
         assertTrue(tileMatrixC.get(newY - 1).get(newX).getTileSounds().contains(ennuiSound));
         assertTrue(tileMatrixC.get(newY + 1).get(newX).getTileSounds().contains(ennuiSound));
         assertTrue(tileMatrixC.get(newY).get(newX - 1).getTileSounds().contains(ennuiSound));
@@ -68,12 +68,12 @@ class CreatureTests extends TestMapDataAndMethods {
 
     @Test
     void testStopMovingAvaSameTile() {
-        testEnnui.setY(TEST_START_Y_C);
-        testEnnui.setX(TEST_START_X_C);
+        testEnnui.setYc(TEST_START_Y_C);
+        testEnnui.setXc(TEST_START_X_C);
 
         testEnnui.doPassiveActions();
-        assertEquals(TEST_START_Y_C, testEnnui.getY());
-        assertEquals(TEST_START_X_C, testEnnui.getX());
+        assertEquals(TEST_START_Y_C, testEnnui.getYc());
+        assertEquals(TEST_START_X_C, testEnnui.getXc());
     }
 
     @Test

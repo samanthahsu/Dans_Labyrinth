@@ -9,7 +9,7 @@ public class Main {
         boolean quit;
 
         do {
-           quit = game.runHomeScreen(); // also runs the rest of the game
+            quit = game.runHomeScreen(); // also runs the rest of the game
         } while (!quit); // can only quit from the home screen now
     }
 }

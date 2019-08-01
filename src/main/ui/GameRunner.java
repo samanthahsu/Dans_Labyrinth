@@ -1,15 +1,16 @@
 package ui;
 
 import model.Map;
-import model.MapObjects.Examinable;
-import model.MapObjects.Tile;
-import model.MapObjects.creatures.Ennui;
-import model.MapObjects.items.Item;
 import model.WriterReader;
-import model.exceptions.mapException;
+import model.exceptions.MapException;
+import model.mapobjects.Examinable;
+import model.mapobjects.Tile;
+import model.mapobjects.creatures.Ennui;
+import model.mapobjects.items.Item;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /*Main hub which manages all game processes*/
 public class GameRunner {
@@ -21,6 +22,24 @@ public class GameRunner {
     private static final int QUIT_GAME = 1;
     private static final int FAIL_GAME = 2; // todo make able to die
     private static final int WIN_GAME = 3;
+    public static final String WIN_VISUALS = "                                  .''.\n"
+            + "        .''.             *''*    :_\\/_:     .\n"
+            + "       :_\\/_:   .    .:.*_\\/_*   : /\\ :  .'.:.'.\n"
+            + "   .''.: /\\ : _\\(/_  ':'* /\\ *  : '..'.  -=:o:=-\n"
+            + "  :_\\/_:'.:::. /)\\*''*  .|.* '.\\'/.'_\\(/_'.':'.'\n"
+            + "  : /\\ : :::::  '*_\\/_* | |  -= o =- /)\\    '  *\n"
+            + "   '..'  ':::'   * /\\ * |'|  .'/.\\'.  '._____\n"
+            + "       *        __*..* |  |     :      |.   |' .---\"|\n"
+            + "        _*   .-'   '-. |  |     .--'|  ||   | _|    |\n"
+            + "     .-'|  _.|  |    ||   '-__  |   |  |    ||      |\n"
+            + "     |' | |.    |    ||       | |   |  |    ||      |\n"
+            + "  ___|  '-'     '    \"\"       '-'   '-.'    '`      |____\n"
+            + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+            + "                       ~-~-~-~-~-~-~-~-~-~   /|\n"
+            + "          )      ~-~-~-~-~-~-~-~  /|~       /_|\\\n"
+            + "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n"
+            + "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n"
+            + "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
 
     private Integer gameState;
     private Map map;
@@ -71,21 +90,10 @@ public class GameRunner {
     private void homeExecuteUi() {
         switch (ui) {
             case "new":
-                System.out.println("Starting new game...");
-                try {
-                    map = writerReader.buildDefaultMap();
-                } catch (mapException e) {
-                    System.out.println("Failed to build new map.");
-                }
+                executeNewGame();
                 break;
             case "load":
-                System.out.println("Enter name of saved file: ");
-                ui = scnr.nextLine();
-                try {
-                    map = writerReader.readMap(ui);
-                } catch (IOException | ClassNotFoundException e) {
-                    System.out.println("Loading failed.");
-                }
+                executeLoadGame();
                 break;
             case "quit":
                 gameState = QUIT_GAME;
@@ -94,6 +102,25 @@ public class GameRunner {
             default:
                 System.out.println("Command not available on home screen.");
                 break;
+        }
+    }
+
+    private void executeLoadGame() {
+        System.out.println("Enter name of saved file: ");
+        ui = scnr.nextLine();
+        try {
+            map = writerReader.readMap(ui);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Loading failed.");
+        }
+    }
+
+    private void executeNewGame() {
+        System.out.println("Starting new game...");
+        try {
+            map = writerReader.buildDefaultMap();
+        } catch (MapException e) {
+            System.out.println("Failed to build new map.");
         }
     }
 
@@ -127,50 +154,72 @@ public class GameRunner {
 //    todo figure out how to handle creature interactions
     // EFFECTS: handles which Map functions to call. returns gameState.
     private boolean execute(String input) { // todo implement listen and examine
-        String item;
-        String target;
+        if (Pattern.matches(input, "(n|s|e|w|examine|pickup|use)")) {
+            executeAction(input);
+        } else if (Pattern.matches(input, "(me|help|quit|map)")) {
+            return executeInterface(input);
+        } else {
+            System.out.println("...");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean executeInterface(String input) {
         switch (input) {
-            case "n":
-            case "s":
-            case "e":
-            case "w":
-                map.getAva().moveAva(input);
+            case "me":
+                printSanity();
                 break;
+            case "help":
+                printHelp();
+                break;
+            case "quit":
+                scnr.skip(".*");
+                gameState = handleQuit();
+                break;
+            case "map":
+                printDisplayMap();
+                break;
+            default:
+                return false;
+        }
+        return false; // map doesnt count as a move
+    }
+
+    private void printSanity() {
+        System.out.println("Sanity: " + map.getAva().getSanity()
+                + "/3");
+        printItems();
+    }
+
+    private void executeAction(String input) {
+        String item;
+        if (Pattern.matches(input, "(n|s|e|w)")) {
+            map.getAva().moveAva(input);
+            return;
+        }
+        switch (input) {
             case "examine":
                 enterExamineInstance(scnr.next());
-                System.out.println("<exited examine instance>");
                 break;
             case "pickup": // change to pick up <item name>
                 item = scnr.next();
                 map.getAva().pickUpItem(item);
                 break;
             case "use":
-//                use ___ on ___
-                item = scnr.next();
-                scnr.next("on");
-                target = scnr.next();
-                map.getAva().useItem(item, target);
+                executeUse();
                 break;
-            case "me":
-                System.out.println("Health: " + map.getAva().getSanity()
-                + "/3");
-                printItems();
-                return false;
-            case "help":
-                printHelp();
-                return false;
-            case "quit":
-                scnr.skip(".*");
-                gameState = handleQuit();
-                return false;
-            case "map":
-                printDisplayMap();
-                return false; // map doesnt count as a move
             default:
-                System.out.println("...");
-                return false;
         }
-        return true;
+    }
+
+    private void executeUse() {
+        String item;
+        String target;
+        item = scnr.next();
+        scnr.next("on");
+        target = scnr.next();
+        map.getAva().useItem(item, target);
     }
 
 
@@ -232,6 +281,7 @@ public class GameRunner {
                 System.out.println("You escaped successfully...");
                 printWinGraphic();
                 break;
+            default:
         }
     }
 
@@ -240,22 +290,14 @@ public class GameRunner {
 //      cancel: continues the game
 //      quit: quit the game without saving
     private int handleQuit() {
-        System.out.println("s: save game\n"
-                + "AVATAR: cancel and continue\n"
-                +"q: quit without saving.");
+        System.out.println("s: save game\nAVATAR: cancel and continue\n"
+                + "q: quit without saving.");
         do {
             ui = scnr.nextLine();
         } while (ui.equals(""));
         switch (ui) {
             case "s":
-                System.out.println("What would you like to name your file?");
-                try {
-                    writerReader.writeMap(map, scnr.nextLine());
-                } catch (IOException e) {
-                    System.out.println("File saving failed.");
-                } finally {
-                    System.out.println("Dan continues on...");
-                }
+                executeSave();
                 break;
             case "AVATAR":
                 System.out.println("Dan continues on...");
@@ -268,21 +310,32 @@ public class GameRunner {
         return CONTINUE_GAME;
     }
 
-/*
-        REQUIRES: map has been initialized properly
-        EFFECTS: prints current map to screen
-*/
-    private void printDisplayMap() {
-            int height = map.getHeight();
-            int width = map.getWidth();
-        List<List<Tile>> tileMatrix = map.getTileMatrix();
-            for (int m = 0; m < height; m++) {
-                for (int n = 0; n < width; n++) {
-                    System.out.print(tileMatrix.get(m).get(n).getDisplayChar());
-                }
-                System.out.println();
-            }
+    private void executeSave() {
+        System.out.println("What would you like to name your file?");
+        try {
+            writerReader.writeMap(map, scnr.nextLine());
+        } catch (IOException e) {
+            System.out.println("File saving failed.");
+        } finally {
+            System.out.println("Dan continues on...");
         }
+    }
+
+    /*
+            REQUIRES: map has been initialized properly
+            EFFECTS: prints current map to screen
+    */
+    private void printDisplayMap() {
+        int height = map.getHeight();
+        int width = map.getWidth();
+        List<List<Tile>> tileMatrix = map.getTileMatrix();
+        for (int m = 0; m < height; m++) {
+            for (int n = 0; n < width; n++) {
+                System.out.print(tileMatrix.get(m).get(n).getDisplayChar());
+            }
+            System.out.println();
+        }
+    }
 
 /*
         EFFECTS: prints feedback when ava tries to move into a WALL tile
@@ -309,23 +362,6 @@ public class GameRunner {
     //    EFFECTS: prints celebratory graphic
     private void printWinGraphic() {
         System.out.println("As far as Dan is concerned, pizza had been delivered and eaten, another successful day.");
-        System.out.println("                                  .''.\n"
-                + "        .''.             *''*    :_\\/_:     .\n"
-                + "       :_\\/_:   .    .:.*_\\/_*   : /\\ :  .'.:.'.\n"
-                + "   .''.: /\\ : _\\(/_  ':'* /\\ *  : '..'.  -=:o:=-\n"
-                + "  :_\\/_:'.:::. /)\\*''*  .|.* '.\\'/.'_\\(/_'.':'.'\n"
-                + "  : /\\ : :::::  '*_\\/_* | |  -= o =- /)\\    '  *\n"
-                + "   '..'  ':::'   * /\\ * |'|  .'/.\\'.  '._____\n"
-                + "       *        __*..* |  |     :      |.   |' .---\"|\n"
-                + "        _*   .-'   '-. |  |     .--'|  ||   | _|    |\n"
-                + "     .-'|  _.|  |    ||   '-__  |   |  |    ||      |\n"
-                + "     |' | |.    |    ||       | |   |  |    ||      |\n"
-                + "  ___|  '-'     '    \"\"       '-'   '-.'    '`      |____\n"
-                + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-                + "                       ~-~-~-~-~-~-~-~-~-~   /|\n"
-                + "          )      ~-~-~-~-~-~-~-~  /|~       /_|\\\n"
-                + "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n"
-                + "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n"
-                + "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~");
+        System.out.println(WIN_VISUALS);
     }
 }

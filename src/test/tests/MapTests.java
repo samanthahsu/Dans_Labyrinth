@@ -1,12 +1,12 @@
 package tests;
 
 import model.Map;
-import model.MapObjects.Avatar;
-import model.MapObjects.Examinable;
-import model.MapObjects.items.Item;
-import model.exceptions.edgeOfMapException;
-import model.exceptions.mapException;
-import model.exceptions.mismatchedMapSizeException;
+import model.exceptions.EdgeOfMapException;
+import model.exceptions.MapException;
+import model.exceptions.MismatchedMapSizeException;
+import model.mapobjects.Avatar;
+import model.mapobjects.Examinable;
+import model.mapobjects.items.Item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +43,7 @@ class MapTests extends TestMapDataAndMethods {
         try {
             map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
                     itemList1, interList1, TEST_MAP_1);
-        } catch (mapException e) {
+        } catch (MapException e) {
             fail("e thrown");
         }
 
@@ -51,9 +51,9 @@ class MapTests extends TestMapDataAndMethods {
             map1 = new Map(TEST_HEIGHT_1 + 1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
                     itemList1, new ArrayList<Examinable>(), TEST_MAP_1);
             fail("no e thrown");
-        } catch (mismatchedMapSizeException e) {
+        } catch (MismatchedMapSizeException e) {
 //            expected
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
             fail("wrong e thrown");
         }
 
@@ -73,20 +73,20 @@ class MapTests extends TestMapDataAndMethods {
     void isTileWalkableTest(){
         try {
             assertFalse(map1.isTileWalkable(0, 1));
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
             fail("e thrown");
         }
 
         try {
             assertTrue(map1.isTileWalkable(2, 2));
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
             fail("e thrown");
         }
 
         try {
             assertTrue(map1.isTileWalkable(-1, 3));
             fail("no e thrown");
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
 //            expected
         }
     }
@@ -95,7 +95,7 @@ class MapTests extends TestMapDataAndMethods {
     void updateTileDispOneTest(){
         try {
             map1.updateTileDisplay(0, 0, 'G');
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
             fail("e thrown");
         }
         assertEquals('G', tileMatrix1.get(0).get(0).getCurrChar());
@@ -106,7 +106,7 @@ class MapTests extends TestMapDataAndMethods {
         try {
             map1.updateTileDisplay(0, 0, 'G');
             map1.updateTileDisplay(0, 0, ' ');
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
             System.out.println("e thrown");
         }
         assertEquals(' ', tileMatrix1.get(0).get(0).getCurrChar());
@@ -117,7 +117,7 @@ class MapTests extends TestMapDataAndMethods {
         try {
             map1.updateTileDisplay(1, 0, 'G');
             map1.updateTileDisplay(2, 3, 'X');
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
             System.out.println("e thrown");
         }
         assertEquals('G', tileMatrix1.get(1).get(0).getCurrChar());
@@ -129,25 +129,25 @@ class MapTests extends TestMapDataAndMethods {
         try {
             map1.updateTileDisplay(TEST_HEIGHT_1 / 2, TEST_WIDTH_1, 'I');
             fail("no e thrown");
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
 //            expected
         }
         try {
             map1.updateTileDisplay(TEST_HEIGHT_1, TEST_WIDTH_1 / 2, 'I');
             fail("no e thrown");
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
 //            expected
         }
         try {
             map1.updateTileDisplay(TEST_HEIGHT_1 / 2, -1, 'I');
             fail("no e thrown");
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
 //            expected
         }
         try {
             map1.updateTileDisplay(-1, TEST_WIDTH_1 / 2, 'I');
             fail("no e thrown");
-        } catch (edgeOfMapException e) {
+        } catch (EdgeOfMapException e) {
 //            expected
         }
     }
@@ -221,8 +221,8 @@ class MapTests extends TestMapDataAndMethods {
         try {
             map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
                     new ArrayList<Item>(), new ArrayList<Examinable>(), TEST_MAP_2);
-        } catch (mapException e) {
-            fail("threw mapException");
+        } catch (MapException e) {
+            fail("threw MapException");
         }
         assertTrue(map1.equals(map2));
     }

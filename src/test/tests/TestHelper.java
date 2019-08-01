@@ -1,5 +1,5 @@
 //import main.model.MapObjects.Avatar;
-//import main.model.MapObjects.Examinable;
+//import main.model.mapobjects.Examinable;
 //import main.model.Map;
 //import Exo;
 //import AbsolutelyNothing;

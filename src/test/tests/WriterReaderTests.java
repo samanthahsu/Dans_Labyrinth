@@ -2,7 +2,7 @@ package tests;
 
 import model.Map;
 import model.WriterReader;
-import model.exceptions.mapException;
+import model.exceptions.MapException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -87,7 +87,7 @@ class WriterReaderTests extends TestMapDataAndMethods {
 //        todo not worth testing result because defaultmap not finalized
         try {
             Map testMap = writerReader.buildDefaultMap();
-        } catch (mapException e) {
+        } catch (MapException e) {
             fail("threw e");
         }
     }

@@ -6,17 +6,17 @@ import model.MapObjects.items.Item;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class ItemManager implements Serializable {
 
     private Map map;
-    private Avatar avatar;
     private HashMap<String, Item> currItems;
+    private Avatar avatar;
 
     public ItemManager(Map map, List<Item> startingItems) {
         this.map = map;
-        this.avatar = map.getAva();
         initItems(startingItems);
     }
 
@@ -29,6 +29,24 @@ public class ItemManager implements Serializable {
             hashMap.put(i.getName(), i);
         }
         currItems = hashMap;
+    }
+
+    public void setAvatar() {
+        avatar = map.getAva();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ItemManager)) return false;
+        ItemManager that = (ItemManager) o;
+        return Objects.equals(currItems, that.currItems);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(currItems);
     }
 
     public HashMap<String, Item> getCurrItems() {

@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class Avatar extends Locatable implements Serializable {
 //    TODO SPLIT OUT ITEM HANDLER FROM AVATAR
@@ -21,7 +20,7 @@ public class Avatar extends Locatable implements Serializable {
     public static final String MAP_EDGE_MESSAGE = "Dan tries to walk of the edge of the map! The abyss gazes back into him.\n"
             + "There is no way he is going into that hell hole.";
 
-    private HashMap<String, Item> currItems;
+//    private HashMap<String, Item> currItems;
     private int sanity; //sanity = 0 means stupid controls
     private ItemManager itemManager;
 
@@ -30,22 +29,22 @@ public class Avatar extends Locatable implements Serializable {
 */
     public Avatar(int startingY, int startingX, List<Item> startingItems, Map map) {
         super(map, startingY, startingX);
-        initItems(startingItems);
+//        initItems(startingItems);
         sanity = NORMAL;
         NAME = "Dan";
-        itemManager = new ItemManager(getMap(), startingItems);
+        itemManager = new ItemManager(map, startingItems);
     }
 
-    /* modifies: this
-    effects: initializes items from list into hashmap*/
-    private void initItems(List<Item> items) {
-        HashMap<String, Item> hashMap = new HashMap<>();
-        for (Item i : items) {
-            i.setMap(getMap());
-            hashMap.put(i.getName(), i);
-        }
-        currItems = hashMap;
-    }
+//    /* modifies: this
+//    effects: initializes items from list into hashmap*/
+//    private void initItems(List<Item> items) {
+//        HashMap<String, Item> hashMap = new HashMap<>();
+//        for (Item i : items) {
+//            i.setMap(getMap());
+//            hashMap.put(i.getName(), i);
+//        }
+//        currItems = hashMap;
+//    }
 
     //    GETTERS
     public int getSanity() {
@@ -53,7 +52,12 @@ public class Avatar extends Locatable implements Serializable {
     }
 
     public HashMap<String, Item> getCurrItems() {
-        return currItems;
+//        return currItems;
+        return itemManager.getCurrItems();
+    }
+
+    public ItemManager getItemManager() {
+        return itemManager;
     }
 
     //    todo for tests only
@@ -73,12 +77,12 @@ public class Avatar extends Locatable implements Serializable {
         return sanity == avatar.sanity
                 && getY() == avatar.getY()
                 && getX() == avatar.getX()
-                && currItems.equals(avatar.currItems);
+                && itemManager.equals(avatar.itemManager);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sanity, getY(), getX(), currItems);
+        return Objects.hash(sanity, getY(), getX(), itemManager);
     }
 
     //    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
@@ -133,48 +137,51 @@ public class Avatar extends Locatable implements Serializable {
   otherwise do nothing and print "unable to pick up itemName"
 */
     public void pickUpItem(String itemName) {
-        HashMap<String, Examinable> tileItems =  getMap().getTileMatrix()
-                .get(getY()).get(getX()).getCurrExaminables();
-        Examinable chosenItem = tileItems.get(itemName);
-
-        if (chosenItem != null) {
-            getMap().removeExaminable(chosenItem, getY(), getX());
-            currItems.put(itemName, (Item) chosenItem);
-            System.out.println("Dan picked up '" + itemName + "'!");
-        }
-        System.out.println("Couldn't pick up '" + itemName + "'.");
+        itemManager.pickUpItem(itemName);
+//        HashMap<String, Examinable> tileItems =  getMap().getTileMatrix()
+//                .get(getY()).get(getX()).getCurrExaminables();
+//        Examinable chosenItem = tileItems.get(itemName);
+//
+//        if (chosenItem != null) {
+//            getMap().removeExaminable(chosenItem, getY(), getX());
+//            currItems.put(itemName, (Item) chosenItem);
+//            System.out.println("Dan picked up '" + itemName + "'!");
+//        }
+//        System.out.println("Couldn't pick up '" + itemName + "'.");
     }
 
 
 //EFFECTS: uses the item on the target
     public void useItem(String itemName, String target) {
-        if (!currItems.containsKey(itemName)) {
-            System.out.println("Dan remembers he left the " + itemName + " at home again.");
-        } else {
-            Tile currentTile = getMap().getTileMatrix().get(getY()).get(getX());
-            if (!currentTile.getCurrExaminables().containsKey(target)
-                    && !Pattern.matches("(D|d)an", target)) {
-                System.out.println("Dan cannot find a " + target + " around him");
-            } else if (!currItems.get(itemName).use(target)) {
-                System.out.println("<todo beef out text> that doesn't work");
-            }
-        }
+        itemManager.useItem(itemName, target);
+//        if (!currItems.containsKey(itemName)) {
+//            System.out.println("Dan remembers he left the " + itemName + " at home again.");
+//        } else {
+//            Tile currentTile = getMap().getTileMatrix().get(getY()).get(getX());
+//            if (!currentTile.getCurrExaminables().containsKey(target)
+//                    && !Pattern.matches("(D|d)an", target)) {
+//                System.out.println("Dan cannot find a " + target + " around him");
+//            } else if (!currItems.get(itemName).use(target)) {
+//                System.out.println("<todo beef out text> that doesn't work");
+//            }
+//        }
     }
 
         /*MODIFIES: map, this
         EFFECTS: drops item from Item list, setting it on current map tile
         and setting item indexes accordingly*/
     public void dropItem(String itemName) {
-        if (!currItems.containsKey(itemName)) {
-            System.out.println("Dan is glad that one could not lose something one never had.");
-        } else {
-            Item target = currItems.get(itemName);
-            target.setIndexes(getY(), getX());
-            getMap().addExaminable(target, getY(), getX());
-
-            currItems.remove(itemName);
-            System.out.println("Dan drops the " + itemName + " to the floor.");
-        }
+        itemManager.dropItem(itemName);
+//        if (!currItems.containsKey(itemName)) {
+//            System.out.println("Dan is glad that one could not lose something one never had.");
+//        } else {
+//            Item target = currItems.get(itemName);
+//            target.setIndexes(getY(), getX());
+//            getMap().addExaminable(target, getY(), getX());
+//
+//            currItems.remove(itemName);
+//            System.out.println("Dan drops the " + itemName + " to the floor.");
+//        }
     }
 
 }

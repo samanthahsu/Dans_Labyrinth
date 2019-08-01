@@ -136,6 +136,9 @@ class TestMapDataAndMethods {
         ava2 = map2.getAva();
         ava3 = map3.getAva();
         avaC = mapCreature.getAva();
+        ava2.getItemManager().setAvatar();
+        ava3.getItemManager().setAvatar();
+        avaC.getItemManager().setAvatar();
         tileMatrix1 = map1.getTileMatrix();
         tileMatrix2 = map2.getTileMatrix();
         tileMatrix3 = map3.getTileMatrix();

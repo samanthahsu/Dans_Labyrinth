@@ -142,6 +142,7 @@ public class Map implements Serializable {
         ava = new Avatar(startY, startX, items, this);
         updateTileDisplay(startY, startX, AVATAR);
         revealSurroundings(startY, startX);
+        ava.getItemManager().setAvatar();
     }
 
     /*

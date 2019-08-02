@@ -1,5 +1,5 @@
 package ui;
 
-public interface GameObserver {
+public interface PrintObserver {
     void update(String message);
 }

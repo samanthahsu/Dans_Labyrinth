@@ -8,6 +8,8 @@ import model.mapobjects.Tile;
 import model.mapobjects.creatures.Ennui;
 import model.mapobjects.items.Item;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -74,8 +76,14 @@ public class GameRunner {
             out.print("new: new game\n"
                     + "load: load a saved game\n"
                     + "quit: exit");
-//            ui = fakeTerminal.getUserInput(); todo causes inf loop
-            homeExecuteUi();
+            fakeTerminal.getTxtField().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    fakeTerminal.actionPerformed(e);
+                    ui = fakeTerminal.getUserInput();
+                    homeExecuteUi();
+                }
+            });
         }
         if (gameState == QUIT_GAME) {
             return true;

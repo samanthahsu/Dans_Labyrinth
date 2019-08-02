@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 // https://gist.github.com/ryan-beckett/1599018
 /*so we get one box on the bottom for input
 * one box on the top for uneditable output*/
-public class FakeTerminal implements ActionListener, GameObserver {
+public class FakeTerminal implements ActionListener, PrintObserver {
     private static final int WIDTH = 700;
     private static final int HEIGHT = 700;
     private static final int TEXT_BAR_HEIGHT = 20;
@@ -29,6 +29,7 @@ public class FakeTerminal implements ActionListener, GameObserver {
         initializeGraphics();
         out = new Printer(listModel);
         userInput = "";
+
     }
 
     public Printer getOut() {
@@ -37,6 +38,10 @@ public class FakeTerminal implements ActionListener, GameObserver {
 
     public String getUserInput() {
         return userInput;
+    }
+
+    public JTextField getTxtField() {
+        return txtField;
     }
 
     public static void main(String[] args) {
@@ -86,7 +91,7 @@ public class FakeTerminal implements ActionListener, GameObserver {
         jFrame.add(scrollPane);
 
 //        txtArea.setFont(font);
-        txtField.addKeyListener(new ConcreteKeyListener(txtField));
+//        txtField.addKeyListener(new ConcreteKeyListener(txtField));
         jFrame.setLocationRelativeTo(null);
         jFrame.setVisible(true);
     }

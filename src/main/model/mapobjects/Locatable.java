@@ -1,13 +1,14 @@
 package model.mapobjects;
 
 import model.Map;
+import ui.PrintObservable;
 
 import java.io.Serializable;
 
-public abstract class Locatable implements Serializable {
-    private Map map;
-    private int yc;
-    private int xc;
+public abstract class Locatable extends PrintObservable implements Serializable {
+    protected Map map;
+    protected int yc;
+    protected int xc;
 
     public Locatable(int y, int xc) {
         this.yc = y;

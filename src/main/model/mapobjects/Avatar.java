@@ -18,8 +18,7 @@ public class Avatar extends Locatable implements Serializable {
     public static String NAME;
 
     public static final String MAP_EDGE_MESSAGE = "Dan tries to walk of the edge"
-            + " of the map! The abyss gazes back into him.\n"
-            + "There is no way he is going into that hell hole.";
+            + " of the map! The abyss gazes back into him.\n";
 
 //    private HashMap<String, Item> currItems;
     private int sanity; //sanity = 0 means stupid controls
@@ -119,13 +118,13 @@ public class Avatar extends Locatable implements Serializable {
                 setXc(x);
                 for (Examinable inter : map.getTileMatrix().get(y).get(x).getCurrExaminables().values()
                      ) {
-                    System.out.println(inter.getName());
+                    notifyObservers(inter.getName());
                 }
             } else {
                 GameRunner.printMovePlaceholder(dir);
             }
         } catch (EdgeOfMapException e) {
-            System.out.println(MAP_EDGE_MESSAGE);
+            notifyObservers(MAP_EDGE_MESSAGE);
         }
     }
 

@@ -2,18 +2,14 @@ package model;
 
 import model.exceptions.EdgeOfMapException;
 import model.exceptions.MismatchedMapSizeException;
-import ui.GameObservable;
-import ui.GameObserver;
+import ui.PrintObservable;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /*reads and writes game states from the saves folder*/
-public class WriterReader implements DefaultMapData, GameObservable {
+public class WriterReader extends PrintObservable implements DefaultMapData {
 
-    public static final String FILE_TYPE = ".txt";
-    List<GameObserver> observers = new ArrayList<>();
+    private static final String FILE_TYPE = ".txt";
 
     private static final String SAVES_PATH = System.getProperty("user.dir") + "\\saves\\";
     private String savePath = "";
@@ -93,20 +89,5 @@ requires: path is valid
         oi.close();
         fi.close();
         return savedMap;
-    }
-
-    @Override
-    public void addObserver(GameObserver o) {
-        observers.add(o);
-    }
-
-
-    /*requires:
-    * modifies:
-    * effects: notifies observers in list*/
-    private void notifyObservers(String message) {
-        for (GameObserver o : observers) {
-            o.update(message);
-        }
     }
 }

@@ -2,11 +2,18 @@ package model;
 
 import model.exceptions.EdgeOfMapException;
 import model.exceptions.MismatchedMapSizeException;
+import ui.GameObservable;
+import ui.GameObserver;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /*reads and writes game states from the saves folder*/
-public class WriterReader implements DefaultMapData {
+public class WriterReader implements DefaultMapData, GameObservable {
+
+    public static final String FILE_TYPE = ".txt";
+    List<GameObserver> observers = new ArrayList<>();
 
     private static final String SAVES_PATH = System.getProperty("user.dir") + "\\saves\\";
     private String savePath = "";
@@ -31,13 +38,13 @@ requires: path is valid
         effects: Writes (map) into text file named (filename) at (savePath)
 */
     public void writeMap(Map map, String fileName) throws IOException {
-        final String FILENAME = fileName.concat(".txt"); // specifying file type
+        final String FILENAME = fileName.concat(FILE_TYPE); // specifying file type
         String newSavePath = this.savePath + FILENAME;
         File file = new File(newSavePath);
         if (file.createNewFile()) {
-            System.out.println("New save file created");
+            notifyObservers("New save file created");
         } else {
-            System.out.println("Save file already present... overwriting");
+            notifyObservers("Save file already present... overwriting");
         }
 
         FileOutputStream f = new FileOutputStream(new File(FILENAME));
@@ -86,5 +93,20 @@ requires: path is valid
         oi.close();
         fi.close();
         return savedMap;
+    }
+
+    @Override
+    public void addObserver(GameObserver o) {
+        observers.add(o);
+    }
+
+
+    /*requires:
+    * modifies:
+    * effects: notifies observers in list*/
+    private void notifyObservers(String message) {
+        for (GameObserver o : observers) {
+            o.update(message);
+        }
     }
 }

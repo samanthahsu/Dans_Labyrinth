@@ -46,6 +46,8 @@ public class GameRunner {
     private Scanner scnr;
     private WriterReader writerReader;
     private String ui;
+    private FakeTerminal fakeTerminal;
+    private Printer out;
 //    todo make input string class wide
 
 /*
@@ -58,6 +60,8 @@ public class GameRunner {
         scnr = new Scanner(System.in);
         writerReader = new WriterReader();
         ui = "";
+        fakeTerminal = new FakeTerminal();
+        out = fakeTerminal.getOut();
     }
 
 /*
@@ -65,12 +69,12 @@ public class GameRunner {
         returns true if gameState is QUIT_GAME, else runs the game and returns false
 */
     public boolean runHomeScreen() {
-        System.out.println("=============DAN'S LABYRINTH=============");
+        out.print("=============DAN'S LABYRINTH=============");
         while (map == null && gameState != QUIT_GAME) {
-            System.out.println("new: new game\n"
+            out.print("new: new game\n"
                     + "load: load a saved game\n"
                     + "quit: exit");
-            ui = scnr.nextLine();
+//            ui = fakeTerminal.getUserInput(); todo causes inf loop
             homeExecuteUi();
         }
         if (gameState == QUIT_GAME) {
@@ -224,7 +228,7 @@ public class GameRunner {
 
 
     /*modifies: map
-     * effects: if the target is in list of interactables examine target further*/
+     * effects: if the target is in listModel of interactables examine target further*/
     private void enterExamineInstance(String targetNm) {
         Examinable targetInter = map.getAllExaminables().get(targetNm);
         if (targetInter != null) {

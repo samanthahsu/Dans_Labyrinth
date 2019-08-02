@@ -11,7 +11,7 @@ public class PizzaBox extends Item {
     static final int JUST_A_BOX = 0;
     static final String EMPTY_NAME = "pizzabox";
     static final String EMPTY_DESCRIPTION = "A sad, empty, grease stained cardboard pizza box.";
-    int slices = 8;
+    private int slices = 8;
 
     /*
     EFFECTS: constructs pizza as a held item

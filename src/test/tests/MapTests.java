@@ -210,7 +210,6 @@ class MapTests extends TestMapDataAndMethods {
         assertTrue(map1.isWin());
     }
 
-
     @Test
     void EqualsTest() {
         assertFalse(map1.equals(map3));
@@ -225,5 +224,12 @@ class MapTests extends TestMapDataAndMethods {
             fail("threw MapException");
         }
         assertTrue(map1.equals(map2));
+
+        assertFalse(map1.equals(0));
+    }
+
+    @Test
+    void testNextState() {
+//        todo
     }
 }

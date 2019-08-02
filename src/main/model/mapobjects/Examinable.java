@@ -64,7 +64,7 @@ public abstract class Examinable extends Locatable implements Serializable {
         super.setYc(y);
         super.setXc(x);
         if (!getMap().getTileMatrix().get(y).get(x).getCurrExaminables().containsKey(getName())) {
-            getMap().moveExaminable(this, oldy, oldx, y, x);
+            getMap().moveExaminableOnTiles(this, oldy, oldx, y, x);
         }
     }
 

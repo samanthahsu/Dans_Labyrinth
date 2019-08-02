@@ -253,7 +253,7 @@ public class Map implements Serializable {
     * modifies: this, examinable
     * effects: moves examinable to new position in tile matrix, and sets it's
     * internal indexes accordingly*/
-    public void moveExaminable(Examinable examinable, int oldy, int oldx, int newy, int newx) {
+    public void moveExaminableOnTiles(Examinable examinable, int oldy, int oldx, int newy, int newx) {
         String examinableName = examinable.getName();
         if (isIndexValid(oldy, oldx)) {
             tileMatrix.get(oldy).get(oldx).getCurrExaminables().remove(examinableName);

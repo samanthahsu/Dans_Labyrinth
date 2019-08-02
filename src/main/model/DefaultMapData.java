@@ -3,7 +3,9 @@ package model;
 import model.mapobjects.Examinable;
 import model.mapobjects.creatures.Ennui;
 import model.mapobjects.features.BloodFish;
+import model.mapobjects.features.FourStoneGate;
 import model.mapobjects.features.MossyGate;
+import model.mapobjects.features.Pan;
 import model.mapobjects.items.Item;
 import model.mapobjects.items.PizzaBox;
 
@@ -38,7 +40,6 @@ interface DefaultMapData {
 
     List<Examinable> DEFAULT_INTERACTABLES_LIST = new ArrayList<Examinable>(
             Arrays.asList(new Ennui(6, 6), new MossyGate(5, 9, 4, 9),
-                    new BloodFish(2, 1))
+                    new BloodFish(2, 1), new FourStoneGate(7, 15, 6, 15), new Pan(1, 7))
     );
-
 }

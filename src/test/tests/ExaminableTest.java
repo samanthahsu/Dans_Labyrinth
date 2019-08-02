@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class ExaminableTest {
     Examinable testExaminable;
@@ -19,6 +20,11 @@ public class ExaminableTest {
     void testGetDescription() {
         assertEquals(Ennui.DESCRIPTION, testExaminable.getDescription());
         assertEquals(Ennui.EXAMINE_DESCRIPTION, testExaminable.getExamineDescription());
+    }
+
+    @Test
+    void testEquals() {
+        assertFalse(testExaminable.equals(0));
     }
 
 }

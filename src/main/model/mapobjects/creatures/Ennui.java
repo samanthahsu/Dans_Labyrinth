@@ -1,7 +1,8 @@
 package model.mapobjects.creatures;
 
+import model.Map;
 import model.mapobjects.Avatar;
-import model.mapobjects.Sound;
+import model.mapobjects.SoundManager;
 import model.mapobjects.Tile;
 import model.mapobjects.items.RustyKey;
 
@@ -22,6 +23,7 @@ public class Ennui extends Creature {
     public static final String NAME = "ennui";
 
     boolean hasKey = true;
+    SoundManager soundManager;
 
     /*effects: set coordinates, name, and description*/
     public Ennui(int y, int x) {
@@ -49,10 +51,17 @@ public class Ennui extends Creature {
         }
     }
 
+//    todo temp bandaid fix init inside constructor
+    @Override
+    public void setMap(Map map) {
+        super.setMap(map);
+        soundManager = new SoundManager(getMap());
+    }
+
     /*moves one tile in a random direction (that is FLOOR)
-    if ava is in a 2 block radius of this, go in direction away from ava
-    if there are no directions left to go, don't move
-    emits sound in a 2 block radius of varying noise degrees and direction*/
+        if ava is in a 2 block radius of this, go in direction away from ava
+        if there are no directions left to go, don't move
+        emits sound in a 2 block radius of varying noise degrees and direction*/
     @Override
     public void doPassiveActions() {
         move();
@@ -71,45 +80,47 @@ public class Ennui extends Creature {
     effects: sets close sounds in max 4 FLOOR tiles of orthog radius 1
     * sets far sounds in max 8 FLOOR tiles of orthog radius 2, and diagonal radius 1*/
     private void setSounds(int currY, int currX) {
-        addSound(currY - 1, currX);
-        addSound(currY + 1, currX);
-        addSound(currY, currX - 1);
-        addSound(currY, currX + 1);
+        soundManager.setSurroundSound(currY, currX, name, description);
+//        addSound(currY - 1, currX);
+//        addSound(currY + 1, currX);
+//        addSound(currY, currX - 1);
+//        addSound(currY, currX + 1);
     }
 
-    private void addSound(int y, int x) {
-        if (getMap().isIndexValid(y, x)) {
-            getMap().getTileMatrix().get(y).get(x)
-                    .addSound(new Sound(getMap(), y, x, NAME, soundDescription));
-        }
-    }
+//    private void addSound(int y, int x) {
+//        if (getMap().isIndexValid(y, x)) {
+//            getMap().getTileMatrix().get(y).get(x)
+//                    .addSound(new Sound(getMap(), y, x, NAME, soundDescription));
+//        }
+//    }
 
     /*modifies: map
     effects: removes all sounds within scope caused by this creature*/
     private void removeSounds(int oldy, int oldx) {
-        int currentY = getYc();
-        int currentX = getXc();
-        removeOneSoundAtPos(currentY - 1, currentX);
-        removeOneSoundAtPos(currentY + 1, currentX);
-        removeOneSoundAtPos(currentY, currentX - 1);
-        removeOneSoundAtPos(currentY, currentX + 1);
+        soundManager.removeAllSounds(oldy, oldx, getYc(), getXc(), name);
+//        int currentY = getYc();
+//        int currentX = getXc();
+//        removeOneSoundAtPos(currentY - 1, currentX);
+//        removeOneSoundAtPos(currentY + 1, currentX);
+//        removeOneSoundAtPos(currentY, currentX - 1);
+//        removeOneSoundAtPos(currentY, currentX + 1);
     }
 
-    /*effects: if tile index is valid, iterate through interactables list in that tile, and remove
-    * interactable named SOUND_NAME*/
-    private void removeOneSoundAtPos(int y, int x) {
-        if (getMap().isIndexValid(y, x)) {
-            getMap().getTileMatrix().get(y).get(x).removeSound(name);
-//            Collection<Sound> soundCollection = getMap().getTileMatrix().get(y).get(x).getTileSounds();
-//            for (Sound sound : soundCollection
-//                 ) {
-//                if(sound.getSourceName().equals(NAME)) {
-//                    soundCollection.remove(sound);
-//                    return;
-//                }
-//            }
-        }
-    }
+//    /*effects: if tile index is valid, iterate through interactables list in that tile, and remove
+//    * interactable named SOUND_NAME*/
+//    private void removeOneSoundAtPos(int y, int x) {
+//        if (getMap().isIndexValid(y, x)) {
+//            getMap().getTileMatrix().get(y).get(x).removeSound(name);
+////            Collection<Sound> soundCollection = getMap().getTileMatrix().get(y).get(x).getTileSounds();
+////            for (Sound sound : soundCollection
+////                 ) {
+////                if(sound.getSourceName().equals(NAME)) {
+////                    soundCollection.remove(sound);
+////                    return;
+////                }
+////            }
+//        }
+//    }
 
     /* modifies: this
     * effects: todo

@@ -4,6 +4,7 @@ import model.Map;
 import model.exceptions.EdgeOfMapException;
 import model.exceptions.MismatchedMapSizeException;
 import model.mapobjects.features.BloodFish;
+import model.mapobjects.features.FourStoneGate;
 import model.mapobjects.features.MossyGate;
 import model.mapobjects.items.RustyKey;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ class FeatureTests extends TestMapDataAndMethods {
     public static final int YBLOCK = 2;
     public static final int XBLOCK = 6;
     private MossyGate mgC;
+    private FourStoneGate fourStoneGate;
     private BloodFish bloodFish;
 
     @BeforeEach

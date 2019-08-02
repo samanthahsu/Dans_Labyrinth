@@ -37,8 +37,9 @@ public class Sound extends Locatable {
         return Objects.equals(sourceName, sound.sourceName);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(sourceName);
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(sourceName);
+//    }
+
 }

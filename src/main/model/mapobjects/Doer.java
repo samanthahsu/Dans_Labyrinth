@@ -1,14 +1,9 @@
 package model.mapobjects;
 
-public abstract class Doer extends Examinable {
-
-    public Doer(int y, int x) {
-        super(y, x);
-    }
-
-    /*
+public interface Doer {
+        /*
                 EFFECTS: does actions that should happen for each clock tick (determined
             by player actions)
         */
-    public abstract void doPassiveActions();
+    void doPassiveActions();
 }

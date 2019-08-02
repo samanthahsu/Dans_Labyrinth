@@ -32,7 +32,7 @@ class CreatureTests extends TestMapDataAndMethods {
         int newY = ENNUI_CAPTURE_START_Y - 1; //1
         int newX = ENNUI_CAPTURE_START_X; //1
 
-//        todo careful checking if index valid\
+//        todo careful checking if index valid
         Sound ennuiSound = new Sound(map1, -1, -1, Ennui.NAME, "");
         assertTrue(tileMatrixC.get(newY - 1).get(newX).getTileSounds().contains(ennuiSound));
         assertTrue(tileMatrixC.get(newY + 1).get(newX).getTileSounds().contains(ennuiSound));
@@ -63,7 +63,10 @@ class CreatureTests extends TestMapDataAndMethods {
         assertTrue(tileMatrixC.get(newY + 1).get(newX).getTileSounds().contains(ennuiSound));
         assertTrue(tileMatrixC.get(newY).get(newX - 1).getTileSounds().contains(ennuiSound));
         assertTrue(tileMatrixC.get(newY).get(newX + 1).getTileSounds().contains(ennuiSound));
+    }
 
+    @Test
+    void testMoveWest() { // todo
     }
 
     @Test

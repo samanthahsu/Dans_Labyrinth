@@ -13,10 +13,6 @@ public class Pan extends Feature {
         examineDescription = "The nametag on the orange uniform's breast says 'Pan'";
     }
 
-    @Override
-    public void doPassiveActions() {
-
-    }
 
     @Override
     public boolean examine(String ui) {

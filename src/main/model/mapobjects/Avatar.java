@@ -26,8 +26,7 @@ public class Avatar extends Locatable implements Serializable {
     private ItemManager itemManager;
 
 /* constructor
-    EFFECTS: makes avatar setting it's coordinates, startingItems and sanity to 3
-*/
+    EFFECTS: makes avatar setting it's coordinates, startingItems and sanity*/
     public Avatar(int startingY, int startingX, List<Item> startingItems, Map map) {
         super(map, startingY, startingX);
 //        initItems(startingItems);

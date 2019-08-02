@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class SoundTests extends TestMapDataAndMethods {
 
@@ -23,5 +24,10 @@ public class SoundTests extends TestMapDataAndMethods {
     void testConstructor() {
         assertEquals(SOUND_STR_1, sound.getSoundStr());
         assertEquals(SOURCE_NAME_1, sound.getSourceName());
+    }
+
+    @Test
+    void testNotEqualsSoundEquals() {
+        assertFalse(sound.equals(""));
     }
 }

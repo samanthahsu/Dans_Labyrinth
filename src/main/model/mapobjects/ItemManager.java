@@ -47,11 +47,10 @@ public class ItemManager implements Serializable {
         return Objects.equals(currItems, that.currItems);
     }
 
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(currItems);
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(currItems);
+//    }
 
     public HashMap<String, Item> getCurrItems() {
         return currItems;

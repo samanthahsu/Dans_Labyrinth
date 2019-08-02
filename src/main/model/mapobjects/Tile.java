@@ -87,7 +87,6 @@ public class Tile extends Locatable implements Serializable {
                 return;
             }
         }
-//        tileSounds.remove(new Sound(null, -1,-1, soundSource, ""));
     }
 
     //    effects: if tile is revealed return current char, else return fog char
@@ -122,9 +121,9 @@ public class Tile extends Locatable implements Serializable {
                 && Objects.equals(currInteractables, tile.currInteractables);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getXc(), getYc(), currChar, isRevealed, isWalkable, description, currInteractables);
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(getXc(), getYc(), currChar, isRevealed, isWalkable, description, currInteractables);
+//    }
 
 }

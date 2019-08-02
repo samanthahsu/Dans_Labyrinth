@@ -23,11 +23,13 @@ class TileTests extends TestMapDataAndMethods {
     private static final int T_X_2 = 4;
     public static final String SOURCE_NAME = "test source";
     private Tile tile;
+    Sound sound;
 
     @BeforeEach
     void setup() {
         initTestMaps();
         tile = new Tile(map2, T_Y_2, T_X_2, Map.FLOOR, new ArrayList<Examinable>());
+        sound = new Sound(map1, T_Y_1, T_X_1, SOURCE_NAME, "");
     }
 
     @Test
@@ -75,12 +77,29 @@ class TileTests extends TestMapDataAndMethods {
 
     @Test
     void testAddAndRemoveSounds() {
-        Sound sound = new Sound(map1, T_Y_1, T_X_1, SOURCE_NAME, "");
         Tile tile1 = tileMatrix1.get(T_Y_1).get(T_X_1);
         tile1.addSound(sound);
         assertTrue(tile1.getTileSounds().contains(sound));
         tile1.removeSound(SOURCE_NAME);
         assertFalse(tile1.getTileSounds().contains(sound));
+    }
+
+    @Test
+    void removeSoundIsntThere() {
+        tile = new Tile(map1, 0, 0, '@', new ArrayList<Examinable>());
+        tile.removeSound(sound.getSourceName());
+        assertTrue(tile.getTileSounds().isEmpty());
+
+        Sound ridikulus = new Sound(null, -1, -1, "ridikulus", "");
+        tile.addSound(ridikulus);
+        tile.removeSound(sound.getSourceName());
+        assertTrue(tile.getTileSounds().contains(ridikulus));
+    }
+
+    @Test
+    void testEquals() {
+        assertTrue(tile.equals(tile));
+        assertFalse(tile.equals(0));
     }
 
 }

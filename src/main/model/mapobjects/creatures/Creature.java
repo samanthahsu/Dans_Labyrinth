@@ -1,9 +1,10 @@
 package model.mapobjects.creatures;
 
 import model.mapobjects.Doer;
+import model.mapobjects.Examinable;
 
 /**An interactable creature that you can fight or talk to**/
-public abstract class Creature extends Doer {
+public abstract class Creature extends Examinable implements Doer {
 //    int health;
 
     Creature(int y, int x) {

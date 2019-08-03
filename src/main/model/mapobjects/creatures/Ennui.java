@@ -184,12 +184,13 @@ public class Ennui extends Creature {
         if (Pattern.matches("(take|get) (rusty |rusted )?key", action)) {
             takeKey();
             notifyObservers("Dan pries the rusty key out of its little hands.");
-            return true;
         } else if (!hasKey | Pattern.matches("(take|get) .*", action)) {
             notifyObservers("Dan has no reason to disturb the terrified animal");
 //            scampers away or something
+        } else {
+            return false;
         }
-        return false;
+        return true;
     }
 
     /*requires: ennui has key

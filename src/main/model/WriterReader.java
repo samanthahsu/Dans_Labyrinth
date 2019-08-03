@@ -9,8 +9,7 @@ import java.io.*;
 /*reads and writes game states from the saves folder*/
 public class WriterReader extends PrintObservable implements DefaultMapData {
 
-    private static final String FILE_TYPE = ".txt";
-
+//    private static final String FILE_TYPE = ".txt";
     private static final String SAVES_PATH = System.getProperty("user.dir") + "\\saves\\";
     private String savePath = "";
 
@@ -29,23 +28,19 @@ public class WriterReader extends PrintObservable implements DefaultMapData {
         return savePath;
     }
 
-/*
-requires: path is valid
-        effects: Writes (map) into text file named (filename) at (savePath)
-*/
+    /*requires: path is valid
+    effects: Writes (map) into text file named (filename) at (savePath)*/
     public void writeMap(Map map, String fileName) throws IOException {
-        final String FILENAME = fileName.concat(FILE_TYPE); // specifying file type
-        String newSavePath = this.savePath + FILENAME;
+        String newSavePath = this.savePath + fileName;
         File file = new File(newSavePath);
         if (file.createNewFile()) {
-            notifyObservers("New save file created");
+            notifyObservers("New save file '" + fileName + "' created!");
         } else {
-            notifyObservers("Save file already present... overwriting");
-        }
-
-        FileOutputStream f = new FileOutputStream(new File(FILENAME));
+            notifyObservers("Save file '" + fileName + "' already exists. Overwriting...");
+        } // todo prevent accidentally overwriting
+        FileOutputStream f = new FileOutputStream(new File(fileName));
         ObjectOutputStream o = new ObjectOutputStream(f);
-        o.writeObject(map); // write map to file
+        o.writeObject(map);
         o.close();
         f.close();
     }

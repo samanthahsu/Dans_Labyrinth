@@ -6,7 +6,8 @@ import model.mapobjects.creatures.Ennui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CreatureTests extends TestMapDataAndMethods {
 
@@ -81,7 +82,7 @@ class CreatureTests extends TestMapDataAndMethods {
 
     @Test
     void testExamineStrings() {
-        assertFalse(testEnnui.examine("take thing"));
+        assertTrue(testEnnui.examine("take thing"));
         assertTrue(testEnnui.examine("take rusty key"));
         assertTrue(testEnnui.examine("take key"));
     }

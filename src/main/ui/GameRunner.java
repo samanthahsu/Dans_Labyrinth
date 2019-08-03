@@ -86,7 +86,6 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
         primaryStage.setTitle(GAME_TITLE);
         setUserAgentStylesheet(STYLESHEET_MODENA);
 
-//        button = new Button("click me");
         inputBar = new TextField();
         inputBar.setPromptText("type here");
         outputDisplay = new ListView<>();
@@ -132,7 +131,6 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
 //
 //    }
 
-    /*called when user clicks button*/
     @Override
     public void handle(ActionEvent event) {
         printToDisplay(inputBar.getText());
@@ -198,8 +196,7 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
 */
     private void homeExecuteUi() {
 
-        printToDisplay(inputBar.getText());
-        getTxtAndClearInBar();
+        consumeUI();
 
         switch (ui) {
             case "new":
@@ -220,13 +217,14 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
     }
 
     private void executeLoadGame() {
-        getTxtAndClearInBar();
+        consumeUI();
         try {
             map = writerReader.readMap(ui);
+            inputBar.setOnAction(event -> runGame());
         } catch (IOException | ClassNotFoundException e) {
-            printToDisplay("Loading failed.");
+            printToDisplay("Loading failed. Returned to home screen.");
+            inputBar.setOnAction(event -> runHomeScreen());
         }
-        inputBar.setOnAction(event -> runGame());
     }
 
     /*builds new default map and then runs the game*/ //todo
@@ -244,7 +242,7 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
     /*modifies: this, map
     EFFECTS: runs the main body of the game*/
     private void runGame() {
-        getTxtAndClearInBar();
+        consumeUI();
         String[] uiAsWords = ui.split(" ");
 
         if (execute(uiAsWords)) { // each move is one tick of game clock
@@ -258,9 +256,12 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
         }
     }
 
+    private void printUiToDisplay() {
+        printToDisplay(">> " + ui);
+    }
+
     // EFFECTS: handles which Map functions to call. returns gameState.
     private boolean execute(String[] input) {
-        printToDisplay("first word: '" + input[0] + "'");
         if (Pattern.matches("n|s|e|w|examine|pickup|use", input[0])) {
             executeAction(input);
         } else if (Pattern.matches("me|help|quit|map", input[0])) {
@@ -274,7 +275,7 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
 
     private void executeInterface(String input) {
         switch (input) {
-            case "me":
+            case "dan":
                 prntAvaInfo();
                 break;
             case "help":
@@ -293,30 +294,28 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
         }
     }
 
-    private void prntAvaInfo() {
-        printToDisplay("Sanity: " + map.getAva().getSanity()
-                + "/3");
-        printItems();
-    }
 
     private void executeAction(String[] input) {
-        String item;
-        if (Pattern.matches(input[0], "(n|s|e|w)")) {
+        if (Pattern.matches("(n|s|e|w)", input[0])) {
             map.getAva().moveAva(input[0]);
             return;
         }
-        switch (input[0]) {
-            case "examine":
-                enterExamineInstance(input[1]);
-                break;
-            case "pickup": // change to pick up <item name>
-                item = input[1];
-                map.getAva().pickUpItem(item);
-                break;
-            case "use":
-                executeUse();
-                break;
-            default:
+
+        try {
+            switch (input[0]) {
+                case "examine":
+                    enterExamineInstance(input[1]);
+                    break;
+                case "pickup": // change to pick up <item name>
+                    map.getAva().pickUpItem(input[1]);
+                    break;
+                case "use":
+                    executeUse();
+                    break;
+                default:
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            printToDisplay("Dan wonders which thing he should be doing the thing to");
         }
     }
 
@@ -353,6 +352,12 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
         } else if (!trgtExamnble.examine(ui)) {
             printToDisplay("Nothing happened.");
         }
+    }
+
+    private void prntAvaInfo() {
+        printToDisplay("Sanity: " + map.getAva().getSanity()
+                + "/3");
+        printItems();
     }
 
     // EFFECT: printToDisplay user controls and other info *todo make dynamic for each tile
@@ -401,7 +406,7 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
 //      cancel: continues the game
 //      quit: quit the game without saving
     private void handleQuitInGame() {
-        getTxtAndClearInBar();
+        consumeUI();
         switch (ui) {
             case "s":
                 printToDisplay("What would you like to name your file?");
@@ -418,9 +423,11 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
         }
     }
 
-    private void getTxtAndClearInBar() {
+    /*saves text from and clears the input bar, and prints ">> text" to display*/
+    private void consumeUI() {
         ui = inputBar.getText();
         inputBar.setText("");
+        printUiToDisplay();
     }
 
     private void executeSave() {
@@ -428,7 +435,7 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
     }
 
     private void save() {
-        getTxtAndClearInBar();
+        consumeUI();
         try {
             writerReader.writeMap(map, ui);
         } catch (IOException e) {

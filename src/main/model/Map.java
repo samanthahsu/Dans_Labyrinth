@@ -8,6 +8,7 @@ import model.mapobjects.Tile;
 import model.mapobjects.creatures.Creature;
 import model.mapobjects.features.Feature;
 import model.mapobjects.items.Item;
+import ui.PrintObserver;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,6 +53,13 @@ public class Map implements Serializable {
         initAvatar(avaY, avaX, avaItems);
     }
 
+/*effects adds given observer to every observable on the map*/
+    public void addObservers(PrintObserver po) {
+        ava.addObserver(po);
+        for (Examinable e : allExaminables.values()) {
+            e.addObserver(po);
+        }
+    }
     /* modifies: this
     * effects: initializes all examinables in the map*/
     private void initExaminables(List<Examinable> examinables) {

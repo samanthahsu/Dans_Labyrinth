@@ -20,7 +20,7 @@ public class RustyKey extends Item {
             MossyGate mossyGate = (MossyGate) getMap().getAllExaminables().get(MossyGate.NAME);
             mossyGate.open();
             getMap().getAva().getCurrItems().remove(NAME);
-            System.out.println("the rusty key disintegrated in Dan's hand as he tried to pull it from the keyhole.");
+            notifyObservers("The rusty key disintegrated in Dan's hand as he tried to pull it from the keyhole.");
             return true;
         }
         return false;

@@ -29,16 +29,16 @@ public class PizzaBox extends Item {
     @Override
     public boolean use(String target) {
         if (slices == JUST_A_BOX) {
-            System.out.println("Dan sadly remembers that there is no more pizza."
+            notifyObservers("Dan sadly remembers that there is no more pizza."
                     + " He resists eating the box");
         } else {
             slices--;
-            System.out.println("Warm cheese melts in Dan's mouth.");
+            notifyObservers("Warm cheese melts in Dan's mouth.");
             Avatar ava = getMap().getAva();
             int newStat = ava.getSanity() + 1;
             if (newStat <= 3) {
                 ava.setSanity(newStat);
-                System.out.println("Dan feels his sanity return slightly. Dan feels a slight pang of guilt, "
+                notifyObservers("Dan feels his sanity return slightly. Dan feels a slight pang of guilt, "
                         + "he will have to do an extra half km to make up for it later");
             }
             return true;

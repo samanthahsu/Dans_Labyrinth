@@ -7,7 +7,7 @@ public class PrintObservable {
 
     private List<PrintObserver> observers = new ArrayList<>();
 
-    protected void addObserver(PrintObserver o) {
+    public void addObserver(PrintObserver o) {
         observers.add(o);
     }
     /*requires:

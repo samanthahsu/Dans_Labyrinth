@@ -150,7 +150,7 @@ public class Ennui extends Creature {
     private boolean isAvaOnSameTile() {
         Avatar ava = getMap().getAva();
         if (ava.getYc() == getYc() && ava.getXc() == getXc()) {
-            System.out.println("A basketball sized blue pompom is quivering on the FLOOR in front of Dan.");
+            notifyObservers("A basketball sized blue pompom is quivering on the FLOOR in front of Dan.");
             return true;
         }
         return false;
@@ -161,7 +161,7 @@ public class Ennui extends Creature {
     * sets current coordinates to next coordinates*/
     private void executeMove(int nextY, int nextX) {
         List<List<Tile>> tileMatrix = getMap().getTileMatrix();
-        tileMatrix.get(nextY).get(nextX).getCurrExaminables().put(name, this);
+        tileMatrix.get(nextY).get(nextX).getCurrExaminables().put(name, this); //todo make special shit for this in examinable
         tileMatrix.get(getYc()).get(getYc()).getCurrExaminables().remove(name);
         setYc(nextY);
         setXc(nextX);
@@ -183,10 +183,10 @@ public class Ennui extends Creature {
     public boolean examine(String action) {
         if (Pattern.matches("(take|get) (rusty |rusted )?key", action)) {
             takeKey();
-            System.out.println("Dan pries the rusty key out of its little hands.");
+            notifyObservers("Dan pries the rusty key out of its little hands.");
             return true;
         } else if (!hasKey | Pattern.matches("(take|get) .*", action)) {
-            System.out.println("Dan has no reason to disturb the terrified animal");
+            notifyObservers("Dan has no reason to disturb the terrified animal");
 //            scampers away or something
         }
         return false;

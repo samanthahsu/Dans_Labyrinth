@@ -2,7 +2,9 @@ package model.mapobjects;
 
 import model.Map;
 
-public class SoundManager {
+import java.io.Serializable;
+
+public class SoundManager implements Serializable {
 
     private Map map;
 
@@ -41,14 +43,6 @@ effects: sets close sounds in max 4 FLOOR tiles of orthog radius 1
     private void removeOneSoundAtPos(int y, int x, String name) {
         if (map.isIndexValid(y, x)) {
             map.getTileMatrix().get(y).get(x).removeSound(name);
-//            Collection<Sound> soundCollection = getMap().getTileMatrix().get(y).get(x).getTileSounds();
-//            for (Sound sound : soundCollection
-//                 ) {
-//                if(sound.getSourceName().equals(NAME)) {
-//                    soundCollection.remove(sound);
-//                    return;
-//                }
-//            }
         }
     }
 

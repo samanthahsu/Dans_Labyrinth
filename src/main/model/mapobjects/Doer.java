@@ -1,9 +1,6 @@
 package model.mapobjects;
 
 public interface Doer {
-        /*
-                EFFECTS: does actions that should happen for each clock tick (determined
-            by player actions)
-        */
+    /*effects: does actions that should happen after each player action*/
     void doPassiveActions();
 }

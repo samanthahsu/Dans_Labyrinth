@@ -8,8 +8,7 @@ public abstract class Examinable extends Locatable implements Serializable {
     public static final int TYPE_CREATURE = 0;
     public static final int TYPE_ITEM = 1;
     public static final int TYPE_FEATURE = 2;
-    public static final String EXIT_EXAMINATION_KEY = "back";
-//todo since everything has the same name, set as public static ID instead
+    //todo since everything has the same name, set as public static ID instead
 //    used to id interactable
     protected String name;
     protected String description;
@@ -53,8 +52,6 @@ public abstract class Examinable extends Locatable implements Serializable {
         return Objects.hash(name, description, examineDescription, typeId);
     }
 
-// todo maybe add override of setMap here for coupling
-
     /*requires: given y,x are within map
     * modifies: this, map
     * effects: sets examinable location to y, x*/
@@ -74,8 +71,9 @@ public abstract class Examinable extends Locatable implements Serializable {
         return typeId;
     }
 
-    /*effects: handles examining actions and returns string to be printed
-    * gives user access to object specific actions*/
+    /*effects: lets user examine and interact with examinable appropriately
+    * returns true if input is recognized
+    * false otherwise*/
     public abstract boolean examine(String ui);
 }
 

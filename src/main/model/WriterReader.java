@@ -81,7 +81,7 @@ requires: path is valid
     //  effects: Reads from (fileName) at (savePath) which it returns as a Map object.
     public Map readMap(String fileName) throws IOException, ClassNotFoundException {
         final String FILENAME = fileName.concat(".txt"); // specifying file type
-        Map savedMap = null;
+        Map savedMap;
         FileInputStream fi = new FileInputStream(new File(FILENAME));
         ObjectInputStream oi = new ObjectInputStream(fi);
         savedMap = (Map) oi.readObject(); // read in map

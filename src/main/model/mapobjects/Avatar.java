@@ -3,12 +3,13 @@ package model.mapobjects;
 import model.Map;
 import model.exceptions.EdgeOfMapException;
 import model.mapobjects.items.Item;
-import ui.GameRunner;
+import ui.PrintObserver;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class Avatar extends Locatable implements Serializable {
 //    TODO SPLIT OUT ITEM HANDLER FROM AVATAR
@@ -62,6 +63,12 @@ public class Avatar extends Locatable implements Serializable {
     //    todo for tests only
     public void setSanity(int sanity) {
         this.sanity = sanity;
+    }
+
+    @Override
+    public void addObserver(PrintObserver o) {
+        super.addObserver(o);
+        itemManager.addObserver(o);
     }
 
     @Override
@@ -121,7 +128,7 @@ public class Avatar extends Locatable implements Serializable {
                     notifyObservers(inter.getName());
                 }
             } else {
-                GameRunner.printMovePlaceholder(dir);
+                printMovePlaceholder(dir);
             }
         } catch (EdgeOfMapException e) {
             notifyObservers(MAP_EDGE_MESSAGE);
@@ -144,9 +151,9 @@ public class Avatar extends Locatable implements Serializable {
 //        if (chosenItem != null) {
 //            getMap().removeExaminable(chosenItem, getYc(), getXc());
 //            currItems.put(itemName, (Item) chosenItem);
-//            System.out.println("Dan picked up '" + itemName + "'!");
+//            notifyObservers("Dan picked up '" + itemName + "'!");
 //        }
-//        System.out.println("Couldn't pick up '" + itemName + "'.");
+//        notifyObservers("Couldn't pick up '" + itemName + "'.");
     }
 
 
@@ -154,16 +161,36 @@ public class Avatar extends Locatable implements Serializable {
     public void useItem(String itemName, String target) {
         itemManager.useItem(itemName, target);
 //        if (!currItems.containsKey(itemName)) {
-//            System.out.println("Dan remembers he left the " + itemName + " at home again.");
+//            notifyObservers("Dan remembers he left the " + itemName + " at home again.");
 //        } else {
 //            Tile currentTile = getMap().getTileMatrix().get(getYc()).get(getXc());
 //            if (!currentTile.getCurrExaminables().containsKey(target)
 //                    && !Pattern.matches("(D|d)an", target)) {
-//                System.out.println("Dan cannot find a " + target + " around him");
+//                notifyObservers("Dan cannot find a " + target + " around him");
 //            } else if (!currItems.get(itemName).use(target)) {
-//                System.out.println("<todo beef out text> that doesn't work");
+//                notifyObservers("<todo beef out text> that doesn't work");
 //            }
 //        }
+    }
+
+    /*EFFECTS: prints feedback when ava tries to move into a WALL tile todo move to observer*/
+    public void printMovePlaceholder(String dir) {
+        Random ran = new Random();
+        switch (ran.nextInt(4)) {
+            case 0:
+                notifyObservers("Dan smacks hilariously against the " + dir + " WALL.");
+                break;
+            case 1:
+                notifyObservers("Dan stubs his toe painfully on the " + dir + " WALL.");
+                break;
+            case 2:
+                notifyObservers("Dan flops desperately against the " + dir + " WALL.");
+                break;
+            case 3:
+                notifyObservers("Dan sits and ponders how his life has culminated in this moment.");
+                break;
+            default:
+        }
     }
 
         /*MODIFIES: map, this
@@ -172,14 +199,14 @@ public class Avatar extends Locatable implements Serializable {
     public void dropItem(String itemName) {
         itemManager.dropItem(itemName);
 //        if (!currItems.containsKey(itemName)) {
-//            System.out.println("Dan is glad that one could not lose something one never had.");
+//            notifyObservers("Dan is glad that one could not lose something one never had.");
 //        } else {
 //            Item target = currItems.get(itemName);
 //            target.setIndexes(getYc(), getXc());
 //            getMap().addExaminable(target, getYc(), getXc());
 //
 //            currItems.remove(itemName);
-//            System.out.println("Dan drops the " + itemName + " to the floor.");
+//            notifyObservers("Dan drops the " + itemName + " to the floor.");
 //        }
     }
 

@@ -2,6 +2,7 @@ package model.mapobjects;
 
 import model.Map;
 import model.mapobjects.items.Item;
+import ui.PrintObservable;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class ItemManager implements Serializable {
+public class ItemManager extends PrintObservable implements Serializable {
 
     private Map map;
     private HashMap<String, Item> currItems;
@@ -71,23 +72,23 @@ public class ItemManager implements Serializable {
         if (chosenItem != null) {
             map.removeExaminable(chosenItem, avatar.getYc(), avatar.getXc());
             currItems.put(itemName, (Item) chosenItem);
-            System.out.println("Dan picked up '" + itemName + "'!");
+            notifyObservers("Dan picked up '" + itemName + "'!");
         }
-        System.out.println("Couldn't pick up '" + itemName + "'.");
+        notifyObservers("Couldn't pick up '" + itemName + "'.");
     }
 
 
     //EFFECTS: uses the item on the target
     public void useItem(String itemName, String target) {
         if (!currItems.containsKey(itemName)) {
-            System.out.println("Dan remembers he left the " + itemName + " at home again.");
+            notifyObservers("Dan remembers he left the " + itemName + " at home again.");
         } else {
             Tile currentTile = map.getTileMatrix().get(avatar.getYc()).get(avatar.getXc());
             if (!currentTile.getCurrExaminables().containsKey(target)
                     && !Pattern.matches("(D|d)an", target)) {
-                System.out.println("Dan cannot find a " + target + " around him");
+                notifyObservers("Dan cannot find a " + target + " around him");
             } else if (!currItems.get(itemName).use(target)) {
-                System.out.println("<todo beef out text> that doesn't work");
+                notifyObservers("<todo beef out text> that doesn't work");
             }
         }
     }
@@ -97,14 +98,14 @@ public class ItemManager implements Serializable {
     and setting item indexes accordingly*/
     public void dropItem(String itemName) {
         if (!currItems.containsKey(itemName)) {
-            System.out.println("Dan is glad that one could not lose something one never had.");
+            notifyObservers("Dan is glad that one could not lose something one never had.");
         } else {
             Item target = currItems.get(itemName);
             target.setIndexes(avatar.getYc(), avatar.getXc());
             map.addExaminable(target, avatar.getYc(), avatar.getXc());
 
             currItems.remove(itemName);
-            System.out.println("Dan drops the " + itemName + " to the floor.");
+            notifyObservers("Dan drops the " + itemName + " to the floor.");
         }
     }
 }

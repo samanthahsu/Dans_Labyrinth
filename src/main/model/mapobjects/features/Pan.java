@@ -15,11 +15,14 @@ public class Pan extends Feature {
 
 
     @Override
+    /*requires:
+    * modifies
+    * effects prints out detailed descriptions, you can take a bone for no reason?*/
     public boolean examine(String ui) {
         if (ui.equals("uniform")) {
-            System.out.println(examineDescription);
+            notifyObservers(examineDescription);
         } else if (ui.equals("bones")) {
-            System.out.println(description);
+            notifyObservers(description);
         }
         return false;
     }

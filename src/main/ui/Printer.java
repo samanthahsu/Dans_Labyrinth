@@ -3,7 +3,7 @@ package ui;
 import javax.swing.*;
 
 /**/
-public class Printer {
+public class Printer implements PrintObserver {
 
     private DefaultListModel listModel;
 
@@ -16,5 +16,10 @@ public class Printer {
         if (listModel.getSize() > 20) {
             listModel.removeElementAt(0);
         }
+    }
+
+    @Override
+    public void update(String message) {
+        print(message);
     }
 }

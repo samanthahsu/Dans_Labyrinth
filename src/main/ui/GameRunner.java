@@ -1,5 +1,15 @@
 package ui;
 
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.Map;
 import model.WriterReader;
 import model.exceptions.MapException;
@@ -8,18 +18,13 @@ import model.mapobjects.Tile;
 import model.mapobjects.creatures.Ennui;
 import model.mapobjects.items.Item;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
 /*Main hub which manages all game processes*/
-public class GameRunner {
+public class GameRunner extends Application implements EventHandler<ActionEvent> {
 
-//    todo add main.model.exceptions
-
-//    game states
     private static final int CONTINUE_GAME = 0;
     private static final int QUIT_GAME = 1;
     private static final int FAIL_GAME = 2; // todo make able to die
@@ -42,55 +47,136 @@ public class GameRunner {
             + "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n"
             + "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n"
             + "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
+    private static final String GAME_TITLE = "DAN'S LABYRINTH";
 
-    private Integer gameState;
+    private static Integer gameState;
     private Map map;
     private Scanner scnr;
     private WriterReader writerReader;
     private String ui;
-    private FakeTerminal fakeTerminal;
+//    private FakeTerminal fakeTerminal;
     private Printer out;
 //    todo make input string class wide
+    private Stage mainWindow;
+    Scene scene;
+    private TextField inputBar;
+    private ListView<String> outputDisplay;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /*called right after launch*/
+    @Override
+    public void start(Stage primaryStage) {
+        initGraphics(primaryStage);
+        runHomeScreen();
+    }
+
+    private void initGraphics(Stage primaryStage) {
+        mainWindow = primaryStage;
+        primaryStage.setTitle("ello");
+
+//        button = new Button("click me");
+        inputBar = new TextField("type here");
+        inputBar.setOnAction(this);
+        outputDisplay = new ListView<>();
+        outputDisplay.setMinHeight(600);
+        outputDisplay.getItems().addAll();
+        outputDisplay.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        outputDisplay.setEditable(false);
+
+//        StackPane layout = new StackPane();
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(20 ,20, 20, 20));
+        layout.getChildren().addAll(outputDisplay, inputBar);
+//        button.setOnAction(this);
+//        button.setOnAction(e -> buttonClicked());
+
+        Scene scene = new Scene(layout, 700, 700);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+/*
+    private void runGame() {
+        GameRunner game = new GameRunner();
+        boolean quit;
+
+        do {
+            quit = game.runHomeScreen(); // also runs the rest of the game
+        } while (!quit); // can only quit from the home screen now
+    }
+*/
+
+//    private void buttonClicked() {
+//        String message = "";
+//        ObservableList<String> movies;
+//        movies = outputDisplay.getSelectionModel().getSelectedItems();
+//
+//        for (String m:movies
+//                ) {
+//            message += m + "\n";
+//        }
+//        System.out.println(message);
+//
+//    }
+
+    /*called when user clicks button*/
+    @Override
+    public void handle(ActionEvent event) {
+        print(inputBar.getText());
+        inputBar.setText("");
+    }
+
+    /*prints message to output*/
+    private void print(String message) {
+        outputDisplay.getItems().add(message);
+        if (outputDisplay.getItems().size() > 20) {
+            outputDisplay.getItems().remove(0);
+        }
+    }
 
 /*
     starts real part of game
     effects: initializes gameState, map, scnr, writerREader, and main.ui
 */
-    GameRunner() {
-        gameState = CONTINUE_GAME;
-        map = null;
-        scnr = new Scanner(System.in);
-        writerReader = new WriterReader();
-        ui = "";
-        fakeTerminal = new FakeTerminal();
-        out = fakeTerminal.getOut();
-    }
+//    GameRunner() {
+//        gameState = CONTINUE_GAME;
+//        map = null;
+//        scnr = new Scanner(System.in);
+//        writerReader = new WriterReader();
+//        ui = "";
+//        fakeTerminal = new FakeTerminal();
+//        out = fakeTerminal.getOut();
+//    }
 
-/*
-        EFFECTS: while map is uninitialized, prints welcome text, and handles homeScreen commands
-        returns true if gameState is QUIT_GAME, else runs the game and returns false
-*/
+    /*
+            EFFECTS: while map is uninitialized, prints welcome text, and handles homeScreen commands
+            returns true if gameState is QUIT_GAME, else runs the game and returns false
+    */
     public boolean runHomeScreen() {
+        print("=============DAN'S LABYRINTH=============");
+        print("new: new game | load: load a saved game | quit: exit");
+        return true;
+    }
+/*
+    public boolean runHomeScreen() {
+
         out.print("=============DAN'S LABYRINTH=============");
         while (map == null && gameState != QUIT_GAME) {
             out.print("new: new game\n"
                     + "load: load a saved game\n"
                     + "quit: exit");
-            fakeTerminal.getTxtField().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    fakeTerminal.actionPerformed(e);
-                    ui = fakeTerminal.getUserInput();
-                    homeExecuteUi();
-                }
-            });
         }
+        homeExecuteUi();
         if (gameState == QUIT_GAME) {
             return true;
         }
         runGame();
         return false;
     }
+*/
 
 /*
     MODIFIES: this

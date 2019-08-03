@@ -51,8 +51,7 @@ requires: path is valid
     }
 
     /*effects: constructs and returns a fresh default map
-    * catches MismatchedMapSizeException
-     */
+    * catches MismatchedMapSizeException*/
     public Map buildDefaultMap() throws MismatchedMapSizeException, EdgeOfMapException {
         return new Map(DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_WIN_Y, DEFAULT_WIN_X, DEFAULT_START_Y,
                 DEFAULT_START_X, DEFAULT_AVA_ITEMS_LIST, DEFAULT_INTERACTABLES_LIST, DEFAULT_MAP_STRING);

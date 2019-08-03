@@ -69,17 +69,24 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
     /*called right after launch*/
     @Override
     public void start(Stage primaryStage) {
+        initGameRunner();
         initGraphics(primaryStage);
         runHomeScreen();
     }
 
+    private void initGameRunner() {
+        gameState = CONTINUE_GAME;
+        scnr = new Scanner(System.in);
+        writerReader = new WriterReader();
+        ui = "";
+    }
+
     private void initGraphics(Stage primaryStage) {
         mainWindow = primaryStage;
-        primaryStage.setTitle("ello");
+        primaryStage.setTitle(GAME_TITLE);
 
 //        button = new Button("click me");
         inputBar = new TextField("type here");
-        inputBar.setOnAction(this);
         outputDisplay = new ListView<>();
         outputDisplay.setMinHeight(600);
         outputDisplay.getItems().addAll();
@@ -118,25 +125,24 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
 //                ) {
 //            message += m + "\n";
 //        }
-//        System.out.println(message);
+//        System.out.printToDisplay(message);
 //
 //    }
 
     /*called when user clicks button*/
     @Override
     public void handle(ActionEvent event) {
-        print(inputBar.getText());
+        printToDisplay(inputBar.getText());
         inputBar.setText("");
     }
 
     /*prints message to output*/
-    private void print(String message) {
+    private void printToDisplay(String message) {
         outputDisplay.getItems().add(message);
         if (outputDisplay.getItems().size() > 20) {
             outputDisplay.getItems().remove(0);
         }
     }
-
 /*
     starts real part of game
     effects: initializes gameState, map, scnr, writerREader, and main.ui
@@ -156,16 +162,17 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
             returns true if gameState is QUIT_GAME, else runs the game and returns false
     */
     public boolean runHomeScreen() {
-        print("=============DAN'S LABYRINTH=============");
-        print("new: new game | load: load a saved game | quit: exit");
+        inputBar.setOnAction(event -> homeExecuteUi());
+        printToDisplay("=============DAN'S LABYRINTH=============");
+        printToDisplay("new: new game | load: load a saved game | quit: exit");
         return true;
     }
 /*
     public boolean runHomeScreen() {
 
-        out.print("=============DAN'S LABYRINTH=============");
+        out.printToDisplay("=============DAN'S LABYRINTH=============");
         while (map == null && gameState != QUIT_GAME) {
-            out.print("new: new game\n"
+            out.printToDisplay("new: new game\n"
                     + "load: load a saved game\n"
                     + "quit: exit");
         }
@@ -186,76 +193,72 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
     then sets gameState to appropriate value
 */
     private void homeExecuteUi() {
+
+        printToDisplay(inputBar.getText());
+        ui = inputBar.getText();
+        inputBar.setText("");
+
         switch (ui) {
             case "new":
                 executeNewGame();
                 break;
             case "load":
+                printToDisplay("Enter name of saved file");
+                inputBar.setOnAction(event -> executeLoadGame());
                 executeLoadGame();
                 break;
             case "quit":
-                gameState = QUIT_GAME;
-                System.out.println("Thanks for playing!");
+                mainWindow.close();
                 break;
             default:
-                System.out.println("Command not available on home screen.");
+                printToDisplay("Command not available on home screen.");
                 break;
         }
     }
 
     private void executeLoadGame() {
-        System.out.println("Enter name of saved file: ");
-        ui = scnr.nextLine();
         try {
-            map = writerReader.readMap(ui);
+            map = writerReader.readMap(inputBar.getText());
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Loading failed.");
+            printToDisplay("Loading failed.");
         }
     }
 
+    /*builds new default map and then runs the game*/ //todo
     private void executeNewGame() {
-        System.out.println("Starting new game...");
+        printToDisplay("Starting new game...");
         try {
             map = writerReader.buildDefaultMap();
+            printToDisplay("New game started!");
+            inputBar.setOnAction(event -> runGame());
         } catch (MapException e) {
-            System.out.println("Failed to build new map.");
+            printToDisplay("Failed to build new map.");
         }
     }
 
-    /*
-    modifies: this, map
-          EFFECTS: runs the main body of the game
-    */
+    /*modifies: this, map
+    EFFECTS: runs the main body of the game*/
     private void runGame() {
-        System.out.println("New game started!");
-        boolean isValidMove;
-//        TODO INITIATE MAP FIELD IN ALL TILES AND CREATURES
-        while (gameState == CONTINUE_GAME) { //todo print out description of current tile
+        ui = inputBar.getText();
+        String[] words = ui.split(" ");
 
-            ui = scnr.next();
-            isValidMove = execute(ui);
-            scnr.skip(".*");
-
-            if (isValidMove) { // each move is one tick of game clock
-                map.nextState();
-//                todo make it so you can't save the game after you step on the winning tile
-                if (map.isWin()) {
-                    System.out.println("CONGRATS, YOU WON!");
-                    gameState = WIN_GAME;
-                }
+        if (execute(words)) { // each move is one tick of game clock
+            map.nextState();
+            if (map.isWin()) {
+                printToDisplay("dan stepped into the sunlight");
+                printEndText();
+                map = null;
+                inputBar.setOnAction(event -> runHomeScreen());
             }
         }
-        printEndText();
-        map = null;
     }
 
-//    todo figure out how to handle creature interactions
     // EFFECTS: handles which Map functions to call. returns gameState.
-    private boolean execute(String input) { // todo implement listen and examine
-        if (Pattern.matches(input, "(n|s|e|w|examine|pickup|use)")) {
+    private boolean execute(String[] input) {
+        if (Pattern.matches(input[0], "(n|s|e|w|examine|pickup|use)")) {
             executeAction(input);
-        } else if (Pattern.matches(input, "(me|help|quit|map)")) {
-            return executeInterface(input);
+        } else if (Pattern.matches(input[0], "(me|help|quit|map)")) {
+            return executeInterface(input[0]);
         } else {
             System.out.println("...");
             return false;
@@ -266,14 +269,15 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
     private boolean executeInterface(String input) {
         switch (input) {
             case "me":
-                printSanity();
+                prntAvaInfo();
                 break;
             case "help":
-                printHelp();
+                prntHelpDialg();
                 break;
             case "quit":
-                scnr.skip(".*");
-                gameState = handleQuit();
+                handleQuitInGame();
+                printToDisplay("s: save game\nAVATAR: cancel and continue\n"
+                        + "q: quit without saving.");
                 break;
             case "map":
                 printDisplayMap();
@@ -284,24 +288,24 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
         return false; // map doesnt count as a move
     }
 
-    private void printSanity() {
+    private void prntAvaInfo() {
         System.out.println("Sanity: " + map.getAva().getSanity()
                 + "/3");
         printItems();
     }
 
-    private void executeAction(String input) {
+    private void executeAction(String[] input) {
         String item;
-        if (Pattern.matches(input, "(n|s|e|w)")) {
-            map.getAva().moveAva(input);
+        if (Pattern.matches(input[0], "(n|s|e|w)")) {
+            map.getAva().moveAva(input[0]);
             return;
         }
-        switch (input) {
+        switch (input[0]) {
             case "examine":
-                enterExamineInstance(scnr.next());
+                enterExamineInstance(input[1]);
                 break;
             case "pickup": // change to pick up <item name>
-                item = scnr.next();
+                item = input[1];
                 map.getAva().pickUpItem(item);
                 break;
             case "use":
@@ -324,26 +328,30 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
     /*modifies: map
      * effects: if the target is in listModel of interactables examine target further*/
     private void enterExamineInstance(String targetNm) {
-        Examinable targetInter = map.getAllExaminables().get(targetNm);
-        if (targetInter != null) {
-            System.out.println("<entered examine instance>\n"
+        Examinable trgtExamnble = map.getAllExaminables().get(targetNm);
+        if (trgtExamnble != null) {
+            printToDisplay("entering examine instance\n"
                     + Ennui.EXIT_EXAMINATION_KEY + " to exit");
-            System.out.println(targetInter.getExamineDescription());
-            while (true) {
-                ui = scnr.nextLine();
-                if (ui.equals(Examinable.EXIT_EXAMINATION_KEY)) {
-                    return;
-                } else if (!targetInter.examine(ui)) {
-                    System.out.println("Nothing happened.");
-                }
-            }
+            printToDisplay(trgtExamnble.getExamineDescription());
+            inputBar.setOnAction(event -> examineInstance(trgtExamnble));
+            examineInstance(trgtExamnble);
         } else {
-            System.out.println("that's not a valid target!");
+            printToDisplay("that's not a valid target!");
         }
     }
 
-    // EFFECT: print user controls and other info *todo make dynamic for each tile
-    private void printHelp() {
+    private void examineInstance(Examinable trgtExamnble) {
+        ui = inputBar.getText();
+        if (ui.equals(Examinable.EXIT_EXAMINATION_KEY)) {
+            inputBar.setOnAction(event -> runGame());
+            printToDisplay("exited examine instance");
+        } else if (!trgtExamnble.examine(ui)) {
+            System.out.println("Nothing happened.");
+        }
+    }
+
+    // EFFECT: printToDisplay user controls and other info *todo make dynamic for each tile
+    private void prntHelpDialg() {
         System.out.println("Enter n, s, e, or w to move North, South, East, or "
                 + "West respectively." + '\n'
                 + "Available commands:\n"
@@ -387,9 +395,7 @@ public class GameRunner extends Application implements EventHandler<ActionEvent>
 //      save: saves map and status as single file, named by user
 //      cancel: continues the game
 //      quit: quit the game without saving
-    private int handleQuit() {
-        System.out.println("s: save game\nAVATAR: cancel and continue\n"
-                + "q: quit without saving.");
+    private int handleQuitInGame() {
         do {
             ui = scnr.nextLine();
         } while (ui.equals(""));

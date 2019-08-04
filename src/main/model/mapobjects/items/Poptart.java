@@ -24,7 +24,7 @@ public class Poptart extends Item {
     }
 
     private void danEats() {
-        notifyObservers("Dan valiantly ends the shelf life of the sweet centenarian.");
+        notifyObservers("Dan swiftly ends the shelf life of the sweet centenarian.");
         Avatar ava = map.getAva();
         int newStat = ava.getSanity() + 1;
         if (newStat <= 3) {

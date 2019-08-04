@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class BloodFish extends Feature {
 
     public static final String NAME = "bloodfish";
-    boolean hasNodded = false;
+    private boolean hasNodded = false;
 
     public BloodFish(int y, int x) {
         super(y, x);
@@ -19,7 +19,7 @@ public class BloodFish extends Feature {
     /*effects: if user typed "this is a red herring" or something related for the
     * first time, print out acknowledgement and do nothing afterwards*/
     public boolean examine(String ui) {
-        if (!hasNodded && Pattern.matches("(this is |its |it's )?(a )? red herring", ui)) {
+        if (!hasNodded && Pattern.matches("(this is |its |it's )?(a )?red herring", ui)) {
             hasNodded = true;
             notifyObservers("The fish seems to nod in agreement.");
             return true;

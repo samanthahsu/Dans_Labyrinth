@@ -1,13 +1,17 @@
 package tests;
 
+import model.Map;
+import model.exceptions.EdgeOfMapException;
+import model.exceptions.MismatchedMapSizeException;
 import model.mapobjects.Examinable;
 import model.mapobjects.Sound;
 import model.mapobjects.creatures.Ennui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class CreatureTests extends TestMapDataAndMethods {
 
@@ -67,7 +71,26 @@ class CreatureTests extends TestMapDataAndMethods {
     }
 
     @Test
-    void testMoveWest() { // todo
+    void testMoveWest() {
+        interListC = new ArrayList<>();
+        Ennui e1 = new Ennui(3, 4);
+        interListC.add(e1);
+        try {
+            mapCreature = new Map(TEST_HEIGHT_C, TEST_WIDTH_C, WIN_Y_C, WIN_X_C, TEST_START_Y_C, TEST_START_X_C,
+                    itemListC, interListC, TEST_MAP_C);
+        } catch (MismatchedMapSizeException | EdgeOfMapException e) {
+            e.printStackTrace();
+        }
+        e1.doPassiveActions();
+        int newY = 3;
+        int newX = 3;
+        assertEquals(newY, e1.getYc());
+        assertEquals(newX, e1.getXc());
+        Sound ennuiSound = new Sound(mapCreature, -1, -1, Ennui.NAME, "");
+        assertTrue(tileMatrixC.get(newY - 1).get(newX).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY + 1).get(newX).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY).get(newX - 1).getTileSounds().contains(ennuiSound));
+        assertTrue(tileMatrixC.get(newY).get(newX + 1).getTileSounds().contains(ennuiSound));
     }
 
     @Test
@@ -82,6 +105,7 @@ class CreatureTests extends TestMapDataAndMethods {
 
     @Test
     void testExamineStrings() {
+        assertFalse(testEnnui.examine("not valid action"));
         assertTrue(testEnnui.examine("take thing"));
         assertTrue(testEnnui.examine("take rusty key"));
         assertTrue(testEnnui.examine("take key"));

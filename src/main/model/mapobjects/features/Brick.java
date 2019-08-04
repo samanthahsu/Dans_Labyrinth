@@ -71,7 +71,7 @@ public class Brick extends Feature {
             try {
                 notifyObservers(parseJson());
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace(); //todo test this
             }
             return true;
         } else if (Pattern.matches("(type |enter )?42", ui)) {

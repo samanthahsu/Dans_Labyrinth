@@ -282,6 +282,9 @@ public class Map implements Serializable {
         allExaminables.remove(toRemoveName);
     }
 
+    public Examinable tileFetchExaminable(int y, int x, String name) {
+        return tileMatrix.get(y).get(x).getCurrExaminables().get(name);
+    }
     /*requires:
     * modifies:
     * effects: returns true if the tile of requested index is walkable, else false

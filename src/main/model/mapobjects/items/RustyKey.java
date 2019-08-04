@@ -1,5 +1,6 @@
 package model.mapobjects.items;
 
+import model.mapobjects.Examinable;
 import model.mapobjects.features.MossyGate;
 
 /*used to open mossy gate*/
@@ -17,11 +18,15 @@ public class RustyKey extends Item {
     @Override
     public boolean use(String target) {
         if (target.equals(MossyGate.NAME)) {
-            MossyGate mossyGate = (MossyGate) getMap().getAllExaminables().get(MossyGate.NAME);
-            mossyGate.open();
-            getMap().getAva().getCurrItems().remove(NAME);
-            notifyObservers("The rusty key disintegrated in Dan's hand as he tried to pull it from the keyhole.");
-            return true;
+            Examinable examinable = map.tileFetchExaminable(map.getAva().getYc(),
+                    map.getAva().getXc(), MossyGate.NAME);
+            if (examinable != null) {
+                MossyGate mossyGate = (MossyGate) examinable;
+                mossyGate.open();
+                getMap().getAva().getCurrItems().remove(NAME);
+                notifyObservers("The rusty key disintegrated in Dan's hand as he tried to pull it from the keyhole.");
+                return true;
+            }
         }
         return false;
     }

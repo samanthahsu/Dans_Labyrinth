@@ -36,18 +36,18 @@ public class Ennui extends Creature {
     /*effects: removes this from current tile, move to tile in calculated direction */
     @Override
     void move() {
-        int oldY = getYc();
-        int oldX = getXc();
+        int oldY = yc;
+        int oldX = xc;
         if (isAvaOnSameTile()) {
             return;
         }
         if (chooseDirAndMove()) {
             removeSounds(oldY, oldX);
-            setSounds(getYc(), getXc());
+            setSounds(yc, xc);
             // todo test stuffs VVVV
             getMap().getTileMatrix().get(oldY).get(oldX).setCurrChar(' ');
-            getMap().getTileMatrix().get(getYc()).get(getXc()).setCurrChar('E');
-            System.out.println("moved from" + oldY + " " + oldX + " to " + getYc() + " " + getXc());
+            getMap().getTileMatrix().get(yc).get(xc).setCurrChar('E');
+            System.out.println("moved from" + oldY + " " + oldX + " to " + yc + " " + xc);
         }
     }
 
@@ -97,9 +97,9 @@ public class Ennui extends Creature {
     /*modifies: map
     effects: removes all sounds within scope caused by this creature*/
     private void removeSounds(int oldy, int oldx) {
-        soundManager.removeAllSounds(oldy, oldx, getYc(), getXc(), name);
-//        int currentY = getYc();
-//        int currentX = getXc();
+        soundManager.removeAllSounds(oldy, oldx, yc, xc, name);
+//        int currentY = yc;
+//        int currentX = xc;
 //        removeOneSoundAtPos(currentY - 1, currentX);
 //        removeOneSoundAtPos(currentY + 1, currentX);
 //        removeOneSoundAtPos(currentY, currentX - 1);
@@ -128,19 +128,17 @@ public class Ennui extends Creature {
     * moves N>S>E>W depending on which direction is available
     * walls block passage in 1 rad*/
     private boolean chooseDirAndMove() {
-        int currentY = getYc();
-        int currentX = getXc();
-        if (canMove(currentY - 1, currentX)) {
-            executeMove(currentY - 1, currentX);
+        if (canMove(yc - 1, xc)) {
+            executeMove(yc - 1, xc);
             return true;
-        } else if (canMove(currentY + 1, currentX)) {
-            executeMove(currentY + 1, currentX);
+        } else if (canMove(yc + 1, xc)) {
+            executeMove(yc + 1, xc);
             return true;
-        } else if (canMove(currentY, currentX + 1)) {
-            executeMove(currentY, currentX + 1);
+        } else if (canMove(yc, xc + 1)) {
+            executeMove(yc, xc + 1);
             return true;
-        } else if (canMove(currentY, currentX - 1)) {
-            executeMove(currentY, currentX - 1);
+        } else if (canMove(yc, xc - 1)) {
+            executeMove(yc, xc - 1);
             return true;
         }
         return false;
@@ -149,7 +147,7 @@ public class Ennui extends Creature {
     /*effects: returns true if avatar within one tile*/
     private boolean isAvaOnSameTile() {
         Avatar ava = getMap().getAva();
-        if (ava.getYc() == getYc() && ava.getXc() == getXc()) {
+        if (ava.getYc() == yc && ava.getXc() == xc) {
             notifyObservers("A basketball sized blue pompom is quivering on the floor in front of Dan.");
             return true;
         }
@@ -162,7 +160,7 @@ public class Ennui extends Creature {
     private void executeMove(int nextY, int nextX) {
         List<List<Tile>> tileMatrix = getMap().getTileMatrix();
         tileMatrix.get(nextY).get(nextX).getCurrExaminables().put(name, this); //todo make special shit for this in examinable
-        tileMatrix.get(getYc()).get(getYc()).getCurrExaminables().remove(name);
+        tileMatrix.get(yc).get(yc).getCurrExaminables().remove(name);
         setYc(nextY);
         setXc(nextX);
     }

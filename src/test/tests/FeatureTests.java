@@ -60,8 +60,8 @@ class FeatureTests extends TestMapDataAndMethods {
 
     @Test
     void testBloodFish() {
-        bloodFish.examine("this is a red herring");
-        bloodFish.examine("red herring");
+        assertTrue(bloodFish.examine("this is a red herring"));
+        assertFalse(bloodFish.examine("this is a red herring"));
     }
 
     @Test
@@ -70,6 +70,7 @@ class FeatureTests extends TestMapDataAndMethods {
         fourStoneGate.examine("left");
         fourStoneGate.examine("up");
         fourStoneGate.examine("right");
+        assertFalse(fourStoneGate.examine("wrong input"));
         assertFalse(fourStoneGate.isOpened());
     }
 

@@ -1,20 +1,27 @@
 package model.mapobjects.items;
 
+import java.util.regex.Pattern;
+
 /*note that is at the beginning in the same tile as ava*/
 public class Note extends Item {
 
     public static final String NAME = "note";
+    private static final String READ_BACK = "\"LURD\" is scrawled onto the back in... ink.";
 
     public Note(int y, int x) {
         super(y, x);
         name = NAME;
-        description = "An address is scrawled on with neat handwriting";
-        examineDescription = "'Uptown Reft Town, Colstorworth, CV3 8RN... \n1 lrg mushrm'";
+        description = "A scrap of white paper with something written on it.";
+        examineDescription = "Delivery information is neatly penciled in Dan's own handwriting on the front";
     }
 
     /*effects: note can't be used on anything*/
     @Override
     public boolean use(String target) {
+        if (Pattern.matches("(D|d)an", target)) {
+            notifyObservers(READ_BACK);
+            return true;
+        }
         return false;
     }
 }

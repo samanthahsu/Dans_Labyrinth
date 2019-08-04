@@ -38,7 +38,7 @@ public class PizzaBox extends Item {
             int newStat = ava.getSanity() + 1;
             if (newStat <= 3) {
                 ava.setSanity(newStat);
-                notifyObservers("Dan feels his sanity return slightly. Dan feels a slight pang of guilt, "
+                notifyObservers("Dan feels his sanity return slightly, then feels a slight pang of guilt,"
                         + "he will have to do an extra half km to make up for it later");
             }
             return true;

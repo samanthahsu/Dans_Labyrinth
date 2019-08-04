@@ -85,14 +85,17 @@ class FeatureTests extends TestMapDataAndMethods {
     @Test
     void testBrick() {
         assertTrue(brick.examine("press button"));
-//        assertTrue(this tile has a key shaped pop tart)
+        assertFalse(brick.isSolved());
         assertFalse(brick.examine("halalalala"));
+        assertFalse(brick.isSolved());
         assertTrue(brick.examine("enter 42"));
+        assertTrue(brick.isSolved());
+        assertFalse(brick.examine("enter 42"));
     }
 
     @Test
-    void bones() {
-        assertTrue(pan.examine("uniform"));
-        assertTrue(pan.examine("not a statement"));
+    void testBones() {
+        assertTrue(pan.examine("examine uniform"));
+        assertFalse(pan.examine("not a statement"));
     }
 }

@@ -147,10 +147,8 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
 //        out = fakeTerminal.getOut();
 //    }
 
-    /*
-            EFFECTS: while map is uninitialized, prints welcome text, and handles homeScreen commands
-            returns true if gameState is QUIT_GAME, else runs the game and returns false
-    */
+    /**
+     * prints welcome text and sets action to homeExecute Ui*/
     private void runHomeScreen() {
         printToDisplay("=============DAN'S LABYRINTH=============");
         printToDisplay("new: new game | load: load a saved game | quit: exit");
@@ -335,7 +333,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             inputBar.setOnAction(event -> runGame());
             printToDisplay("Exited examine instance.");
         } else if (!examinable.examine(ui)) {
-            printToDisplay("Unhandled examine input!"); //todo
+            printToDisplay("Nothing happened...");
         }
     }
 

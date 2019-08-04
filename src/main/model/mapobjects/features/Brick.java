@@ -5,11 +5,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.regex.Pattern;
 
 public class Brick extends Feature {
 
     static final String TRIVIA_42 = "https://numbersapi.p.rapidapi.com/42/trivia?fragment=true&notfound=floor&json=true";
     HttpsURLConnection apiCon;
+    boolean solved = false;
 
     public Brick(int y, int x) {
         super(y, x);
@@ -23,6 +25,11 @@ public class Brick extends Feature {
         }
     }
 
+    /*todo test only*/
+    public boolean isSolved() {
+        return solved;
+    }
+
     private void initConnection() throws IOException {
         apiCon = (HttpsURLConnection) (new URL(TRIVIA_42)).openConnection();
         apiCon.setRequestProperty("x-rapidapi-host", "numbersapi.p.rapidapi.com");
@@ -31,33 +38,6 @@ public class Brick extends Feature {
         apiCon.setDoInput(true);
         apiCon.setDoOutput(true);
         apiCon.setRequestMethod("GET");
-    }
-
-    private static void tryGoat() throws IOException {
-        BufferedReader br = null;
-
-        try {
-            String placeGoat = "http://placegoat.com/200";
-            String theURL = "https://www.ugrad.cs.ubc.ca/~cs210/2018w1/welcomemsg.html"; //this can point to any TRIVIA_42
-            URL url = new URL(placeGoat);
-            br = new BufferedReader(new InputStreamReader(url.openStream()));
-
-            String line;
-
-            StringBuilder sb = new StringBuilder();
-
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-            }
-
-            System.out.println(sb);
-        } finally {
-
-            if (br != null) {
-                br.close();
-            }
-        }
     }
 
     private String parseJson() throws IOException {
@@ -70,11 +50,9 @@ public class Brick extends Feature {
             for (String w : words) {
                 if (saveNext) {
                     return w;
-                }
-                else if (w.equals("text")) {
+                } else if (w.equals("text")) {
                     saveNext = true;
                 }
-                System.out.println(w);
             }
         }
         in.close();
@@ -86,11 +64,22 @@ public class Brick extends Feature {
     * modifies:
     * effects: enters instance where it accepts turning the knob to produce random trivia relating to number 42*/
     public boolean examine(String ui) {
-        try {
-            notifyObservers(parseJson());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (solved) {
+            return false;
         }
-        return true;
+        if (Pattern.matches("press button", ui)) {
+            try {
+                notifyObservers(parseJson());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
+        } else if (Pattern.matches("(type |enter )?42", ui)) {
+            solved = true;
+//            todo eject poptart
+            notifyObservers("Something ejected from the back of the brick with a pop.");
+            return true;
+        }
+        return false;
     }
 }

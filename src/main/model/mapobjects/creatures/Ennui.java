@@ -150,7 +150,7 @@ public class Ennui extends Creature {
     private boolean isAvaOnSameTile() {
         Avatar ava = getMap().getAva();
         if (ava.getYc() == getYc() && ava.getXc() == getXc()) {
-            notifyObservers("A basketball sized blue pompom is quivering on the FLOOR in front of Dan.");
+            notifyObservers("A basketball sized blue pompom is quivering on the floor in front of Dan.");
             return true;
         }
         return false;

@@ -75,5 +75,10 @@ public abstract class Examinable extends Locatable implements Serializable {
     * returns true if input is recognized
     * false otherwise*/
     public abstract boolean examine(String ui);
+
+    @Override
+    public String toString() {
+        return name + '\n' + description;
+    }
 }
 

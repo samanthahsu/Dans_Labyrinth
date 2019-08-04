@@ -75,9 +75,8 @@ public class WriterReader extends PrintObservable implements DefaultMapData {
     //    requires: file (filename) contains valid Map object, if it doesn't, returns null
     //  effects: Reads from (fileName) at (savePath) which it returns as a Map object.
     public Map readMap(String fileName) throws IOException, ClassNotFoundException {
-        final String FILENAME = fileName.concat(".txt"); // specifying file type
         Map savedMap;
-        FileInputStream fi = new FileInputStream(new File(FILENAME));
+        FileInputStream fi = new FileInputStream(new File(fileName));
         ObjectInputStream oi = new ObjectInputStream(fi);
         savedMap = (Map) oi.readObject(); // read in map
         oi.close();

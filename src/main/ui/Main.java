@@ -49,21 +49,27 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             + "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n"
             + "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n"
             + "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
-    private static final String GAME_TITLE = "DAN'S LABYRINTH";
+    static final String GAME_TITLE = "DAN'S LABYRINTH";
     static final String PRINT_AVA_STATUS_CMD = "dan";
     static final String UI_INDICATOR = ">> ";
+    private static final int SCENE_WIDTH = 800;
+    static final int SCENE_HEIGHT = 800;
+    static final int SPACING = 10;
+    static final int PADDING = 20;
+    static final String MSG_GAME_OVER = "Game Over";
+    static final String MSG_WIN = "Dan stepped into the sunlight.";
+    static final String MSG_QUIT = "Thanks for playing!";
+    static final String MSG_CONTINUE = "Dan continues on...";
+    static double barHeight;
 
+    private WriterReader writerReader;
     private static Integer gameState;
     private Map map;
-    private WriterReader writerReader;
     private String ui;
-//    private FakeTerminal fakeTerminal;
-    private Printer out;
-//    todo make input string class wide
+
     private Stage mainWindow;
-    Scene scene;
-    private TextField inputBar;
     private ListView<String> outputDisplay;
+    private TextField inputBar;
 
     public static void main(String[] args) {
         launch(args);
@@ -91,51 +97,27 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
 
         inputBar = new TextField();
         inputBar.setPromptText("type here");
+        barHeight = inputBar.getHeight();
 
         outputDisplay = new ListView<>();
-        outputDisplay.setMinHeight(700);
+        outputDisplay.setMinHeight(SCENE_HEIGHT - barHeight - (PADDING * 2) - (SPACING * 4));
         outputDisplay.setStyle("-fx-font: normal 15px 'monospace'");
-        outputDisplay.setStyle("-fx-background-color: transparent;");
+//        outputDisplay.setStyle("-fx-background-color: transparent;");
         outputDisplay.getItems().addAll();
         outputDisplay.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         outputDisplay.setEditable(false);
 
-        VBox layout = new VBox(10);
-        layout.setPadding(new Insets(20 ,20, 20, 20));
+        VBox layout = new VBox(SPACING);
+        layout.setPadding(new Insets(PADDING,PADDING, PADDING, PADDING));
         layout.getChildren().addAll(outputDisplay, inputBar);
-        layout.setStyle("-fx-background-color: #303030");
+//        layout.setStyle("-fx-background-color: #303030");
 
-        Scene scene = new Scene(layout, 800, 800);
+        Scene scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
         scene.getStylesheets().add(System.getProperty("user.dir") + "\\src\\main\\ui\\style.css"); //todo
         primaryStage.setScene(scene);
         inputBar.requestFocus();
         primaryStage.show();
     }
-
-
-/*
-    private void runGame() {
-        Main game = new Main();
-        boolean quit;
-
-        do {
-            quit = game.runHomeScreen(); // also runs the rest of the game
-        } while (!quit); // can only quit from the home screen now
-    }
-*/
-
-//    private void buttonClicked() {
-//        String message = "";
-//        ObservableList<String> movies;
-//        movies = outputDisplay.getSelectionModel().getSelectedItems();
-//
-//        for (String m:movies
-//                ) {
-//            message += m + "\n";
-//        }
-//        System.out.printToDisplay(message);
-//
-//    }
 
     @Override
     public void handle(ActionEvent event) {
@@ -169,7 +151,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             EFFECTS: while map is uninitialized, prints welcome text, and handles homeScreen commands
             returns true if gameState is QUIT_GAME, else runs the game and returns false
     */
-    public void runHomeScreen() {
+    private void runHomeScreen() {
         printToDisplay("=============DAN'S LABYRINTH=============");
         printToDisplay("new: new game | load: load a saved game | quit: exit");
         inputBar.setOnAction(event -> homeExecuteUi());
@@ -394,10 +376,10 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             case QUIT_GAME:
                 break;
             case FAIL_GAME:
-                printToDisplay("Death: Game Over");
+                printToDisplay(MSG_GAME_OVER);
                 break;
             case WIN_GAME:
-                printToDisplay("Dan stepped into the sunlight.");
+                printToDisplay(MSG_WIN);
                 printWinGraphic();
                 inputBar.setOnAction(event -> runHomeScreen());
                 break;
@@ -417,10 +399,10 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
                 inputBar.setOnAction(event -> save());
                 break;
             case "c":
-                printToDisplay("Dan continues on...");
+                printToDisplay(MSG_CONTINUE);
                 break;
             case "q":
-                printToDisplay("Thanks for playing!");
+                printToDisplay(MSG_QUIT);
                 printToDisplay("Exiting to home screen...");
                 runHomeScreen();
                 return;

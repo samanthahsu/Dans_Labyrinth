@@ -14,9 +14,9 @@ import java.util.Random;
 public class Avatar extends Locatable implements Serializable {
 //    TODO SPLIT OUT ITEM HANDLER FROM AVATAR
 
-    public static final int NORMAL = 3;
-    public static final int POISONED = 1;
-    public static String NAME;
+    public static final int SANITY_NORMAL = 3;
+    public static final int SANITY_DANGER = 1;
+    public static final String NAME = "Dan";
 
     public static final String MAP_EDGE_MESSAGE = "Dan tries to walk of the edge"
             + " of the map! The abyss gazes back into him.\n";
@@ -26,12 +26,11 @@ public class Avatar extends Locatable implements Serializable {
     private ItemManager itemManager;
 
 /* constructor
-    EFFECTS: makes avatar setting it's coordinates, startingItems and sanity*/
+    effects: makes avatar setting it's coordinates, startingItems and sanity*/
     public Avatar(int startingY, int startingX, List<Item> startingItems, Map map) {
         super(map, startingY, startingX);
 //        initItems(startingItems);
-        sanity = NORMAL;
-        NAME = "Dan";
+        sanity = SANITY_NORMAL;
         itemManager = new ItemManager(map, startingItems);
     }
 
@@ -81,14 +80,14 @@ public class Avatar extends Locatable implements Serializable {
         }
         Avatar avatar = (Avatar) o;
         return sanity == avatar.sanity
-                && getYc() == avatar.getYc()
-                && getXc() == avatar.getXc()
+                && yc == avatar.yc
+                && xc == avatar.xc
                 && itemManager.equals(avatar.itemManager);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sanity, getYc(), getXc(), itemManager);
+        return Objects.hash(sanity, yc, xc, itemManager);
     }
 
     //    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
@@ -97,16 +96,16 @@ public class Avatar extends Locatable implements Serializable {
     public void moveAva(String command) {
         switch (command) {
             case "n":
-                moveAvaHelper(getYc() - 1, getXc(), "northern");
+                moveAvaHelper(yc - 1, xc, "northern");
                 break;
             case "s":
-                moveAvaHelper(getYc() + 1, getXc(), "southern");
+                moveAvaHelper(yc + 1, xc, "southern");
                 break;
             case "e":
-                moveAvaHelper(getYc(), getXc() + 1, "eastern");
+                moveAvaHelper(yc, xc + 1, "eastern");
                 break;
             case "w":
-                moveAvaHelper(getYc(), getXc() - 1, "western");
+                moveAvaHelper(yc, xc - 1, "western");
                 break;
             default:
         }
@@ -115,17 +114,15 @@ public class Avatar extends Locatable implements Serializable {
 //    MODIFIES: this
 //    EFFECTS: if currY, currX is can be moved, move ava and update ava coordinates, else print feedback text
     private void moveAvaHelper(int y, int x, String dir) {
-        Map map = getMap();
         try {
             if (map.isTileWalkable(y, x)) {
                 map.updateTileDisplay(y, x, Map.AVATAR);
-                map.updateTileDisplay(getYc(), getXc(), Map.FLOOR);
+                map.updateTileDisplay(yc, xc, Map.FLOOR);
                 map.revealSurroundings(y, x);
-                setYc(y);
-                setXc(x);
-                for (Examinable inter : map.getTileMatrix().get(y).get(x).getCurrExaminables().values()
-                     ) {
-                    notifyObservers(inter.getName());
+                yc = y;
+                xc = x;
+                for (Examinable examinable : map.getTileMatrix().get(y).get(x).getCurrExaminables().values()) {
+                    notifyObservers(examinable.toString());
                 }
             } else {
                 printMovePlaceholder(dir);
@@ -145,11 +142,11 @@ public class Avatar extends Locatable implements Serializable {
     public void pickUpItem(String itemName) {
         itemManager.pickUpItem(itemName);
 //        HashMap<String, Examinable> tileItems =  getMap().getTileMatrix()
-//                .get(getYc()).get(getXc()).getCurrExaminables();
+//                .get(yc).get(xc).getCurrExaminables();
 //        Examinable chosenItem = tileItems.get(itemName);
 //
 //        if (chosenItem != null) {
-//            getMap().removeExaminable(chosenItem, getYc(), getXc());
+//            getMap().removeExaminable(chosenItem, yc, xc);
 //            currItems.put(itemName, (Item) chosenItem);
 //            notifyObservers("Dan picked up '" + itemName + "'!");
 //        }
@@ -163,7 +160,7 @@ public class Avatar extends Locatable implements Serializable {
 //        if (!currItems.containsKey(itemName)) {
 //            notifyObservers("Dan remembers he left the " + itemName + " at home again.");
 //        } else {
-//            Tile currentTile = getMap().getTileMatrix().get(getYc()).get(getXc());
+//            Tile currentTile = getMap().getTileMatrix().get(yc).get(xc);
 //            if (!currentTile.getCurrExaminables().containsKey(target)
 //                    && !Pattern.matches("(D|d)an", target)) {
 //                notifyObservers("Dan cannot find a " + target + " around him");
@@ -202,8 +199,8 @@ public class Avatar extends Locatable implements Serializable {
 //            notifyObservers("Dan is glad that one could not lose something one never had.");
 //        } else {
 //            Item target = currItems.get(itemName);
-//            target.setIndexes(getYc(), getXc());
-//            getMap().addExaminable(target, getYc(), getXc());
+//            target.setIndexes(yc, xc);
+//            getMap().addExaminable(target, yc, xc);
 //
 //            currItems.remove(itemName);
 //            notifyObservers("Dan drops the " + itemName + " to the floor.");

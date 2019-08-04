@@ -6,11 +6,14 @@ import model.exceptions.MapException;
 import model.exceptions.MismatchedMapSizeException;
 import model.mapobjects.Avatar;
 import model.mapobjects.Examinable;
+import model.mapobjects.creatures.Ennui;
 import model.mapobjects.items.Item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ui.PrintObserver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,7 +59,6 @@ class MapTests extends TestMapDataAndMethods {
         } catch (EdgeOfMapException e) {
             fail("wrong e thrown");
         }
-
     }
 
     @Test
@@ -226,6 +228,24 @@ class MapTests extends TestMapDataAndMethods {
         assertTrue(map1.equals(map2));
 
         assertFalse(map1.equals(0));
+    }
+
+    @Test
+    void testObservers() {
+        interList1 = new ArrayList<>(
+                Arrays.asList(new Ennui(1, 1))
+        );
+        try {
+            map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
+                    itemList1, interList1, TEST_MAP_1);
+        } catch (MismatchedMapSizeException | EdgeOfMapException e) {
+            e.printStackTrace();
+        }
+        map1.addObservers(new PrintObserver() {
+            @Override
+            public void update(String message) {
+            }
+        });
     }
 
     @Test

@@ -27,7 +27,7 @@ public class Note extends Item {
 
     @Override
     public boolean examine(String ui) {
-        if (Pattern.matches("((flip|turn) over)|(read|examine|view) back", ui)) {
+        if (Pattern.matches("((flip|turn) over)|(read|examine|view|look at) back", ui)) {
             map.getAva().pickUpItem(NAME);
             notifyObservers(READ_BACK);
             return true;

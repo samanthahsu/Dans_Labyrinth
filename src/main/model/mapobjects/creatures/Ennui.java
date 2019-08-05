@@ -15,15 +15,16 @@ import java.util.regex.Pattern;
 public class Ennui extends Creature {
 
     public static final String SOUND_NAME = "ennui sound";
-    public static final String DESCRIPTION = "there is a flash of turquoise fuzz in the dark";
+    public static final String DESCRIPTION = "A basketball sized blue pompom is "
+            + "quivering on the floor in front of Dan.";
     public static final String EXAMINE_DESCRIPTION =
             "A small mole like animal with a star shaped nose is flattened against the dirt floor."
             + "\nBarely concealed by it's paws is a flat, rusted piece of metal resembling a lollipop.";
     final String soundDescription = "a patter of tiny footsteps";
     public static final String NAME = "ennui";
 
-    boolean hasKey = true;
-    SoundManager soundManager;
+    private boolean hasKey = true;
+    private SoundManager soundManager;
 
     /*effects: set coordinates, name, and description*/
     public Ennui(int y, int x) {
@@ -44,10 +45,7 @@ public class Ennui extends Creature {
         if (chooseDirAndMove()) {
             removeSounds(oldY, oldX);
             setSounds(yc, xc);
-            // todo test stuffs VVVV
             getMap().getTileMatrix().get(oldY).get(oldX).setCurrChar(' ');
-            getMap().getTileMatrix().get(yc).get(xc).setCurrChar('E');
-            System.out.println("moved from" + oldY + " " + oldX + " to " + yc + " " + xc);
         }
     }
 
@@ -147,11 +145,7 @@ public class Ennui extends Creature {
     /*effects: returns true if avatar within one tile*/
     private boolean isAvaOnSameTile() {
         Avatar ava = getMap().getAva();
-        if (ava.getYc() == yc && ava.getXc() == xc) {
-            notifyObservers("A basketball sized blue pompom is quivering on the floor in front of Dan.");
-            return true;
-        }
-        return false;
+        return ava.getYc() == yc && ava.getXc() == xc;
     }
 
     /*modifies: this, map

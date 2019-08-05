@@ -187,8 +187,8 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             printToDisplay(CONTINUE_TEXT);
             inputBar.setOnAction(event -> runGame());
         } catch (IOException | ClassNotFoundException e) {
-            printToDisplay("Loading failed. Returned to home screen.");
-            inputBar.setOnAction(event -> runHomeScreen());
+            printToDisplay("Loading failed. Returning to home screen...");
+            runHomeScreen();
         }
     }
 

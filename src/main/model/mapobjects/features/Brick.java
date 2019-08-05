@@ -87,6 +87,6 @@ public class Brick extends Feature {
 
     private void ejectPoptart() {
         map.addExaminable(new Poptart(), yc, xc);
-        notifyObservers("Something ejected from the back of the brick with a pop.");
+        notifyObservers("The front of the brick swung open revealing a poptart inside.");
     }
 }

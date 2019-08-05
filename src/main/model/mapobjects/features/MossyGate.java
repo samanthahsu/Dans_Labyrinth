@@ -16,7 +16,7 @@ public class MossyGate extends Gate {
 
     //    effects: interaction with to open belongs to the key
     @Override
-    public boolean examine(String ui) {
+    public boolean examine(String ui) { //todo
 /*
         if (!isOpened && Pattern.matches("(open with|use) rusty key", ui)) {
             open();

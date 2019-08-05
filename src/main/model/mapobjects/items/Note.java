@@ -24,4 +24,14 @@ public class Note extends Item {
         }
         return false;
     }
+
+    @Override
+    public boolean examine(String ui) {
+        if (Pattern.matches("((flip|turn) over)|(read|examine|view) back", ui)) {
+            map.getAva().pickUpItem(NAME);
+            notifyObservers(READ_BACK);
+            return true;
+        }
+        return false;
+    }
 }

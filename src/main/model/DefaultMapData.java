@@ -4,6 +4,7 @@ import model.mapobjects.Examinable;
 import model.mapobjects.creatures.Ennui;
 import model.mapobjects.features.*;
 import model.mapobjects.items.Item;
+import model.mapobjects.items.Note;
 import model.mapobjects.items.PizzaBox;
 
 import java.util.ArrayList;
@@ -36,7 +37,8 @@ interface DefaultMapData {
             Arrays.<Item>asList(new PizzaBox()));
 
     List<Examinable> DEFAULT_INTERACTABLES_LIST = new ArrayList<Examinable>(
-            Arrays.asList(new Ennui(6, 6),
+            Arrays.asList(new Note(7, 4),
+                    new Ennui(6, 6),
                     new MossyGate(5, 9, 4, 9),
                     new BloodFish(2, 1),
                     new FourStoneGate(7, 15, 6, 15),

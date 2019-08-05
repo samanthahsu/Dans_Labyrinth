@@ -69,12 +69,13 @@ public class ItemManager extends PrintObservable implements Serializable {
                 .get(avatar.getYc()).get(avatar.getXc()).getCurrExaminables();
         Examinable chosenItem = tileItems.get(itemName);
 
-        if (chosenItem != null) {
+        if (chosenItem != null && chosenItem.typeId == Examinable.TYPE_ITEM) {
             map.removeExaminable(chosenItem, avatar.getYc(), avatar.getXc());
             currItems.put(itemName, (Item) chosenItem);
             notifyObservers("Dan picked up '" + itemName + "'!");
+        } else {
+            notifyObservers("Couldn't pick up '" + itemName + "'.");
         }
-        notifyObservers("Couldn't pick up '" + itemName + "'.");
     }
 
 

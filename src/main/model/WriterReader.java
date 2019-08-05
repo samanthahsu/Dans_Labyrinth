@@ -1,10 +1,12 @@
 package model;
 
+import model.exceptions.BadFileNameException;
 import model.exceptions.EdgeOfMapException;
 import model.exceptions.MismatchedMapSizeException;
 import ui.PrintObservable;
 
 import java.io.*;
+import java.util.regex.Pattern;
 
 /*reads and writes game states from the saves folder*/
 public class WriterReader extends PrintObservable implements DefaultMapData {
@@ -30,7 +32,10 @@ public class WriterReader extends PrintObservable implements DefaultMapData {
 
     /*requires: path is valid
     effects: Writes (map) into text file named (filename) at (savePath)*/
-    public void writeMap(Map map, String fileName) throws IOException {
+    public void writeMap(Map map, String fileName) throws IOException, BadFileNameException {
+        if (!Pattern.matches("[a-zA-Z_0-9]*", fileName)) {
+            throw new BadFileNameException();
+        }
         String newSavePath = this.savePath + fileName;
         File file = new File(newSavePath);
         if (file.createNewFile()) {

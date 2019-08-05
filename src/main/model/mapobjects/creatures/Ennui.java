@@ -16,9 +16,9 @@ public class Ennui extends Creature {
 
     public static final String SOUND_NAME = "ennui sound";
     public static final String DESCRIPTION = "there is a flash of turquoise fuzz in the dark";
-    public static final String EXAMINE_DESCRIPTION = "A small mole like animal with a star shaped nose"
-            + "is flattened against the dirt floor.\nBarely concealed by it's paws is a flat "
-            + "rusted piece of metal resembling a lollipop.";
+    public static final String EXAMINE_DESCRIPTION =
+            "A small mole like animal with a star shaped nose is flattened against the dirt floor."
+            + "\nBarely concealed by it's paws is a flat, rusted piece of metal resembling a lollipop.";
     final String soundDescription = "a patter of tiny footsteps";
     public static final String NAME = "ennui";
 

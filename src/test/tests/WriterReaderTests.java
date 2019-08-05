@@ -2,6 +2,7 @@ package tests;
 
 import model.Map;
 import model.WriterReader;
+import model.exceptions.BadFileNameException;
 import model.exceptions.MapException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,7 @@ class WriterReaderTests extends TestMapDataAndMethods {
         try {
             writerReader.writeMap(map1, FILE_NAME_1);
             readMap1 = writerReader.readMap(FILE_NAME_1);
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException |BadFileNameException e) {
             fail("threw e");
         }
         assertTrue(readMap1.equals(map1));
@@ -52,7 +53,7 @@ class WriterReaderTests extends TestMapDataAndMethods {
         try {
             writerReader.writeMap(map2, FILE_NAME_1);
             readMap2 = writerReader.readMap(FILE_NAME_1);
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | BadFileNameException e) {
             fail("threw e");
         }
         assertTrue(readMap2.equals(map2));
@@ -77,7 +78,7 @@ class WriterReaderTests extends TestMapDataAndMethods {
         try {
             writerReader.writeMap(map1, "i shouldn't exist");
             fail("no e");
-        } catch (IOException e) {
+        } catch (IOException | BadFileNameException e) {
 //            expected
         }
     }

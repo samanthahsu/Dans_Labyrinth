@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Map;
 import model.WriterReader;
+import model.exceptions.BadFileNameException;
 import model.exceptions.MapException;
 import model.mapobjects.Examinable;
 import model.mapobjects.Tile;
@@ -50,6 +51,13 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             + "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n"
             + "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
     static final String GAME_TITLE = "DAN'S LABYRINTH";
+    static final String NEW_GAME_TEXT = "Dan blinks, and it's still dark, he can barely see the floor a few feet in "
+            + "front\nof him. As if to make up for it, every sound he makes is amplified, echoing\nthrough the caverns"
+            + "His only comfort, the warmth of the pizzabox in his hands,\nand the protection of the familiar cheesy"
+            + " smell wrapping around him.\nJust another delivery for Dan the pizza man.";
+    static final String HELP_ABBRV = "'help' for controls";
+    static final String CONTINUE_TEXT = "Dan could've sworn he had fallen asleep for a moment. Ah well, dreaming would\n"
+            + "not get him out of here.";
     static final String PRINT_AVA_STATUS_CMD = "dan";
     static final String UI_INDICATOR = ">> ";
     private static final int SCENE_WIDTH = 800;
@@ -97,7 +105,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
         inputBar = new TextField();
         inputBar.setPromptText("type here");
         barHeight = inputBar.getHeight();
-        formatOuputDisplay();
+        formatOutputDisplay();
 
         VBox layout = new VBox(SPACING);
         layout.setPadding(new Insets(PADDING,PADDING, PADDING, PADDING));
@@ -110,7 +118,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
         primaryStage.show();
     }
 
-    private void formatOuputDisplay() {
+    private void formatOutputDisplay() {
         outputDisplay = new ListView<>();
         outputDisplay.setMinHeight(SCENE_HEIGHT - barHeight - (PADDING * 2) - (SPACING * 4));
         outputDisplay.setStyle("-fx-font: normal 15px 'monospace'");
@@ -134,19 +142,6 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             outputDisplay.scrollTo(outputDisplay.getItems().size() - 1);
         }
     }
-/*
-    starts real part of game
-    effects: initializes gameState, map, scnr, writerREader, and main.ui
-*/
-//    Main() {
-//        gameState = CONTINUE_GAME;
-//        map = null;
-//        scnr = new Scanner(System.in);
-//        writerReader = new WriterReader();
-//        ui = "";
-//        fakeTerminal = new FakeTerminal();
-//        out = fakeTerminal.getOut();
-//    }
 
     /**
      * prints welcome text and sets action to homeExecute Ui*/
@@ -155,31 +150,13 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
         printToDisplay("new: new game | load: load a saved game | quit: exit");
         inputBar.setOnAction(event -> homeExecuteUi());
     }
-/*
-    public boolean runHomeScreen() {
-
-        out.printToDisplay("=============DAN'S LABYRINTH=============");
-        while (map == null && gameState != QUIT_GAME) {
-            out.printToDisplay("new: new game\n"
-                    + "load: load a saved game\n"
-                    + "quit: exit");
-        }
-        homeExecuteUi();
-        if (gameState == QUIT_GAME) {
-            return true;
-        }
-        runGame();
-        return false;
-    }
-*/
 
 /*
     MODIFIES: this
     EFFECTS: handles available commands from the home screen, which are:
       start new game: default map is loaded, and calls runGame
       load saved game: selected mazeGame file is loaded, calls runGame
-    then sets gameState to appropriate value
-*/
+    then sets gameState to appropriate value*/
     private void homeExecuteUi() {
         consumeUI();
         switch (ui) {
@@ -206,7 +183,8 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             map = writerReader.readMap(ui);
             map.addObservers(this);
             printToDisplay("Game loaded!");
-            printHelp();
+            printToDisplay(HELP_ABBRV);
+            printToDisplay(CONTINUE_TEXT);
             inputBar.setOnAction(event -> runGame());
         } catch (IOException | ClassNotFoundException e) {
             printToDisplay("Loading failed. Returned to home screen.");
@@ -221,7 +199,8 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             map = writerReader.buildDefaultMap();
             map.addObservers(this);
             printToDisplay("New game started!");
-            printHelp();
+            printToDisplay(HELP_ABBRV);
+            printToDisplay(NEW_GAME_TEXT);
             inputBar.setOnAction(event -> runGame());
         } catch (MapException e) {
             printToDisplay("Failed to build new map. (Many apologies)");
@@ -270,7 +249,6 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
                 printHelp();
                 break;
             case "quit":
-                handleQuitInGame();
                 printToDisplay("s: save game | c: cancel and continue\n"
                         + "q: quit without saving.");
                 inputBar.setOnAction(event -> handleQuitInGame());
@@ -281,7 +259,6 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             default:
         }
     }
-
 
     private void executeAction(String[] input) {
         if (Pattern.matches("(n|s|e|w)", input[0])) {
@@ -301,7 +278,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
                 enterExamineInstance(input[1]);
                 break;
             case "pickup": // change to pick up <item name>
-                map.getAva().pickUpItem(input[1]);
+                map.getAva().pickUpItem(input[1]);// todo make feedback for can't pick up
                 break;
             case "use":
                 executeUse(input);
@@ -402,6 +379,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
                 break;
             case "c":
                 printToDisplay(MSG_CONTINUE);
+                inputBar.setOnAction(event -> runGame());
                 break;
             case "q":
                 printToDisplay(MSG_QUIT);
@@ -409,6 +387,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
                 runHomeScreen();
                 return;
             default:
+                printToDisplay("Command not available.");
         }
     }
 
@@ -429,9 +408,10 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             writerReader.writeMap(map, ui);
         } catch (IOException e) {
             printToDisplay("File saving failed. Please try again after this has been fixed.");
+        } catch (BadFileNameException e) {
+            printToDisplay("Names with spaces or special characters are not valid. Please try again.");
         }
-        printToDisplay("Returning to home screen...");
-        runHomeScreen();
+        executeInterface("quit");
     }
 
     /*REQUIRES: map has been initialized properly

@@ -25,6 +25,7 @@ public class ExaminableTest {
     @Test
     void testEquals() {
         assertFalse(testExaminable.equals(0));
+        testExaminable.hashCode();
     }
 
 }

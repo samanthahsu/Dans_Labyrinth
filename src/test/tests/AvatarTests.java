@@ -3,6 +3,7 @@ package tests;
 import model.Map;
 import model.mapobjects.Avatar;
 import model.mapobjects.Examinable;
+import model.mapobjects.creatures.Ennui;
 import model.mapobjects.items.Item;
 import model.mapobjects.items.Note;
 import model.mapobjects.items.PizzaBox;
@@ -111,6 +112,12 @@ class AvatarTests extends TestMapDataAndMethods {
     }
 
     @Test
+    void moveAvaToPopulatedTile() {
+        map1.addExaminable(new Ennui(1, 1), 1, 1);
+       ava1.moveAva("n");
+    }
+
+    @Test
     void dropItemTestWhichExists() {
         Item droppedItem = ava1.getCurrItems().get(PizzaBox.NAME);
         droppedItem.setMap(map1);
@@ -168,5 +175,12 @@ class AvatarTests extends TestMapDataAndMethods {
         assertEquals(expectedItems, ava1.getCurrItems());
         ava1.useItem(PizzaBox.NAME, DUMMY_TARGET);
         assertEquals(expectedItems, ava1.getCurrItems());
+    }
+
+    @Test
+    void testEquals() {
+        assertTrue(ava1.equals(ava1));
+        assertFalse(ava1.equals(0));
+
     }
 }

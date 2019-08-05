@@ -6,10 +6,12 @@ import model.exceptions.MismatchedMapSizeException;
 import model.mapobjects.Examinable;
 import model.mapobjects.Sound;
 import model.mapobjects.creatures.Ennui;
+import model.mapobjects.features.MossyGate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,6 +83,7 @@ class CreatureTests extends TestMapDataAndMethods {
         } catch (MismatchedMapSizeException | EdgeOfMapException e) {
             e.printStackTrace();
         }
+        tileMatrixC = mapCreature.getTileMatrix();
         e1.doPassiveActions();
         int newY = 3;
         int newX = 3;
@@ -103,6 +106,25 @@ class CreatureTests extends TestMapDataAndMethods {
         assertEquals(TEST_START_X_C, testEnnui.getXc());
     }
 
+    @Test
+    void testMoveWalledIn() {
+        Ennui ennui = new Ennui(1, 4);
+        MossyGate mossyGate = new MossyGate(1, 1, 2, 1);
+        interList1 = new ArrayList<>(
+                Arrays.asList(ennui, mossyGate)
+        );
+        try {
+            map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
+                    itemList1, interList1, TEST_MAP_1);
+        } catch (MismatchedMapSizeException | EdgeOfMapException e) {
+            e.printStackTrace();
+        }
+
+        map1.nextState();
+        assertEquals(1, ennui.getYc());
+        assertEquals(4, ennui.getXc());
+
+    }
     @Test
     void testExamineStrings() {
         assertFalse(testEnnui.examine("not valid action"));

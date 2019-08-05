@@ -23,32 +23,37 @@ public class FourStoneGate extends Gate {
     public boolean examine(String ui) {
         if (Pattern.matches("up|down|left|right", ui)) {
             notifyObservers("Dan presses down on the stone in the " + ui + " direction.");
-            switch (state) {
-                case 0:
-                    stateHandler(ui, "left");
-                    break;
-                case 1:
-                    stateHandler(ui, "up");
-                    break;
-                case 2:
-                    stateHandler(ui, "right");
-                    break;
-                case 3:
-                    stateHandlerLast(ui, "down");
-                    break;
-                default:
-            }
+            switchState(ui);
             return true;
         } else {
             return false;
         }
     } //todo
 
+    private void switchState(String ui) {
+        switch (state) {
+            case 0:
+                stateHandler(ui, "left");
+                break;
+            case 1:
+                stateHandler(ui, "up");
+                break;
+            case 2:
+                stateHandler(ui, "right");
+                break;
+            case 3:
+                stateHandlerLast(ui, "down");
+                break;
+            default:
+        }
+    }
+
     private void stateHandlerLast(String ui, String rightInput) {
         stateHandler(ui, rightInput);
         if (state >= OPEN_STATE) {
             open();
-            notifyObservers("With a resonant click, the stones sink into the gate as it splits and grudgingly scrapes open.");
+            notifyObservers("With a resonant click, the stones sink into the "
+                    + "gate as it splits and grudgingly scrapes open.");
         }
     }
 

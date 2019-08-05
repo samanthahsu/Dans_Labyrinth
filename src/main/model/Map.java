@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /*manages the map portion of this adventure*/
 public class Map implements Serializable {
@@ -60,6 +59,7 @@ public class Map implements Serializable {
             e.addObserver(po);
         }
     }
+
     /* modifies: this
     * effects: initializes all examinables in the map*/
     private void initExaminables(List<Examinable> examinables) {
@@ -69,22 +69,6 @@ public class Map implements Serializable {
             this.allExaminables.put(exa.getName(), exa);
         }
     }
-
-////    require: given name of valid examinable, with two strings of y and x
-////
-////    returns examinable from given strings
-//    private Examinable parseToExaminable(String name, String y, String x) {
-//        Examinable examinable;
-//        int startY = Integer.parseInt(y);
-//        int startX = Integer.parseInt(x);
-//        switch (name) {
-//            case Ennui.NAME:
-//                examinable = new Ennui(startY, startX);
-//                break;
-//            case MossyGate.NAME:
-//                examinable = new MossyGate(startY, startX);
-//        }
-//    }
 
     /*  initializes tileMatrix
         requires: DEFAULT_HEIGHT, DEFAULT_WIDTH have been initialized
@@ -210,31 +194,9 @@ public class Map implements Serializable {
                 && allExaminables.equals(map.allExaminables);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(height, width, winY, winX, ava, tileMatrix, allExaminables);
-    }
-
-//    /*
-//        effects: returns true if a and b are of same size (indicated by DEFAULT_HEIGHT and DEFAULT_WIDTH)
-//        and a and b contain equal tiles in the same order,
-//        else returns false
-//    */
-//    public boolean tileMatrixEquals(List<List<Tile>> a, List<List<Tile>> b, int height, int width) {
-//        if (a.size() != height || b.size() != height) {
-//            return false;
-//        }
-//        for (int m = 0; m < height; m++) {
-//            if (a.get(m).size() != width || b.get(m).size() != width) {
-//                return false;
-//            }
-//            for (int n = 0; n < width; n++) {
-//                if (!a.get(m).get(n).equals(b.get(m).get(n))) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(height, width, winY, winX, ava, tileMatrix, allExaminables);
 //    }
 
     //    effects: returns true if index is within bounds of the map
@@ -261,13 +223,15 @@ public class Map implements Serializable {
     * modifies: this, examinable
     * effects: moves examinable to new position in tile matrix, and sets it's
     * internal indexes accordingly*/
-    public void moveExaminableOnTiles(Examinable examinable, int oldy, int oldx, int newy, int newx) {
+    public void moveExaminableOnTiles(Examinable examinable, int newy, int newx) {
         String examinableName = examinable.getName();
+        int oldy = examinable.getYc();
+        int oldx = examinable.getXc();
         if (isIndexValid(oldy, oldx)) {
             tileMatrix.get(oldy).get(oldx).getCurrExaminables().remove(examinableName);
         }
         tileMatrix.get(newy).get(newx).getCurrExaminables().put(examinableName, examinable);
-        if (examinable.getYc() != newy || examinable.getXc() != newx) {
+        if (oldy != newy || oldx != newx) {
             examinable.setYc(newy);
             examinable.setXc(newx);
         }
@@ -285,6 +249,7 @@ public class Map implements Serializable {
     public Examinable tileFetchExaminable(int y, int x, String name) {
         return tileMatrix.get(y).get(x).getCurrExaminables().get(name);
     }
+
     /*requires:
     * modifies:
     * effects: returns true if the tile of requested index is walkable, else false

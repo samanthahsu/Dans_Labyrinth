@@ -159,7 +159,7 @@ public class Ennui extends Creature {
     * sets current coordinates to next coordinates*/
     private void executeMove(int nextY, int nextX) {
         List<List<Tile>> tileMatrix = getMap().getTileMatrix();
-        tileMatrix.get(nextY).get(nextX).getCurrExaminables().put(name, this); //todo make special shit for this in examinable
+        tileMatrix.get(nextY).get(nextX).getCurrExaminables().put(name, this);
         tileMatrix.get(yc).get(yc).getCurrExaminables().remove(name);
         setYc(nextY);
         setXc(nextX);

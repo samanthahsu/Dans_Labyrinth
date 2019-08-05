@@ -8,8 +8,6 @@ import ui.PrintObserver;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-import java.util.Random;
 
 public class Avatar extends Locatable implements Serializable {
 //    TODO SPLIT OUT ITEM HANDLER FROM AVATAR
@@ -85,10 +83,10 @@ public class Avatar extends Locatable implements Serializable {
                 && itemManager.equals(avatar.itemManager);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(sanity, yc, xc, itemManager);
-    }
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(sanity, yc, xc, itemManager);
+//    }
 
     //    REQUIRES: MAP WALLS HAVE NO GAPS EXCEPT WIN CONDITION
 //    MODIFIES: map
@@ -125,7 +123,7 @@ public class Avatar extends Locatable implements Serializable {
                     notifyObservers(examinable.toString());
                 }
             } else {
-                printMovePlaceholder(dir);
+                notifyHitWall(dir);
             }
         } catch (EdgeOfMapException e) {
             notifyObservers(MAP_EDGE_MESSAGE);
@@ -168,26 +166,6 @@ public class Avatar extends Locatable implements Serializable {
 //                notifyObservers("<todo beef out text> that doesn't work");
 //            }
 //        }
-    }
-
-    /*EFFECTS: prints feedback when ava tries to move into a WALL tile todo move to observer*/
-    public void printMovePlaceholder(String dir) {
-        Random ran = new Random();
-        switch (ran.nextInt(4)) {
-            case 0:
-                notifyObservers("Dan smacks hilariously against the " + dir + " WALL.");
-                break;
-            case 1:
-                notifyObservers("Dan stubs his toe painfully on the " + dir + " WALL.");
-                break;
-            case 2:
-                notifyObservers("Dan flops desperately against the " + dir + " WALL.");
-                break;
-            case 3:
-                notifyObservers("Dan sits and ponders how his life has culminated in this moment.");
-                break;
-            default:
-        }
     }
 
         /*MODIFIES: map, this

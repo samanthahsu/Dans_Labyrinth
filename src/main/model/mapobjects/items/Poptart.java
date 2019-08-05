@@ -7,8 +7,10 @@ import java.util.regex.Pattern;
 /*can be fed to ennui*/
 public class Poptart extends Item {
 
+    public static final String NAME = "poptart";
+
     public Poptart() {
-        name = "poptart";
+        name = NAME;
         description = "a brick of sugar sprinkled with dust particles";
     }
 
@@ -19,8 +21,9 @@ public class Poptart extends Item {
     public boolean use(String target) {
         if (Pattern.matches("Dan", target)) {
             danEats();
+            return true;
         }
-    return false;
+        return false;
     }
 
     private void danEats() {

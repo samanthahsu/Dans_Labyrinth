@@ -91,12 +91,18 @@ class FeatureTests extends TestMapDataAndMethods {
         assertFalse(brick.isSolved());
         assertTrue(brick.examine("enter 42"));
         assertTrue(brick.isSolved());
-        assertFalse(brick.examine("enter 42"));
+        assertTrue(brick.examine("enter 42"));
     }
 
     @Test
     void testBones() {
         assertTrue(pan.examine("examine uniform"));
         assertFalse(pan.examine("not a statement"));
+    }
+
+    @Test
+    void testFeaturePassiveAction() {
+        Feature b1 = new Brick(1, 1);
+        b1.doPassiveActions();
     }
 }

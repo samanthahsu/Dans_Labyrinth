@@ -2,8 +2,6 @@ package model.mapobjects.items;
 
 import model.mapobjects.Examinable;
 
-import java.util.regex.Pattern;
-
 /**An item that can be picked off the FLOOR, then used for various things**/
 /*generally, items don't change, and have the similar properties of interactables, and the ability
  * to be used by the player. thus this need not be an abstract class, but a general one, and interactions can come
@@ -34,16 +32,16 @@ public abstract class Item extends Examinable {
         return isHeld;
     }
 
-    /*requires: isHeld is instantiated*/
+    /*effects: returns false*/
     @Override
     public boolean examine(String ui) {
-        if (isHeld) {
-            return true;
-        } else if (Pattern.matches("(pick( )!up|get)", ui)) {
-            isHeld = true;
-            getMap().getAva().getCurrItems().put(name, this);
-            return true;
-        }
+//        if (isHeld) {
+//            return true;
+//        } else if (Pattern.matches("(pick( )!up|get)", ui)) {
+//            isHeld = true;
+//            getMap().getAva().getCurrItems().put(name, this);
+//            return true;
+//        }
         return false;
     }
 

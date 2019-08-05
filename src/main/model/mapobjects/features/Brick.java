@@ -1,5 +1,7 @@
 package model.mapobjects.features;
 
+import model.mapobjects.items.Poptart;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -65,7 +67,8 @@ public class Brick extends Feature {
     * effects: enters instance where it accepts turning the knob to produce random trivia relating to number 42*/
     public boolean examine(String ui) {
         if (solved) {
-            return false;
+            notifyObservers("The poor brick has no more treats to offer.");
+            return true;
         }
         if (Pattern.matches("press button", ui)) {
             try {
@@ -76,10 +79,14 @@ public class Brick extends Feature {
             return true;
         } else if (Pattern.matches("(type |enter )?42", ui)) {
             solved = true;
-//            todo eject poptart
-            notifyObservers("Something ejected from the back of the brick with a pop.");
+            ejectPoptart();
             return true;
         }
         return false;
+    }
+
+    private void ejectPoptart() {
+        map.addExaminable(new Poptart(), yc, xc);
+        notifyObservers("Something ejected from the back of the brick with a pop.");
     }
 }

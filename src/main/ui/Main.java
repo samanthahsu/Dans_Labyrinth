@@ -94,11 +94,23 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
         mainWindow = primaryStage;
         primaryStage.setTitle(GAME_TITLE);
         setUserAgentStylesheet(STYLESHEET_MODENA);
-
         inputBar = new TextField();
         inputBar.setPromptText("type here");
         barHeight = inputBar.getHeight();
+        formatOuputDisplay();
 
+        VBox layout = new VBox(SPACING);
+        layout.setPadding(new Insets(PADDING,PADDING, PADDING, PADDING));
+        layout.getChildren().addAll(outputDisplay, inputBar);
+
+        Scene scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
+        scene.getStylesheets().add(System.getProperty("user.dir") + "\\src\\main\\ui\\style.css"); //todo
+        primaryStage.setScene(scene);
+        inputBar.requestFocus();
+        primaryStage.show();
+    }
+
+    private void formatOuputDisplay() {
         outputDisplay = new ListView<>();
         outputDisplay.setMinHeight(SCENE_HEIGHT - barHeight - (PADDING * 2) - (SPACING * 4));
         outputDisplay.setStyle("-fx-font: normal 15px 'monospace'");
@@ -106,17 +118,6 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
         outputDisplay.getItems().addAll();
         outputDisplay.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         outputDisplay.setEditable(false);
-
-        VBox layout = new VBox(SPACING);
-        layout.setPadding(new Insets(PADDING,PADDING, PADDING, PADDING));
-        layout.getChildren().addAll(outputDisplay, inputBar);
-//        layout.setStyle("-fx-background-color: #303030");
-
-        Scene scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
-        scene.getStylesheets().add(System.getProperty("user.dir") + "\\src\\main\\ui\\style.css"); //todo
-        primaryStage.setScene(scene);
-        inputBar.requestFocus();
-        primaryStage.show();
     }
 
     @Override
@@ -130,7 +131,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
         outputDisplay.getItems().add(message);
         if (outputDisplay.getItems().size() >= 20) {
             outputDisplay.getItems().remove(0);
-            outputDisplay.scrollTo(outputDisplay.getItems().size()-1);
+            outputDisplay.scrollTo(outputDisplay.getItems().size() - 1);
         }
     }
 /*
@@ -287,22 +288,25 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             map.getAva().moveAva(input[0]);
             return;
         }
-
         try {
-            switch (input[0]) {
-                case "examine":
-                    enterExamineInstance(input[1]);
-                    break;
-                case "pickup": // change to pick up <item name>
-                    map.getAva().pickUpItem(input[1]);
-                    break;
-                case "use":
-                    executeUse(input);
-                    break;
-                default:
-            }
+            switchAction(input);
         } catch (ArrayIndexOutOfBoundsException e) {
             printToDisplay("Dan wonders which thing he should be doing the thing to");
+        }
+    }
+
+    private void switchAction(String[] input) {
+        switch (input[0]) {
+            case "examine":
+                enterExamineInstance(input[1]);
+                break;
+            case "pickup": // change to pick up <item name>
+                map.getAva().pickUpItem(input[1]);
+                break;
+            case "use":
+                executeUse(input);
+                break;
+            default:
         }
     }
 
@@ -439,7 +443,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
         StringBuilder mapString = new StringBuilder();
         for (int m = 0; m < height; m++) {
             for (int n = 0; n < width; n++) {
-               mapString.append(tileMatrix.get(m).get(n).getDisplayChar());
+                mapString.append(tileMatrix.get(m).get(n).getDisplayChar());
             }
             mapString.append('\n');
         }

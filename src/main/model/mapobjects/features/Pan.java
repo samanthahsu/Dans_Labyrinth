@@ -22,7 +22,8 @@ public class Pan extends Feature {
     @Override
     /*requires:
     * modifies
-    * effects prints out detailed descriptions, you can take a bone for no reasson (until you take whole skele and bring him
+    * effects prints out detailed descriptions, you can take a bone for no reason
+     * (until you take whole skele and bring him
     * out for proper funeral)*/
     public boolean examine(String ui) {
         if (Pattern.matches("(examine |look at )uniform", ui)) {

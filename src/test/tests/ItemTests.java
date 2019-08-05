@@ -1,12 +1,12 @@
 package tests;
 
+import model.Map;
+import model.exceptions.EdgeOfMapException;
+import model.exceptions.MismatchedMapSizeException;
 import model.mapobjects.Avatar;
 import model.mapobjects.Examinable;
 import model.mapobjects.features.MossyGate;
-import model.mapobjects.items.Item;
-import model.mapobjects.items.Note;
-import model.mapobjects.items.PizzaBox;
-import model.mapobjects.items.RustyKey;
+import model.mapobjects.items.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +18,7 @@ class ItemTests extends TestMapDataAndMethods {
     private Item rustyKey;
     private Item note;
     private Examinable mossyGate;
+    private Item poptart;
 
     @BeforeEach
     void Setup(){
@@ -57,7 +58,7 @@ class ItemTests extends TestMapDataAndMethods {
     @Test
     void testItemHeldExamine() {
         assertTrue(rustyKey.isHeld());
-        assertTrue(rustyKey.examine("hello"));
+        assertFalse(rustyKey.examine("hello"));
     }
 
     @Test
@@ -76,5 +77,22 @@ class ItemTests extends TestMapDataAndMethods {
         assertTrue(note.use("Dan"));
         assertTrue(note.use("dan"));
         assertFalse(note.use("not Dan"));
+    }
+
+    @Test
+    void testPopTart() {
+        poptart = new Poptart();
+        itemListC.add(poptart);
+        try {
+            mapCreature = new Map(TEST_HEIGHT_C, TEST_WIDTH_C, WIN_Y_C, WIN_X_C, TEST_START_Y_C, TEST_START_X_C,
+                    itemListC, interListC, TEST_MAP_C);
+        } catch (MismatchedMapSizeException | EdgeOfMapException e) {
+            e.printStackTrace();
+        }
+        avaC = mapCreature.getAva();
+        avaC.setSanity(1);
+        assertFalse(poptart.use("Not here"));
+        assertTrue(poptart.use("Dan"));
+        assertEquals(2, avaC.getSanity());
     }
 }

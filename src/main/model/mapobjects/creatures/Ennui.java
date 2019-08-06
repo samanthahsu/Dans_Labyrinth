@@ -68,7 +68,7 @@ public class Ennui extends Creature {
     /*enters instance where if ennui has key either:
     * attacks (diminishes hp of ava by one)
     * speaks chitters nervously while squishing into corner hiding the object its holding
-    * runs away (if anywehre to go)
+    * runs away (if anywhere to go)
     * gets fed drops key onto tile
     *
     * OR if ennui doesn't have key (aka is fed)
@@ -79,46 +79,13 @@ public class Ennui extends Creature {
     * sets far sounds in max 8 FLOOR tiles of orthog radius 2, and diagonal radius 1*/
     private void setSounds(int currY, int currX) {
         soundManager.setSurroundSound(currY, currX, name, description);
-//        addSound(currY - 1, currX);
-//        addSound(currY + 1, currX);
-//        addSound(currY, currX - 1);
-//        addSound(currY, currX + 1);
     }
-
-//    private void addSound(int y, int x) {
-//        if (getMap().isIndexValid(y, x)) {
-//            getMap().getTileMatrix().get(y).get(x)
-//                    .addSound(new Sound(getMap(), y, x, NAME, soundDescription));
-//        }
-//    }
 
     /*modifies: map
     effects: removes all sounds within scope caused by this creature*/
     private void removeSounds(int oldy, int oldx) {
         soundManager.removeAllSounds(oldy, oldx, yc, xc, name);
-//        int currentY = yc;
-//        int currentX = xc;
-//        removeOneSoundAtPos(currentY - 1, currentX);
-//        removeOneSoundAtPos(currentY + 1, currentX);
-//        removeOneSoundAtPos(currentY, currentX - 1);
-//        removeOneSoundAtPos(currentY, currentX + 1);
     }
-
-//    /*effects: if tile index is valid, iterate through interactables list in that tile, and remove
-//    * interactable named SOUND_NAME*/
-//    private void removeOneSoundAtPos(int y, int x) {
-//        if (getMap().isIndexValid(y, x)) {
-//            getMap().getTileMatrix().get(y).get(x).removeSound(name);
-////            Collection<Sound> soundCollection = getMap().getTileMatrix().get(y).get(x).getTileSounds();
-////            for (Sound sound : soundCollection
-////                 ) {
-////                if(sound.getSourceName().equals(NAME)) {
-////                    soundCollection.remove(sound);
-////                    return;
-////                }
-////            }
-//        }
-//    }
 
     /* modifies: this
     * effects: todo

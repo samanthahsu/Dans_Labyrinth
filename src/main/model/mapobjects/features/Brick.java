@@ -89,7 +89,7 @@ public class Brick extends Feature {
             return true;
         }
         if (Pattern.matches("press (large )?button", ui)) {
-            notifyObservers("The screen displays: " + question);
+            notifyObservers("The screen displays:\n" + question);
             return true;
         } else if (Pattern.matches("(type |enter |input )?" + answer + "( into keypad)?", ui)) {
             solved = true;

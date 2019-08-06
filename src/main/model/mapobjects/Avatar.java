@@ -119,9 +119,7 @@ public class Avatar extends Locatable implements Serializable {
                 map.revealSurroundings(y, x);
                 yc = y;
                 xc = x;
-                for (Examinable examinable : map.getTileMatrix().get(y).get(x).getCurrExaminables().values()) {
-                    notifyObservers(examinable.toString());
-                }
+                printExaminables(); // make it so even if tile is walkable, display stuff there
             } else {
                 notifyHitWall(dir);
             }
@@ -130,13 +128,19 @@ public class Avatar extends Locatable implements Serializable {
         }
     }
 
-/*
-  REQUIRES: map is initialized
-  MODIFIES: this, map
-  EFFECTS: iff item corresponding itemName is present on current tile
-  remove item from tile, add item to currItems in ava and print "picked up itemName"
-  otherwise do nothing and print "unable to pick up itemName"
-*/
+    public void printExaminables() {
+        for (Examinable examinable : map.getTileMatrix().get(yc).get(xc).getCurrExaminables().values()) {
+            notifyObservers(examinable.toString());
+        }
+    }
+
+    /*
+      REQUIRES: map is initialized
+      MODIFIES: this, map
+      EFFECTS: iff item corresponding itemName is present on current tile
+      remove item from tile, add item to currItems in ava and print "picked up itemName"
+      otherwise do nothing and print "unable to pick up itemName"
+    */
     public void pickUpItem(String itemName) {
         itemManager.pickUpItem(itemName);
 //        HashMap<String, Examinable> tileItems =  getMap().getTileMatrix()

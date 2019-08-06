@@ -201,6 +201,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             printToDisplay("New game started!");
             printToDisplay(HELP_ABBRV);
             printToDisplay(NEW_GAME_TEXT);
+            map.getAva().printExaminables();
             inputBar.setOnAction(event -> runGame());
         } catch (MapException e) {
             printToDisplay("Failed to build new map. (Many apologies)");
@@ -249,8 +250,8 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
                 printHelp();
                 break;
             case "quit":
-                printToDisplay("s: save game | c: cancel and continue\n"
-                        + "q: quit without saving.");
+                printToDisplay("s: save game | c: cancel and continue | "
+                        + "q: quit");
                 inputBar.setOnAction(event -> handleQuitInGame());
                 break;
             case "map":
@@ -299,12 +300,12 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
     private void enterExamineInstance(String targetNm) {
         Examinable target = map.getAllExaminables().get(targetNm);
         if (target != null) {
-            printToDisplay("entering examine instance\n"
-                    + EXIT_EXAMINATION_KEY + " to exit");
+            printToDisplay("Entering examine instance.\n"
+                     + EXIT_EXAMINATION_KEY + ": exit");
             printToDisplay(target.getExamineDescription());
             inputBar.setOnAction(event -> examineInstance(target));
         } else {
-            printToDisplay("that's not a valid target!");
+            printToDisplay("That's not a valid target!");
         }
     }
 

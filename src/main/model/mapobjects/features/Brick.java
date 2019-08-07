@@ -13,26 +13,22 @@ import java.util.regex.Pattern;
 public class Brick extends Feature {
 
     static final String TRIVIA_42 = "https://numbersapi.p.rapidapi.com/42/trivia?fragment=true&notfound=floor&json=true";
-    static final String TRIVIA_10_20 = "https://numbersapi.p.rapidapi.com/random/trivia?max=20&fragment=true&min=10&json=true";
-    boolean solved = false;
+    private boolean solved = false;
 
-    String question = "";
-    String answer = "";
+    private String question = "";
+    private String answer = "42";
 
     public Brick(int y, int x) {
         super(y, x);
         name = "brick";
         description = "a brick shaped monitor sits on the floor";
-        examineDescription = "a number keypad is on the right side, with a large button above it";
+        examineDescription = "a number keypad is on the right side, with a large button above it"; //todo fix text
         Random random = new Random();
         answer = Integer.toString(random.nextInt(20));
-        try {
-            initConnection();
-        } catch (IOException e) {
-            notifyObservers("Brick failed construction!");
-        }
+        initConnection();
     }
 
+    /*temp for tests*/
     public String getAnswer() {
         return answer;
     }
@@ -42,17 +38,23 @@ public class Brick extends Feature {
         return solved;
     }
 
-    private void initConnection() throws IOException {
-//        final String url = "https://numbersapi.p.rapidapi.com/"+answer+"/trivia?fragment=true&notfound=floor&json=true";
+    /*require:
+    * modifies: this
+    * effects: */
+    private void initConnection() {
         HttpsURLConnection apiCon;
-        apiCon = (HttpsURLConnection) (new URL(TRIVIA_10_20)).openConnection();
-        apiCon.setRequestProperty("x-rapidapi-host", "numbersapi.p.rapidapi.com");
-        apiCon.addRequestProperty("x-rapidapi-key", "50e78147b7msh88cadc2841a1911p17987cjsnf0b56c8e7791");
-        apiCon.setUseCaches(false);
-        apiCon.setDoInput(true);
-        apiCon.setDoOutput(true);
-        apiCon.setRequestMethod("GET");
-        parseJson(apiCon);
+        try {
+            apiCon = (HttpsURLConnection) (new URL(TRIVIA_42)).openConnection();
+            apiCon.setRequestProperty("x-rapidapi-host", "numbersapi.p.rapidapi.com");
+            apiCon.addRequestProperty("x-rapidapi-key", "50e78147b7msh88cadc2841a1911p17987cjsnf0b56c8e7791");
+            apiCon.setUseCaches(false);
+            apiCon.setDoInput(true);
+            apiCon.setDoOutput(true);
+            apiCon.setRequestMethod("GET");
+            parseJson(apiCon);
+        } catch (IOException e) {
+            notifyObservers("Brick failed construction!");
+        }
     }
 
     /*effects: retrieves question and answer from random trivia api*/
@@ -63,11 +65,10 @@ public class Brick extends Feature {
             String[] words = jsonLine.split(" \"|\": \"|\",|\": |\"");
             for (int i = 0; i < words.length; i++) {
                 if (words[i].equals("text")) {
-                    question = words[i+1];
+                    question = words[i + 1];
                     i++;
                 } else if (words[i].equals("number")) {
-                    answer = words[i+1];
-                    return;
+                    answer = words[i + 1];
                 }
             }
         }
@@ -79,16 +80,11 @@ public class Brick extends Feature {
     * modifies:
     * effects: enters instance where it accepts turning the knob to produce random trivia relating to number 42*/
     public boolean examine(String ui) {
-        try {
-            initConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        initConnection();
         if (solved) {
             notifyObservers("The poor brick has no more treats to offer.");
             return true;
-        }
-        if (Pattern.matches("press (large )?button", ui)) {
+        } else if (Pattern.matches("press (large )?button", ui)) {
             notifyObservers("The screen displays:\n" + question);
             return true;
         } else if (Pattern.matches("(type |enter |input )?" + answer + "( into keypad)?", ui)) {
@@ -103,6 +99,6 @@ public class Brick extends Feature {
 
     private void ejectPoptart() {
         map.addExaminable(new Poptart(), yc, xc);
-        notifyObservers("The front of the brick swung open revealing a poptart inside.");
+        notifyObservers("The front of the brick swings open revealing a poptart inside.");
     }
 }

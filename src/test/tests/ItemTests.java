@@ -5,6 +5,7 @@ import model.exceptions.EdgeOfMapException;
 import model.exceptions.MismatchedMapSizeException;
 import model.mapobjects.Avatar;
 import model.mapobjects.Examinable;
+import model.mapobjects.features.LastGate;
 import model.mapobjects.features.MossyGate;
 import model.mapobjects.items.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,7 @@ class ItemTests extends TestMapDataAndMethods {
     private Item rustyKey;
     private Item note;
     private Examinable mossyGate;
-    private Item poptart;
+    private Item popTart;
 
     @BeforeEach
     void Setup(){
@@ -56,6 +57,14 @@ class ItemTests extends TestMapDataAndMethods {
     }
 
     @Test
+    void usePizzaBadTarget() {
+        Item pizzabox = new PizzaBox();
+        pizzabox.use("horrible");
+        map1.addExaminable(pizzabox, 1, 1);
+        pizzabox.use(LastGate.NAME);
+    }
+
+    @Test
     void testItemHeldExamine() {
         assertTrue(rustyKey.isHeld());
         assertFalse(rustyKey.examine("hello"));
@@ -74,15 +83,18 @@ class ItemTests extends TestMapDataAndMethods {
     @Test
     void testNote() {
         avaC.pickUpItem(Note.NAME);
+        note.setMap(map1);
         assertTrue(note.use("Dan"));
         assertTrue(note.use("dan"));
         assertFalse(note.use("not Dan"));
+        assertTrue(note.examine("read back"));
+        assertFalse(note.examine("i cant read"));
     }
 
     @Test
     void testPopTart() {
-        poptart = new Poptart();
-        itemListC.add(poptart);
+        popTart = new Poptart();
+        itemListC.add(popTart);
         try {
             mapCreature = new Map(TEST_HEIGHT_C, TEST_WIDTH_C, WIN_Y_C, WIN_X_C, TEST_START_Y_C, TEST_START_X_C,
                     itemListC, interListC, TEST_MAP_C);
@@ -91,8 +103,8 @@ class ItemTests extends TestMapDataAndMethods {
         }
         avaC = mapCreature.getAva();
         avaC.setSanity(1);
-        assertFalse(poptart.use("Not here"));
-        assertTrue(poptart.use("Dan"));
+        assertFalse(popTart.use("Not here"));
+        assertTrue(popTart.use("Dan"));
         assertEquals(2, avaC.getSanity());
     }
 }

@@ -1,6 +1,10 @@
 package model.mapobjects.items;
 
 import model.mapobjects.Avatar;
+import model.mapobjects.Examinable;
+import model.mapobjects.features.LastGate;
+
+import java.util.regex.Pattern;
 
 /*starting box, found nowhere else in maze*/
 /*in this edition of pizza fixes everything*/
@@ -28,6 +32,29 @@ public class PizzaBox extends Item {
 // user sanity is recovered by one point todo
     @Override
     public boolean use(String target) {
+        if (Pattern.matches(Avatar.NAME, target)) {
+            targetDan();
+            return true;
+        } else if (target.equals(LastGate.NAME)) {
+            return targetLastGate();
+        }
+        return false;
+    }
+
+    private boolean targetLastGate() {
+        Examinable examinable = map.tileFetchExaminable(map.getAva().getYc(),
+                map.getAva().getXc(), LastGate.NAME);
+        if (examinable != null) {
+            LastGate lastGate = (LastGate) examinable;
+            lastGate.open();
+            getMap().getAva().getCurrItems().remove(NAME);
+            notifyObservers("Dan places the box into the square inset. It fits perfectly.");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean targetDan() {
         if (slices == JUST_A_BOX) {
             notifyObservers("Dan sadly remembers that there is no more pizza."
                     + " He resists eating the box");

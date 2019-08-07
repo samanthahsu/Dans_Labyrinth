@@ -21,14 +21,14 @@ public class FourStoneGate extends Gate {
     * password is up down left down*/
     @Override
     public boolean examine(String ui) {
-        if (Pattern.matches("up|down|left|right", ui)) {
+        if (!isOpened() && Pattern.matches("up|down|left|right", ui)) {
             notifyObservers("Dan presses down on the stone in the " + ui + " direction.");
             switchState(ui);
             return true;
         } else {
             return false;
         }
-    } //todo
+    }
 
     private void switchState(String ui) {
         switch (state) {

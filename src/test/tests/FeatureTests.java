@@ -4,6 +4,7 @@ import model.Map;
 import model.exceptions.EdgeOfMapException;
 import model.exceptions.MismatchedMapSizeException;
 import model.mapobjects.features.*;
+import model.mapobjects.items.PizzaBox;
 import model.mapobjects.items.RustyKey;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,25 +14,30 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeatureTests extends TestMapDataAndMethods {
-    public static final int YBLOCK = 2;
-    public static final int XBLOCK = 6;
+
+    private static final int GATEY = 1;
+    private static final int GATEX = 6;
+    private static final int YBLOCK = 2;
+    private static final int XBLOCK = 6;
     private MossyGate mossyGate;
     private FourStoneGate fourStoneGate;
     private BloodFish bloodFish;
     private Brick brick;
     private Pan pan;
+    private LastGate lastGate;
 
     @BeforeEach
     void setup() throws MismatchedMapSizeException, EdgeOfMapException {
         initTestMaps();
         //        uses mapC
-        mossyGate = new MossyGate(1, 6, YBLOCK, XBLOCK);
+        mossyGate = new MossyGate(GATEY, GATEX, YBLOCK, XBLOCK);
         fourStoneGate = new FourStoneGate(1, 5, 1, 6);
         bloodFish = new BloodFish(1, 5);
         brick = new Brick(1, 4);
         pan = new Pan(1, 1);
+        lastGate = new LastGate(TEST_START_Y_C, TEST_START_X_C, YBLOCK, XBLOCK);
         interListC.addAll(Arrays.asList(mossyGate, fourStoneGate, bloodFish, brick,
-                pan));
+                pan, lastGate));
         itemListC.add(new RustyKey());
         mapCreature = new Map(TEST_HEIGHT_C, TEST_WIDTH_C, WIN_Y_C, WIN_X_C, TEST_START_Y_C, TEST_START_X_C,
                 itemListC, interListC, TEST_MAP_C);
@@ -83,18 +89,18 @@ class FeatureTests extends TestMapDataAndMethods {
         assertTrue(fourStoneGate.isOpened());
     }
 
-/*
     @Test
     void testBrick() {
         assertTrue(brick.examine("press button"));
         assertFalse(brick.isSolved());
         assertFalse(brick.examine("halalalala"));
         assertFalse(brick.isSolved());
+        assertFalse(brick.examine("10000"));
+        assertFalse(brick.isSolved());
         assertTrue(brick.examine("enter " + brick.getAnswer()));
         assertTrue(brick.isSolved());
         assertTrue(brick.examine("enter " + brick.getAnswer()));
     }
-*/
 
     @Test
     void testBones() {
@@ -106,5 +112,26 @@ class FeatureTests extends TestMapDataAndMethods {
     void testFeaturePassiveAction() {
         Feature b1 = new Brick(1, 1);
         b1.doPassiveActions();
+    }
+
+    @Test
+    void testLastGate() {
+        assertFalse(lastGate.examine("llaalalalal"));
+        assertTrue(lastGate.examine("use " + PizzaBox.NAME));
+        assertFalse(mapCreature.getAva().getCurrItems().containsKey(PizzaBox.NAME));
+        assertTrue(lastGate.isOpened());
+    }
+
+    @Test
+    void testLastGateNotOnTile() {
+        mapCreature.getAva().moveAva("e");
+        assertTrue(lastGate.examine("use " + PizzaBox.NAME));
+        assertTrue(mapCreature.getAva().getCurrItems().containsKey(PizzaBox.NAME));
+        assertFalse(lastGate.isOpened());
+    }
+
+    @Test
+    void testMossyGateCallKey() {
+        assertTrue(mossyGate.examine("ui " + RustyKey.NAME));
     }
 }

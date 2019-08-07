@@ -89,7 +89,7 @@ public class ItemManager extends PrintObservable implements Serializable {
                     && !Pattern.matches("(D|d)an", target)) {
                 notifyObservers("Dan cannot find a " + target + " around him");
             } else if (!currItems.get(itemName).use(target)) {
-                notifyObservers("<todo beef out text> that doesn't work");
+                notifyObservers("<todo beef out text> that doesn't work!");
             }
         }
     }

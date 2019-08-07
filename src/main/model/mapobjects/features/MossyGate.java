@@ -1,5 +1,7 @@
 package model.mapobjects.features;
 
+import model.mapobjects.items.RustyKey;
+
 /*opened with rusty key*/
 public class MossyGate extends Gate {
 
@@ -17,12 +19,10 @@ public class MossyGate extends Gate {
     //    effects: interaction with to open belongs to the key
     @Override
     public boolean examine(String ui) { //todo
-/*
-        if (!isOpened && Pattern.matches("(open with|use) rusty key", ui)) {
-            open();
+        if (!isOpened() && ui.equals("ui " + RustyKey.NAME)) {
+            map.getAva().useItem(RustyKey.NAME, NAME);
             return true;
         }
-*/
         return false;
     }
 

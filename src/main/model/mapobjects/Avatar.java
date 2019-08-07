@@ -13,7 +13,6 @@ public class Avatar extends Locatable implements Serializable {
 //    TODO SPLIT OUT ITEM HANDLER FROM AVATAR
 
     public static final int SANITY_NORMAL = 3;
-    public static final int SANITY_DANGER = 1;
     public static final String NAME = "Dan";
 
     public static final String MAP_EDGE_MESSAGE = "Dan tries to walk of the edge"

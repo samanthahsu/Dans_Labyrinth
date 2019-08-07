@@ -18,7 +18,6 @@ class AvatarTests extends TestMapDataAndMethods {
 
     private static final String DUMMY_ITEM_NAME = "my sanity";
     private static final String DUMMY_TARGET = "oxygen";
-    PizzaBox pizzaBox;
     private static HashMap<String, Examinable> expectedItems = new HashMap<>();
 
     @BeforeEach
@@ -181,6 +180,11 @@ class AvatarTests extends TestMapDataAndMethods {
     void testEquals() {
         assertTrue(ava1.equals(ava1));
         assertFalse(ava1.equals(0));
+    }
 
+    @Test
+    void useItemBadTarget() {
+        ava1.useItem(PizzaBox.NAME, "bad");
+        assertTrue(ava1.getCurrItems().containsKey(PizzaBox.NAME));
     }
 }

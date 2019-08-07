@@ -1,8 +1,6 @@
 package ui;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -18,16 +16,18 @@ import model.mapobjects.Examinable;
 import model.mapobjects.Tile;
 import model.mapobjects.items.Item;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
 /*Main hub which manages all game processes*/
-public class Main extends Application implements EventHandler<ActionEvent>, PrintObserver {
+public class Main extends Application implements PrintObserver {
 
-    public static final String EXIT_EXAMINATION_KEY = "back";
+    private static final String EXIT_EXAMINATION_KEY = "back";
     private static final int CONTINUE_GAME = 0;
     private static final int QUIT_GAME = 1;
     private static final int FAIL_GAME = 2; // todo make able to die
@@ -50,25 +50,26 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             + "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n"
             + "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n"
             + "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
-    static final String GAME_TITLE = "DAN'S LABYRINTH";
-    static final String NEW_GAME_TEXT = "Dan blinks, and it's still dark, he can barely see the floor a few feet in "
+    private static final String GAME_TITLE = "DAN'S LABYRINTH";
+    private static final String NEW_GAME_TEXT =
+            "Dan blinks, and it's still dark, he can barely see the floor a few feet in "
             + "front\nof him. As if to make up for it, every sound he makes is amplified, echoing\nthrough the caverns"
             + "His only comfort, the warmth of the pizzabox in his hands,\nand the protection of the familiar cheesy"
             + " smell wrapping around him.\nJust another delivery for Dan the pizza man.";
-    static final String HELP_ABBRV = "'help' for controls";
-    static final String CONTINUE_TEXT = "Dan could've sworn he had fallen asleep for a moment. Ah well, dreaming would\n"
-            + "not get him out of here.";
-    static final String PRINT_AVA_STATUS_CMD = "dan";
-    static final String UI_INDICATOR = ">> ";
+    private static final String HELP_ABBRV = "'help' for controls";
+    private static final String CONTINUE_TEXT = "Dan could've sworn he had fallen asleep for a moment. "
+            + "Ah well, dreaming would\nnot get him out of here.";
+    private static final String PRINT_AVA_STATUS_CMD = "dan";
+    private static final String UI_INDICATOR = ">> ";
     private static final int SCENE_WIDTH = 800;
-    static final int SCENE_HEIGHT = 800;
-    static final int SPACING = 10;
-    static final int PADDING = 20;
-    static final String MSG_GAME_OVER = "Game Over";
-    static final String MSG_WIN = "Dan stepped into the sunlight.";
-    static final String MSG_QUIT = "Thanks for playing!";
-    static final String MSG_CONTINUE = "Dan continues on...";
-    static double barHeight;
+    private static final int SCENE_HEIGHT = 800;
+    private static final int SPACING = 10;
+    private static final int PADDING = 20;
+    private static final String MSG_GAME_OVER = "Game Over";
+    private static final String MSG_WIN = "Dan stepped into the sunlight.";
+    private static final String MSG_QUIT = "Thanks for playing!";
+    private static final String MSG_CONTINUE = "Dan continues on...";
+    private static double barHeight;
 
     private WriterReader writerReader;
     private static Integer gameState;
@@ -100,6 +101,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
 
     private void initGraphics(Stage primaryStage) {
         mainWindow = primaryStage;
+        mainWindow.setResizable(false);
         primaryStage.setTitle(GAME_TITLE);
         setUserAgentStylesheet(STYLESHEET_MODENA);
         inputBar = new TextField();
@@ -107,15 +109,31 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
         barHeight = inputBar.getHeight();
         formatOutputDisplay();
 
-        VBox layout = new VBox(SPACING);
-        layout.setPadding(new Insets(PADDING,PADDING, PADDING, PADDING));
-        layout.getChildren().addAll(outputDisplay, inputBar);
-
-        Scene scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
-        scene.getStylesheets().add(System.getProperty("user.dir") + "\\src\\main\\ui\\style.css"); //todo
+        VBox layout = formatVbox();
+        Scene scene = setScene(layout);
         primaryStage.setScene(scene);
         inputBar.requestFocus();
         primaryStage.show();
+    }
+
+    private Scene setScene(VBox layout) {
+        Scene scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
+        String cssString = System.getProperty("user.dir") + "\\src\\main\\ui\\style.css";
+        File cssFile = new File(cssString);
+        try {
+            scene.getStylesheets().add(cssFile.toURI().toURL().toString()); //todo
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return scene;
+    }
+
+    private VBox formatVbox() {
+        VBox layout = new VBox(SPACING);
+        layout.setId("main");
+        layout.setPadding(new Insets(PADDING, PADDING, PADDING, PADDING));
+        layout.getChildren().addAll(outputDisplay, inputBar);
+        return layout;
     }
 
     private void formatOutputDisplay() {
@@ -126,12 +144,6 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
         outputDisplay.getItems().addAll();
         outputDisplay.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         outputDisplay.setEditable(false);
-    }
-
-    @Override
-    public void handle(ActionEvent event) {
-        printToDisplay(inputBar.getText());
-        inputBar.setText("");
     }
 
     /*prints and scrolls to message in output, keeps number of messages under 20*/
@@ -151,8 +163,7 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
         inputBar.setOnAction(event -> homeExecuteUi());
     }
 
-/*
-    MODIFIES: this
+    /*MODIFIES: this
     EFFECTS: handles available commands from the home screen, which are:
       start new game: default map is loaded, and calls runGame
       load saved game: selected mazeGame file is loaded, calls runGame
@@ -278,8 +289,8 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             case "examine":
                 enterExamineInstance(input[1]);
                 break;
-            case "pickup": // change to pick up <item name>
-                map.getAva().pickUpItem(input[1]);// todo make feedback for can't pick up
+            case "pickup":
+                map.getAva().pickUpItem(input[1]);
                 break;
             case "use":
                 executeUse(input);
@@ -293,7 +304,6 @@ public class Main extends Application implements EventHandler<ActionEvent>, Prin
             map.getAva().useItem(input[1], input[3]);
         }
     }
-
 
     /*modifies: map
      * effects: if the target is in listModel of interactables examine target further*/

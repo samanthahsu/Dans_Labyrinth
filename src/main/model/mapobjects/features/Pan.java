@@ -14,8 +14,8 @@ public class Pan extends Feature {
         super(y, x);
         name = NAME;
         description = "A pile of bones";
-        examineDescription = "A ribcage, and skull and other BONES sit halfburied in the dirt "
-                + "beside a neatly folded UNIFORM.";
+        examineDescription = "A ribcage, and skull and other bones sit half-buried in the dirt "
+                + "beside a neatly folded uniform.";
     }
 
 
@@ -27,7 +27,7 @@ public class Pan extends Feature {
     * out for proper funeral)*/
     public boolean examine(String ui) {
         if (Pattern.matches("(examine |look at )uniform", ui)) {
-            notifyObservers(examineDescription);
+            notifyObservers("A torn umber and mahogany shirt with the nametag \"Pan\" sewn onto the breast.");
             return true;
         }
         return false;

@@ -14,7 +14,7 @@ public class PizzaBox extends Item {
     //    number of slices left in the box
     static final int JUST_A_BOX = 0;
     static final String EMPTY_NAME = "pizzabox";
-    static final String EMPTY_DESCRIPTION = "A sad, empty, grease stained cardboard pizza box.";
+    public static final String EMPTY_DESCRIPTION = "A sad, empty, grease stained cardboard pizza box.";
     private int slices = 8;
 
     /*
@@ -23,11 +23,22 @@ public class PizzaBox extends Item {
     public PizzaBox() {
         name = NAME; // todo separate description from detailed examination description
         description = "A pristine cardboard box with the umber and mahogany original 'Danminos' "
-                + "company logo on the sides with "
-                + slices + " toasty deluxe pizza slices nestled inside.";
+                + "company logo on the sides.\n"
+                + slices + " slices of toasty deluxe pizza are nestled inside.";
     }
 
-// MODIFIES: map(avatar)
+    @Override
+    public String getDescription() {
+        if (slices == JUST_A_BOX) {
+            return EMPTY_DESCRIPTION;
+        } else {
+            return "A pristine cardboard box with the umber and mahogany original 'Danminos' "
+                    + "company logo on the sides with "
+                    + slices + " toasty deluxe pizza slices nestled inside.";
+        }
+    }
+
+    // MODIFIES: map(avatar)
 // EFFECTS: iff slices > 0, slice is taken from box
 // user sanity is recovered by one point todo
     @Override
@@ -54,22 +65,20 @@ public class PizzaBox extends Item {
         return false;
     }
 
-    private boolean targetDan() {
+    private void targetDan() {
         if (slices == JUST_A_BOX) {
             notifyObservers("Dan sadly remembers that there is no more pizza."
-                    + " He resists eating the box");
+                    + " He resists eating the box.");
         } else {
             slices--;
-            notifyObservers("Warm cheese melts in Dan's mouth.");
+            notifyObservers("Warm cheese melts in his mouth."
+                    + "\nHe will have to do an extra half km to make up for it later");
             Avatar ava = getMap().getAva();
             int newStat = ava.getSanity() + 1;
             if (newStat <= 3) {
                 ava.setSanity(newStat);
-                notifyObservers("Dan feels his sanity return slightly, then feels a slight pang of guilt,"
-                        + "he will have to do an extra half km to make up for it later");
+                notifyObservers("Dan feels his sanity return slightly.");
             }
-            return true;
         }
-        return false;
     }
 }

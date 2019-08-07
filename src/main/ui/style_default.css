@@ -1,16 +1,14 @@
 .list-cell {
-    -fx-background-color: transparent;
     -fx-text-fill: white;
 }
-.list-view {
-    -fx-background-color: transparent;
+.list-view .scroll-bar {
+    -fx-background-color: #787892;
 }
 .text-field {
     -fx-text-fill: white;
     -fx-background-color: #787892;
 }
 #main {
-    /*-fx-background-color: #303030;*/
     -fx-background-image: url("background.png");
         -fx-background-repeat: stretch;
         -fx-background-size: 800 800;

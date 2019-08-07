@@ -19,7 +19,7 @@ public class MossyGate extends Gate {
 
     //    effects: interaction with to open belongs to the key
     @Override
-    public boolean examine(String ui) { //todo
+    public boolean examine(String ui) {
         if (!isOpened() && ui.equals("use " + RustyKey.NAME)) {
             map.getAva().useItem(RustyKey.NAME, NAME);
             return true;

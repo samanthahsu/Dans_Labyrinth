@@ -12,6 +12,7 @@ import model.Map;
 import model.WriterReader;
 import model.exceptions.BadFileNameException;
 import model.exceptions.MapException;
+import model.mapobjects.Avatar;
 import model.mapobjects.Examinable;
 import model.mapobjects.Tile;
 import model.mapobjects.items.Item;
@@ -22,6 +23,7 @@ import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /*Main hub which manages all game processes*/
@@ -69,6 +71,8 @@ public class Main extends Application implements PrintObserver {
     private static final String MSG_WIN = "Dan stepped into the sunlight.";
     private static final String MSG_QUIT = "Thanks for playing!";
     private static final String MSG_CONTINUE = "Dan continues on...";
+    static final String URL_STYLE_DEFAULT_CSS = "\\src\\main\\ui\\style_default.css";
+    static final String URL_STYLE_WIN_CSS = "\\src\\main\\ui\\style_win.css";
     private static double barHeight;
 
     private WriterReader writerReader;
@@ -112,7 +116,7 @@ public class Main extends Application implements PrintObserver {
 
         VBox layout = formatVbox();
         scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
-        clearAndSetSceneStyle("\\src\\main\\ui\\style.css");
+        clearAndSetSceneStyle(URL_STYLE_DEFAULT_CSS);
         primaryStage.setScene(scene);
         inputBar.requestFocus();
         primaryStage.show();
@@ -120,6 +124,11 @@ public class Main extends Application implements PrintObserver {
 
     private void clearAndSetSceneStyle(String url) {
         scene.getStylesheets().clear();
+        addSceneStyle(url);
+        addSceneStyle("\\src\\main\\ui\\style_constant.css");
+    }
+
+    private void addSceneStyle (String url) {
         String cssString = System.getProperty("user.dir") + url;
         File cssFile = new File(cssString);
         try {
@@ -141,10 +150,10 @@ public class Main extends Application implements PrintObserver {
         outputDisplay = new ListView<>();
         outputDisplay.setMinHeight(SCENE_HEIGHT - barHeight - (PADDING * 2) - (SPACING * 4));
         outputDisplay.setStyle("-fx-font: normal 15px 'monospace'");
-//        outputDisplay.setStyle("-fx-background-color: transparent;");
         outputDisplay.getItems().addAll();
         outputDisplay.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         outputDisplay.setEditable(false);
+        outputDisplay.setPrefWidth(SCENE_WIDTH - 2 * PADDING);
     }
 
     /*prints and scrolls to message in output, keeps number of messages under 20*/
@@ -191,6 +200,7 @@ public class Main extends Application implements PrintObserver {
 
     private void executeLoadGame() {
         consumeUI();
+        clearAndSetSceneStyle(URL_STYLE_DEFAULT_CSS);
         try {
             map = writerReader.readMap(ui);
             map.addObservers(this);
@@ -207,6 +217,7 @@ public class Main extends Application implements PrintObserver {
     /*builds new default map and then runs the game*/
     private void startNewGame() {
         printToDisplay("Starting new game...");
+        clearAndSetSceneStyle(URL_STYLE_DEFAULT_CSS);
         try {
             map = writerReader.buildDefaultMap();
             map.addObservers(this);
@@ -310,7 +321,11 @@ public class Main extends Application implements PrintObserver {
      * effects: if the target is in listModel of interactables examine target further*/
     private void enterExamineInstance(String targetNm) {
         Examinable target = map.getAllExaminables().get(targetNm);
-        if (target != null) {
+        if (Objects.equals(targetNm, Avatar.NAME)) {
+            printToDisplay("Dan is very well thank you.");
+        } else if (map.getAva().getCurrItems().containsKey(targetNm)) {
+            printToDisplay(map.getAva().getCurrItems().get(targetNm).getDescription());
+        } else if (target != null) {
             printToDisplay("Entering examine instance.\n"
                      + EXIT_EXAMINATION_KEY + ": exit");
             printToDisplay(target.getExamineDescription());
@@ -367,7 +382,7 @@ public class Main extends Application implements PrintObserver {
         printToDisplay(MSG_WIN);
         printToDisplay("As far as he is concerned, pizza had been "
                 + "delivered and eaten, another successful day.");
-        clearAndSetSceneStyle("\\src\\main\\ui\\style_win.css");
+        clearAndSetSceneStyle(URL_STYLE_WIN_CSS);
         inputBar.setOnAction(event -> runHomeScreen());
     }
 

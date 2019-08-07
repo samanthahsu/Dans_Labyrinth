@@ -1,13 +1,9 @@
 .list-cell {
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
-}
-.list-view {
-    -fx-background-color: transparent;
+    -fx-text-fill: green;
 }
 .text-field {
-    -fx-text-fill: white;
-    -fx-background-color: #787892;
+    -fx-text-fill: grey;
+    -fx-background-color: #F1EBF0;
 }
 #main {
     -fx-background-color: white;

@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 /*an oval with a triangle in at the end drawn with something darker and thicker than water*/
 public class BloodFish extends Feature {
 
-    public static final String NAME = "bloodfish";
+    public static final String NAME = "blood-fish";
     private boolean hasNodded = false;
 
     public BloodFish(int y, int x) {

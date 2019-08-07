@@ -13,7 +13,7 @@ public class Avatar extends Locatable implements Serializable {
 //    TODO SPLIT OUT ITEM HANDLER FROM AVATAR
 
     public static final int SANITY_NORMAL = 3;
-    public static final String NAME = "Dan";
+    public static final String NAME = "dan";
 
     public static final String MAP_EDGE_MESSAGE = "Dan tries to walk of the edge"
             + " of the map! The abyss gazes back into him.\n";
@@ -64,7 +64,7 @@ public class Avatar extends Locatable implements Serializable {
     @Override
     public void addObserver(PrintObserver o) {
         super.addObserver(o);
-        itemManager.addObserver(o);
+        itemManager.addObserverAndItemObservers(o);
     }
 
     @Override
@@ -128,11 +128,11 @@ public class Avatar extends Locatable implements Serializable {
         }
     }
 
-    private void printSounds() {
-        for (Sound sound : map.getTileMatrix().get(yc).get(xc).getTileSounds()) {
-            notifyObservers(sound.getSoundStr());
-        }
-    }
+//    private void printSounds() {
+//        for (Sound sound : map.getTileMatrix().get(yc).get(xc).getTileSounds()) {
+//            notifyObservers(sound.getSoundStr());
+//        }
+//    }
 
     public void printExaminables() {
         for (Examinable examinable : map.getTileMatrix().get(yc).get(xc).getCurrExaminables().values()) {

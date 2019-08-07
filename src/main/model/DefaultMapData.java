@@ -19,7 +19,7 @@ interface DefaultMapData {
     int DEFAULT_WIN_Y = 0;
     int DEFAULT_WIN_X = 9;
     int DEFAULT_START_Y = 1; //6
-    int DEFAULT_START_X = 9; //3
+    int DEFAULT_START_X = 7; //3
 
     String DEFAULT_MAP_STRING = "@@@@@@@@@ @@@@@@@@@@@"
                     + "@     @ @ @       @ @"
@@ -43,7 +43,8 @@ interface DefaultMapData {
                     new BloodFish(2, 1),
                     new FourStoneGate(7, 15, 6, 15),
                     new Pan(1, 7),
-                    new Brick(9, 9)
+                    new Brick(9, 9),
+                    new LastGate(1, 9, 0, 9)
             )
     );
 }

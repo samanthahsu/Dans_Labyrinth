@@ -46,7 +46,7 @@ class FeatureTests extends TestMapDataAndMethods {
     @Test
     void testMossyConstructor() {
         mossyGate.doPassiveActions();
-        assertEquals("mossy gate", mossyGate.getName());
+        assertEquals(MossyGate.NAME, mossyGate.getName());
         assertEquals(1, mossyGate.getYc());
         assertEquals(6, mossyGate.getXc());
         assertFalse(mapCreature.getTileMatrix().get(2).get(6).isWalkable());
@@ -97,9 +97,9 @@ class FeatureTests extends TestMapDataAndMethods {
         assertFalse(brick.isSolved());
         assertFalse(brick.examine("10000"));
         assertFalse(brick.isSolved());
-        assertTrue(brick.examine("enter " + brick.getAnswer()));
+        assertTrue(brick.examine("enter 42"));
         assertTrue(brick.isSolved());
-        assertTrue(brick.examine("enter " + brick.getAnswer()));
+        assertTrue(brick.examine("enter 42"));
     }
 
     @Test
@@ -132,6 +132,6 @@ class FeatureTests extends TestMapDataAndMethods {
 
     @Test
     void testMossyGateCallKey() {
-        assertTrue(mossyGate.examine("ui " + RustyKey.NAME));
+        assertTrue(mossyGate.examine("use " + RustyKey.NAME));
     }
 }

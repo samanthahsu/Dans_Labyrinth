@@ -3,6 +3,7 @@ package model.mapobjects;
 import model.Map;
 import model.mapobjects.items.Item;
 import ui.PrintObservable;
+import ui.PrintObserver;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -74,6 +75,8 @@ public class ItemManager extends PrintObservable implements Serializable {
             currItems.put(itemName, (Item) chosenItem);
             chosenItem.setMap(map);
             notifyObservers("Dan picked up '" + itemName + "'!");
+        } else if (Objects.equals(itemName, Avatar.NAME)) {
+            notifyObservers("Dan isn't certain about his sanity anymore.");
         } else {
             notifyObservers("Couldn't pick up '" + itemName + "'.");
         }
@@ -87,7 +90,7 @@ public class ItemManager extends PrintObservable implements Serializable {
         } else {
             Tile currentTile = map.getTileMatrix().get(avatar.getYc()).get(avatar.getXc());
             if (!currentTile.getCurrExaminables().containsKey(target)
-                    && !Pattern.matches("(D|d)an", target)) {
+                    && !Pattern.matches(Avatar.NAME, target)) {
                 notifyObservers("Dan cannot find a " + target + " around him");
             } else if (!currItems.get(itemName).use(target)) {
                 notifyObservers("That doesn't work!");
@@ -108,6 +111,13 @@ public class ItemManager extends PrintObservable implements Serializable {
 
             currItems.remove(itemName);
             notifyObservers("Dan drops the " + itemName + " to the floor.");
+        }
+    }
+
+    public void addObserverAndItemObservers(PrintObserver o) {
+        addObserver(o);
+        for (Item i : currItems.values()) {
+            i.addObserver(o);
         }
     }
 }

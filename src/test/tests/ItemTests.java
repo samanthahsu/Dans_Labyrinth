@@ -46,6 +46,9 @@ class ItemTests extends TestMapDataAndMethods {
 
     @Test
     void testUsePizzaRunOut() {
+        assertFalse(PizzaBox.EMPTY_DESCRIPTION.
+                equals(ava1.getCurrItems().
+                        get(PizzaBox.NAME).getDescription()));
         for (int i = 0; i < 8; i++) {
             ava1.setSanity(2);
             ava1.useItem(PizzaBox.NAME, Avatar.NAME);
@@ -54,6 +57,8 @@ class ItemTests extends TestMapDataAndMethods {
         ava1.setSanity(2);
         ava1.useItem(PizzaBox.NAME, Avatar.NAME);
         assertEquals(2, ava1.getSanity());
+        assertEquals(PizzaBox.EMPTY_DESCRIPTION,
+                ava1.getCurrItems().get(PizzaBox.NAME).getDescription());
     }
 
     @Test

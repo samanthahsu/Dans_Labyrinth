@@ -78,7 +78,7 @@ public class Ennui extends Creature {
     effects: sets close sounds in max 4 FLOOR tiles of orthog radius 1
     * sets far sounds in max 8 FLOOR tiles of orthog radius 2, and diagonal radius 1*/
     private void setSounds(int currY, int currX) {
-        soundManager.setSurroundSound(currY, currX, name, description);
+        soundManager.setSurroundSound(currY, currX, name, soundDescription);
     }
 
     /*modifies: map
@@ -142,7 +142,7 @@ public class Ennui extends Creature {
     public boolean examine(String action) {
         if (Pattern.matches("(take|get) (rusty |rusted )?key", action)) {
             takeKey();
-            notifyObservers("Dan pries the rusty key out of its little hands.");
+            notifyObservers("Dan pries the " + RustyKey.NAME + " out of its little hands.");
         } else if (!hasKey | Pattern.matches("(take|get) .*", action)) {
             notifyObservers("Dan has no reason to disturb the terrified animal");
 //            scampers away or something
@@ -156,6 +156,8 @@ public class Ennui extends Creature {
     * effects: takes key from ennui, and adds rusty key to player items*/
     private void takeKey() {
         hasKey = false;
-        getMap().getAva().getCurrItems().put(RustyKey.NAME, new RustyKey());
+        RustyKey key = new RustyKey();
+        key.setMap(map);
+        getMap().getAva().getCurrItems().put(RustyKey.NAME, key);
     }
 }

@@ -5,7 +5,7 @@ import model.mapobjects.items.PizzaBox;
 /*the one which you open with the box*/
 public class LastGate extends Gate {
 
-    public static final String NAME = "square gate";
+    public static final String NAME = "square-gate";
 
     public LastGate(int y, int x, int yblock, int xblock) {
         super(y, x, yblock, xblock);

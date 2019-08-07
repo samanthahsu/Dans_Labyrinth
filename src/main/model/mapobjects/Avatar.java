@@ -119,11 +119,18 @@ public class Avatar extends Locatable implements Serializable {
                 yc = y;
                 xc = x;
                 printExaminables(); // make it so even if tile is walkable, display stuff there
+//                printSounds(); make sound better movement
             } else {
                 notifyHitWall(dir);
             }
         } catch (EdgeOfMapException e) {
             notifyObservers(MAP_EDGE_MESSAGE);
+        }
+    }
+
+    private void printSounds() {
+        for (Sound sound : map.getTileMatrix().get(yc).get(xc).getTileSounds()) {
+            notifyObservers(sound.getSoundStr());
         }
     }
 

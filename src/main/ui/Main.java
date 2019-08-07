@@ -79,6 +79,7 @@ public class Main extends Application implements PrintObserver {
     private Stage mainWindow;
     private ListView<String> outputDisplay;
     private TextField inputBar;
+    private Scene scene;
 
     public static void main(String[] args) {
         launch(args);
@@ -110,22 +111,22 @@ public class Main extends Application implements PrintObserver {
         formatOutputDisplay();
 
         VBox layout = formatVbox();
-        Scene scene = setScene(layout);
+        scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
+        clearAndSetSceneStyle("\\src\\main\\ui\\style.css");
         primaryStage.setScene(scene);
         inputBar.requestFocus();
         primaryStage.show();
     }
 
-    private Scene setScene(VBox layout) {
-        Scene scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
-        String cssString = System.getProperty("user.dir") + "\\src\\main\\ui\\style.css";
+    private void clearAndSetSceneStyle(String url) {
+        scene.getStylesheets().clear();
+        String cssString = System.getProperty("user.dir") + url;
         File cssFile = new File(cssString);
         try {
-            scene.getStylesheets().add(cssFile.toURI().toURL().toString()); //todo
+            scene.getStylesheets().add(cssFile.toURI().toURL().toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        return scene;
     }
 
     private VBox formatVbox() {
@@ -321,7 +322,7 @@ public class Main extends Application implements PrintObserver {
 
     private void examineInstance(Examinable examinable) {
         consumeUI();
-        if (ui.equals(EXIT_EXAMINATION_KEY)) {
+        if (Pattern.matches("(" + EXIT_EXAMINATION_KEY + "|n|s|e|w)", ui)) {
             inputBar.setOnAction(event -> runGame());
             printToDisplay("Exited examine instance.");
         } else if (!examinable.examine(ui)) {
@@ -362,22 +363,15 @@ public class Main extends Application implements PrintObserver {
     // REQUIRES: gameOver is in the interval [1, 3]
     // EFFECT: prints end text based on int gameOver
     private void printEndText() {
-        switch (gameState) {
-            case QUIT_GAME:
-                break;
-            case FAIL_GAME:
-                printToDisplay(MSG_GAME_OVER);
-                break;
-            case WIN_GAME:
-                printToDisplay(MSG_WIN);
-                printWinGraphic();
-                inputBar.setOnAction(event -> runHomeScreen());
-                break;
-            default:
-        }
+        outputDisplay.getItems().clear();
+        printToDisplay(MSG_WIN);
+        printToDisplay("As far as he is concerned, pizza had been "
+                + "delivered and eaten, another successful day.");
+        clearAndSetSceneStyle("\\src\\main\\ui\\style_win.css");
+        inputBar.setOnAction(event -> runHomeScreen());
     }
 
-//    EFFECTS: gives user option to
+    //    EFFECTS: gives user option to
 //      save: saves map and status as single file, named by user
 //      cancel: continues the game
 //      quit: quit the game without saving
@@ -409,10 +403,6 @@ public class Main extends Application implements PrintObserver {
         printUiToDisplay();
     }
 
-    private void executeSave() {
-        inputBar.setOnAction(event -> save());
-    }
-
     private void save() {
         consumeUI();
         try {
@@ -439,12 +429,6 @@ public class Main extends Application implements PrintObserver {
             mapString.append('\n');
         }
         printToDisplay(mapString.toString());
-    }
-
-    //    EFFECTS: prints celebratory graphic
-    private void printWinGraphic() {
-        printToDisplay("As far as Dan is concerned, pizza had been delivered and eaten, another successful day.");
-        printToDisplay(WIN_VISUALS);
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class Brick extends Feature {
 
-    static final String TRIVIA_42 = "https://numbersapi.p.rapidapi.com/42/trivia?fragment=true&notfound=floor&json=true";
+    private static final String TRIVIA_42 = "https://numbersapi.p.rapidapi.com/42/trivia?fragment=true&notfound=floor&json=false";
     private boolean solved = false;
 
     private String question = "";
@@ -61,17 +61,9 @@ public class Brick extends Feature {
     private void parseJson(HttpsURLConnection apiCon) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(apiCon.getInputStream()));
         String jsonLine;
-        while ((jsonLine = in.readLine()) != null) {
-            String[] words = jsonLine.split(" \"|\": \"|\",|\": |\"");
-            for (int i = 0; i < words.length; i++) {
-                if (words[i].equals("text")) {
-                    question = words[i + 1];
-                    i++;
-                } else if (words[i].equals("number")) {
-                    answer = words[i + 1];
-                }
-            }
-        }
+        in.readLine();
+        jsonLine = in.readLine();
+        question = jsonLine.substring(8);
         in.close();
     }
 
@@ -87,7 +79,7 @@ public class Brick extends Feature {
         } else if (Pattern.matches("press (large )?button", ui)) {
             notifyObservers("The screen displays:\n" + question);
             return true;
-        } else if (Pattern.matches("(type |enter |input )?" + answer + "( into keypad)?", ui)) {
+        } else if (Pattern.matches("(type |enter |input )?42( into keypad)?", ui)) {
             solved = true;
             ejectPoptart();
             return true;

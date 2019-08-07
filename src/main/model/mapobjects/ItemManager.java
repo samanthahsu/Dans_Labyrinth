@@ -72,6 +72,7 @@ public class ItemManager extends PrintObservable implements Serializable {
         if (chosenItem != null && chosenItem.typeId == Examinable.TYPE_ITEM) {
             map.removeExaminable(chosenItem, avatar.getYc(), avatar.getXc());
             currItems.put(itemName, (Item) chosenItem);
+            chosenItem.setMap(map);
             notifyObservers("Dan picked up '" + itemName + "'!");
         } else {
             notifyObservers("Couldn't pick up '" + itemName + "'.");
@@ -89,7 +90,7 @@ public class ItemManager extends PrintObservable implements Serializable {
                     && !Pattern.matches("(D|d)an", target)) {
                 notifyObservers("Dan cannot find a " + target + " around him");
             } else if (!currItems.get(itemName).use(target)) {
-                notifyObservers("<todo beef out text> that doesn't work!");
+                notifyObservers("That doesn't work!");
             }
         }
     }

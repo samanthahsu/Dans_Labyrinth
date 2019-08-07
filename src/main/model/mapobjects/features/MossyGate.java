@@ -5,8 +5,8 @@ import model.mapobjects.items.RustyKey;
 /*opened with rusty key*/
 public class MossyGate extends Gate {
 
-    public static final String NAME = "mossy gate";
-    static final String openDescription = "the gate is now open";
+    public static final String NAME = "mossy-gate";
+//    static final String openDescription = "the gate is now open";
 
     /*sets usual stuff
     * sets tile with index yBlock, xBlock to not walkable*/
@@ -14,12 +14,13 @@ public class MossyGate extends Gate {
         super(y, x, yblock, xblock);
         name = NAME;
         description = "a gate covered in so much lichen it's original material is indiscernible.";
+        examineDescription = "A small keyhole is barely visible on the gate.";
     }
 
     //    effects: interaction with to open belongs to the key
     @Override
     public boolean examine(String ui) { //todo
-        if (!isOpened() && ui.equals("ui " + RustyKey.NAME)) {
+        if (!isOpened() && ui.equals("use " + RustyKey.NAME)) {
             map.getAva().useItem(RustyKey.NAME, NAME);
             return true;
         }

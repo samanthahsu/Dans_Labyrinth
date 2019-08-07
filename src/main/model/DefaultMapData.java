@@ -19,7 +19,7 @@ interface DefaultMapData {
     int DEFAULT_WIN_Y = 0;
     int DEFAULT_WIN_X = 9;
     int DEFAULT_START_Y = 1; //6
-    int DEFAULT_START_X = 7; //3
+    int DEFAULT_START_X = 9; //3
 
     String DEFAULT_MAP_STRING = "@@@@@@@@@ @@@@@@@@@@@"
                     + "@     @ @ @       @ @"

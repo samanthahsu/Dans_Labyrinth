@@ -60,6 +60,7 @@ public class PizzaBox extends Item {
             lastGate.open();
             getMap().getAva().getCurrItems().remove(NAME);
             notifyObservers("Dan places the box into the square inset. It fits perfectly.");
+            notifyObservers("The gate rumbles open and light floods the caverns.");
             return true;
         }
         return false;

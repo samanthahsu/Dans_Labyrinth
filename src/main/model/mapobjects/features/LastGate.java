@@ -12,8 +12,8 @@ public class LastGate extends Gate {
         name = NAME;
         description = "A wall of rough corrugated material.";
         examineDescription = "There is a familiar shallow square inset in the center of the gate.\n"
-            + "\"Requires a sacrifice of great knowledge\"\nBelow were drawings of figures holding stone tablets"
-            + "with dense texts of inscrutable language on them.";
+            + "\"Requires the greatest of sacrifices\"\nBelow were drawings of figures reverently holding stone tablets"
+            + "\nwith dense texts of inscrutable language on them.";
     }
 
     @Override

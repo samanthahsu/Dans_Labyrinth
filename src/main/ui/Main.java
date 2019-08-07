@@ -1,13 +1,17 @@
 package ui;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Map;
 import model.WriterReader;
 import model.exceptions.BadFileNameException;
@@ -31,34 +35,13 @@ public class Main extends Application implements PrintObserver {
 
     private static final String EXIT_EXAMINATION_KEY = "back";
     private static final int CONTINUE_GAME = 0;
-    private static final int QUIT_GAME = 1;
-    private static final int FAIL_GAME = 2; // todo make able to die
-    private static final int WIN_GAME = 3;
-    public static final String WIN_VISUALS = "                                  .''.\n"
-            + "        .''.             *''*    :_\\/_:     .\n"
-            + "       :_\\/_:   .    .:.*_\\/_*   : /\\ :  .'.:.'.\n"
-            + "   .''.: /\\ : _\\(/_  ':'* /\\ *  : '..'.  -=:o:=-\n"
-            + "  :_\\/_:'.:::. /)\\*''*  .|.* '.\\'/.'_\\(/_'.':'.'\n"
-            + "  : /\\ : :::::  '*_\\/_* | |  -= o =- /)\\    '  *\n"
-            + "   '..'  ':::'   * /\\ * |'|  .'/.\\'.  '._____\n"
-            + "       *        __*..* |  |     :      |.   |' .---\"|\n"
-            + "        _*   .-'   '-. |  |     .--'|  ||   | _|    |\n"
-            + "     .-'|  _.|  |    ||   '-__  |   |  |    ||      |\n"
-            + "     |' | |.    |    ||       | |   |  |    ||      |\n"
-            + "  ___|  '-'     '    \"\"       '-'   '-.'    '`      |____\n"
-            + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-            + "                       ~-~-~-~-~-~-~-~-~-~   /|\n"
-            + "          )      ~-~-~-~-~-~-~-~  /|~       /_|\\\n"
-            + "        _-H-__  -~-~-~-~-~-~     /_|\\    -~======-~\n"
-            + "~-\\XXXXXXXXXX/~     ~-~-~-~     /__|_\\ ~-~-~-~\n"
-            + "~-~-~-~-~-~    ~-~~-~-~-~-~    ========  ~-~-~-~";
     private static final String GAME_TITLE = "DAN'S LABYRINTH";
     private static final String NEW_GAME_TEXT =
             "Dan blinks, and it's still dark, he can barely see the floor a few feet in "
             + "front\nof him. As if to make up for it, every sound he makes is amplified, echoing\nthrough the caverns"
             + "His only comfort, the warmth of the pizzabox in his hands,\nand the protection of the familiar cheesy"
             + " smell wrapping around him.\nJust another delivery for Dan the pizza man.";
-    private static final String HELP_ABBRV = "'help' for controls";
+    private static final String HELP_ABRV = "'help' for controls";
     private static final String CONTINUE_TEXT = "Dan could've sworn he had fallen asleep for a moment. "
             + "Ah well, dreaming would\nnot get him out of here.";
     private static final String PRINT_AVA_STATUS_CMD = "dan";
@@ -67,23 +50,23 @@ public class Main extends Application implements PrintObserver {
     private static final int SCENE_HEIGHT = 800;
     private static final int SPACING = 10;
     private static final int PADDING = 20;
-    private static final String MSG_GAME_OVER = "Game Over";
-    private static final String MSG_WIN = "Dan stepped into the sunlight.";
+    private static final String MSG_WIN = "Dan steps into the sunlight.";
     private static final String MSG_QUIT = "Thanks for playing!";
     private static final String MSG_CONTINUE = "Dan continues on...";
-    static final String URL_STYLE_DEFAULT_CSS = "\\src\\main\\ui\\style_default.css";
-    static final String URL_STYLE_WIN_CSS = "\\src\\main\\ui\\style_win.css";
+    private static final String URL_STYLE_DEFAULT_CSS = "\\src\\main\\ui\\style_default.css";
+    private static final String URL_STYLE_WIN_CSS = "\\src\\main\\ui\\style_win.css";
     private static double barHeight;
 
     private WriterReader writerReader;
-    private static Integer gameState;
     private Map map;
     private String ui;
 
-    private Stage mainWindow;
-    private ListView<String> outputDisplay;
-    private TextField inputBar;
+    private Stage stage;
     private Scene scene;
+    private ListView<String> listView;
+    private TextField inputBar;
+    private ImageView normalBG;
+    private ImageView winBG;
 
     public static void main(String[] args) {
         launch(args);
@@ -98,28 +81,60 @@ public class Main extends Application implements PrintObserver {
     }
 
     private void initGameRunner() {
-        gameState = CONTINUE_GAME;
         writerReader = new WriterReader();
         writerReader.addObserver(this);
         ui = "";
     }
 
     private void initGraphics(Stage primaryStage) {
-        mainWindow = primaryStage;
-        mainWindow.setResizable(false);
+        stage = primaryStage;
+        primaryStage.setResizable(false);
         primaryStage.setTitle(GAME_TITLE);
         setUserAgentStylesheet(STYLESHEET_MODENA);
-        inputBar = new TextField();
-        inputBar.setPromptText("type here");
-        barHeight = inputBar.getHeight();
-        formatOutputDisplay();
-
-        VBox layout = formatVbox();
-        scene = new Scene(layout, SCENE_WIDTH, SCENE_HEIGHT);
+//        inputbar
+        formatInputBar();
+        formatListView();
+        formatImages();
+        VBox vBox = formatVbox();
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(winBG, normalBG, vBox);
+        stackPane.setId("stackPane");
+        scene = new Scene(stackPane, SCENE_WIDTH, SCENE_HEIGHT);
         clearAndSetSceneStyle(URL_STYLE_DEFAULT_CSS);
         primaryStage.setScene(scene);
         inputBar.requestFocus();
         primaryStage.show();
+    }
+
+    private void formatInputBar() {
+        inputBar = new TextField();
+        inputBar.setPromptText("type here");
+        barHeight = inputBar.getHeight();
+    }
+
+    private void formatImages() {
+        normalBG = new ImageView(getClass().getResource("bgNormal.png").toExternalForm());
+        winBG = new ImageView(getClass().getResource("bgWin.png").toExternalForm());
+        winBG.setFitWidth(SCENE_WIDTH);
+        winBG.setFitHeight(SCENE_WIDTH);
+    }
+
+    private void fadeOutImgView(ImageView imageView) {
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(2000));
+        fadeTransition.setNode(imageView);
+        fadeTransition.setFromValue(1);
+        fadeTransition.setToValue(0);
+        fadeTransition.play();
+    }
+
+    private void fadeInImgView(ImageView imageView) {
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(2000));
+        fadeTransition.setNode(imageView);
+        fadeTransition.setFromValue(0);
+        fadeTransition.setToValue(1);
+        fadeTransition.play();
     }
 
     private void clearAndSetSceneStyle(String url) {
@@ -140,34 +155,37 @@ public class Main extends Application implements PrintObserver {
 
     private VBox formatVbox() {
         VBox layout = new VBox(SPACING);
-        layout.setId("main");
+//        layout.setId("main");
         layout.setPadding(new Insets(PADDING, PADDING, PADDING, PADDING));
-        layout.getChildren().addAll(outputDisplay, inputBar);
+        layout.getChildren().addAll(listView, inputBar);
         return layout;
     }
 
-    private void formatOutputDisplay() {
-        outputDisplay = new ListView<>();
-        outputDisplay.setMinHeight(SCENE_HEIGHT - barHeight - (PADDING * 2) - (SPACING * 4));
-        outputDisplay.setStyle("-fx-font: normal 15px 'monospace'");
-        outputDisplay.getItems().addAll();
-        outputDisplay.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        outputDisplay.setEditable(false);
-        outputDisplay.setPrefWidth(SCENE_WIDTH - 2 * PADDING);
+    private void formatListView() {
+        listView = new ListView<>();
+        listView.setMinHeight(SCENE_HEIGHT - barHeight - (PADDING * 2) - (SPACING * 4));
+        listView.setStyle("-fx-font: normal 15px 'monospace'");
+        listView.getItems().addAll();
+        listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        listView.setEditable(false);
+        listView.setPrefWidth(SCENE_WIDTH - 2 * PADDING);
     }
 
     /*prints and scrolls to message in output, keeps number of messages under 20*/
     private void printToDisplay(String message) {
-        outputDisplay.getItems().add(message);
-        if (outputDisplay.getItems().size() >= 20) {
-            outputDisplay.getItems().remove(0);
-            outputDisplay.scrollTo(outputDisplay.getItems().size() - 1);
+        listView.getItems().add(message);
+        if (listView.getItems().size() >= 20) {
+            listView.getItems().remove(0);
+            listView.scrollTo(listView.getItems().size() - 1);
         }
     }
 
-    /**
-     * prints welcome text and sets action to homeExecute Ui*/
+    /*prints welcome text and sets action to homeExecute Ui*/
     private void runHomeScreen() {
+        listView.getItems().clear();
+        clearAndSetSceneStyle(URL_STYLE_DEFAULT_CSS);
+        normalBG.setOpacity(1);
+        winBG.setOpacity(0);
         printToDisplay("=============DAN'S LABYRINTH=============");
         printToDisplay("new: new game | load: load a saved game | quit: exit");
         inputBar.setOnAction(event -> homeExecuteUi());
@@ -190,7 +208,7 @@ public class Main extends Application implements PrintObserver {
                 inputBar.setOnAction(event -> executeLoadGame());
                 break;
             case "quit":
-                mainWindow.close();
+                stage.close();
                 break;
             default:
                 printToDisplay("Command not available on home screen.");
@@ -200,12 +218,11 @@ public class Main extends Application implements PrintObserver {
 
     private void executeLoadGame() {
         consumeUI();
-        clearAndSetSceneStyle(URL_STYLE_DEFAULT_CSS);
         try {
             map = writerReader.readMap(ui);
             map.addObservers(this);
             printToDisplay("Game loaded!");
-            printToDisplay(HELP_ABBRV);
+            printToDisplay(HELP_ABRV);
             printToDisplay(CONTINUE_TEXT);
             inputBar.setOnAction(event -> runGame());
         } catch (IOException | ClassNotFoundException e) {
@@ -217,12 +234,11 @@ public class Main extends Application implements PrintObserver {
     /*builds new default map and then runs the game*/
     private void startNewGame() {
         printToDisplay("Starting new game...");
-        clearAndSetSceneStyle(URL_STYLE_DEFAULT_CSS);
         try {
             map = writerReader.buildDefaultMap();
             map.addObservers(this);
             printToDisplay("New game started!");
-            printToDisplay(HELP_ABBRV);
+            printToDisplay(HELP_ABRV);
             printToDisplay(NEW_GAME_TEXT);
             map.getAva().printExaminables();
             inputBar.setOnAction(event -> runGame());
@@ -240,7 +256,7 @@ public class Main extends Application implements PrintObserver {
         if (execute(uiAsWords)) { // each move is one tick of game clock
             map.nextState();
             if (map.isWin()) {
-                printEndText();
+                executeWin();
                 map = null;
                 inputBar.setOnAction(event -> runHomeScreen());
             }
@@ -377,11 +393,14 @@ public class Main extends Application implements PrintObserver {
 
     // REQUIRES: gameOver is in the interval [1, 3]
     // EFFECT: prints end text based on int gameOver
-    private void printEndText() {
-        outputDisplay.getItems().clear();
+    private void executeWin() {
+        fadeOutImgView(normalBG);
+        fadeInImgView(winBG);
+
+        listView.getItems().clear();
+        printToDisplay("\n\n\n");
         printToDisplay(MSG_WIN);
-        printToDisplay("As far as he is concerned, pizza had been "
-                + "delivered and eaten, another successful day.");
+        printToDisplay("As far as he is concerned, pizza had been delivered and eaten,\nanother successful day.");
         clearAndSetSceneStyle(URL_STYLE_WIN_CSS);
         inputBar.setOnAction(event -> runHomeScreen());
     }

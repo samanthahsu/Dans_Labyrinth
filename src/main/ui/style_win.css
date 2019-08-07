@@ -1,14 +1,14 @@
 .list-cell {
-    -fx-text-fill: green;
+    -fx-text-fill: #9d9bb3;
+    -fx-alignment: center
 }
 .text-field {
-    -fx-text-fill: grey;
-    -fx-background-color: #F1EBF0;
+    -fx-text-fill: #9d9bb3;
+    -fx-background-color: white;
 }
 #main {
-    -fx-background-color: white;
 /*
-    -fx-background-image: url("background-01.png");
+    -fx-background-image: url("bg_win_01.png");
         -fx-background-repeat: stretch;
         -fx-background-size: 800 800;
         -fx-background-position: center center;

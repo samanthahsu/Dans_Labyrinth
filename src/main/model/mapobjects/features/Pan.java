@@ -35,15 +35,16 @@ public class Pan extends Feature {
             name = NAME;
             return true;
         } else if (Pattern.matches("(take | pickup |pick up)(bone(s)?)", ui)) {
-            return takeBone();
+            takeBone();
+            return true;
         }
         return false;
     }
 
-    private boolean takeBone() {
+    private void takeBone() {
         if (bones == 0) {
             notifyObservers("That's it, you've robbed this helpless corpse blind.");
-        }else if (bones == 7) {
+        } else if (bones == 7) {
             bones--;
             notifyObservers("Dan takes a bone from the pile... don't ask why.");
             Bones bones = new Bones();
@@ -59,6 +60,5 @@ public class Pan extends Feature {
             description = "A neatly folded \"uniform\"";
             getMap().getAva().hasPan();
         }
-        return true;
     }
 }

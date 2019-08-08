@@ -20,7 +20,8 @@ public class MossyGate extends Gate {
     @Override
     public void open() {
         super.open();
-        notifyObservers("The " + RustyKey.NAME + " disintegrated in Dan's hand as he tried to pull it from the keyhole.");
+        notifyObservers("The " + RustyKey.NAME + " disintegrated in Dan's hand"
+                + " as he tried to pull it from the keyhole.");
         notifyObservers("The gate swings open, moss flying.");
     }
 

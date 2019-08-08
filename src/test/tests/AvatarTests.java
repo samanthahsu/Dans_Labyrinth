@@ -187,4 +187,12 @@ class AvatarTests extends TestMapDataAndMethods {
         ava1.useItem(PizzaBox.NAME, "bad");
         assertTrue(ava1.getCurrItems().containsKey(PizzaBox.NAME));
     }
+
+    @Test
+    void testAvaAchievements() {
+        assertFalse(ava1.isHasPan());
+        assertFalse(ava1.isCrackedCode());
+        assertFalse(ava1.isHasFish());
+        assertFalse(ava1.isAtePizza());
+    }
 }

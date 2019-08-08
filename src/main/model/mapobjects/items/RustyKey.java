@@ -23,7 +23,8 @@ public class RustyKey extends Item {
                 MossyGate mossyGate = (MossyGate) examinable;
                 mossyGate.open();
                 getMap().getAva().getCurrItems().remove(NAME);
-                String message = "The " + NAME + " disintegrated in Dan's hand as he tried to pull it from the keyhole.";
+                String message = "The " + NAME + " disintegrated in Dan's hand "
+                        + "as he tried to pull it from the keyhole.";
                 notifyObservers(message);
                 return true;
             }

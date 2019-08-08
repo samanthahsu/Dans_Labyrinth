@@ -95,9 +95,9 @@ public class Main extends Application implements PrintObserver {
         formatInputBar();
         formatListView();
         formatImages();
-        VBox vBox = formatVbox();
+        VBox vbox = formatVbox();
         StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(winBG, normalBG, vBox);
+        stackPane.getChildren().addAll(winBG, normalBG, vbox);
         stackPane.setId("stackPane");
         scene = new Scene(stackPane, SCENE_WIDTH, SCENE_HEIGHT);
         clearAndSetSceneStyle(URL_STYLE_DEFAULT_CSS);
@@ -143,7 +143,7 @@ public class Main extends Application implements PrintObserver {
         addSceneStyle("\\src\\main\\ui\\style_constant.css");
     }
 
-    private void addSceneStyle (String url) {
+    private void addSceneStyle(String url) {
         String cssString = System.getProperty("user.dir") + url;
         File cssFile = new File(cssString);
         try {

@@ -137,12 +137,16 @@ class FeatureTests extends TestMapDataAndMethods {
 
     @Test
     void testTakeBone() {
-
         for (int i = 0; i < 8; i++) {
             assertTrue(pan.examine("take bone"));
         }
         assertEquals(Pan.FIRST_NAME, pan.getName());
         assertTrue(pan.examine("examine uniform"));
         assertEquals(Pan.ACTUAL_NAME, pan.getName());
+    }
+
+    @Test
+    void testInBrickPickUpPoptart() {
+        assertTrue(brick.examine("take poptart"));
     }
 }

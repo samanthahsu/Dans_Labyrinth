@@ -54,7 +54,7 @@ public class Pan extends Feature {
             bones--;
             ((Bones) getMap().getAva().getCurrItems().get(Bones.NAME)).addBone();
             notifyObservers("Dan takes a bone from the pile... don't ask why.");
-        } else if (bones == 1) {
+        } else { // bones == 1
             bones = 0;
             ((Bones) getMap().getAva().getCurrItems().get(Bones.NAME)).addBone();
             description = "A neatly folded \"uniform\"";

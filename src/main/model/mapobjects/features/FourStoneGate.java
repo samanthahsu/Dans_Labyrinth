@@ -17,10 +17,15 @@ public class FourStoneGate extends Gate {
                 + "Up, down, left, right.";
     }
 
+    /*for tests only*/
+    public void setState(int state) {
+        this.state = state;
+    }
+
     /*requires:
     * modifies: this
     * effects: if player enters directions in the correct order 4 times, open the gate
-    * password is up down left down*/
+    * password is up down left down*/ // public for tests only
     @Override
     public boolean examine(String ui) {
         if (!isOpened() && Pattern.matches("up|down|left|right", ui)) {
@@ -32,7 +37,7 @@ public class FourStoneGate extends Gate {
         }
     }
 
-    private void switchState(String ui) {
+    public void switchState(String ui) {
         switch (state) {
             case 0:
                 stateHandler(ui, "left");
@@ -52,7 +57,7 @@ public class FourStoneGate extends Gate {
 
     private void stateHandlerLast(String ui, String rightInput) {
         stateHandler(ui, rightInput);
-        if (state >= OPEN_STATE) {
+        if (state == OPEN_STATE) {
             open();
             notifyObservers("With a resonant click, the stones sink into the "
                     + "gate as it splits and grudgingly scrapes open.");

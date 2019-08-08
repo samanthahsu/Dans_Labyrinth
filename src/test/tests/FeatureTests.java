@@ -66,6 +66,7 @@ class FeatureTests extends TestMapDataAndMethods {
 
     @Test
     void testBloodFish() {
+        assertFalse(bloodFish.examine("tadsfring"));
         assertTrue(bloodFish.examine("this is a red herring"));
         assertFalse(bloodFish.examine("this is a red herring"));
     }
@@ -87,6 +88,14 @@ class FeatureTests extends TestMapDataAndMethods {
         fourStoneGate.examine("right");
         fourStoneGate.examine("down");
         assertTrue(fourStoneGate.isOpened());
+        fourStoneGate.doPassiveActions();
+        assertFalse(fourStoneGate.examine("down"));
+    }
+
+    @Test
+    void testFourStoneGateBadState() {
+        fourStoneGate.setState(900);
+        fourStoneGate.examine("hello");
     }
 
     @Test
@@ -120,6 +129,7 @@ class FeatureTests extends TestMapDataAndMethods {
         assertTrue(lastGate.examine("use " + PizzaBox.NAME));
         assertFalse(mapCreature.getAva().getCurrItems().containsKey(PizzaBox.NAME));
         assertTrue(lastGate.isOpened());
+        assertFalse(lastGate.examine("use " + PizzaBox.NAME));
     }
 
     @Test
@@ -132,7 +142,11 @@ class FeatureTests extends TestMapDataAndMethods {
 
     @Test
     void testMossyGateCallKey() {
+        mossyGate = new MossyGate(TEST_START_Y_C, TEST_START_X_C, 3, 4);
+        mapCreature.addExaminable(mossyGate, TEST_START_Y_C, TEST_START_X_C);
         assertTrue(mossyGate.examine("use " + RustyKey.NAME));
+        assertTrue(mossyGate.isOpened());
+        assertFalse(mossyGate.examine("use " + RustyKey.NAME));
     }
 
     @Test

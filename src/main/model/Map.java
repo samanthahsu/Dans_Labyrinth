@@ -187,17 +187,10 @@ public class Map implements Serializable {
         Map map = (Map) o;
         return height == map.height
                 && width == map.width
-                && winY == map.winY
-                && winX == map.winX
                 && ava.equals(map.ava)
                 && tileMatrix.equals(map.tileMatrix)
                 && allExaminables.equals(map.allExaminables);
     }
-
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(height, width, winY, winX, ava, tileMatrix, allExaminables);
-//    }
 
     //    effects: returns true if index is within bounds of the map
     public boolean isIndexValid(int y, int x) {

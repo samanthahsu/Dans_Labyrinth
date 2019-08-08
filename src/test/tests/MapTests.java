@@ -7,7 +7,9 @@ import model.exceptions.MismatchedMapSizeException;
 import model.mapobjects.Avatar;
 import model.mapobjects.Examinable;
 import model.mapobjects.creatures.Ennui;
+import model.mapobjects.features.MossyGate;
 import model.mapobjects.items.Item;
+import model.mapobjects.items.Note;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ui.PrintObserver;
@@ -205,6 +207,19 @@ class MapTests extends TestMapDataAndMethods {
         assertFalse(map1.isWin());
         map1 = map3;
         assertTrue(map1.isWin());
+        try {
+            map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, WIN_Y_2 - 1, WIN_X_2,
+                    new ArrayList<Item>(), new ArrayList<Examinable>(), TEST_MAP_2);
+            assertFalse(map1.isWin());
+
+            map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, WIN_Y_2, WIN_X_2 + 1,
+                    new ArrayList<Item>(), new ArrayList<Examinable>(), TEST_MAP_2);
+            assertFalse(map1.isWin());
+
+        } catch (MismatchedMapSizeException | EdgeOfMapException e) {
+            fail("threw e");
+        }
+
     }
 
     @Test
@@ -217,12 +232,28 @@ class MapTests extends TestMapDataAndMethods {
         try {
             map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
                     new ArrayList<Item>(), new ArrayList<Examinable>(), TEST_MAP_2);
+            assertTrue(map1.equals(map2));
+            assertFalse(map1.equals(0));
+
+            map1 = new Map(TEST_HEIGHT_2 - 1, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
+                    new ArrayList<Item>(), new ArrayList<Examinable>(), "@@@@@@");
+            assertFalse(map1.equals(map2));
+
+            map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2 - 1, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
+                    new ArrayList<Item>(), new ArrayList<Examinable>(), "@@@@@@");
+            assertFalse(map1.equals(map2));
+
+            map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
+                    itemList1, new ArrayList<Examinable>(), TEST_MAP_2);
+            assertFalse(map1.equals(map2));
+
+            map1 = new Map(TEST_HEIGHT_2, TEST_WIDTH_2, WIN_Y_2, WIN_X_2, TEST_START_Y_2, TEST_START_X_2,
+                    new ArrayList<Item>(), interListC, TEST_MAP_2);
+            assertFalse(map1.equals(map2));
+
         } catch (MapException e) {
             fail("threw MapException");
         }
-        assertTrue(map1.equals(map2));
-
-        assertFalse(map1.equals(0));
     }
 
     @Test
@@ -234,7 +265,7 @@ class MapTests extends TestMapDataAndMethods {
             map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
                     itemList1, interList1, TEST_MAP_1);
         } catch (MismatchedMapSizeException | EdgeOfMapException e) {
-            e.printStackTrace();
+            fail("threw e");
         }
         map1.addObservers(new PrintObserver() {
             @Override
@@ -247,6 +278,30 @@ class MapTests extends TestMapDataAndMethods {
     void testmoveExaminableOnTiles() {
         Examinable ennui = new Ennui(-1, -1);
         map1.moveExaminableOnTiles(ennui, 3, 3);
+        map1.moveExaminableOnTiles(ennui, 2, 3);
+        map1.moveExaminableOnTiles(ennui, 2, 2);
+        map1.moveExaminableOnTiles(ennui, 2, 2);
+    }
+
+    @Test
+    void addExaminableBadIndex() {
+        map1.addExaminable(new Note(-1, -1), -1, -1);
+    }
+
+    @Test
+    void nextStateItemsInList() {
+        interList1 = new ArrayList<>(
+                Arrays.asList(new Note(1, 1), new MossyGate(1, 1, 1, 2),
+                        new Ennui(2, 2))
+        );
+        try {
+            map1 = new Map(TEST_HEIGHT_1, TEST_WIDTH_1, WIN_Y_1, WIN_X_1, TEST_START_Y_1, TEST_START_X_1,
+                    itemList1, interList1, TEST_MAP_1);
+        } catch (MismatchedMapSizeException | EdgeOfMapException e) {
+            fail("threw e");
+        }
+        map1.nextState();
+
     }
 
 }

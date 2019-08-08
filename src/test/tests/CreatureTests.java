@@ -107,6 +107,16 @@ class CreatureTests extends TestMapDataAndMethods {
     }
 
     @Test
+    void moveAvoidAva() {
+        avaC.moveAva("e");
+        testEnnui.setYc(3);
+        testEnnui.setXc(3);
+        testEnnui.doPassiveActions();
+        assertEquals(3, testEnnui.getYc());
+        assertEquals(4, testEnnui.getXc());
+    }
+
+    @Test
     void testMoveWalledIn() {
         Ennui ennui = new Ennui(1, 4);
         MossyGate mossyGate = new MossyGate(1, 1, 2, 1);
@@ -131,5 +141,6 @@ class CreatureTests extends TestMapDataAndMethods {
         assertTrue(testEnnui.examine("take thing"));
         assertTrue(testEnnui.examine("take rusty key"));
         assertTrue(testEnnui.examine("take key"));
+        assertTrue(testEnnui.examine("some other action"));
     }
 }

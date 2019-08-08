@@ -134,4 +134,15 @@ class FeatureTests extends TestMapDataAndMethods {
     void testMossyGateCallKey() {
         assertTrue(mossyGate.examine("use " + RustyKey.NAME));
     }
+
+    @Test
+    void testTakeBone() {
+
+        for (int i = 0; i < 8; i++) {
+            assertTrue(pan.examine("take bone"));
+        }
+        assertEquals(Pan.FIRST_NAME, pan.getName());
+        assertTrue(pan.examine("examine uniform"));
+        assertEquals(Pan.ACTUAL_NAME, pan.getName());
+    }
 }

@@ -26,7 +26,7 @@ class CreatureTests extends TestMapDataAndMethods {
     void ConstructorTest(){
         assertEquals(ENNUI_CAPTURE_START_Y, testEnnui.getYc());
         assertEquals(ENNUI_CAPTURE_START_X, testEnnui.getXc());
-        assertEquals("ennui", testEnnui.getName());
+        assertEquals(Ennui.NAME, testEnnui.getName());
         assertEquals(Examinable.TYPE_CREATURE, testEnnui.getTypeId());
     }
 

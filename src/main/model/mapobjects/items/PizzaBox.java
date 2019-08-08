@@ -22,8 +22,8 @@ public class PizzaBox extends Item {
     */
     public PizzaBox() {
         name = NAME; // todo separate description from detailed examination description
-        description = "A pristine cardboard box with the umber and mahogany original 'Danminos' "
-                + "company logo on the sides.\n"
+        description = "A pristine cardboard box displaying the umber and mahogany original 'Danminos' "
+                + "company logo\n"
                 + slices + " slices of toasty deluxe pizza are nestled inside.";
     }
 
@@ -32,9 +32,9 @@ public class PizzaBox extends Item {
         if (slices == JUST_A_BOX) {
             return EMPTY_DESCRIPTION;
         } else {
-            return "A pristine cardboard box with the umber and mahogany original 'Danminos' "
-                    + "company logo on the sides with "
-                    + slices + " toasty deluxe pizza slices nestled inside.";
+            return "A pristine cardboard box displaying the umber and mahogany original 'Danminos' "
+                    + "company logo.\n"
+                    + slices + " slices of toasty deluxe pizza are nestled inside.";
         }
     }
 
@@ -79,6 +79,9 @@ public class PizzaBox extends Item {
             if (newStat <= 3) {
                 ava.setSanity(newStat);
                 notifyObservers("Dan feels his sanity return slightly.");
+            }
+            if (slices == 0) {
+                map.getAva().atePizza();
             }
         }
     }

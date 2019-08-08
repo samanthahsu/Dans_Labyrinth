@@ -21,6 +21,10 @@ public class Avatar extends Locatable implements Serializable {
 //    private HashMap<String, Item> currItems;
     private int sanity; //sanity = 0 means stupid controls
     private ItemManager itemManager;
+    private boolean hasPan = false;
+    private boolean hasFish = false;
+    private boolean crackedCode = false;
+    private boolean atePizza = false;
 
 /* constructor
     effects: makes avatar setting it's coordinates, startingItems and sanity*/
@@ -195,4 +199,35 @@ public class Avatar extends Locatable implements Serializable {
 //        }
     }
 
+    public boolean isHasPan() {
+        return hasPan;
+    }
+
+    public void hasPan() {
+        hasPan = true;
+    }
+
+    public boolean isCrackedCode() {
+        return crackedCode;
+    }
+
+    public void crackedCode() {
+        crackedCode = true;
+    }
+
+    public boolean isHasFish() {
+        return hasFish;
+    }
+
+    public void hasFish() {
+        hasFish = true;
+    }
+
+    public boolean isAtePizza() {
+        return atePizza;
+    }
+
+    public void atePizza() {
+        atePizza = true;
+    }
 }

@@ -12,6 +12,10 @@ public class PrintObservable {
         observers.add(o);
     }
 
+    public List<PrintObserver> getObservers() {
+        return observers;
+    }
+
     /*requires:
      * modifies:
      * effects: notifies observers in list*/
@@ -26,13 +30,13 @@ public class PrintObservable {
         Random ran = new Random();
         switch (ran.nextInt(4)) {
             case 0:
-                notifyObservers("Dan smacks hilariously against the " + dir + " WALL.");
+                notifyObservers("Dan smacks hilariously against the " + dir + " wall.");
                 break;
             case 1:
-                notifyObservers("Dan stubs his toe painfully on the " + dir + " WALL.");
+                notifyObservers("Dan stubs his toe painfully on the " + dir + " wall.");
                 break;
             case 2:
-                notifyObservers("Dan flops desperately against the " + dir + " WALL.");
+                notifyObservers("Dan flops desperately against the " + dir + " wall.");
                 break;
             case 3:
                 notifyObservers("Dan sits and ponders how his life has culminated in this moment.");

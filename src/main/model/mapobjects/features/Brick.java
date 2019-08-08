@@ -49,8 +49,10 @@ public class Brick extends Feature {
             solved = true;
             ejectPoptart();
             return true;
-        } else if (Pattern.matches("(type |enter |input )?[0-9]*( into keypad)?", ui)) {
+        } else if (Pattern.matches("(type |enter |input )?[0-9]*( into (the )?keypad)?", ui)) {
             notifyObservers("The screen flashes red in rejection.");
+        } else if (Pattern.matches("(take |pickup )poptart", ui)) {
+            map.getAva().pickUpItem(Poptart.NAME);
         }
         return false;
     }
@@ -63,6 +65,7 @@ public class Brick extends Feature {
 
     private void ejectPoptart() {
         map.addExaminable(new Poptart(), yc, xc);
+        map.getAva().crackedCode();
         notifyObservers("The front of the brick swings open revealing a poptart inside.");
     }
 }

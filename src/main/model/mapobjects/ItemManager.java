@@ -74,7 +74,7 @@ public class ItemManager extends PrintObservable implements Serializable {
             map.removeExaminable(chosenItem, avatar.getYc(), avatar.getXc());
             currItems.put(itemName, (Item) chosenItem);
             chosenItem.setMap(map);
-            notifyObservers("Dan picked up '" + itemName + "'!");
+            notifyObservers("Dan picked up the " + itemName + "!");
         } else if (Objects.equals(itemName, Avatar.NAME)) {
             notifyObservers("Dan isn't certain about his sanity anymore.");
         } else {

@@ -35,14 +35,7 @@ public abstract class Item extends Examinable {
     /*effects: returns false*/
     @Override
     public boolean examine(String ui) {
-//        if (isHeld) {
-//            return true;
-//        } else if (Pattern.matches("(pick( )!up|get)", ui)) {
-//            isHeld = true;
-//            getMap().getAva().getCurrItems().put(name, this);
-//            return true;
-//        }
-        return false;
+        return true;
     }
 
     public abstract boolean use(String target);

@@ -12,7 +12,16 @@ public class Note extends Item {
         super(y, x);
         name = NAME;
         description = "A scrap of white paper with something written on it.";
-        examineDescription = "Delivery information is neatly penciled in Dan's own handwriting on the front";
+        examineDescription = "Delivery information is neatly penciled in Dan's own handwriting on the front.";
+    }
+
+    @Override
+    public String getDescription() {
+        if (map.getAva().getCurrItems().containsKey(NAME)) {
+            return examineDescription + "\n" + READ_BACK;
+        } else {
+            return examineDescription;
+        }
     }
 
     /*effects: note can't be used on anything*/
@@ -27,7 +36,7 @@ public class Note extends Item {
 
     @Override
     public boolean examine(String ui) {
-        if (Pattern.matches("((flip|turn) over)|(read|examine|view|look at) back", ui)) {
+        if (Pattern.matches("(((flip|turn) over)|(read|examine|view|look at)) back( of (the)?note)?", ui)) {
             map.getAva().pickUpItem(NAME);
             notifyObservers(READ_BACK);
             return true;

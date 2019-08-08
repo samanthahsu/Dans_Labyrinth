@@ -12,7 +12,7 @@ public class FourStoneGate extends Gate {
     public FourStoneGate(int y, int x, int yblock, int xblock) {
         super(y, x, yblock, xblock);
         name = "stone-gate";
-        description = "a classic";
+        description = "A classic.";
         examineDescription = "A solid stone gateway with four large candy corn shaped stone buttons.\n"
                 + "Up, down, left, right.";
     }

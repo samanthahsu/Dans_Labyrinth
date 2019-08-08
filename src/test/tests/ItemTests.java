@@ -20,6 +20,7 @@ class ItemTests extends TestMapDataAndMethods {
     private Item note;
     private Examinable mossyGate;
     private Item popTart;
+    private Bones bones;
 
     @BeforeEach
     void Setup(){
@@ -72,7 +73,7 @@ class ItemTests extends TestMapDataAndMethods {
     @Test
     void testItemHeldExamine() {
         assertTrue(rustyKey.isHeld());
-        assertFalse(rustyKey.examine("hello"));
+        assertTrue(rustyKey.examine("hello"));
     }
 
     @Test
@@ -109,7 +110,24 @@ class ItemTests extends TestMapDataAndMethods {
         avaC = mapCreature.getAva();
         avaC.setSanity(1);
         assertFalse(popTart.use("Not here"));
-        assertTrue(popTart.use("Dan"));
+        assertTrue(popTart.use(Avatar.NAME));
         assertEquals(2, avaC.getSanity());
+    }
+
+    @Test
+    void testBones() {
+        bones = new Bones();
+        bones.getDescription();
+        bones.use("");
+    }
+
+    @Test
+    void testNoteDescrip() {
+        note = new Note(TEST_START_Y_1, TEST_START_X_1);
+        map1.addExaminable(note, TEST_START_Y_1, TEST_START_X_1);
+        assertEquals(note.getExamineDescription(), note.getDescription());
+        ava1.pickUpItem(Note.NAME);
+        note.setMap(map1);
+        assertFalse(note.getExamineDescription().equals(note.getDescription()));
     }
 }

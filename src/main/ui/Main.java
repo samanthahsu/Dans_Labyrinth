@@ -330,6 +330,8 @@ public class Main extends Application implements PrintObserver {
     private void executeUse(String[] input) {
         if (input.length == 4) {
             map.getAva().useItem(input[1], input[3]);
+        } else {
+            printToDisplay("Dan forgot what he was doing with the " + input[1]);
         }
     }
 
@@ -343,7 +345,7 @@ public class Main extends Application implements PrintObserver {
             printToDisplay(map.getAva().getCurrItems().get(targetNm).getDescription());
         } else if (target != null) {
             printToDisplay("Entering examine instance.\n"
-                     + EXIT_EXAMINATION_KEY + ": exit");
+                     + "Enter \"" + EXIT_EXAMINATION_KEY + "\"" + " or any direction to exit");
             printToDisplay(target.getExamineDescription());
             inputBar.setOnAction(event -> examineInstance(target));
         } else {
@@ -401,8 +403,23 @@ public class Main extends Application implements PrintObserver {
         printToDisplay("\n\n\n");
         printToDisplay(MSG_WIN);
         printToDisplay("As far as he is concerned, pizza had been delivered and eaten,\nanother successful day.");
+        printAchievements();
         clearAndSetSceneStyle(URL_STYLE_WIN_CSS);
         inputBar.setOnAction(event -> runHomeScreen());
+    }
+
+    private void printAchievements() {
+        Avatar ava = map.getAva();
+        printOneAchievement(ava.isAtePizza(), "a hollow sacrifice");
+        printOneAchievement(ava.isHasFish(), "red herring");
+        printOneAchievement(ava.isHasPan(), "freed pan");
+        printOneAchievement(ava.isCrackedCode(), "poptarts are great");
+    }
+
+    private void printOneAchievement(Boolean hasIt, String message) {
+        if (hasIt) {
+            printToDisplay("Achievement: " + message);
+        }
     }
 
     //    EFFECTS: gives user option to

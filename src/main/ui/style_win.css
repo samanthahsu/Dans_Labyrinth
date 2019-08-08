@@ -1,9 +1,9 @@
 .list-cell {
-    -fx-text-fill: #9d9bb3;
+    -fx-text-fill: #9693ba;
     -fx-alignment: center
 }
 .text-field {
-    -fx-text-fill: #9d9bb3;
+    -fx-text-fill: #9693ba;
     -fx-background-color: white;
 }
 #main {

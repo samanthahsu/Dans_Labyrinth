@@ -17,6 +17,13 @@ public class MossyGate extends Gate {
         examineDescription = "A small keyhole is barely visible on the gate.";
     }
 
+    @Override
+    public void open() {
+        super.open();
+        notifyObservers("The " + RustyKey.NAME + " disintegrated in Dan's hand as he tried to pull it from the keyhole.");
+        notifyObservers("The gate swings open, moss flying.");
+    }
+
     //    effects: interaction with to open belongs to the key
     @Override
     public boolean examine(String ui) {

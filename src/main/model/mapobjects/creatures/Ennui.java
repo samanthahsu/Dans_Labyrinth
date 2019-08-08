@@ -21,7 +21,7 @@ public class Ennui extends Creature {
             "A small mole like animal with a star shaped nose is flattened against the dirt floor."
             + "\nBarely concealed by it's paws is a flat, rusted piece of metal resembling a lollipop.";
     final String soundDescription = "a patter of tiny footsteps";
-    public static final String NAME = "ennui";
+    public static final String NAME = "mole-thing";
 
     private boolean hasKey = true;
     private SoundManager soundManager;
@@ -144,7 +144,7 @@ public class Ennui extends Creature {
             takeKey();
             notifyObservers("Dan pries the " + RustyKey.NAME + " out of its little hands.");
         } else if (!hasKey | Pattern.matches("(take|get) .*", action)) {
-            notifyObservers("Dan has no reason to disturb the terrified animal");
+            notifyObservers("Dan has no reason to disturb the terrified animal.");
 //            scampers away or something
         } else {
             return false;

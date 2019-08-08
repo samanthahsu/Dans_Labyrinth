@@ -19,7 +19,7 @@ public class Poptart extends Item {
     be fed to ennui to cause sugar high
     adds nothing of value???*/
     public boolean use(String target) {
-        if (Pattern.matches("Dan", target)) {
+        if (Pattern.matches(Avatar.NAME, target)) {
             danEats();
             return true;
         }

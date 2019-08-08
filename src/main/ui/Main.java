@@ -385,6 +385,7 @@ public class Main extends Application implements PrintObserver {
                 + "pickup <item>" + '\n'
                 + PRINT_AVA_STATUS_CMD + ": view player status" + '\n'
                 + "examine <target>" + '\n'
+                + "*once in an examine instance, commands vary beyond this scope*\n"
                 + "use <item> on <target>\n"
                 + "help" + '\n'
                 + "quit: quit or save");

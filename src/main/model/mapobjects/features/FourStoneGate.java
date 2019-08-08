@@ -14,7 +14,7 @@ public class FourStoneGate extends Gate {
         name = "stone-gate";
         description = "A classic.";
         examineDescription = "A solid stone gateway with four large candy corn shaped stone buttons.\n"
-                + "Up, down, left, right.";
+                + "'up', 'down', 'left', 'right'.";
     }
 
     /*for tests only*/

@@ -2,11 +2,12 @@ package tests;
 
 import model.mapobjects.Examinable;
 import model.mapobjects.creatures.Ennui;
+import model.mapobjects.items.Bones;
+import model.mapobjects.items.PizzaBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ExaminableTest {
     private Examinable testExaminable;
@@ -26,6 +27,12 @@ public class ExaminableTest {
     void testEquals() {
         assertFalse(testExaminable.equals(0));
         testExaminable.hashCode();
+        Examinable examinable = new Bones();
+        assertFalse(testExaminable.equals(examinable));
+        testExaminable = new PizzaBox();
+        assertFalse(testExaminable.equals(examinable));
+        testExaminable = new Bones();
+        assertTrue(testExaminable.equals(examinable));
     }
 
 }

@@ -100,6 +100,10 @@ class TileTests extends TestMapDataAndMethods {
     void testEquals() {
         assertTrue(tile.equals(tile));
         assertFalse(tile.equals(0));
+        Tile tile2 = new Tile(map1, 1, 2, '4', new ArrayList<>());
+        assertFalse(tile2.equals(tile));
+        tile2 = new Tile(map2, T_Y_2, T_X_2, Map.FLOOR, new ArrayList<Examinable>());
+        assertTrue(tile2.equals(tile));
     }
 
 }

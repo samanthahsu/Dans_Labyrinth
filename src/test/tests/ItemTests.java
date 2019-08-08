@@ -98,7 +98,7 @@ class ItemTests extends TestMapDataAndMethods {
     }
 
     @Test
-    void testPopTart() {
+    void testPopTartLowSanity() {
         popTart = new Poptart();
         itemListC.add(popTart);
         try {
@@ -112,6 +112,22 @@ class ItemTests extends TestMapDataAndMethods {
         assertFalse(popTart.use("Not here"));
         assertTrue(popTart.use(Avatar.NAME));
         assertEquals(2, avaC.getSanity());
+    }
+
+    @Test
+    void testPopTartFullSanity() {
+        popTart = new Poptart();
+        itemListC.add(popTart);
+        try {
+            mapCreature = new Map(TEST_HEIGHT_C, TEST_WIDTH_C, WIN_Y_C, WIN_X_C, TEST_START_Y_C, TEST_START_X_C,
+                    itemListC, interListC, TEST_MAP_C);
+        } catch (MismatchedMapSizeException | EdgeOfMapException e) {
+            e.printStackTrace();
+        }
+        avaC = mapCreature.getAva();
+        assertFalse(popTart.use("Not here"));
+        assertTrue(popTart.use(Avatar.NAME));
+        assertEquals(3, avaC.getSanity());
     }
 
     @Test

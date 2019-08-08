@@ -4,6 +4,7 @@ import model.Map;
 import model.mapobjects.Avatar;
 import model.mapobjects.Examinable;
 import model.mapobjects.creatures.Ennui;
+import model.mapobjects.features.BloodFish;
 import model.mapobjects.items.Item;
 import model.mapobjects.items.Note;
 import model.mapobjects.items.PizzaBox;
@@ -67,6 +68,11 @@ class AvatarTests extends TestMapDataAndMethods {
         assertEquals(currentY, ava1.getYc());
         assertEquals(currentX, ava1.getXc());
 
+    }
+
+    @Test
+    void moveAvaNotCommand() {
+        ava1.moveAva("t");
     }
 
     @Test
@@ -161,6 +167,30 @@ class AvatarTests extends TestMapDataAndMethods {
     }
 
     @Test
+    void testPickUpNonexistentItem() {
+        ava1.pickUpItem("i dont exist");
+    }
+
+    @Test
+    void testPickUpNotAnItem() {
+        BloodFish bf = new BloodFish(TEST_START_Y_1, TEST_START_X_1);
+        map1.addExaminable(bf, TEST_START_Y_1, TEST_START_X_1);
+        ava1.pickUpItem(BloodFish.NAME);
+    }
+
+    @Test
+    void testPickUpAva() {
+        ava1.pickUpItem(Avatar.NAME);
+    }
+
+    @Test
+    void testUseItemBadly() {
+        BloodFish bf = new BloodFish(TEST_START_Y_1, TEST_START_X_1);
+        map1.addExaminable(bf, TEST_START_Y_1, TEST_START_X_1);
+        ava1.useItem(PizzaBox.NAME, BloodFish.NAME);
+    }
+
+    @Test
     void useNullItem() {
         expectedItems.put(PizzaBox.NAME, new PizzaBox());
         assertEquals(expectedItems, ava1.getCurrItems());
@@ -180,6 +210,9 @@ class AvatarTests extends TestMapDataAndMethods {
     void testEquals() {
         assertTrue(ava1.equals(ava1));
         assertFalse(ava1.equals(0));
+        assertFalse(ava1.equals(avaC));
+        avaC = new Avatar(TEST_START_Y_1, TEST_START_X_1, itemList1, map1);
+        assertTrue(ava1.equals(avaC));
     }
 
     @Test

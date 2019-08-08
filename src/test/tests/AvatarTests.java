@@ -220,6 +220,9 @@ class AvatarTests extends TestMapDataAndMethods {
         assertFalse(ava1.equals(avaC));
         avaC = new Avatar(TEST_START_Y_1, TEST_START_X_1, new ArrayList<>(), map1);
         assertFalse(ava1.equals(avaC));
+        avaC = new Avatar(TEST_START_Y_1, TEST_START_X_1, itemList1, map1);
+        avaC.setSanity(0);
+        assertFalse(ava1.equals(avaC));
     }
 
     @Test

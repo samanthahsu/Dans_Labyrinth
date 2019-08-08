@@ -188,8 +188,8 @@ public class Map implements Serializable {
         return height == map.height
                 && width == map.width
                 && ava.equals(map.ava)
-                && tileMatrix.equals(map.tileMatrix)
-                && allExaminables.equals(map.allExaminables);
+                && tileMatrix.equals(map.tileMatrix);
+//                && allExaminables.equals(map.allExaminables);
     }
 
     //    effects: returns true if index is within bounds of the map

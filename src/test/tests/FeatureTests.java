@@ -77,6 +77,7 @@ class FeatureTests extends TestMapDataAndMethods {
         fourStoneGate.examine("left");
         fourStoneGate.examine("up");
         fourStoneGate.examine("right");
+        fourStoneGate.examine("right");
         assertFalse(fourStoneGate.examine("wrong input"));
         assertFalse(fourStoneGate.isOpened());
     }
@@ -96,6 +97,11 @@ class FeatureTests extends TestMapDataAndMethods {
     void testFourStoneGateBadState() {
         fourStoneGate.setState(900);
         fourStoneGate.examine("hello");
+    }
+
+    @Test
+    void testSwitchStateWrong() {
+        fourStoneGate.switchState("not direction");
     }
 
     @Test

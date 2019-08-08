@@ -117,8 +117,8 @@ public class Tile extends Locatable implements Serializable {
             return false;
         }
         Tile tile = (Tile) o;
-        return getXc() == tile.getXc()
-                && getYc() == tile.getYc()
+        return getYc() == tile.getYc()
+                && getXc() == tile.getXc()
                 && currChar == tile.currChar
                 && isRevealed == tile.isRevealed
                 && isWalkable == tile.isWalkable

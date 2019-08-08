@@ -3,11 +3,13 @@ package ui;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -50,6 +52,7 @@ public class Main extends Application implements PrintObserver {
     private static final int SCENE_HEIGHT = 800;
     private static final int SPACING = 10;
     private static final int PADDING = 20;
+    private static final int ACHIEVEMENT_ICON = 100;
     private static final String MSG_WIN = "Dan steps into the sunlight.";
     private static final String MSG_QUIT = "Thanks for playing!";
     private static final String MSG_CONTINUE = "Dan continues on...";
@@ -67,6 +70,9 @@ public class Main extends Application implements PrintObserver {
     private TextField inputBar;
     private ImageView normalBG;
     private ImageView winBG;
+    private HBox hbox;
+    private StackPane stackPane;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -96,7 +102,7 @@ public class Main extends Application implements PrintObserver {
         formatListView();
         formatImages();
         VBox vbox = formatVbox();
-        StackPane stackPane = new StackPane();
+        stackPane = new StackPane();
         stackPane.getChildren().addAll(winBG, normalBG, vbox);
         stackPane.setId("stackPane");
         scene = new Scene(stackPane, SCENE_WIDTH, SCENE_HEIGHT);
@@ -186,6 +192,7 @@ public class Main extends Application implements PrintObserver {
         clearAndSetSceneStyle(URL_STYLE_DEFAULT_CSS);
         normalBG.setOpacity(1);
         winBG.setOpacity(0);
+        stackPane.getChildren().remove(hbox);
         printToDisplay("=============DAN'S LABYRINTH=============");
         printToDisplay("new: new game | load: load a saved game | quit: exit");
         inputBar.setOnAction(event -> homeExecuteUi());
@@ -403,22 +410,51 @@ public class Main extends Application implements PrintObserver {
         printToDisplay("\n\n\n");
         printToDisplay(MSG_WIN);
         printToDisplay("As far as he is concerned, pizza had been delivered and eaten,\nanother successful day.");
+        printToDisplay("");
         printAchievements();
+        displayAchievementIcons();
         clearAndSetSceneStyle(URL_STYLE_WIN_CSS);
         inputBar.setOnAction(event -> runHomeScreen());
     }
 
+    private void displayAchievementIcons() {
+        Avatar ava = map.getAva();
+        hbox = new HBox();
+        if (ava.isHasPan()) {
+            addIVtoHBox("pan.gif");
+        }
+        if (ava.isAtePizza()) {
+            addIVtoHBox("pizzabox.gif");
+        }
+        if (ava.isCrackedCode()) {
+            addIVtoHBox("cracked_code.gif");
+        }
+        if (ava.isHasFish()) {
+            addIVtoHBox("red_herring.gif");
+        }
+        hbox.setAlignment(Pos.CENTER);
+        stackPane.getChildren().add(2, hbox);
+    }
+
+    private void addIVtoHBox(String filename) {
+        ImageView iv = new ImageView(getClass().getResource(filename).toExternalForm());
+        iv.setFitWidth(ACHIEVEMENT_ICON);
+        iv.setFitHeight(ACHIEVEMENT_ICON);
+        hbox.getChildren().add(iv);
+    }
+
     private void printAchievements() {
         Avatar ava = map.getAva();
+        printOneAchievement(ava.isHasPan(), "bones at peace");
         printOneAchievement(ava.isAtePizza(), "a hollow sacrifice");
-        printOneAchievement(ava.isHasFish(), "red herring");
-        printOneAchievement(ava.isHasPan(), "freed pan");
         printOneAchievement(ava.isCrackedCode(), "poptarts are great");
+        printOneAchievement(ava.isHasFish(), "red herring");
     }
 
     private void printOneAchievement(Boolean hasIt, String message) {
         if (hasIt) {
             printToDisplay("Achievement: " + message);
+
         }
     }
 

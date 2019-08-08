@@ -11,6 +11,7 @@ import model.mapobjects.items.PizzaBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -213,6 +214,12 @@ class AvatarTests extends TestMapDataAndMethods {
         assertFalse(ava1.equals(avaC));
         avaC = new Avatar(TEST_START_Y_1, TEST_START_X_1, itemList1, map1);
         assertTrue(ava1.equals(avaC));
+        avaC = new Avatar(TEST_START_Y_1, TEST_START_X_1 - 1, itemList1, map1);
+        assertFalse(ava1.equals(avaC));
+        avaC = new Avatar(TEST_START_Y_1 - 1, TEST_START_X_1, itemList1, map1);
+        assertFalse(ava1.equals(avaC));
+        avaC = new Avatar(TEST_START_Y_1, TEST_START_X_1, new ArrayList<>(), map1);
+        assertFalse(ava1.equals(avaC));
     }
 
     @Test

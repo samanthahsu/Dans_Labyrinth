@@ -2,7 +2,7 @@ package model.mapobjects.items;
 
 public class Bones extends Item {
 
-    public static final String NAME = "bones";
+    public static final String NAME = "pan";
     private int num = 1;
 
     public Bones() {

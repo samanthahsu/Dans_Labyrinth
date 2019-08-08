@@ -6,15 +6,12 @@ import java.util.regex.Pattern;
 
 public class Pan extends Feature {
 
-    public static final String ACTUAL_NAME = "pan";
-    public static final String FIRST_NAME = "bones";
-    public static String NAME;
+    public static final String NAME = "bones";
 
     private int bones = 7;
 
     public Pan(int y, int x) {
         super(y, x);
-        NAME = FIRST_NAME;
         name = NAME;
         description = "A pile of bones";
         examineDescription = "A ribcage, and skull and other bones sit half-buried in the dirt "
@@ -31,8 +28,6 @@ public class Pan extends Feature {
     public boolean examine(String ui) {
         if (Pattern.matches("(examine |look at )uniform", ui)) {
             notifyObservers("A torn umber and mahogany shirt with the nametag \"Pan\" sewn onto the breast.");
-            NAME = ACTUAL_NAME;
-            name = NAME;
             return true;
         } else if (Pattern.matches("(take | pickup |pick up)(bone(s)?)", ui)) {
             takeBone();

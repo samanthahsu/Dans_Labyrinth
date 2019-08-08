@@ -35,16 +35,6 @@ public class Avatar extends Locatable implements Serializable {
         itemManager = new ItemManager(map, startingItems);
     }
 
-//    /* modifies: this
-//    effects: initializes items from list into hashmap*/
-//    private void initItems(List<Item> items) {
-//        HashMap<String, Item> hashMap = new HashMap<>();
-//        for (Item i : items) {
-//            i.setMap(getMap());
-//            hashMap.put(i.getName(), i);
-//        }
-//        currItems = hashMap;
-//    }
 
     //    GETTERS
     public int getSanity() {

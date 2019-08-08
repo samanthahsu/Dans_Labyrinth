@@ -9,11 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ExaminableTest {
+public class ExaminableTest extends TestMapDataAndMethods {
     private Examinable testExaminable;
 
     @BeforeEach
     void setup() {
+        initTestMaps();
          testExaminable = new Ennui(-1, -1);
     }
 
@@ -33,6 +34,18 @@ public class ExaminableTest {
         assertFalse(testExaminable.equals(examinable));
         testExaminable = new Bones();
         assertTrue(testExaminable.equals(examinable));
+    }
+
+    @Test
+    void testSetIndexes() {
+        int expX = 3;
+        int expy = 3;
+        testExaminable = new Ennui(expy, expX);
+        testExaminable.setMap(map1);
+        map1.addExaminable(testExaminable, expy, expX);
+        testExaminable.setIndexes(expy, expX);
+        assertEquals(expy, testExaminable.getYc());
+        assertEquals(expX, testExaminable.getXc());
     }
 
 }

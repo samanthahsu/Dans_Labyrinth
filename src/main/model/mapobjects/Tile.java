@@ -48,6 +48,11 @@ public class Tile extends Locatable implements Serializable {
 
     }
 
+    /*for tests only*/
+    public void setRevealed(boolean revealed) {
+        isRevealed = revealed;
+    }
+
     public char getCurrChar() {
         return currChar;
     }
@@ -117,7 +122,6 @@ public class Tile extends Locatable implements Serializable {
                 && currChar == tile.currChar
                 && isRevealed == tile.isRevealed
                 && isWalkable == tile.isWalkable
-                && Objects.equals(description, tile.description)
                 && Objects.equals(currInteractables, tile.currInteractables);
     }
 

@@ -42,9 +42,7 @@ public abstract class Examinable extends Locatable implements Serializable {
         }
         Examinable that = (Examinable) o;
         return  typeId == that.typeId
-                && Objects.equals(name, that.name)
-                && Objects.equals(description, that.description)
-                && Objects.equals(examineDescription, that.examineDescription);
+                && Objects.equals(name, that.name);
     }
 
     @Override

@@ -51,10 +51,14 @@ public class Pan extends Feature {
             notifyObservers("Dan takes a bone from the pile... don't ask why.");
         } else { // bones == 1
             bones = 0;
-            ((Bones) getMap().getAva().getCurrItems().get(Bones.NAME)).addBone();
-            notifyObservers("Dan takes a bone from the pile. Welp, that's the last one.");
-            description = "A neatly folded \"uniform\"";
-            getMap().getAva().hasPan();
+            handleBones1();
         }
+    }
+
+    private void handleBones1() {
+        ((Bones) getMap().getAva().getCurrItems().get(Bones.NAME)).addBone();
+        notifyObservers("Dan takes a bone from the pile. Welp, that's the last one.");
+        description = "A neatly folded \"uniform\"";
+        getMap().getAva().hasPan();
     }
 }

@@ -102,21 +102,24 @@ class TileTests extends TestMapDataAndMethods {
         assertFalse(tile.equals(0));
         tile = new Tile(map2, T_Y_2, T_X_2, Map.FLOOR, new ArrayList<Examinable>());
 
-        Tile tile2 = new Tile(map1, -1, T_X_2, Map.FLOOR, new ArrayList<Examinable>());
+        Tile tile2;
+        tile2 = new Tile(map2, T_Y_2, T_X_2, Map.FLOOR, new ArrayList<Examinable>());
+        assertTrue(tile2.equals(tile));
+
+        tile2 = new Tile(map2, -1, T_X_2, Map.FLOOR, new ArrayList<Examinable>());
         assertFalse(tile2.equals(tile));
-        tile2 = new Tile(map1, T_Y_2, -1, Map.FLOOR, new ArrayList<Examinable>());
+        tile2 = new Tile(map2, T_Y_2, -1, Map.FLOOR, new ArrayList<Examinable>());
         assertFalse(tile2.equals(tile));
-        tile2 = new Tile(map1, T_Y_2, T_X_2, Map.FLOOR, interListC);
+        tile2 = new Tile(map2, T_Y_2, T_X_2, Map.FLOOR, interListC);
         assertFalse(tile2.equals(tile));
         tile2 = new Tile(map2, T_Y_2, T_X_2, Map.FLOOR, new ArrayList<Examinable>());
         tile2.setWalkable(false);
         assertFalse(tile2.equals(tile));
+        tile2 = new Tile(map2, T_Y_2, T_X_2, Map.WALL, new ArrayList<Examinable>());
         assertFalse(tile2.equals(tile));
         tile2 = new Tile(map2, T_Y_2, T_X_2, Map.FLOOR, new ArrayList<Examinable>());
         tile2.setRevealed(true);
         assertFalse(tile2.equals(tile));
-        tile2 = new Tile(map2, T_Y_2, T_X_2, Map.FLOOR, new ArrayList<Examinable>());
-        assertTrue(tile2.equals(tile));
     }
 
 }

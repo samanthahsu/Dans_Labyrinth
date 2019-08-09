@@ -97,6 +97,7 @@ class FeatureTests extends TestMapDataAndMethods {
     void testFourStoneGateBadState() {
         fourStoneGate.setState(900);
         fourStoneGate.examine("hello");
+        fourStoneGate.examine("left");
     }
 
     @Test
